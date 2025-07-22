@@ -1,0 +1,1300 @@
+[
+  {
+    "ContainingType": "onescreen_api.Controllers.BannerManagement.BannerManagementController",
+    "Method": "getbanner",
+    "RelativePath": "api/bannermanagement/getbanner",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "banner_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "category_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "label_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "label",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.BannerManagement.BannerManagementController",
+    "Method": "managebanner",
+    "RelativePath": "api/bannermanagement/managebanner",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objbannerModel",
+        "Type": "onescreenModel.BannerManagement.bannerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Common.CommonController",
+    "Method": "FileUploader",
+    "RelativePath": "api/common/fileupload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "module",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[onescreenModel.Common.fileInfoModel, onescreen.ModelLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Common.CommonController",
+    "Method": "RemoveFile",
+    "RelativePath": "api/common/removefile",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "authoritymodule",
+    "RelativePath": "api/config/authority",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objclsAuthority",
+        "Type": "onescreenModel.Configuration.authorityModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "controls",
+    "RelativePath": "api/config/controls",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objclsControls",
+        "Type": "onescreenModel.Configuration.controlsModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getauthority",
+    "RelativePath": "api/config/getauthority",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "authority_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getauthoritycontrols",
+    "RelativePath": "api/config/getauthoritycontrols",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "module_aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getauthoritymodule",
+    "RelativePath": "api/config/getauthoritymodule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getcontrols",
+    "RelativePath": "api/config/getcontrols",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "control_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getmodule",
+    "RelativePath": "api/config/getmodule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "module_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getuserconfig",
+    "RelativePath": "api/config/getuserconfig",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[onescreenModel.Configuration.userConfigurationModel, onescreen.ModelLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "usermodule",
+    "RelativePath": "api/config/managemodule",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objclsUserModule",
+        "Type": "onescreenModel.Configuration.userModuleModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ClientManagement.ClientManagementController",
+    "Method": "clients",
+    "RelativePath": "api/manageclient/client",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objclientModel",
+        "Type": "onescreenModel.ClientManagement.clientModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ClientManagement.ClientManagementController",
+    "Method": "getclient",
+    "RelativePath": "api/manageclient/getclient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "client_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "category",
+    "RelativePath": "api/MasterManagement/category",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objcategoryModel",
+        "Type": "onescreenModel.MasterManagement.categoryModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "getcategory",
+    "RelativePath": "api/MasterManagement/getcategory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "typemaster_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "typemaster",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "category_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isfeatured",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "parent_category_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "getlabelmaster",
+    "RelativePath": "api/MasterManagement/getlabelmaster",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "label_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "typemaster_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "typemaster",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "gettypemaster",
+    "RelativePath": "api/MasterManagement/gettypemaster",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "typemaster_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "labelmaster",
+    "RelativePath": "api/MasterManagement/labelmaster",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objlabelModel",
+        "Type": "onescreenModel.MasterManagement.labelModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "typemaster",
+    "RelativePath": "api/MasterManagement/typemaster",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objtypemasterModel",
+        "Type": "onescreenModel.MasterManagement.typemasterModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "AddUserMaster",
+    "RelativePath": "api/MasterManagement/UserMaster",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ObjUserMaster",
+        "Type": "onescreenModel.MasterManagement.usermasterModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "GetUserMasterList",
+    "RelativePath": "api/MasterManagement/UserMaster",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "usermaster_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "is_mandatory",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "has_parent",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "AddUserMasterData",
+    "RelativePath": "api/MasterManagement/UserMasterData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ObjUserMasterData",
+        "Type": "onescreenModel.MasterManagement.usermasterdataModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.MasterManagement.MasterManagementController",
+    "Method": "GetUserMasterDataList",
+    "RelativePath": "api/MasterManagement/UserMasterData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "usermasterdata_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "usermaster_name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getproduct",
+    "RelativePath": "api/ProductManagment/getproduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "product_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "brand_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "category_name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "manageproduct",
+    "RelativePath": "api/ProductManagment/manageproduct",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objproductModel",
+        "Type": "onescreenModel.ProductManagement.productModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProjectManagement.ProjectManagementController",
+    "Method": "ProjectDetails",
+    "RelativePath": "api/ProjectManagement/getproject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "aliasname",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "project_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "client_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProjectManagement.ProjectManagementController",
+    "Method": "AddModifyProjectDetails",
+    "RelativePath": "api/ProjectManagement/project",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objprojectModel",
+        "Type": "onescreenModel.ProjectManagement.projectModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/UserManagement/forgotpassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usercode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "getuserdetail",
+    "RelativePath": "api/UserManagement/getuserdetail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "manageuser",
+    "RelativePath": "api/UserManagement/manageuser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objuserManagementModel",
+        "Type": "onescreenModel.UserManagement.userManagementModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "profilepicture",
+    "RelativePath": "api/UserManagement/profilepicture",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objuserManagementModel",
+        "Type": "onescreenModel.UserManagement.userManagementModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "RequestOTP",
+    "RelativePath": "api/UserManagement/RequestOTP",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objclsRequestOTP",
+        "Type": "onescreenModel.UserManagement.requestOTPModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "SignIn",
+    "RelativePath": "api/UserManagement/SignIn",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[onescreenModel.UserManagement.userManagementModel, onescreen.ModelLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "SignUp",
+    "RelativePath": "api/UserManagement/SignUp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objuserManagementModel",
+        "Type": "onescreenModel.UserManagement.userManagementModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "ValidateUser",
+    "RelativePath": "api/UserManagement/validateuser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usercode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[onescreen_api.WeatherForecast, onescreen_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]

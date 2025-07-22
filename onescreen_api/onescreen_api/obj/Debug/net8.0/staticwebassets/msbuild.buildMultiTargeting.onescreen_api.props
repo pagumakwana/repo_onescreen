@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\onescreen_api.props" />
+</Project>
