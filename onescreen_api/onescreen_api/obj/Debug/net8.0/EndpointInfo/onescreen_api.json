@@ -1,0 +1,4862 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "onescreen_api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/bannermanagement/getbanner": {
+      "get": {
+        "tags": [
+          "BannerManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "banner_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "label_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bannermanagement/managebanner": {
+      "post": {
+        "tags": [
+          "BannerManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bannerModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bannerModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/bannerModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/manageclient/getclient": {
+      "get": {
+        "tags": [
+          "ClientManagement"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/manageclient/client": {
+      "post": {
+        "tags": [
+          "ClientManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/clientModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/clientModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/clientModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/common/fileupload": {
+      "post": {
+        "tags": [
+          "Common"
+        ],
+        "parameters": [
+          {
+            "name": "module",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/fileInfoModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/fileInfoModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/fileInfoModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/common/removefile": {
+      "post": {
+        "tags": [
+          "Common"
+        ],
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getuserconfig": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userConfigurationModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userConfigurationModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userConfigurationModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/managemodule": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userModuleModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userModuleModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/userModuleModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getmodule": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/authority": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/authorityModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/authorityModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/authorityModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getauthority": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "authority_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/controls": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/controlsModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/controlsModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/controlsModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getcontrols": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "control_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getauthoritycontrols": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "module_aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getauthoritymodule": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/UserMaster": {
+      "post": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "usermaster_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "is_mandatory",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "has_parent",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/UserMasterData": {
+      "post": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterdataModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterdataModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/usermasterdataModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "usermasterdata_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "usermaster_name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/typemaster": {
+      "post": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/typemasterModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/typemasterModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/typemasterModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/gettypemaster": {
+      "get": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "typemaster_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/category": {
+      "post": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoryModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoryModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoryModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/getcategory": {
+      "get": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "typemaster_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "typemaster",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "isfeatured",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "parent_category_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/labelmaster": {
+      "post": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/labelModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/labelModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/labelModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterManagement/getlabelmaster": {
+      "get": {
+        "tags": [
+          "MasterManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "typemaster_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "typemaster",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ProductManagment/getproduct": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "brand_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "category_name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ProductManagment/manageproduct": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/productModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/productModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/productModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ProjectManagement/project": {
+      "post": {
+        "tags": [
+          "ProjectManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ProjectManagement/getproject": {
+      "get": {
+        "tags": [
+          "ProjectManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "aliasname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/SignUp": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/SignIn": {
+      "get": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userManagementModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userManagementModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userManagementModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/forgotpassword": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "usercode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/validateuser": {
+      "get": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "usercode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/RequestOTP": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/requestOTPModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/requestOTPModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/requestOTPModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/manageuser": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/getuserdetail": {
+      "get": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/profilepicture": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/userManagementModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "authorityModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "authority_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "authority": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "lstmodule": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userModuleModel"
+            },
+            "nullable": true
+          },
+          "lstcontrol": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/controlsModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "authorityuserModel": {
+        "type": "object",
+        "properties": {
+          "authority_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "authority": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "bannerCategoryModel": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "banner_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "bannerLabelModel": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "banner_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "label_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "bannerModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "banner_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayorder": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lsttypemaster": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/bannerTypeModel"
+            },
+            "nullable": true
+          },
+          "lstcategory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/bannerCategoryModel"
+            },
+            "nullable": true
+          },
+          "lstlabel": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/bannerLabelModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "bannerTypeModel": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "banner_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "brandModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "brand_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "brand_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "brand_description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "categoryModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parent_category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayorder": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isfeatured": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lsttypemaster": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/typemasterModel"
+            },
+            "nullable": true
+          },
+          "lstparentcategory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categoryModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "clientModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "parent_client_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "personname": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilenumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "controlsModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "control_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "syscontrolname": {
+            "type": "string",
+            "nullable": true
+          },
+          "module_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "modulename": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowaccess": {
+            "type": "boolean"
+          },
+          "authority_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "fileInfoModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "ref_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "file_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "filename": {
+            "type": "string",
+            "nullable": true
+          },
+          "filepath": {
+            "type": "string",
+            "nullable": true
+          },
+          "filetype": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileextension": {
+            "type": "string",
+            "nullable": true
+          },
+          "filesize": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "fileidentifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "subidentifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayorder": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "module": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemidentifier": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "labelModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "label_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typemaster": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "productCategoryModel": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "productModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "brand_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "product_description": {
+            "type": "string",
+            "nullable": true
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "brand_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "lstcategory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/productCategoryModel"
+            },
+            "nullable": true
+          },
+          "lstbrand": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/brandModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "projectModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "projectuserModel": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "requestOTPModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "ref_OTP_ID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "otp": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "isValidate": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "responseModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "typemasterModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "typemaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "aliasname": {
+            "type": "string",
+            "nullable": true
+          },
+          "typemaster": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayorder": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "userConfigurationModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "clientlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/clientModel"
+            },
+            "nullable": true
+          },
+          "projectlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/projectModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userManagementModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilenumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "thirdparty": {
+            "type": "boolean"
+          },
+          "dob": {
+            "type": "string",
+            "nullable": true
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilepicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_approved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "lstauthority": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/authorityuserModel"
+            },
+            "nullable": true
+          },
+          "lstproject": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/projectuserModel"
+            },
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userModuleCategoryModel": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userModuleModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "module_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "module_parent_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "moduleicon": {
+            "type": "string",
+            "nullable": true
+          },
+          "modulename": {
+            "type": "string",
+            "nullable": true
+          },
+          "module_identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "modulerouting": {
+            "type": "string",
+            "nullable": true
+          },
+          "modulepath": {
+            "type": "string",
+            "nullable": true
+          },
+          "authority_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lstcategory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userModuleCategoryModel"
+            },
+            "nullable": true
+          },
+          "lstparentmodule": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userParentModuleModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userParentModuleModel": {
+        "type": "object",
+        "properties": {
+          "module_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "modulename": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "usermasterModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "usermaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usermaster_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "usermaster_description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent_ids": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "is_mandatory": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "has_parent": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allow_numeric": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allow_alphanumeric": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allow_specialcharacter": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "special_character": {
+            "type": "string",
+            "nullable": true
+          },
+          "allow_negative_number": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "usermasterdataModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "usermasterdata_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usermaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usermasterdata_parent_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usermasterdata_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "usermaster_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "usermasterdata_description": {
+            "type": "string",
+            "nullable": true
+          },
+          "lstmasterdata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/usermasterdatamasterModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "usermasterdatamasterModel": {
+        "type": "object",
+        "properties": {
+          "usermaster_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usermaster_name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
