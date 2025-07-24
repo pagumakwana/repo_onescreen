@@ -1,0 +1,93 @@
+<!-- <p>productmodule works!</p> -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Product</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form>
+                            <div class="row mb-6">
+                                <!-- <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                                    [controlObject]="fgcategorymaster.controls['thumbnail']"
+                                    [fileConfig]="this.fileConfig['thumbnail']">
+                                </webd-mediauploader> -->
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Product Name</label>
+                                    <input type="text" class="form-control form-control-lg" id="product_name"
+                                        name="product_name" placeholder="Product Name" formControlName="product_name"
+                                        required>
+                                    <div *ngIf="fgproductmaster.controls['product_name'].invalid && (fgproductmaster.controls['product_name'].dirty || fgproductmaster.controls['product_name'].touched)"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls.product_name.errors?.['required']">
+                                            Product Name is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <input type="text" class="form-control form-control-lg" id="category"
+                                        name="category" placeholder="Catagory" formControlName="category"
+                                        required>
+                                    <!-- <select-mul [data]="CategoryMaster" class="col-sm-3 col-form-label" textField='category'
+                                    valueField='category_id' [formControl]="fgproductmaster?.controls?.lstcategory"
+                                    placeholder="Select Category" [config]="_configCategory"
+                                    (onSelection)="onCategory($event)">
+                                </select-mul> -->
+                                    <div *ngIf="fgproductmaster.controls['lstcategory'].touched && fgproductmaster.controls['lstcategory'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls['lstcategory'].errors?.['required']">
+                                            Category is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Brand Selection</label>
+                                    <input type="text" class="form-control form-control-lg" id="category"
+                                        name="category" placeholder="Brand Selection" formControlName="category" required>
+                                    <!-- <select-mul [data]="BrandMaster" class="col-sm-3 col-form-label" textField='brand_name'
+                                    valueField='brand_id' [formControl]="fgproductmaster?.controls?.lstbrand"
+                                    placeholder="Select Brand" [config]="_configBrand" (onSelection)="onBrand($event)">
+                                </select-mul> -->
+                                    <div *ngIf="fgproductmaster.controls['lstbrand'].touched && fgproductmaster.controls['lstbrand'].invalid"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgproductmaster.controls['lstbrand'].errors?.['required']">
+                                            Brand is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" class="form-control form-control-lg" id="displayorder"
+                                        name="displayorder" placeholder="Short Description" formControlName="displayorder">
+                                    <!-- <webd-textarea [formGroupTextArea]="this.fgproductmaster.controls['textarea']">
+                                    </webd-textarea> -->
+                                </div>
+                                <div class="col-lg-4 mb-3 form-check">
+                                    <label class="form-label"></label>
+                                    <label>Published</label>
+                                    <input type="checkbox" class="form-check-input" id="isPublished"
+                                        formControlName="isactive">
+                                    <span class="new-control-indicator"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mb-4">Submit</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-secondary mb-4">Back</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
