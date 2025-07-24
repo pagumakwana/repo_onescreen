@@ -5,6 +5,12 @@ import { UsermoduleComponent } from './adminmodeules/usermodule/usermodule.compo
 import { AuthmoduleComponent } from './authmodule/authmodule.component';
 import { HomeModuleComponent } from './home-module/home-module.component';
 import { LayoutComponent } from './layout/layout.component';
+import { CategorymoduleComponent } from './adminmodeules/categorymodule/categorymodule.component';
+import { AddmodifycategoryComponent } from './adminmodeules/categorymodule/addmodifycategory/addmodifycategory.component';
+import { ProductmoduleComponent } from './adminmodeules/productmodule/productmodule.component';
+import { AddmodifyproductComponent } from './adminmodeules/productmodule/addmodifyproduct/addmodifyproduct.component';
+import { BannermoduleComponent } from './adminmodeules/bannermodule/bannermodule.component';
+import { AddmodifybannerComponent } from './adminmodeules/bannermodule/addmodifybanner/addmodifybanner.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -37,6 +43,40 @@ export const routes: Routes = [
                 path: 'manageuser',
                 component: UsermoduleComponent,
                 title: 'Manage User',
-            }]
+            },
+            {
+                path: 'managecategory',
+                component: CategorymoduleComponent,
+                title: 'Manage Category',
+                children: [
+                    {
+                        path: ':category_id',
+                        component: AddmodifycategoryComponent,
+                    },
+                ],
+            },
+            {
+                path: 'manageproduct',
+                component: ProductmoduleComponent,
+                title: 'Manage Product',
+                children: [
+                    {
+                        path: ':product_id',
+                        component: AddmodifyproductComponent,
+                    },
+                ],
+            },
+            {
+                path: 'managebanner',
+                component: BannermoduleComponent,
+                title: 'Manage Banner',
+                children: [
+                    {
+                        path: ':banner_id',
+                        component: AddmodifybannerComponent,
+                    },
+                ],
+            },
+        ]
     },
 ];
