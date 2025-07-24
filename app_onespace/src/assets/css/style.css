@@ -22307,7 +22307,7 @@ pre[class*=language-] > code {
     -webkit-backdrop-filter: blur(7px);
             backdrop-filter: blur(7px);
     box-shadow: var(--pc-sidebar-shadow);
-    height: calc(60px + 74px);
+    height:60px;
     overflow: visible;
   }
   [data-pc-layout=horizontal] .pc-sidebar .pc-badge {

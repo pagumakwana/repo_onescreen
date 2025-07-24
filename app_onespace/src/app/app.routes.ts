@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminmodeulesComponent } from './adminmodeules/adminmodeules.component';
 import { DashboardmoduleComponent } from './adminmodeules/dashboardmodule/dashboardmodule.component';
+import { UsermoduleComponent } from './adminmodeules/usermodule/usermodule.component';
 import { AuthmoduleComponent } from './authmodule/authmodule.component';
 import { HomeModuleComponent } from './home-module/home-module.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -26,10 +27,16 @@ export const routes: Routes = [
         path: 'app',
         component: AdminmodeulesComponent,
         children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: "full" },
             {
-                path: '',
+                path: 'dashboard',
                 component: DashboardmoduleComponent,
-                title: 'Sing-in',
+                title: 'Dashboard',
+            },
+            {
+                path: 'manageuser',
+                component: UsermoduleComponent,
+                title: 'Manage User',
             }]
     },
 ];
