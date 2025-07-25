@@ -9,15 +9,15 @@
                     <div class="col-md-12">
                         <form [formGroup]="fgbanner">
                             <div class="row mb-6">
-                                <!-- <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
-                                    [controlObject]="fgcategorymaster.controls['thumbnail']"
+                                <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                                    [controlObject]="fgbanner.controls['thumbnail']"
                                     [fileConfig]="this.fileConfig['thumbnail']">
-                                </webd-mediauploader> -->
+                                </webd-mediauploader>
                             </div>
                             <div class="row mb-6">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Title</label>
-                                    <input type="text" class="form-control form-control-lg" id="title" name="title"
+                                    <input type="text" class="form-control " id="title" name="title"
                                         placeholder="Title" formControlName="title" required>
                                     <div *ngIf="fgbanner.controls['title'].invalid && (fgbanner.controls['title'].dirty || fgbanner.controls['title'].touched)"
                                         class="text-danger">
@@ -28,12 +28,12 @@
                                 </div>
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Sub-Title</label>
-                                    <input type="text" class="form-control form-control-lg" id="subtitle"
+                                    <input type="text" class="form-control " id="subtitle"
                                         name="subtitle" placeholder="Sub-Title" formControlName="subtitle">
                                 </div>
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">URL</label>
-                                    <input type="text" class="form-control form-control-lg" id="url" name="url"
+                                    <input type="text" class="form-control " id="url" name="url"
                                         placeholder="Enter URL" formControlName="url">
                                 </div>
                                 <div class="col-lg-3 mb-3">
@@ -67,14 +67,7 @@
                                     name="labelmaster" placeholder="Select Label Master" [config]="_configLabel">
                                     </webd-multiselect>
                                 </div>
-                                <div class="col-lg-3 mb-3">
-                                    <label class="form-label">Short Description</label>
-                                    <input type="text" class="form-control form-control-lg" id="displayorder"
-                                        name="displayorder" placeholder="Short Description"
-                                        formControlName="displayorder">
-                                    <webd-texteditor [formGroupTextArea]="this.fgbanner.controls['textarea']">
-                                    </webd-texteditor>
-                                </div>
+                               
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Display Order</label>
                                     <input type="number" min="0" class="form-control" id="displayorder"
@@ -83,20 +76,23 @@
                                 </div>
 
                             </div>
+                            <div class="mb-6">
+                                <div class="mb-12">
+                                    <label class="form-label">Short Description</label>
+                                    <webd-texteditor [formGroupTextArea]="this.fgbanner.controls['textarea']">
+                                    </webd-texteditor>
+                                </div>
+                            </div>
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3 form-check">
-                                    <label class="form-label"></label>
                                     <label>IsFeatured</label>
                                     <input type="checkbox" class="form-check-input" id="isFeatured"
                                         formControlName="isfeatured">
-                                    <span class="new-control-indicator"></span>
                                 </div>
                                 <div class="col-lg-4 mb-3 form-check">
-                                    <label class="form-label"></label>
                                     <label>Published</label>
                                     <input type="checkbox" class="form-check-input" id="isPublished"
                                         formControlName="isactive">
-                                    <span class="new-control-indicator"></span>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mb-4" (click)="setbanner(true)">Submit</button>

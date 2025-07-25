@@ -17,7 +17,7 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" class="form-control form-control-lg" id="product_name"
+                                    <input type="text" class="form-control " id="product_name"
                                         name="product_name" placeholder="Product Name" formControlName="product_name"
                                         required>
                                     <div *ngIf="fgproductmaster.controls['product_name'].invalid && (fgproductmaster.controls['product_name'].dirty || fgproductmaster.controls['product_name'].touched)"
@@ -62,7 +62,7 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Short Description</label>
-                                    <input type="text" class="form-control form-control-lg" id="displayorder"
+                                    <input type="text" class="form-control " id="displayorder"
                                         name="displayorder" placeholder="Short Description"
                                         formControlName="displayorder">
                                     <webd-texteditor [formGroupTextArea]="this.fgproductmaster.controls['textarea']">

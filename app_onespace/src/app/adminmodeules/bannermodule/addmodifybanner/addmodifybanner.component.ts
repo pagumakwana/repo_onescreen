@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -12,13 +12,15 @@ import { enAppSession } from '../../../_appmodel/sessionstorage';
 import * as _ from "lodash";
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
+import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
 
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent],
+  imports: [FormsModule, ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
   templateUrl: './addmodifybanner.component.html',
-  styleUrl: './addmodifybanner.component.scss'
+  styleUrl: './addmodifybanner.component.scss',
+  encapsulation:ViewEncapsulation.None
 })
 export class AddmodifybannerComponent {
   @ViewChild('successSwal')

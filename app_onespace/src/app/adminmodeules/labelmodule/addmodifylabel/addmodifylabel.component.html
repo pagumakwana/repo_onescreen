@@ -11,7 +11,7 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Title</label>
-                                    <input type="text" class="form-control form-control-lg" id="label" name="label"
+                                    <input type="text" class="form-control " id="label" name="label"
                                         placeholder="Title" formControlName="label" required>
                                     <div *ngIf="fglabelmaster.controls['label'].invalid && (fglabelmaster.controls['label'].dirty || fglabelmaster.controls['label'].touched)"
                                         class="text-danger">
@@ -32,7 +32,7 @@
                             <div class="row mb-6">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Short Description</label>
-                                    <input type="text" class="form-control form-control-lg" id="displayorder"
+                                    <input type="text" class="form-control " id="displayorder"
                                         name="displayorder" placeholder="Short Description"
                                         formControlName="displayorder">
                                     <webd-texteditor [formGroupTextArea]="this.fglabelmaster.controls['textarea']">

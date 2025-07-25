@@ -403,7 +403,7 @@ export class fileChoosenDataModel {
     file: any;
     thumb?: string;
     fileextension?: string;
-    file_id?: number;
+    file_id?: any;
     ModuleID?: number;
     ModuleType?: string;
     fileidentifier?: string;
@@ -415,8 +415,8 @@ export class fileChoosenDataModel {
 
 export class fileConfigModel {
     fileValidationInfo?: {
-        fileType: Array<string>;
-        size: number;
+        fileType?: Array<string>;
+        size?: number;
     }
     isMulti?: boolean;
     fileidentifier?: string;
