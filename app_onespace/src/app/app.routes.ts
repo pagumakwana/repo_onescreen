@@ -11,6 +11,7 @@ import { ProductmoduleComponent } from './adminmodeules/productmodule/productmod
 import { AddmodifyproductComponent } from './adminmodeules/productmodule/addmodifyproduct/addmodifyproduct.component';
 import { BannermoduleComponent } from './adminmodeules/bannermodule/bannermodule.component';
 import { AddmodifybannerComponent } from './adminmodeules/bannermodule/addmodifybanner/addmodifybanner.component';
+import { WebdtableComponent } from './layout_template/webdtable/webdtable.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -47,13 +48,12 @@ export const routes: Routes = [
             {
                 path: 'managecategory',
                 component: CategorymoduleComponent,
-                title: 'Manage Category',
-                children: [
-                    {
-                        path: ':category_id',
-                        component: AddmodifycategoryComponent,
-                    },
-                ],
+                title: 'Manage Category'
+            },
+            {
+                path: 'managecategory/:category_id',
+                component: AddmodifycategoryComponent,
+                title: 'Manage User',
             },
             {
                 path: 'manageproduct',
@@ -76,7 +76,7 @@ export const routes: Routes = [
                         component: AddmodifybannerComponent,
                     },
                 ],
-            },
+            }
         ]
     },
 ];

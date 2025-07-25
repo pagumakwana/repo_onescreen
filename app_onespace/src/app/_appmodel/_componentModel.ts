@@ -1,51 +1,51 @@
-export interface DataTableConfig {
-    tableTitle?: string;
-    tableData: any[]; // Ideally, use a specific interface here
-    tableConfig: TableConfig[];
-    showCheckBox?: boolean;
+export class dataTableConfig {
+    tableTitle?: string
+    tableData?: any
+    tableConfig?: tableConfig[]
+    showCheckBox?: boolean
     isCustom?: {
-        current: number;
-        total: number;
-        steps: number;
-        callbackfn: () => void; // or (arg: any) => void if needed
-    };
-    buttonList?: ButtonConfig[];
+        current: number,
+        total: number,
+        steps: number,
+        callbackfn: any
+    }
+    buttonList?: Array<{
+        name: string,
+        class: string,
+        iconClass?: string,
+        isStatic?: boolean,
+        isAddModify?: boolean,
+    }>
 }
 
-export interface TableConfig {
-    identifier: string;
-    title: string;
-    type: 'text' | 'link' | 'image'; // limit possible values
+export class tableConfig {
+    identifer?: string;
+    title?: string;
+    type?: string; // Text | link | image
     dataType?: {
-        type: 'array' | 'string' | 'number';
-        path: string[];
-    };
+        type: string; // array | string |number
+        path: Array<string>;
+    }
     size?: {
-        height: string;
-        width: string;
+        height: string,
+        width: string
     };
-    navigate?: string | (() => void); // customize as per routing use case
-    buttonList?: ButtonConfig[];
-    buttonIconList?: IconButtonConfig[];
+    navigate?:any
+    buttonList?: Array<{
+        name: string,
+        class: string,
+        iconClass?: string
+    }>
+    buttonIconList?: Array<{
+        title: string,
+        class: string,
+        iconClass: string
+    }>
 }
 
-export interface ButtonConfig {
-    name: string;
-    class: string;
-    iconClass?: string;
-    isStatic?: boolean;
-    isAddModify?: boolean;
-}
-
-export interface IconButtonConfig {
-    title: string;
-    class: string;
-    iconClass: string;
-}
-
-export interface TableEvent {
+export class tableEvent {
     tableItem: any;
-    action: TableConfig;
+    action?: tableConfig;
     actionInfo: any;
     checkedData?: any;
 }
