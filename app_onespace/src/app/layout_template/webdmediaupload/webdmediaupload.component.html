@@ -1,0 +1,53 @@
+<div class="statbox widget box box-shadow">
+    <div class="widget-header">
+        <div class="row">
+            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                <h4>Media Upload</h4>
+            </div>
+        </div>
+    </div>
+    <div class="widget-content widget-content-area">
+        <div class="row" *ngIf="fileConfig.isMulti">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <!-- <label for="mediauploader">{{fileConfig.fileidentifier}}</label> -->
+                    <input type="file" class="btn btn-default" id="mediauploader" multiple
+                        (change)="fileChoosen($event)">
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!fileConfig.isMulti">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <!-- <label for="mediauploader">{{fileConfig.fileidentifier}}</label> -->
+                    <ng-conatainer *ngIf="fileChoosenData.length < 1">
+                        <input type="file" class="btn btn-default" id="mediauploader" (change)="fileChoosen($event)">
+                    </ng-conatainer>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2" id="imgdiv" *ngFor="let objFile of fileChoosenData;let i = index">
+                <ng-container
+                    *ngIf="objFile.fileextension == '' || objFile.fileextension == '.png' || objFile.fileextension == '.jpg' || objFile.fileextension == '.jpeg'">
+
+                    <div id="imgPreview" class="imgPreview">
+                        <img height="100" width="100%" [src]="objFile.thumb" />
+                        <a (click)="removeFile(i)" class="remImage" id="delete">
+                            <img src="../../../assets/img/close.svg" style="background-color: red;">
+                        </a>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="objFile.fileextension == '.pdf'">
+                    <div id="imgPreview" class="imgPreview" style="height: 100px;width: 100px;">
+                        <!-- <img height="100" width="100" [src]="objFile.thumb" /> -->
+                        <i class="uil-file-alt"></i>
+                        <a (click)="removeFile(i)" class="remImage" id="delete">
+                            <img src="../../../assets/img/close.svg" style="background-color: red;">
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
