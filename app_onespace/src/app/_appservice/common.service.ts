@@ -291,7 +291,7 @@ export class CommonService {
 
         return repeatIndex > -1 ? RangeCount[repeatIndex] : RangeCount;
     }
-    getDropDownText(id, object, columnname) {
+    getDropDownText(id: any, object: any, columnname: any) {
         let index = _.findIndex(object, (o: any) => {
             return o[columnname] == id
         })
@@ -299,7 +299,7 @@ export class CommonService {
     }
 
     list_to_tree(listData: Array<any>, idField: string, parentidField: string) {
-        let map = {}, node, roots = [], i;
+        let map: any, node, roots = [], i;
 
         for (i = 0; i < listData.length; i += 1) {
             map[listData[i][idField]] = i; // initialize the map
@@ -333,11 +333,11 @@ export class CommonService {
         return null
     }
 
-    get_portal_config(sessiona_key_name) {
+    get_portal_config(sessiona_key_name:any) {
         return new Promise((resolve, rej) => {
             this._encryptedStorage.get(enAppSession.portal_config).then((res_portalconfig: any) => {
                 let _obj_portalConfig = JSON.parse(res_portalconfig);
-                resolve(_obj_portalConfig?.find(pc => pc.config_name === sessiona_key_name)?.config_value);
+                resolve(_obj_portalConfig?.find((pc:any) => pc.config_name === sessiona_key_name)?.config_value);
             });
         });
     }

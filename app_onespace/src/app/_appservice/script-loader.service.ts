@@ -1,89 +1,61 @@
 import { Injectable } from '@angular/core';
 
-import $ from 'jquery';
-
 interface Script {
-    src: string;
-    loaded: boolean;
+  src: string;
+  loaded: boolean;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ScriptLoaderService {
-    public _scripts: Script[] = [];
+  private _scripts: { [key: string]: Script } = {};
 
-    /**
-     * @deprecated
-     * @param tag
-     * @param {string} scripts
-     * @returns {Promise<any[]>}
-     */
-    load(tag, ...scripts: string[]) {
-        scripts.forEach((src: string) => {
-            if (!this._scripts[src]) {
-                this._scripts[src] = { src: src, loaded: false };
-            }
-        });
+  /**
+   * Load one or more scripts into a specific DOM tag (e.g., 'body', 'head').
+   */
+  load(tagSelector: string, ...scripts: string[]): Promise<{ src: string; loaded: boolean }[]> {
+    const promises = scripts.map(src => this.loadScript(tagSelector, src, true));
+    return Promise.all(promises);
+  }
 
-        let promises: any[] = [];
-        scripts.forEach((src) => promises.push(this.loadScript(tag, src)));
+  /**
+   * Load multiple scripts optionally allowing duplicates.
+   */
+  loadScripts(tagSelector: string, scripts: string[], loadOnce = false): Promise<{ src: string; loaded: boolean }[]> {
+    const promises = scripts.map(src => this.loadScript(tagSelector, src, loadOnce));
+    return Promise.all(promises);
+  }
 
-        return Promise.all(promises);
+  /**
+   * Load a single script dynamically.
+   */
+  private loadScript(tagSelector: string, src: string, loadOnce: boolean): Promise<{ src: string; loaded: boolean }> {
+    if (loadOnce && this._scripts[src]?.loaded) {
+      return Promise.resolve({ src, loaded: true });
     }
 
-    /**
-     * Lazy load list of scripts
-     * @param tag
-     * @param scripts
-     * @param loadOnce
-     * @returns {Promise<any[]>}
-     */
-    loadScripts(tag, scripts, loadOnce?: boolean) {
-        loadOnce = loadOnce || false;
+    return new Promise((resolve, reject) => {
+      const scriptElement = document.createElement('script');
+      scriptElement.type = 'text/javascript';
+      scriptElement.src = src;
 
-        scripts.forEach((script: string) => {
-            if (!this._scripts[script]) {
-                this._scripts[script] = { src: script, loaded: false };
-            }
-        });
+      scriptElement.onload = () => {
+        this._scripts[src] = { src, loaded: true };
+        resolve({ src, loaded: true });
+      };
 
-        let promises: any[] = [];
-        scripts.forEach(
-            (script) => promises.push(this.loadScript(tag, script, loadOnce)));
+      scriptElement.onerror = () => {
+        this._scripts[src] = { src, loaded: false };
+        reject({ src, loaded: false });
+      };
 
-        return Promise.all(promises);
-    }
-
-    /**
-     * Lazy load a single script
-     * @param tag
-     * @param {string} src
-     * @param loadOnce
-     * @returns {Promise<any>}
-     */
-    loadScript(tag, src: string, loadOnce?: boolean) {
-        loadOnce = loadOnce || false;
-
-        if (!this._scripts[src]) {
-            this._scripts[src] = { src: src, loaded: false };
-        }
-
-        return new Promise((resolve, reject) => {
-            // resolve if already loaded
-            
-            if (this._scripts[src].loaded && loadOnce) {
-                resolve({ src: src, loaded: true });
-            }
-            else {
-                // load script tag
-                let scriptTag = $('<script/>').
-                    attr('type', 'text/javascript').
-                    attr('src', this._scripts[src].src);
-
-                $(tag).append(scriptTag);
-
-                this._scripts[src] = { src: src, loaded: true };
-                resolve({ src: src, loaded: true });
-            }
-        });
-    }
+      const target = document.querySelector(tagSelector);
+      if (target) {
+        target.appendChild(scriptElement);
+      } else {
+        reject({ src, loaded: false, error: 'Target tag not found' });
+      }
+    });
+  }
 }

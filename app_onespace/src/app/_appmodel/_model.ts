@@ -1,4 +1,4 @@
-export class contactusModel {
+export interface contactusModel {
     fullname: string;
     email_id: string;
     message: string;
@@ -7,13 +7,19 @@ export class AuthModel {
     authToken: string;
     refreshToken: string;
     expiresIn: Date;
-
-    setAuth(auth: AuthModel) {
-        this.authToken = auth.authToken;
-        this.refreshToken = auth.refreshToken;
-        this.expiresIn = auth.expiresIn;
+  
+    constructor(authToken: string = '', refreshToken: string = '', expiresIn: Date = new Date()) {
+      this.authToken = authToken;
+      this.refreshToken = refreshToken;
+      this.expiresIn = expiresIn;
     }
-}
+  
+    setAuth(auth: AuthModel) {
+      this.authToken = auth.authToken;
+      this.refreshToken = auth.refreshToken;
+      this.expiresIn = auth.expiresIn;
+    }
+  }
 
 export interface userModel {
     flag?: string,
@@ -395,37 +401,37 @@ export interface batchModel {
 export class fileChoosenDataModel {
     fileArrayIdentifier?: any;
     file: any;
-    thumb: string;
-    fileextension: string;
-    file_id: number;
-    ModuleID: number;
-    ModuleType: string;
-    fileidentifier: string;
+    thumb?: string;
+    fileextension?: string;
+    file_id?: number;
+    ModuleID?: number;
+    ModuleType?: string;
+    fileidentifier?: string;
     subidentifier?: string;
     itemidentifier?: string;
-    displayorder: number;
+    displayorder?: number;
     FileUploaderIndex?: number = 0;
 }
 
 export class fileConfigModel {
-    fileValidationInfo: {
+    fileValidationInfo?: {
         fileType: Array<string>;
         size: number;
     }
-    isMulti: boolean;
-    fileidentifier: string;
-    ModuleType: string;
+    isMulti?: boolean;
+    fileidentifier?: string;
+    ModuleType?: string;
     ModuleID: string | any;
     fileextension: string | any;
 }
 
 export class SaveModuleFileModel {
-    file_id: number;
-    ModuleID: number;
-    ModuleType: string;
-    fileidentifier: string;
+    file_id?: number;
+    ModuleID?: number;
+    ModuleType?: string;
+    fileidentifier?: string;
     indexidentifier?: number;
-    displayorder: number;
+    displayorder?: number;
     subidentifier?: string;
     itemidentifier?: string;
     files?: FileList | string | Array<any>;
@@ -1931,4 +1937,37 @@ export interface useramountModel{
     accountheader_id: any;
     total_amount: any;
     template_accheader_id: any;
+}
+
+
+export interface productMaster {
+    flag?: any,
+    product_id?: any,
+    product_name?: any,
+    product_description?: any,
+    isactive?: boolean,
+    category_id?: any,
+    category?: any,
+    brand_id?: any,
+    brand_name?: any,
+    lstcategory?: any,
+    lstbrand?: any,
+    thumbnail?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+
 }

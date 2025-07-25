@@ -1,17 +1,20 @@
 import { AbstractControl } from '@angular/forms';
 
 export class ValidationService {
-    static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
-        let config = {
-            'required': 'Field is Required',
-            'invalidCreditCard': 'Is invalid credit card number',
-            'invalidEmailAddress': 'Invalid email address',
-            'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
-            'minlength': `Minimum length ${validatorValue.requiredLength}`
+    static getValidatorErrorMessage(validatorName: string, validatorValue?: any): string {
+        const config: { [key: string]: string } = {
+            'required': 'This field is required.',
+            'invalidCreditCard': 'Invalid credit card number.',
+            'invalidEmailAddress': 'Invalid email address.',
+            'invalidPassword': 'Invalid password. It must be at least 6 characters long and contain a number.',
+            'minlength': `Minimum length is ${validatorValue?.requiredLength || 0}.`,
+            'maxlength': `Maximum length is ${validatorValue?.requiredLength || 0}.`,
+            'pattern': 'Invalid pattern.'
         };
-
-        return config[validatorName];
+    
+        return config[validatorName] || 'Invalid field';
     }
+    
 
     static creditCardValidator(control:any) {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
