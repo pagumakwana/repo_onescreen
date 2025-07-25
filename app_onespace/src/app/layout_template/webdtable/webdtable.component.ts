@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fromEvent, debounceTime, map } from 'rxjs';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
@@ -9,11 +9,12 @@ import { Api, Config } from 'datatables.net';
 import { DataTableDirective } from 'angular-datatables';
 import { SweetAlertOptions } from 'sweetalert2';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'webd-table',
   standalone: true,
-  imports: [],
+  imports: [FormsModule,ReactiveFormsModule,CommonModule],
   templateUrl: './webdtable.component.html',
   styleUrl: './webdtable.component.scss',
   providers: [] 
