@@ -1,23 +1,22 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { SweetAlertOptions } from 'sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
+import { SweetAlertOptions } from 'sweetalert2';
 import { Subscription } from 'rxjs';
-import { productMaster } from '../../_appmodel/_model';
+import { typeMaster } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 
 @Component({
-  selector: 'app-productmodule',
+  selector: 'app-typemastermodule',
   standalone: true,
-  imports: [CommonModule, WebdtableComponent],
-  templateUrl: './productmodule.component.html',
-  styleUrl: './productmodule.component.scss'
+  imports: [WebdtableComponent],
+  templateUrl: './typemastermodule.component.html',
+  styleUrl: './typemastermodule.component.scss'
 })
-export class ProductmoduleComponent {
+export class TypemastermoduleComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
@@ -28,44 +27,45 @@ export class ProductmoduleComponent {
   public readonly successSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
   private modalRef!: NgbModalRef;
   dataTable: any;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     private _cdr: ChangeDetectorRef) { }
 
-  public productSubscribe!: Subscription;
+  public typemasterSubscribe!: Subscription;
   importFile!: FormData;
-  productMaster: any = [];
-  _productMaster: productMaster = {};
+  TypeMaster: any = [];
+  _typeMaster: typeMaster = {};
+
   tableConfig: dataTableConfig = {
+    tableTitle: "",
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "100px" } },
-      { identifer: "product_name", title: "Product Name", type: "text" },
-      { identifer: "category", title: "Category", type: "text" },
-      { identifer: "brand_name", title: "Brand", type: "text" },
-      { identifer: "product_description", title: "Description", type: "text" },
+      { identifer: "typemaster", title: "Type Master", type: "text" },
+      { identifer: "description", title: "Description", type: "text" },
+      { identifer: "displayorder", title: "Display Order", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-sm btn-primary', iconClass: 'edit-2' }, { title: 'Delete', class: 'btn btn-sm btn-danger', iconClass: 'x-circle' }] },
     ],
     isCustom: {
       current: 0,
       steps: 10,
       total: 0,
-      callbackfn: this.getproductMaster.bind(this)
+      callbackfn: this.gettypemaster.bind(this)
     }
   }
 
   ngOnInit(): void {
-    this.getproductMaster();
+    this.gettypemaster();
   }
 
   tableClick(dataItem: tableEvent) {
     if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Edit")) {
-      this.modifyproduct(dataItem.tableItem, 'MODIFYPRODUCT');
+      this.modifytypemaster(dataItem.tableItem, 'MODIFYTYPEMASTER');
     } else if (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
-      this.modifyproduct(dataItem.tableItem, 'DELETEPRODUCT');
+      this.modifytypemaster(dataItem.tableItem, 'DELETETYPEMASTER');
     }
   }
 
@@ -83,13 +83,12 @@ export class ProductmoduleComponent {
       return `${day}/${month}/${year}`;
     };
 
-    const selectedColumns = this.productMaster.map((item: any) => {
+    const selectedColumns = this.TypeMaster.map((item: any) => {
       return {
         Date: formatDate(item.createddatetime),
-        ProductName: item.product_name,
-        Category: item.lstcategory,
-        Brand: item.lstbrand,
-        Description: htmlToText(item.product_description),
+        TypeMaster: item.typemaster,
+        Description: htmlToText(item.description),
+        DisplayOrder: item.displayorder,
         IsActive: item.isactive
       };
     });
@@ -101,40 +100,41 @@ export class ProductmoduleComponent {
     // };
     // const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     // const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    // saveAs(data, 'Product Data.xlsx');
+    // saveAs(data, 'TypeData.xlsx');
   }
 
-  getproductMaster() {
+  gettypemaster() {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getproduct('all', 0, parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
-      this.productMaster = resProductMaster.data;
-      this.productMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
+    this._webDService.gettypemaster('all', 'null', 0, 'null', parseInt(start), parseInt(end)).subscribe((resTypeMaster: any) => {
+      this.TypeMaster = resTypeMaster.data;
+      this.TypeMaster = Array.isArray(resTypeMaster.data) ? resTypeMaster.data : [];
       if (this.tableConfig?.isCustom) {
-        this.tableConfig.isCustom.total = resProductMaster.count;
+        this.tableConfig.isCustom.total = resTypeMaster.count;
       }
-      this.tableConfig.tableData = this.productMaster;
+      this.tableConfig.tableData = this.TypeMaster;
       this.tableObj.initializeTable();
       this._cdr.detectChanges();
     });
   }
 
-  modifyproduct(data:any, flag:any) {
-    this._productMaster = data;
-    this._productMaster.flag = flag;
-    this._productMaster.product_id = data.product_id;
-    if (flag == 'MODIFYPRODUCT') {
-      this._base._router.navigate([`/app/product/manageproduct/${data.product_id}`]);
-    } else if (flag == 'DELETEPRODUCT') {
+  modifytypemaster(data: any, flag: any) {
+    this._typeMaster = data;
+    this._typeMaster.flag = flag;
+    this._typeMaster.aliasname = data.aliasname;
+    this._typeMaster.typemaster_id = data.typemaster_id;
+    if (flag == 'MODIFYTYPEMASTER') {
+      this._base._router.navigate([`/app/catalogue/typemaster/${btoa(data.typemaster_id)}/${data.aliasname}`]);
+    } else if (flag == 'DELETETYPEMASTER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
-          this._productMaster.isactive = false;
-          this._webDService.manageproduct(this._productMaster).subscribe((response: any) => {
+          this._typeMaster.isactive = false;
+          this._webDService.typemaster(this._typeMaster).subscribe((response: any) => {
             if (response == 'deletesuccess') {
-              this.productMaster.filter((res: any, index: number) => {
-                if (res.product_id === this._productMaster.product_id) {
-                  this.productMaster.splice(index, 1);
+              this.TypeMaster.filter((res: any, index: number) => {
+                if (res.typemaster_id === this._typeMaster.typemaster_id) {
+                  this.TypeMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
                 }
@@ -149,7 +149,6 @@ export class ProductmoduleComponent {
   }
 
   clearFormData() {
-    this._productMaster = {};
+    this._typeMaster = {};
   }
-
 }

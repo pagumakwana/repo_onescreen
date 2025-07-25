@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
@@ -7,17 +6,17 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { Subscription } from 'rxjs';
-import { productMaster } from '../../_appmodel/_model';
+import { labelMaster } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 
 @Component({
-  selector: 'app-productmodule',
+  selector: 'app-labelmodule',
   standalone: true,
-  imports: [CommonModule, WebdtableComponent],
-  templateUrl: './productmodule.component.html',
-  styleUrl: './productmodule.component.scss'
+  imports: [WebdtableComponent],
+  templateUrl: './labelmodule.component.html',
+  styleUrl: './labelmodule.component.scss'
 })
-export class ProductmoduleComponent {
+export class LabelmoduleComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
@@ -26,46 +25,43 @@ export class ProductmoduleComponent {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
-
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
   private modalRef!: NgbModalRef;
-  dataTable: any;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     private _cdr: ChangeDetectorRef) { }
 
-  public productSubscribe!: Subscription;
+  public labelSubscribe!: Subscription;
   importFile!: FormData;
-  productMaster: any = [];
-  _productMaster: productMaster = {};
+  LabelMaster: any = [];
+  _labelMaster: labelMaster = {};
   tableConfig: dataTableConfig = {
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "100px" } },
-      { identifer: "product_name", title: "Product Name", type: "text" },
-      { identifer: "category", title: "Category", type: "text" },
-      { identifer: "brand_name", title: "Brand", type: "text" },
-      { identifer: "product_description", title: "Description", type: "text" },
+      { identifer: "label", title: "Label Name", type: "text" },
+      { identifer: "typemaster", title: "Type Master", type: "text" },
+      { identifer: "description", title: "Description", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-sm btn-primary', iconClass: 'edit-2' }, { title: 'Delete', class: 'btn btn-sm btn-danger', iconClass: 'x-circle' }] },
     ],
     isCustom: {
       current: 0,
       steps: 10,
       total: 0,
-      callbackfn: this.getproductMaster.bind(this)
+      callbackfn: this.getLabelMaster.bind(this)
     }
   }
 
   ngOnInit(): void {
-    this.getproductMaster();
+    this.getLabelMaster();
   }
 
   tableClick(dataItem: tableEvent) {
     if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Edit")) {
-      this.modifyproduct(dataItem.tableItem, 'MODIFYPRODUCT');
+      this.modifylabel(dataItem.tableItem, 'MODIFYLABEL');
     } else if (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
-      this.modifyproduct(dataItem.tableItem, 'DELETEPRODUCT');
+      this.modifylabel(dataItem.tableItem, 'DELETELABEL');
     }
   }
 
@@ -83,13 +79,12 @@ export class ProductmoduleComponent {
       return `${day}/${month}/${year}`;
     };
 
-    const selectedColumns = this.productMaster.map((item: any) => {
+    const selectedColumns = this.LabelMaster.map((item:any) => {
       return {
         Date: formatDate(item.createddatetime),
-        ProductName: item.product_name,
-        Category: item.lstcategory,
-        Brand: item.lstbrand,
-        Description: htmlToText(item.product_description),
+        LabelName: item.label,
+        TypeMaster: item.typemaster,
+        Description: htmlToText(item.description),
         IsActive: item.isactive
       };
     });
@@ -101,40 +96,40 @@ export class ProductmoduleComponent {
     // };
     // const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     // const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    // saveAs(data, 'Product Data.xlsx');
+    // saveAs(data, 'LabelData.xlsx');
   }
 
-  getproductMaster() {
+  getLabelMaster() {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getproduct('all', 0, parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
-      this.productMaster = resProductMaster.data;
-      this.productMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
-      if (this.tableConfig?.isCustom) {
-        this.tableConfig.isCustom.total = resProductMaster.count;
+    this._webDService.getlabelmaster('all',0,'null',0,'null','null', parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
+      this.LabelMaster = resLabel.data ;
+      this.LabelMaster = Array.isArray(resLabel.data) ? resLabel.data : [];
+       if (this.tableConfig?.isCustom) {
+        this.tableConfig.isCustom.total = resLabel.count;
       }
-      this.tableConfig.tableData = this.productMaster;
+      this.tableConfig.tableData = this.LabelMaster;
       this.tableObj.initializeTable();
       this._cdr.detectChanges();
     });
   }
 
-  modifyproduct(data:any, flag:any) {
-    this._productMaster = data;
-    this._productMaster.flag = flag;
-    this._productMaster.product_id = data.product_id;
-    if (flag == 'MODIFYPRODUCT') {
-      this._base._router.navigate([`/app/product/manageproduct/${data.product_id}`]);
-    } else if (flag == 'DELETEPRODUCT') {
+  modifylabel(data: any, flag: any) {
+    this._labelMaster = data;
+    this._labelMaster.flag = flag;
+    this._labelMaster.aliasname = data.aliasname;
+    if (flag == 'MODIFYLABEL') {
+      this._base._router.navigate([`/app/catalogue/labelmaster/${data.label_id}`]);
+    } else if (flag == 'DELETELABEL') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
-          this._productMaster.isactive = false;
-          this._webDService.manageproduct(this._productMaster).subscribe((response: any) => {
+          this._labelMaster.isactive = false;
+          this._webDService.labelmaster(this._labelMaster).subscribe((response: any) => {
             if (response == 'deletesuccess') {
-              this.productMaster.filter((res: any, index: number) => {
-                if (res.product_id === this._productMaster.product_id) {
-                  this.productMaster.splice(index, 1);
+              this.LabelMaster.filter((res: any, index: number) => {
+                if (res.label_id === this._labelMaster.label_id) {
+                  this.LabelMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
                 }
@@ -149,7 +144,6 @@ export class ProductmoduleComponent {
   }
 
   clearFormData() {
-    this._productMaster = {};
+    this._labelMaster = {};
   }
-
 }

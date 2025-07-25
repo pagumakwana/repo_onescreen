@@ -249,4 +249,14 @@ export class ApiConstant {
         getactivedeactiveWidget: "Report/getactivedeactiveWidget",
         getactivesocietyWidget:"Report/getactivesocietyWidget"
     }
+
+    public static product = {
+        managebrand: "product/managebrand",
+        getbrand: "product/getbrand",
+        manageproduct: "product/manageproduct",
+        getproduct: "product/getproduct",
+        get_product_enquiry: "product/get_product_enquiry",
+        modify_enquiry: "product/modify_enquiry",
+        manage_enquiry: "product/manage_enquiry"
+    }
 }

@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form>
+                        <form [formGroup]="fgcategorymaster">
                             <div class="row mb-6">
                                 <!-- <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
                                     [controlObject]="fgcategorymaster.controls['thumbnail']"
@@ -22,14 +22,12 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">TypeMaster</label>
-                                    <input type="text" class="form-control form-control-lg" id="category"
-                                        name="category" placeholder="TypeMaster" formControlName="category" required>
-                                    <!-- <select-mul [data]="TypeMaster" class="col-sm-3 col-form-label"
+                                    <webd-multiselect [data]="TypeMaster" class="col-sm-3 col-form-label"
                                         textField='typemaster' valueField='typemaster_id'
                                         [formControl]="fgcategorymaster?.controls?.lsttypemaster"
                                         placeholder="Select Type Master" [config]="_configType"
                                         (onSelection)="onItemSelect($event)">
-                                    </select-mul> -->
+                                    </webd-multiselect>
                                     <div *ngIf="fgcategorymaster.controls['lsttypemaster'].touched && fgcategorymaster.controls['lsttypemaster'].invalid"
                                         class="text-danger">
                                         <ng-container
@@ -40,14 +38,12 @@
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Parent Category</label>
-                                    <input type="text" class="form-control form-control-lg" id="category"
-                                        name="category" placeholder="Parent Catagory" formControlName="category" required>
-                                    <!-- <select-mul [data]="CategoryMaster" class="col-sm-3 col-form-label"
+                                    <webd-multiselect [data]="CategoryMaster" class="col-sm-3 col-form-label"
                                         textField='category' valueField='category_id'
                                         [formControl]="fgcategorymaster?.controls?.lstparentcategory"
                                         placeholder="Select Category" [config]="_configCat"
                                         (onSelection)="onSelectCat($event)">
-                                    </select-mul> -->
+                                    </webd-multiselect>
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Category</label>
@@ -83,7 +79,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mb-4">Submit</button>
+                            <button type="submit" class="btn btn-primary mb-4" (click)="setcategoryMaster(true)">Submit</button>
                             &nbsp;
                             <button type="submit" class="btn btn-secondary mb-4">Back</button>
                         </form>

@@ -12,6 +12,11 @@ import { AddmodifyproductComponent } from './adminmodeules/productmodule/addmodi
 import { BannermoduleComponent } from './adminmodeules/bannermodule/bannermodule.component';
 import { AddmodifybannerComponent } from './adminmodeules/bannermodule/addmodifybanner/addmodifybanner.component';
 import { WebdtableComponent } from './layout_template/webdtable/webdtable.component';
+import { AddmodifyuserComponent } from './adminmodeules/usermodule/addmodifyuser/addmodifyuser.component';
+import { AddmodifylabelComponent } from './adminmodeules/labelmodule/addmodifylabel/addmodifylabel.component';
+import { LabelmoduleComponent } from './adminmodeules/labelmodule/labelmodule.component';
+import { TypemastermoduleComponent } from './adminmodeules/typemastermodule/typemastermodule.component';
+import { AddmodifytypemasterComponent } from './adminmodeules/typemastermodule/addmodifytypemaster/addmodifytypemaster.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -46,6 +51,11 @@ export const routes: Routes = [
                 title: 'Manage User',
             },
             {
+                path: 'manageuser/:user_id',
+                component: AddmodifyuserComponent,
+                title: 'Manage User',
+            },
+            {
                 path: 'managecategory',
                 component: CategorymoduleComponent,
                 title: 'Manage Category'
@@ -53,30 +63,48 @@ export const routes: Routes = [
             {
                 path: 'managecategory/:category_id',
                 component: AddmodifycategoryComponent,
-                title: 'Manage User',
+                title: 'Manage Category',
             },
             {
                 path: 'manageproduct',
                 component: ProductmoduleComponent,
+                title: 'Manage Product'
+            },
+            {
+                path: 'manageproduct/:product_id',
+                component: AddmodifyproductComponent    ,
                 title: 'Manage Product',
-                children: [
-                    {
-                        path: ':product_id',
-                        component: AddmodifyproductComponent,
-                    },
-                ],
             },
             {
                 path: 'managebanner',
                 component: BannermoduleComponent,
                 title: 'Manage Banner',
-                children: [
-                    {
-                        path: ':banner_id',
-                        component: AddmodifybannerComponent,
-                    },
-                ],
-            }
+            },
+            {
+                path: 'managebanner/:banner_id',
+                component: AddmodifybannerComponent,
+                title: 'Manage Banner',
+            },
+            {
+                path: 'managelabel',
+                component: LabelmoduleComponent,
+                title: 'Manage Label',
+            },
+            {
+                path: 'managelabel/:label_id',
+                component: AddmodifylabelComponent,
+                title: 'Manage Label',
+            },
+            {
+                path: 'managetypemaster',
+                component: TypemastermoduleComponent,
+                title: 'Manage Typemaster',
+            },
+            {
+                path: 'managetypemaster/:typemaster_id',
+                component: AddmodifytypemasterComponent,
+                title: 'Manage Label',
+            },
         ]
     },
 ];

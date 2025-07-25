@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Manage User</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form [formGroup]="fgUser">
+              <div class="row mb-6">
+                <!-- <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                                    [controlObject]="fgcategorymaster.controls['thumbnail']"
+                                    [fileConfig]="this.fileConfig['thumbnail']">
+                                </webd-mediauploader> -->
+              </div>
+              <div class="row mb-6">
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label"> Full Name</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="fullname"
+                    name="fullname" placeholder="Full Name" formControlName="fullname" required>
+                  <div
+                    *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)"
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['fullname'].errors?.['required']">
+                      Full Name is required.
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="email_id"
+                    name="email_id" placeholder="Email Address" formControlName="email_id" required>
+                  <div
+                    *ngIf="fgUser.controls['email_id'].invalid && (fgUser.controls['email_id'].dirty || fgUser.controls['email_id'].touched) "
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['email_id'].errors?.['required']">
+                      Email ID is required.
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="password"
+                    name="password" placeholder="******" formControlName="password" required>
+                  <div
+                    *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched) "
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['password'].errors?.['required']">
+                      Password is required.
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Mobile</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="mobilenumber"
+                    name="mobilenumber" placeholder="+91 917287011" formControlName="mobilenumber" required>
+                  <div
+                    *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched) "
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['mobilenumber'].errors?.['required']">
+                      Mobile Number is required.
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-6">
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">DOB</label>
+                  <input type="text" class="form-control" style="cursor: pointer;" ngbDatepicker
+                    #travellingdate="ngbDatepicker" travellingdate.displayMonths="true" readonly formControlName="dob"
+                    required placeholder="dd-mm-yyyy" (click)="travellingdate.toggle()">
+                  <!-- <span class="input-group-text" (click)="travellingdate.toggle()">
+                    <i class="fa fa-calendar"></i>
+                  </span> -->
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Website</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="website" name="website"
+                    placeholder="Website" formControlName="website">
+                  <!-- <div *ngIf="fgUser.controls.website.invalid && (fgUser.controls.website.dirty || fgUser.controls.website.touched) "
+                                    class="text-danger">
+                                    <ng-container *ngIf="fgUser.controls.website.errors?.['required']">
+                                        Website is required.
+                                    </ng-container>
+                                </div> -->
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Bio</label>
+                  <input type="text" class="form-control form-control-lg form-control-solid" id="bio" name="bio"
+                    placeholder="Bio" formControlName="bio">
+                  <!-- <div *ngIf="fgUser.controls.bio.invalid && (fgUser.controls.bio.dirty || fgUser.controls.bio.touched) "
+                                    class="text-danger">
+                                    <ng-container *ngIf="fgUser.controls.bio.errors?.['required']">
+                                        Bio is required.
+                                    </ng-container>
+                                </div> -->
+                </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Project</label>
+                  <webd-multiselect [data]="lstProject" class="col-sm-3 col-form-label" textField='projectname'
+                    valueField='project_id' [formControl]="fgUser?.controls?.lstproject" placeholder="Select Project"
+                    [config]="_configProject" (onSelection)="onItemSelect($event)">
+                  </webd-multiselect>
+                </div>
+
+              </div>
+              <div class="row mb-6">
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Authority</label>
+                  <webd-multiselect [data]="lstAuthority" class="col-sm-3 col-form-label" textField='authority'
+                    valueField='authority_id' [formControl]="fgUser?.controls?.lstauthority"
+                    placeholder="Select Authority" [config]="_configAuthority"
+                    (onSelection)="onAuthoritySelect($event)">
+                  </webd-multiselect>
+                </div>
+                <div class="col-lg-4 mb-3 form-check">
+                  <label class="form-label"></label>
+                  <label>Published</label>
+                  <input type="checkbox" class="form-check-input" id="isPublished" formControlName="isactive">
+                  <span class="new-control-indicator"></span>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary mb-4" (click)="setUserModel(true)">Submit</button>
+              &nbsp;
+              <button type="submit" class="btn btn-secondary mb-4">Back</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

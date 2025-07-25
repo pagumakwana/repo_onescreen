@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Typemaster</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="fgtypemaster">
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" class="form-control form-control-lg" id="label" name="typemaster"
+                                        placeholder="Title" formControlName="typemaster" required>
+                                    <div *ngIf="fgtypemaster.controls['typemaster'].invalid && (fgtypemaster.controls['typemaster'].dirty || fgtypemaster.controls['typemaster'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgtypemaster.controls.typemaster.errors?.['required']">
+                                            Title is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" min="0" class="form-control" id="displayorder"
+                                        name="displayorder" placeholder="0" formControlName="displayorder"
+                                        onkeypress="numberOnly($event)">
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" class="form-control form-control-lg" id="displayorder"
+                                        name="displayorder" placeholder="Short Description"
+                                        formControlName="displayorder">
+                                    <webd-texteditor [formGroupTextArea]="this.fgtypemaster.controls['textarea']">
+                                    </webd-texteditor>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3 form-check">
+                                    <label class="form-label"></label>
+                                    <label>Published</label>
+                                    <input type="checkbox" class="form-check-input" id="isPublished"
+                                        formControlName="isactive">
+                                    <span class="new-control-indicator"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-4" onclick="settypeMaster(true)">Submit</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-secondary mb-4">Back</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

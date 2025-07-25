@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -8,7 +7,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form>
+                        <form [formGroup]="fgproductmaster">
                             <div class="row mb-6">
                                 <!-- <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
                                     [controlObject]="fgcategorymaster.controls['thumbnail']"
@@ -31,14 +30,12 @@
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Category</label>
-                                    <input type="text" class="form-control form-control-lg" id="category"
-                                        name="category" placeholder="Catagory" formControlName="category"
-                                        required>
-                                    <!-- <select-mul [data]="CategoryMaster" class="col-sm-3 col-form-label" textField='category'
-                                    valueField='category_id' [formControl]="fgproductmaster?.controls?.lstcategory"
-                                    placeholder="Select Category" [config]="_configCategory"
-                                    (onSelection)="onCategory($event)">
-                                </select-mul> -->
+                                    <webd-multiselect [data]="CategoryMaster" class="col-sm-3 col-form-label"
+                                        textField='category' valueField='category_id'
+                                        [formControl]="fgproductmaster?.controls?.lstcategory"
+                                        placeholder="Select Category" [config]="_configCategory"
+                                        (onSelection)="onCategory($event)">
+                                    </webd-multiselect>
                                     <div *ngIf="fgproductmaster.controls['lstcategory'].touched && fgproductmaster.controls['lstcategory'].invalid"
                                         class="text-danger">
                                         <ng-container
@@ -49,12 +46,11 @@
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Brand Selection</label>
-                                    <input type="text" class="form-control form-control-lg" id="category"
-                                        name="category" placeholder="Brand Selection" formControlName="category" required>
-                                    <!-- <select-mul [data]="BrandMaster" class="col-sm-3 col-form-label" textField='brand_name'
-                                    valueField='brand_id' [formControl]="fgproductmaster?.controls?.lstbrand"
-                                    placeholder="Select Brand" [config]="_configBrand" (onSelection)="onBrand($event)">
-                                </select-mul> -->
+                                    <webd-multiselect [data]="BrandMaster" class="col-sm-3 col-form-label"
+                                        textField='brand_name' valueField='brand_id'
+                                        [formControl]="fgproductmaster?.controls?.lstbrand" placeholder="Select Brand"
+                                        [config]="_configBrand" (onSelection)="onBrand($event)">
+                                    </webd-multiselect>
                                     <div *ngIf="fgproductmaster.controls['lstbrand'].touched && fgproductmaster.controls['lstbrand'].invalid"
                                         class="text-danger">
                                         <ng-container *ngIf="fgproductmaster.controls['lstbrand'].errors?.['required']">
@@ -67,9 +63,10 @@
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Short Description</label>
                                     <input type="text" class="form-control form-control-lg" id="displayorder"
-                                        name="displayorder" placeholder="Short Description" formControlName="displayorder">
-                                    <!-- <webd-textarea [formGroupTextArea]="this.fgproductmaster.controls['textarea']">
-                                    </webd-textarea> -->
+                                        name="displayorder" placeholder="Short Description"
+                                        formControlName="displayorder">
+                                    <webd-texteditor [formGroupTextArea]="this.fgproductmaster.controls['textarea']">
+                                    </webd-texteditor>
                                 </div>
                                 <div class="col-lg-4 mb-3 form-check">
                                     <label class="form-label"></label>
@@ -80,7 +77,8 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mb-4">Submit</button>
+                            <button type="submit" class="btn btn-primary mb-4"
+                                onclick="setproductMaster(true)">Submit</button>
                             &nbsp;
                             <button type="submit" class="btn btn-secondary mb-4">Back</button>
                         </form>
