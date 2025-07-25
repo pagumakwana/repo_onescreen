@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     BrowserAnimationsModule, // required by Toastr
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     NgbModule,
-    SweetAlert2Module.forRoot())]
+    SweetAlert2Module.forRoot()),provideHttpClient(withInterceptorsFromDi()),]
 };

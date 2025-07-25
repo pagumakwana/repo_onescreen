@@ -11,11 +11,12 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { categoryMaster, fileChoosenDataModel, fileConfigModel, SaveModuleFileModel } from '../../../_appmodel/_model';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MultiselectComponent],
+  imports: [FormsModule, ReactiveFormsModule,CommonModule, MultiselectComponent],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })
@@ -124,8 +125,8 @@ export class AddmodifycategoryComponent {
       value = value.replace(/&/g, 'and').toLowerCase().trim();
       value = value.replace(/\//g, 'or').toLowerCase().trim();
       value = value.replace(/\./g, '_').toLowerCase().trim();
-      this.fgcategorymaster.controls['alisaname'].setValue(value);
-      this.fgcategorymaster.controls['alisaname'].updateValueAndValidity()
+      this.fgcategorymaster.controls['alisaname']?.setValue(value);
+      this.fgcategorymaster.controls['alisaname']?.updateValueAndValidity()
     });
     setTimeout(() => {
       this._cdr.detectChanges();
@@ -284,6 +285,7 @@ export class AddmodifycategoryComponent {
   gettypemasterdetails() {
     return new Promise((resolve, rejects) => {
       this._webDService.gettypemaster('all', 'null').subscribe((restypeMaster: any) => {
+        debugger
         this.TypeMaster = [];
         this.TypeMaster = Array.isArray(restypeMaster.data) ? restypeMaster.data : [];
 

@@ -1,11 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Options } from 'select2';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'webd-multiselect',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule,NgMultiSelectDropDownModule],
   templateUrl: './multiselect.component.html',
   styleUrl: './multiselect.component.scss'
 })
@@ -18,7 +21,7 @@ export class MultiselectComponent implements OnInit {
   @Input() isMultiSelect: boolean = false;
   @Input() placeholder!: string;
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
-
+  public options!: Options;
   public exampleData!: Array<any>;
   public _value!: string[];
   public showControl: boolean = false
@@ -50,17 +53,18 @@ export class MultiselectComponent implements OnInit {
       this._cdr.detectChanges();
     }, 500);
 
-    // this.options = {
-    //   width: '250',
-    //   multiple: this.isMultiSelect,
-    //   tags: true
-    // };
+    this.options = {
+      width: '250',
+      multiple: this.isMultiSelect,
+      tags: true
+    };
   }
 
 
 
   get listData() {
     for (let item of this.data) {
+      debugger
       item[this.config?.idField!] = item[this.valueField!];
       item[this.config?.textField!] = item[this.textField!];
     }
