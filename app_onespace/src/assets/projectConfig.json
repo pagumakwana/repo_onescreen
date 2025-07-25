@@ -1,0 +1,14 @@
+{
+    "apiBaseURL": "https://uatapi.apnasociety.com/api",
+    "apiBaseURLUAT": "https://apiwebdroids.in/api",
+    "apiBaseURL0": "https://localhost:7197/api",
+    "apiHubURL": "https://uatapi.apnasociety.com/apnaHUB",
+    "cdnURL": "https://uatapi.apnasociety.com",
+    "cdnAPPURL": "https://uat.apnasociety.com",
+    "ipifyUrl": "https://api.ipify.org/?format=json",
+    "client_id": "1",
+    "clientname": "Webdroids",
+    "project_id": "1",
+    "projectname": "Webdroids",
+    "maintenancemode": "false"
+}

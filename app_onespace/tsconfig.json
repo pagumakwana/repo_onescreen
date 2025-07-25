@@ -16,6 +16,7 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
@@ -27,7 +28,14 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictInputAccessModifiers": false,
+    "strictTemplates": false,
+    "enableIvy": false,
+    "allowEmptyCodegenFiles": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules/ng-multiselect-dropdown/*",
+    "node_modules/ckeditor4-angular/*"
+  ]
 }
