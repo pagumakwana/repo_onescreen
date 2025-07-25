@@ -46,8 +46,7 @@ export class BannermoduleComponent {
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "250px" } },
       { identifer: "title", title: "Title", type: "text" },
       { identifer: "displayorder", title: "Display Order", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Preview', class: 'btn btn-sm btn-default', iconClass: 'edit-2' }, { title: 'Edit', class: 'btn btn-sm btn-primary', iconClass: 'edit-2' }, { title: 'Delete', class: 'btn btn-sm btn-danger', iconClass: 'x-circle' }] },
-    ],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] }],
     isCustom: {
       current: 0,
       steps: 10,

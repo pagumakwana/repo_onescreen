@@ -48,7 +48,7 @@ export class CategorymoduleComponent {
       { identifer: "category", title: "Category", type: "text" },
       { identifer: "typemaster", title: "Type Master", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'fa fa-pencil' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'fa fa-trash' }] },
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },
     ],
     isCustom: {
       current: 0,
