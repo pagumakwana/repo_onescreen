@@ -1,0 +1,12 @@
+<ng-container *ngIf="showControl">
+    <!-- <ng-select2 [data]="listData" [options]="options" [(ngModel)]="value">
+    </ng-select2> -->
+    <!-- <select class="form-control  basic">
+        <option selected="selected" *ngFor="let obj of listData" value="obj.id" >{{obj.text}}</option>
+    </select> -->
+    <ng-multiselect-dropdown [placeholder]="placeholder" [settings]="dropdownSettings" [data]="listData"
+        [(ngModel)]="value" [config]="config" name="multiSelect" >
+    </ng-multiselect-dropdown>
+
+    <!-- (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" -->
+</ng-container>
