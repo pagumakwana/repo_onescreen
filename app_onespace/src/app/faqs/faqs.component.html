@@ -1,0 +1,169 @@
+<img src="../../../assets/img/faq_wireframe.png"
+    style="position: absolute;top:110px;right:0;left:0;width: 100%;height: auto;opacity: 0.5;display: none;" />
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const accordions = document.querySelectorAll(".accordion");
+
+        accordions.forEach((accordion) => {
+            const toggle = accordion.querySelector(".toggle");
+            const inner = accordion.querySelector(".inner");
+
+            toggle.addEventListener("click", function () {
+                accordions.forEach((acc) => {
+                    if (acc !== accordion) {
+                        acc.querySelector(".inner").style.maxHeight = null;
+                        acc.querySelector(".toggle").classList.remove("open");
+                    }
+                });
+
+                if (inner.style.maxHeight) {
+                    inner.style.maxHeight = null;
+                    toggle.classList.remove("open");
+                } else {
+                    inner.style.maxHeight = inner.scrollHeight + "px";
+                    toggle.classList.add("open");
+                }
+            });
+        });
+    });
+</script>
+<div class="faq_page">
+    <section class="container_section breadcrumb">
+        <div class="inner_container">
+            <h1 class="page_heading">FAQ's
+            </h1>
+            <p aria-label="Breadcrumb navigation">
+                <span>Home</span>
+                <img src="../../../assets/img/right_arrow.svg" alt="Breadcrumb navigation Arrow">
+                <span class="domain_color">FAQ's</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="container_section top_gap faqs">
+        <div class="inner_container">
+            <div class="faqs_sec">
+                <div class="form_sec">
+                    <h2 class="faqs_form_heading">Ask your Question</h2>
+                    <p class="faqs_form_note">Belongs to those who fail in their duty through weakness</p>
+                    <form>
+                    <!-- <form [formGroup]="fgcontactdetails"> -->
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">Name</label>
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-lg-6 fv-row">
+                                        <input type="text" id="fullname" name="fullname" placeholder="Full Name"
+                                            formControlName="fullname" required>
+                                        <div *ngIf="fgcontactdetails.controls['fullname'].invalid && (fgcontactdetails.controls['fullname'].dirty || fgcontactdetails.controls['fullname'].touched)"
+                                            class="text-danger">
+                                            <ng-container
+                                                *ngIf="fgcontactdetails.controls['fullname'].errors?.['required']">
+                                                Name required.
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">Email</label>
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-lg-6 fv-row">
+                                        <input type="text" id="email_id" name="email_id" placeholder="Email_id"
+                                            formControlName="email_id" required
+                                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                                        <div *ngIf="fgcontactdetails.controls['email_id'].invalid && (fgcontactdetails.controls['email_id'].dirty || fgcontactdetails.controls['email_id'].touched)"
+                                            class="text-danger">
+                                            <ng-container
+                                                *ngIf="fgcontactdetails.controls['email_id'].errors?.['required']">
+                                                Email Id required.
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="fgcontactdetails.controls['email_id'].errors?.['email']">
+                                                Please enter a valid email address.
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="fgcontactdetails.controls['email_id'].errors?.['pattern']">
+                                                Email must be in a proper format (e.g., example&#64;gmail.com).
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">Subject</label>
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-lg-6 fv-row">
+                                        <input type="text" id="subject_line" name="subject_line" placeholder="Full Name"
+                                            formControlName="subject_line" required>
+                                        <div *ngIf="fgcontactdetails.controls['subject_line'].invalid && (fgcontactdetails.controls['subject_line'].dirty || fgcontactdetails.controls['subject_line'].touched)"
+                                            class="text-danger">
+                                            <ng-container
+                                                *ngIf="fgcontactdetails.controls['subject_line'].errors?.['required']">
+                                                Subject required.
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form_container">
+                            <label for="message">Question</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Question..."
+                                formControlName="description"></textarea>
+                        </div>
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button type="button" class="btn btn-success btn-sm">
+                            <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
+                                (click)="setcontactdetail(true)"> -->
+                                <ng-container *ngIf="!isLoading">Submit Request</ng-container>
+                                <ng-container *ngIf="isLoading">
+                                    <span clas="indicator-progress" [style.display]="'block'">
+                                        Please wait...{{ " " }}
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </ng-container>
+                            </button>
+                        </div>
+
+                        <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
+                            <div class="modal_container">
+                                <div class="modal_header">
+                                    <h2 class="modal_heading">Camera to Sell!</h2>
+                                    <!-- <span class="modal_close" (click)="isSuccessModal_Open = false;">
+                                        <img src="./assets/img/close.svg" alt="Close Icon" />
+                                    </span> -->
+                                </div>
+                                <div class="modal_body">
+                                    <h3 class="section_head">Thank you for your inquiry. One of our executives will
+                                        reach out to you for the next steps.</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="faqs_thumbnail">
+                    <img src="../../../assets/img/faq_thumbnail.png" alt="Faq's Text" />
+                </div>
+                <div class="faqs_questions">
+                    <div class="accordions">
+                        <div class="accordion" *ngFor="let item of faqList; let i = index"
+                            [class.open]="activeIndex === i">
+                            <div class="toggle" (click)="toggleAccordion(i)">
+                                {{ item.question }}
+                            </div>
+                            <div class="inner" #inner [style.maxHeight]="activeIndex === i ? innerHeights[i] : '0'">
+                                <div [innerHTML]="item.answer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
