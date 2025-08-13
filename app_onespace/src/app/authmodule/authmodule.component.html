@@ -1,30 +1,33 @@
-
 <div class="auth-main v2">
-    <div class="bg-overlay bg-dark"></div>
-    <div class="auth-wrapper">
-      <div class="auth-sidecontent">
-        <div class="auth-sidefooter">
-          <img src="../../../assets/images/webdroids_logo.png" class="img-brand img-fluid" alt="images" />
-          <hr class="mb-3 mt-4" />
-          <div class="row">
-            <div class="col my-1">
-              <p class="m-0">Made with ♥ by Team <a href="https://webdroids.in" target="_blank"> Webdroids</a></p>
-            </div>
-           
+  <div class="bg-overlay bg-dark"></div>
+  <div class="auth-wrapper">
+    <div class="auth-sidecontent">
+      <div class="auth-sidefooter">
+        <img src="../../../assets/images/webdroids_logo.png" class="img-brand img-fluid" alt="images" />
+        <hr class="mb-3 mt-4" />
+        <div class="row">
+          <div class="col my-1">
+            <p class="m-0">Made with ♥ by Team <a href="https://webdroids.in" target="_blank"> Webdroids</a></p>
           </div>
-        </div>
 
+        </div>
       </div>
-      <div class="auth-form">
-        <div class="card my-5 mx-3">
-          <div class="card-body">
-            <h4 class="f-w-500 mb-1">Login with your email</h4>
+
+    </div>
+    <div class="auth-form">
+      <div class="card my-5 mx-3">
+        <div class="card-body">
+          <h4 class="f-w-500 mb-1">Login with your email</h4>
+          <form [formGroup]="formSignIn" novalidate="novalidate" id="kt_login_signin_form"
+            (ngSubmit)="setSignInModel()">
             <!-- <p disabled class="mb-3">Don't have an Account? <a href="../pages/register-v2.html" class="link-primary ms-1">Create Account</a></p> -->
             <div class="mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="Email Address">
+              <input type="text" class="form-control" id="username" formControlName="username" name="username"
+                placeholder="Email Address/ Mobile Number">
             </div>
             <div class="mb-3">
-              <input type="password" class="form-control" id="floatingInput1" placeholder="Password">
+              <input type="password" class="form-control" id="password" formControlName="password" name="password"
+                placeholder="Password">
             </div>
             <div class="d-flex mt-1 justify-content-between align-items-center">
               <div class="form-check">
@@ -36,12 +39,21 @@
               </a> -->
             </div>
             <div class="d-grid mt-4">
-              <button type="button" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary" [disabled]="formSignIn.invalid"> <ng-container
+                  *ngIf="isLoading$ | async">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="(isLoading$ | async) === false">
+                  <span class="indicator-label">Continue</span>
+                </ng-container></button>
             </div>
-            
-    
-          </div>
+
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
