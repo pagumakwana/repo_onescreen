@@ -8,14 +8,14 @@ import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
 import { labelMaster } from '../../../_appmodel/_model';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 
 @Component({
   selector: 'app-addmodifylabel',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,SweetAlert2Module],
   templateUrl: './addmodifylabel.component.html',
   styleUrl: './addmodifylabel.component.scss'
 })
@@ -24,6 +24,9 @@ export class AddmodifylabelComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  navigateBack() {
+    this._base._router.navigate(['/app/managelabel']);
+  }	
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
@@ -162,7 +165,7 @@ export class AddmodifylabelComponent {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
                 // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/catalogue/labelmaster']);
+                this._base._router.navigate(['/app/managelabel']);
               });
             }, 1000);
           }

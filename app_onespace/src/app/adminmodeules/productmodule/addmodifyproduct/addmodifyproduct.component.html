@@ -50,12 +50,12 @@
                                         [formControl]="fgproductmaster?.controls?.lstbrand" placeholder="Select Brand"
                                         [config]="_configBrand" (onSelection)="onBrand($event)">
                                     </webd-multiselect>
-                                    <div *ngIf="fgproductmaster.controls['lstbrand'].touched && fgproductmaster.controls['lstbrand'].invalid"
+                                    <!-- <div *ngIf="fgproductmaster.controls['lstbrand'].touched && fgproductmaster.controls['lstbrand'].invalid"
                                         class="text-danger">
                                         <ng-container *ngIf="fgproductmaster.controls['lstbrand'].errors?.['required']">
                                             Brand is required.
                                         </ng-container>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="row mb-6">
@@ -74,9 +74,13 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary mb-4"
-                                onclick="setproductMaster(true)">Submit</button>
+                                (click)="setproductMaster(true)">Submit</button>
                             &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4">Back</button>
+                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
+
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
                         </form>
                     </div>
                 </div>

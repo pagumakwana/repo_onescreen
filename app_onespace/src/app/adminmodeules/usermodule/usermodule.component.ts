@@ -26,6 +26,11 @@ export class UsermoduleComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  navigateaddform()
+  {
+    this._base._router.navigate(["/app/manageuser/0"]);
+  }
+
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
   private modalRef!: NgbModalRef;
@@ -133,7 +138,7 @@ export class UsermoduleComponent {
     this._userModel.flag = flag;
     this._userModel.user_id = data.user_id;
     if (flag == 'MODIFYUSER') {
-      this._base._router.navigate([`/app/user/userlist/${data.user_id}`]);
+      this._base._router.navigate([`/app/manageuser/${data.user_id}`]);
     } else if (flag == 'DELETEUSER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {

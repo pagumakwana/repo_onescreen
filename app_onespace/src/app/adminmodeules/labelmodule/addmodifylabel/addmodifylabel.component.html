@@ -11,8 +11,8 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Title</label>
-                                    <input type="text" class="form-control " id="label" name="label"
-                                        placeholder="Title" formControlName="label" required>
+                                    <input type="text" class="form-control " id="label" name="label" placeholder="Title"
+                                        formControlName="label" required>
                                     <div *ngIf="fglabelmaster.controls['label'].invalid && (fglabelmaster.controls['label'].dirty || fglabelmaster.controls['label'].touched)"
                                         class="text-danger">
                                         <ng-container *ngIf="fglabelmaster.controls.label.errors?.['required']">
@@ -22,10 +22,11 @@
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">TypeMaster</label>
-                                    <webd-multiselect [data]="TypeMaster" class="col-sm-3 col-form-label" textField='typemaster'
-                                    valueField='typemaster_id' [formControl]="fglabelmaster?.controls?.lsttypemaster"
-                                    placeholder="Select Type Master" [config]="_configType"
-                                    (onSelection)="onItemSelect($event)">
+                                    <webd-multiselect [data]="TypeMaster" class="col-sm-3 col-form-label"
+                                        textField='typemaster' valueField='typemaster_id'
+                                        [formControl]="fglabelmaster?.controls?.lsttypemaster"
+                                        placeholder="Select Type Master" [config]="_configType"
+                                        (onSelection)="onItemSelect($event)">
                                     </webd-multiselect>
                                 </div>
                             </div>
@@ -46,9 +47,13 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mb-4"
-                                onclick="setlabelMaster(true)">Submit</button>
+                                (click)="setlabelMaster(true)">Submit</button>
                             &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4">Back</button>
+                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
+
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
                         </form>
                     </div>
                 </div>

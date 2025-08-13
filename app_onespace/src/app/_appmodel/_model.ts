@@ -57,6 +57,7 @@ export interface userModel {
     createdby?: number,
     createdname?: string,
     profilepicture?: any,
+    isactive?: any,
     filemanager?: Array<{
         ref_id: number,
         file_id: number,

@@ -127,7 +127,7 @@ export const routes: Routes = [
             {
                 path: 'managetypemaster/:typemaster_id',
                 component: AddmodifytypemasterComponent,
-                title: 'Manage Label',
+                title: 'Manage Typemaster',
             },
         ]
     },
