@@ -17,6 +17,10 @@ import { AddmodifylabelComponent } from './adminmodeules/labelmodule/addmodifyla
 import { LabelmoduleComponent } from './adminmodeules/labelmodule/labelmodule.component';
 import { TypemastermoduleComponent } from './adminmodeules/typemastermodule/typemastermodule.component';
 import { AddmodifytypemasterComponent } from './adminmodeules/typemastermodule/addmodifytypemaster/addmodifytypemaster.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -33,7 +37,27 @@ export const routes: Routes = [
                 path: 'home',
                 component: HomeModuleComponent,
                 title: 'Home page',
-            },]
+            },
+            {
+                path: 'contactus',
+                component: ContactusComponent,
+                title: 'Contact Us',
+            },
+            {
+                path: 'faqs',
+                component: FaqsComponent,
+                title: 'About Us',
+            },
+            {
+                path: 'aboutus',
+                component: AboutusComponent,
+                title: 'About Us',
+            },
+            {
+                path: 'cart',
+                component: CartComponent,
+                title: 'Cart',
+            }]
     },
     {
         path: 'app',
@@ -72,7 +96,7 @@ export const routes: Routes = [
             },
             {
                 path: 'manageproduct/:product_id',
-                component: AddmodifyproductComponent    ,
+                component: AddmodifyproductComponent,
                 title: 'Manage Product',
             },
             {

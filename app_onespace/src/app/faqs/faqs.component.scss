@@ -1,0 +1,129 @@
+.toggle:before {
+    content: "";
+    background: url('../../assets/images/accordian_close_arrow.svg') no-repeat;
+}
+.open .toggle:before {
+    background: url('../../assets/images/accordian_open_arrow.svg') no-repeat;
+}
+.faqs_sec {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.form_sec {
+    width: 32%;
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: 25px 25px 0 25px;
+    padding: 20px;
+}
+.faqs_form_heading {
+    font-size: 31px;
+    margin-bottom: 10px;
+}
+.faqs_form_note {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.form_sec input, .form_sec select, .form_sec textarea {
+    background: rgb(217 217 217 / 20%);
+    font-size: 16px;
+    border: 0;
+    padding: 18px;
+    border-radius: 25px 25px 0 25px;
+    width: 100%;
+    resize: none;
+}
+.form_container {
+    margin-bottom: 21px;
+}
+.faqs_questions {
+    width: 49%;
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: 25px 25px 0 25px;
+    padding: 20px;
+}
+.faqs_thumbnail {
+    width: 15%;
+}
+.faqs_thumbnail img {
+    width: 100%;
+    height: auto;
+}
+.toggle {
+    position: relative;
+    padding: 20px 45px 20px 20px;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+} 
+.inner {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.inner > div {
+    padding: 0 20px 20px 20px;
+    display: block;
+    clear: both;
+}
+.accordion {
+    border-radius: 20px 20px 0 20px;
+    background: rgb(217 217 217 / 20%);
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid rgb(217 217 217 / 20%);
+}
+.accordion.open {
+    border-color: #FABA1C;
+    background: white;
+}
+.toggle:before {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    margin: auto 0;
+    width: 28px;
+    height: 28px;
+    background-size: contain !important;
+    background-position: center !important;
+} 
+.inner > div *, .inner > div {
+    font-size: 14px;
+}
+.inner > div ul {
+    margin-left: 20px;
+}
+.inner > div li {
+    padding-bottom: 13px;
+}
+.inner > div li:last-child {
+    padding: revert-layer;
+}
+
+// Responsive CSS
+
+@media only screen and (max-width: 1200px) {
+    .faqs_thumbnail {
+        display: none;
+    }
+    .form_sec, .faqs_questions {
+        width: 49%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .form_sec, .faqs_questions {
+        width: 100%;
+    }
+    .faqs_sec {
+        gap: 20px;
+    }
+    .faqs_form_heading {
+        font-size: 30px;
+    }
+}
