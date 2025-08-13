@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4bc590cf7362fdcba7fb986121c6851ce32f344d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7b3c64f59e7db85f651159221abdf4ac31a8fd4")]
 [assembly: System.Reflection.AssemblyProductAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,7 +6,7 @@ using onescreenModel.ProductManagement;
 
 namespace onescreen_api.Controllers.ProductManagement
 {
-    [Route("api/[controller]")]
+    [Route("api/product")]
     [ApiController]
     public class ProductManagmentController : ControllerBase
     {

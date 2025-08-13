@@ -1,2 +1,11 @@
+<div class="d-flex justify-content-end">
+    <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
+    &nbsp; -->
+    <!--begin::Add user-->
+    <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
+        New Typemaster
+    </button>
+    <!--end::Add user-->
+</div>
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 
