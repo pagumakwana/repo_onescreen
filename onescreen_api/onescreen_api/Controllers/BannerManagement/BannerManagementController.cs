@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using onescreenModel.Common;
 using onescreenBAL.BannerManagement;
+using onescreenModel.BannerManagement;
+using onescreenModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using onescreenModel.BannerManagement;
 
 namespace onescreen_api.Controllers.BannerManagement
 {

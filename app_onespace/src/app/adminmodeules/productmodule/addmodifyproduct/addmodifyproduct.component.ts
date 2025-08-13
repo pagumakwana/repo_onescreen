@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
@@ -16,7 +16,7 @@ import { WebdmediauploadComponent } from '../../../layout_template/webdmediauplo
 @Component({
   selector: 'app-addmodifyproduct',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent, SweetAlert2Module],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
   templateUrl: './addmodifyproduct.component.html',
   styleUrl: './addmodifyproduct.component.scss'
 })
@@ -24,10 +24,6 @@ export class AddmodifyproductComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateBack()
-  {
-    this._base._router.navigate(["app/manageproduct"])
-  }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
@@ -97,7 +93,7 @@ export class AddmodifyproductComponent {
       isactive: [true],
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
-      lstbrand: [''],
+      lstbrand: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
         description: [''],
       })
@@ -210,7 +206,7 @@ export class AddmodifyproductComponent {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
                 // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/manageproduct']);
+                this._base._router.navigate(['/app/product/manageproduct']);
               });
             }, 1000);
           }

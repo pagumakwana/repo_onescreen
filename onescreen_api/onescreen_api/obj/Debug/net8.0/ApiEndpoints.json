@@ -902,7 +902,7 @@
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "getproduct",
-    "RelativePath": "api/product/getproduct",
+    "RelativePath": "api/ProductManagment/getproduct",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -953,7 +953,7 @@
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "manageproduct",
-    "RelativePath": "api/product/manageproduct",
+    "RelativePath": "api/ProductManagment/manageproduct",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

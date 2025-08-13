@@ -17,7 +17,7 @@ namespace onescreenModel.ProductManagement
         public string? category { get; set; }
         public string? brand_name { get; set; }
         public List<productCategoryModel> lstcategory { get; set; }
-        public List<brandModel>? lstbrand { get; set; }
+        public List<brandModel> lstbrand { get; set; }
     }
 
     public class brandModel : commonModel
