@@ -1496,7 +1496,7 @@
         }
       }
     },
-    "/api/ProductManagment/getproduct": {
+    "/api/product/getproduct": {
       "get": {
         "tags": [
           "ProductManagment"
@@ -1577,7 +1577,7 @@
         }
       }
     },
-    "/api/ProductManagment/manageproduct": {
+    "/api/product/manageproduct": {
       "post": {
         "tags": [
           "ProductManagment"

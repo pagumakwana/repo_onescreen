@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
@@ -17,14 +17,23 @@ import { WebdmediauploadComponent } from '../../../layout_template/webdmediauplo
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
+  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent,SweetAlert2Module],
   templateUrl: './addmodifybanner.component.html',
   styleUrl: './addmodifybanner.component.scss',
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class AddmodifybannerComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  // confirmGoBack() {
+  //   this.deleteSwal.fire();
+  // }
+
+  navigateBack() {
+    this._base._router.navigate(['/app/managebanner']);
+  }
+
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -153,7 +162,7 @@ export class AddmodifybannerComponent {
   //   })
   // }
 
-  getbannerdetails(banner_id:any) {
+  getbannerdetails(banner_id: any) {
     return new Promise((resolve, reject) => {
       this._webDService.getbanner('Details', banner_id).subscribe((resBannerDetails: any) => {
         let bannerMaster = Array.isArray(resBannerDetails.data) ? resBannerDetails.data : [];
@@ -176,8 +185,8 @@ export class AddmodifybannerComponent {
     });
   }
 
-  flagType:any;
-  setbanner(flag:any) {
+  flagType: any;
+  setbanner(flag: any) {
     this.flagType = flag;
     this._base._commonService.markFormGroupTouched(this.fgbanner)
     if (this.fgbanner.valid) {
@@ -223,7 +232,7 @@ export class AddmodifybannerComponent {
     }
   }
 
-  addmodifybanner(flag:any) {
+  addmodifybanner(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._banner.flag = this.banner_id == '0' ? 'NEWBANNER' : 'MODIFYBANNER';
@@ -246,7 +255,7 @@ export class AddmodifybannerComponent {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
                 // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/catalogue/banner']);
+                this._base._router.navigate(['/app/managebanner']);
               });
             }, 1000);
           }
@@ -310,14 +319,14 @@ export class AddmodifybannerComponent {
     });
   }
 
-  getcategorydetails(typemaster_id:any) {
+  getcategorydetails(typemaster_id: any) {
     this._webDService.getcategory('all', typemaster_id).subscribe((rescategoryMaster: any) => {
       this.CategoryMaster = [];
       this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
       this._cdr.detectChanges();
     });
   }
-  onSelectionChange($event:any) {
+  onSelectionChange($event: any) {
     if ($event && $event != null && $event.length > 0) {
       this.isBannerDisable = $event[0].typemaster_id == 0
       let typemaster_id = $event && $event?.length > 0 ? $event[0]?.typemaster_id : 0;

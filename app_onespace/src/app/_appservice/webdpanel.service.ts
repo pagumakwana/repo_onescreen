@@ -607,8 +607,8 @@ public getcommunicatonlogs(flag = 'All', request_id = 0, start_count = 0, end_co
     public manageproduct(_productMaster: productMaster) {
         return this._base._apiService.post(`${ApiConstant.product.manageproduct}`, _productMaster);
     }
-    public getproduct(flag = 'all', product_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getproduct}?flag=${flag}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getproduct(flag = 'all', product_id = 0, brand_id = 0, category_name = 'null', start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getproduct}?flag=${flag}&product_id=${product_id}&brand_id=${brand_id}&category_name=${category_name}&start_count=${start_count}&end_count=${end_count}`);
     }
 
    
