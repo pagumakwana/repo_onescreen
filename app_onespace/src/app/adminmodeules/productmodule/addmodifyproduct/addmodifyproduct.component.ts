@@ -11,11 +11,12 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
+import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
 
 @Component({
   selector: 'app-addmodifyproduct',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
   templateUrl: './addmodifyproduct.component.html',
   styleUrl: './addmodifyproduct.component.scss'
 })
