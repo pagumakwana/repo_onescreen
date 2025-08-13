@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import * as _ from "lodash";
-import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -16,17 +16,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent,SweetAlert2Module],
+  imports: [FormsModule, ReactiveFormsModule,CommonModule, MultiselectComponent],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })
 export class AddmodifycategoryComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
-
-  navigateBack() {
-    this._base._router.navigate(['/app/managecategory']);
-  }
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -196,7 +192,7 @@ export class AddmodifycategoryComponent {
     });
   }
 
-  setcategoryMaster(flag: any) {
+  setcategoryMaster(flag:any) {
     this.flagType = flag;
     this.isLoading$.next(true);
     this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
@@ -242,7 +238,7 @@ export class AddmodifycategoryComponent {
       });
     }
   }
-  addmodifycategoryMaster(flag: any) {
+  addmodifycategoryMaster(flag:any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._categoryMaster.flag = this.isTypeMasterModify ? 'MODIFYCATEGORY' : 'NEWCATEGORY';
@@ -266,7 +262,7 @@ export class AddmodifycategoryComponent {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
                 // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/managecategory']);
+                this._base._router.navigate(['/app/catalogue/category']);
               });
             }, 1000);
           }
@@ -300,7 +296,7 @@ export class AddmodifycategoryComponent {
     });
   }
 
-  onItemSelect($event: any) {
+  onItemSelect($event:any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this.fgcategorymaster.controls['typemaster_id'].setValue($event[0]?.typemaster_id);
       this.fgcategorymaster.controls['typemaster'].setValue($event[0]?.typemaster);
@@ -310,7 +306,7 @@ export class AddmodifycategoryComponent {
     }
   }
 
-  onSelectCat($event: any) {
+  onSelectCat($event:any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this.fgcategorymaster.controls['parent_category_id'].setValue($event[0]?.category_id);
     } else {

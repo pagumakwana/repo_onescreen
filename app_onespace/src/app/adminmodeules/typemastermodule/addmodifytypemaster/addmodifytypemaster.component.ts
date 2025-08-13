@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
@@ -13,7 +13,7 @@ import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor
 @Component({
   selector: 'app-addmodifytypemaster',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, SweetAlert2Module],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent],
   templateUrl: './addmodifytypemaster.component.html',
   styleUrl: './addmodifytypemaster.component.scss'
 })
@@ -21,10 +21,6 @@ export class AddmodifytypemasterComponent {
 
    @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
-
-   navigateBack() {
-    this._base._router.navigate(['/app/managetypemaster']);
-  }	
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -135,7 +131,7 @@ export class AddmodifytypemasterComponent {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
                 // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/managetypemaster']);
+                this._base._router.navigate(['/app/catalogue/typemaster']);
               });
             }, 1000);
           }

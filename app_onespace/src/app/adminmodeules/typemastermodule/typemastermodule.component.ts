@@ -26,10 +26,6 @@ export class TypemastermoduleComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateaddform() {
-    this._base._router.navigate(['/app/managetypemaster/0']);
-  }	
-
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
   private modalRef!: NgbModalRef;
@@ -128,7 +124,7 @@ export class TypemastermoduleComponent {
     this._typeMaster.aliasname = data.aliasname;
     this._typeMaster.typemaster_id = data.typemaster_id;
     if (flag == 'MODIFYTYPEMASTER') {
-      this._base._router.navigate([`/app/managetypemaster/${data.typemaster_id}`]);
+      this._base._router.navigate([`/app/catalogue/typemaster/${btoa(data.typemaster_id)}/${data.aliasname}`]);
     } else if (flag == 'DELETETYPEMASTER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {

@@ -28,11 +28,6 @@ export class BannermoduleComponent {
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
-  
-  navigateaddform() {
-    this._base._router.navigate(['/app/managebanner/0']);
-  }
-
   private modalRef!: NgbModalRef;
   dataTable: any;
   constructor(public _base: BaseServiceHelper,
@@ -133,7 +128,7 @@ export class BannermoduleComponent {
     this._banner.flag = flag;
     this._banner.banner_id = data.banner_id;
     if (flag == 'MODIFYBANNER') {
-      this._base._router.navigate([`/app/managebanner/${data.banner_id}`]);
+      this._base._router.navigate([`/app/catalogue/banner/${data.banner_id}`]);
     } else if (flag == 'DELETEBANNER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {

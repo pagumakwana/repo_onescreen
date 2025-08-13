@@ -17,8 +17,8 @@
               <div class="row mb-6">
                 <div class="col-lg-3 mb-3">
                   <label class="form-label"> Full Name</label>
-                  <input type="text" class="form-control  form-control-solid" id="fullname" name="fullname"
-                    placeholder="Full Name" formControlName="fullname" required>
+                  <input type="text" class="form-control  form-control-solid" id="fullname"
+                    name="fullname" placeholder="Full Name" formControlName="fullname" required>
                   <div
                     *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)"
                     class="text-danger">
@@ -29,8 +29,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Email Address</label>
-                  <input type="text" class="form-control  form-control-solid" id="email_id" name="email_id"
-                    placeholder="Email Address" formControlName="email_id" required>
+                  <input type="text" class="form-control  form-control-solid" id="email_id"
+                    name="email_id" placeholder="Email Address" formControlName="email_id" required>
                   <div
                     *ngIf="fgUser.controls['email_id'].invalid && (fgUser.controls['email_id'].dirty || fgUser.controls['email_id'].touched) "
                     class="text-danger">
@@ -41,8 +41,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Password</label>
-                  <input type="text" class="form-control  form-control-solid" id="password" name="password"
-                    placeholder="******" formControlName="password" required>
+                  <input type="text" class="form-control  form-control-solid" id="password"
+                    name="password" placeholder="******" formControlName="password" required>
                   <div
                     *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched) "
                     class="text-danger">
@@ -53,8 +53,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Mobile</label>
-                  <input type="text" class="form-control  form-control-solid" id="mobilenumber" name="mobilenumber"
-                    placeholder="+91 917287011" formControlName="mobilenumber" required>
+                  <input type="text" class="form-control  form-control-solid" id="mobilenumber"
+                    name="mobilenumber" placeholder="+91 917287011" formControlName="mobilenumber" required>
                   <div
                     *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched) "
                     class="text-danger">
@@ -87,8 +87,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Bio</label>
-                  <input type="text" class="form-control  form-control-solid" id="bio" name="bio" placeholder="Bio"
-                    formControlName="bio">
+                  <input type="text" class="form-control  form-control-solid" id="bio" name="bio"
+                    placeholder="Bio" formControlName="bio">
                   <!-- <div *ngIf="fgUser.controls.bio.invalid && (fgUser.controls.bio.dirty || fgUser.controls.bio.touched) "
                                     class="text-danger">
                                     <ng-container *ngIf="fgUser.controls.bio.errors?.['required']">
@@ -123,11 +123,7 @@
               </div>
               <button type="submit" class="btn btn-primary mb-4" (click)="setUserModel(true)">Submit</button>
               &nbsp;
-              <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
-
-              <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
-                [showConfirmButton]="false">
-              </swal>
+              <button type="submit" class="btn btn-secondary mb-4">Back</button>
             </form>
           </div>
         </div>

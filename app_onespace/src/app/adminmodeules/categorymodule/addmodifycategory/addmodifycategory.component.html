@@ -47,8 +47,8 @@
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Category</label>
-                                    <input type="text" class="form-control" id="category" name="category"
-                                        placeholder="Catagory" formControlName="category" required>
+                                    <input type="text" class="form-control" id="category"
+                                        name="category" placeholder="Catagory" formControlName="category" required>
                                     <div *ngIf="fgcategorymaster.controls['category'].invalid && (fgcategorymaster.controls['category'].dirty || fgcategorymaster.controls['category'].touched)"
                                         class="text-danger">
                                         <ng-container *ngIf="fgcategorymaster.controls.category.errors?.['required']">
@@ -60,8 +60,8 @@
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Display Order</label>
-                                    <input type="text" class="form-control" id="displayorder" name="displayorder"
-                                        placeholder="Catagory" formControlName="displayorder">
+                                    <input type="text" class="form-control" id="displayorder"
+                                        name="displayorder" placeholder="Catagory" formControlName="displayorder">
                                 </div>
                                 <div class="col-lg-4 mb-3 form-check">
                                     <label class="form-label"></label>
@@ -79,14 +79,9 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mb-4"
-                                (click)="setcategoryMaster(true)">Submit</button>
+                            <button type="submit" class="btn btn-primary mb-4" (click)="setcategoryMaster(true)">Submit</button>
                             &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
-
-                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
-                                icon="success" [showConfirmButton]="false">
-                            </swal>
+                            <button type="submit" class="btn btn-secondary mb-4" routerLink="/dashboard">Back</button>
                         </form>
                     </div>
                 </div>

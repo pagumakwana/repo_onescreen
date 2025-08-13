@@ -23,9 +23,6 @@ export class LabelmoduleComponent {
   @ViewChild('deleteSwal')
   public readonly deleteSwal!: SwalComponent;
 
-  navigateaddform() {
-    this._base._router.navigate(['/app/managelabel/0']);
-  }
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
@@ -46,7 +43,7 @@ export class LabelmoduleComponent {
       { identifer: "label", title: "Label Name", type: "text" },
       { identifer: "typemaster", title: "Type Master", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] }, ],
     isCustom: {
       current: 0,
       steps: 10,
@@ -81,7 +78,7 @@ export class LabelmoduleComponent {
       return `${day}/${month}/${year}`;
     };
 
-    const selectedColumns = this.LabelMaster.map((item: any) => {
+    const selectedColumns = this.LabelMaster.map((item:any) => {
       return {
         Date: formatDate(item.createddatetime),
         LabelName: item.label,
@@ -105,10 +102,10 @@ export class LabelmoduleComponent {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getlabelmaster('all', 0, 'null', 0, 'null', 'null', parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
-      this.LabelMaster = resLabel.data;
+    this._webDService.getlabelmaster('all',0,'null',0,'null','null', parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
+      this.LabelMaster = resLabel.data ;
       this.LabelMaster = Array.isArray(resLabel.data) ? resLabel.data : [];
-      if (this.tableConfig?.isCustom) {
+       if (this.tableConfig?.isCustom) {
         this.tableConfig.isCustom.total = resLabel.count;
       }
       this.tableConfig.tableData = this.LabelMaster;
@@ -122,7 +119,7 @@ export class LabelmoduleComponent {
     this._labelMaster.flag = flag;
     this._labelMaster.aliasname = data.aliasname;
     if (flag == 'MODIFYLABEL') {
-      this._base._router.navigate([`/app/managelabel/${data.label_id}`]);
+      this._base._router.navigate([`/app/catalogue/labelmaster/${data.label_id}`]);
     } else if (flag == 'DELETELABEL') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {

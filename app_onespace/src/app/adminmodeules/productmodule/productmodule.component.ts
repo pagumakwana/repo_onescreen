@@ -27,10 +27,6 @@ export class ProductmoduleComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateaddform()
-  {
-    this._base._router.navigate(["app/manageproduct/0"])
-  }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   private modalRef!: NgbModalRef;
   dataTable: any;
@@ -111,7 +107,7 @@ export class ProductmoduleComponent {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getproduct('all', 0, 0,'null',parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
+    this._webDService.getproduct('all', 0, parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
       this.productMaster = resProductMaster.data;
       this.productMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
       if (this.tableConfig?.isCustom) {
@@ -128,7 +124,7 @@ export class ProductmoduleComponent {
     this._productMaster.flag = flag;
     this._productMaster.product_id = data.product_id;
     if (flag == 'MODIFYPRODUCT') {
-      this._base._router.navigate([`/app/manageproduct/${data.product_id}`]);
+      this._base._router.navigate([`/app/product/manageproduct/${data.product_id}`]);
     } else if (flag == 'DELETEPRODUCT') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
