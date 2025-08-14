@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Banner</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="fguserAuthority">
+                            <div class="row mb-6">
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Authority</label>
+                                    <input type="text" class="form-control" id="authority"
+                                    placeholder="Administrator, Forum" formControlName="authority">
+                                    <div *ngIf="fgbanner.controls['authority'].invalid && (fgbanner.controls['authority'].dirty || fgbanner.controls['authority'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgbanner.controls.authority.errors?.['required']">
+                                            authority is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="mb-6">
+                                <div class="mb-12">
+                                    <label class="form-label">Authority Description</label>
+                                    <webd-texteditor [formGroupTextArea]="this.fguserAuthority.controls['textarea']">
+                                    </webd-texteditor>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary mb-4" (click)="setuserAuthority(true)">Submit</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
+
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

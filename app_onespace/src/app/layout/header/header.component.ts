@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 
 @Component({
   selector: 'app-header',
@@ -10,4 +11,12 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
 
+  navigate() {
+    this._base._router.navigate(['/app/profile']);
+  }
+  constructor(
+    public _base: BaseServiceHelper,
+  ){
+
+  }
 }

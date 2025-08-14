@@ -21,6 +21,9 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { CartComponent } from './cart/cart.component';
+import { AddmodifyauthorityComponent } from './adminmodeules/authoritymodule/addmodifyauthority/addmodifyauthority.component';
+import { AuthoritymoduleComponent } from './adminmodeules/authoritymodule/authoritymodule.component';
+import { ProfilemoduleComponent } from './adminmodeules/profilemodule/profilemodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -77,7 +80,7 @@ export const routes: Routes = [
             {
                 path: 'manageuser/:user_id',
                 component: AddmodifyuserComponent,
-                title: 'Manage User',
+                title: 'Add Modify User',
             },
             {
                 path: 'managecategory',
@@ -87,7 +90,7 @@ export const routes: Routes = [
             {
                 path: 'managecategory/:category_id',
                 component: AddmodifycategoryComponent,
-                title: 'Manage Category',
+                title: 'Add Modify Category',
             },
             {
                 path: 'manageproduct',
@@ -97,7 +100,7 @@ export const routes: Routes = [
             {
                 path: 'manageproduct/:product_id',
                 component: AddmodifyproductComponent,
-                title: 'Manage Product',
+                title: 'Add Modify Product',
             },
             {
                 path: 'managebanner',
@@ -107,7 +110,7 @@ export const routes: Routes = [
             {
                 path: 'managebanner/:banner_id',
                 component: AddmodifybannerComponent,
-                title: 'Manage Banner',
+                title: 'Add Modify Banner',
             },
             {
                 path: 'managelabel',
@@ -117,7 +120,7 @@ export const routes: Routes = [
             {
                 path: 'managelabel/:label_id',
                 component: AddmodifylabelComponent,
-                title: 'Manage Label',
+                title: 'Add Modify Label',
             },
             {
                 path: 'managetypemaster',
@@ -127,7 +130,22 @@ export const routes: Routes = [
             {
                 path: 'managetypemaster/:typemaster_id',
                 component: AddmodifytypemasterComponent,
-                title: 'Manage Typemaster',
+                title: 'Add Modify Typemaster',
+            },
+            {
+                path: 'manageauthority',
+                component: AuthoritymoduleComponent,
+                title: 'Manage Authority',
+            },
+            {
+                path: 'manageauthority/:authority_id',
+                component: AddmodifyauthorityComponent,
+                title: 'Add Modify Authority',
+            },
+            {
+                path: 'profile',
+                component: ProfilemoduleComponent,
+                title: 'Profile',
             },
         ]
     },
