@@ -6,7 +6,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { categoryMaster } from '../../_appmodel/_model';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-categorymodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './categorymodule.component.html',
   styleUrl: './categorymodule.component.scss'
 })
@@ -166,6 +166,9 @@ export class CategorymoduleComponent {
                   this.CategoryMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

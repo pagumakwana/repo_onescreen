@@ -17,7 +17,7 @@ import { WebdmediauploadComponent } from '../../../layout_template/webdmediauplo
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent,SweetAlert2Module],
+  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module],
   templateUrl: './addmodifybanner.component.html',
   styleUrl: './addmodifybanner.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -170,7 +170,7 @@ export class AddmodifybannerComponent {
         this.fgbanner.controls['title'].setValue(this._banner.title);
         this.fgbanner.controls['subtitle'].setValue(this._banner.subtitle);
         this.fgbanner.controls['url'].setValue(this._banner.url);
-        // this.fgbanner.controls['textarea'].get('description').setValue(this._banner.description);
+        this.fgbanner.get('textarea.description')?.setValue(this._banner.description);
         this.fgbanner.controls['lstcategory'].setValue(this._banner.lstcategory);
         this.fgbanner.controls['lsttypemaster'].setValue(this._banner.lsttypemaster);
         this.fgbanner.controls['lstlabel'].setValue(this._banner.lstlabel);
@@ -253,10 +253,10 @@ export class AddmodifybannerComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
+              this.successSwal.fire()
+              setTimeout(() => {
                 this._base._router.navigate(['/app/managebanner']);
-              });
+              }, 1500);
             }, 1000);
           }
         });

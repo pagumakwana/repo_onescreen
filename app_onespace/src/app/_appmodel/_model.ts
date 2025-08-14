@@ -1972,3 +1972,29 @@ export interface productMaster {
     }>
 
 }
+
+export interface brandsMaster {
+    flag?: any,
+    brand_id?: any,
+    brand_name?: any,
+    brand_description?: any,
+    isactive?: boolean,
+    thumbnail?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+
+}

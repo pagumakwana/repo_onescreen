@@ -12,11 +12,12 @@ import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifyproduct',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent, SweetAlert2Module],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent, SweetAlert2Module, CommonModule],
   templateUrl: './addmodifyproduct.component.html',
   styleUrl: './addmodifyproduct.component.scss'
 })
@@ -107,7 +108,7 @@ export class AddmodifyproductComponent {
     this.initForm();
     this.product_id = this._activatedRouter.snapshot.paramMap.get('product_id');
     this.getcategory();
-    // this.getbrand();
+    this.getbrand();
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
     }
@@ -147,7 +148,7 @@ export class AddmodifyproductComponent {
         this._productMaster = productMaster[0];
         this.isProductModify = true;
         this.fgproductmaster.controls['product_name'].setValue(this._productMaster.product_name);
-        // this.fgproductmaster.controls['textarea'].get('description').setValue(this._productMaster.product_description);
+        this.fgproductmaster.get('textarea.description')?.setValue(this._productMaster.product_description);
         this.fgproductmaster.controls['lstcategory'].setValue(this._productMaster.lstcategory);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
@@ -208,10 +209,10 @@ export class AddmodifyproductComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
+              this.successSwal.fire()
+              setTimeout(() => {
                 this._base._router.navigate(['/app/manageproduct']);
-              });
+              }, 1500);
             }, 1000);
           }
         });
@@ -231,17 +232,17 @@ export class AddmodifyproductComponent {
     });
   }
 
-  // getbrand() {
-  //   return new Promise((resolve, rejects) => {
-  //     this._webDService.getbrand('all').subscribe((resbrandMaster: any) => {
-  //       this.BrandMaster = [];
-  //       this.BrandMaster = Array.isArray(resbrandMaster.data) ? resbrandMaster.data : [];
-  //       resolve(true)
-  //     }, error => {
-  //       resolve(false)
-  //     })
-  //   });
-  // }
+  getbrand() {
+    return new Promise((resolve, rejects) => {
+      this._webDService.getbrand('all').subscribe((resbrandMaster: any) => {
+        this.BrandMaster = [];
+        this.BrandMaster = Array.isArray(resbrandMaster.data) ? resbrandMaster.data : [];
+        resolve(true)
+      }, error => {
+        resolve(false)
+      })
+    });
+  }
 
   onCategory($event:any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {

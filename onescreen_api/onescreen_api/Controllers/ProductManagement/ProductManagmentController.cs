@@ -53,5 +53,38 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.manageproduct(objproductModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="brand_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getbrand")]
+        [HttpGet]
+        public responseModel getbrand(string flag, Int64 brand_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getbrand(flag, brand_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objbrandModel"></param>
+        /// <returns></returns>
+        [Route("managebrand")]
+        [HttpPost]
+        public string managebrand(brandModel objbrandModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.managebrand(objbrandModel);
+            }
+        }
     }
 }

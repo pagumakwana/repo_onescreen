@@ -901,6 +901,47 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getbrand",
+    "RelativePath": "api/product/getbrand",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "brand_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "getproduct",
     "RelativePath": "api/product/getproduct",
     "HttpMethod": "GET",
@@ -941,6 +982,32 @@
     "ReturnTypes": [
       {
         "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "managebrand",
+    "RelativePath": "api/product/managebrand",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objbrandModel",
+        "Type": "onescreenModel.ProductManagement.brandModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",
