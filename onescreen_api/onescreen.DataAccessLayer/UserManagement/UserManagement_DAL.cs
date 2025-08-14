@@ -227,8 +227,8 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@website", objclsUserManagement.website, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
+                //objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
+                //ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", objclsUserManagement.project_id, DbType.Int64);

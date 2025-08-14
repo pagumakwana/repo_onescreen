@@ -225,6 +225,172 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
+        public responseModel getbrand(string flag, Int64 brand_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@brand_id", brand_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getbrand, ObJParameterCOl, CommandType.StoredProcedure);
+                List<brandModel> lstbrand = new List<brandModel>();
+                List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
+                if (ds != null)
+                {
+                    if (flag == "Details")
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[0].AsEnumerable().Select(Row =>
+                                new fileInfoModel
+                                {
+                                    ref_id = Row.Field<Int64>("ref_id"),
+                                    file_id = Row.Field<Int64>("file_id"),
+                                    filename = Row.Field<string>("filename"),
+                                    filepath = Row.Field<string>("filepath"),
+                                    filetype = Row.Field<string>("filetype"),
+                                    fileextension = Row.Field<string>("fileextension"),
+                                    filesize = Row.Field<Int64>("filesize"),
+                                    fileidentifier = Row.Field<string>("fileidentifier"),
+                                    displayorder = Row.Field<Int64>("displayorder"),
+                                    module = Row.Field<string>("module")
+                                }).ToList();
+                        }
+                    }
+                    if (ds.Tables[flag == "Details" ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstbrand = ds.Tables[flag == "Details" ? 1 : 0].AsEnumerable().Select(Row =>
+                          new brandModel
+                          {
+                              brand_id = Row.Field<Int64>("brand_id"),
+                              brand_name = Row.Field<string>("brand_name"),
+                              brand_description = Row.Field<string>("brand_description"),
+                              thumbnail = Row.Field<string>("thumbnail"),
+                              filemanager = lstFileinfo,
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                    }
+                    if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                    {
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 2 : 1].Rows[0]["RESPONSE"].ToString());
+                    }
+                    response.data = lstbrand;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string managebrand(brandModel objbrandModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objbrandModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@brand_id", objbrandModel.brand_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@brand_name", objbrandModel.brand_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@brand_description", objbrandModel.brand_description, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@thumbnail", objbrandModel.thumbnail, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objbrandModel.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objbrandModel.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objbrandModel.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objbrandModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objbrandModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managebrand, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objbrandModel.flag.Contains("NEWBRAND") || objbrandModel.flag.Contains("MODIFYBRAND"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objbrandModel.brand_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objbrandModel.filemanager != null && objbrandModel.filemanager.Count > 0))
+                            {
+                                objbrandModel.filemanager.ForEach(filemanager =>
+                                {
+                                    filemanager.ref_id = objbrandModel.brand_id;
+                                    filemanager.file_id = filemanager.file_id;
+                                    filemanager.filename = filemanager.filename;
+                                    filemanager.filepath = filemanager.filepath;
+                                    filemanager.filetype = filemanager.filetype;
+                                    filemanager.fileextension = filemanager.fileextension;
+                                    filemanager.filesize = filemanager.filesize;
+                                    filemanager.fileidentifier = filemanager.fileidentifier;
+                                    filemanager.displayorder = filemanager.displayorder;
+                                    filemanager.module = filemanager.module;
+                                    filemanager.project_id = project_id;
+                                    filemanager.createdby = objbrandModel.user_id;
+                                    filemanager.createdname = objbrandModel.createdname;
+                                    filemanager.createddatetime = DateTime.Now;
+                                    filemanager.isactive = true;
+                                    filemanager.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objbrandModel.filemanager);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_BrandFileManagerMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapfilemanager, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+
+                            ResponseMessage = Res[0].ToString();
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose() 
         { 
         }

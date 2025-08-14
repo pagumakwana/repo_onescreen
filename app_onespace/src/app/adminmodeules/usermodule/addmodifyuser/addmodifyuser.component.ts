@@ -11,11 +11,12 @@ import { userModel } from '../../../_appmodel/_model';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifyuser',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,NgbModule, MultiselectComponent,SweetAlert2Module],
+  imports: [FormsModule, ReactiveFormsModule,NgbModule, MultiselectComponent,SweetAlert2Module, CommonModule],
   templateUrl: './addmodifyuser.component.html',
   styleUrl: './addmodifyuser.component.scss'
 })
@@ -178,7 +179,7 @@ export class AddmodifyuserComponent {
         debugger
         this._userModel.flag = this.isUserModify ? 'MODIFYUSER' : 'NEWUSER';
         this._userModel.createdname = fullname;
-        this._userModel.createdby = user_id;
+         this._userModel.createdby = Number(user_id) || 0; 
         this._webDService.useraddmodify(this._userModel).subscribe((response: any) => {
           let isRedirect: boolean = true
           if (response === 'userexists') {
@@ -194,10 +195,10 @@ export class AddmodifyuserComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
+              this.successSwal.fire()
+              setTimeout(() => {
                 this._base._router.navigate(['/app/manageuser']);
-              });
+              }, 1500);
             }, 1000);
           }
         });

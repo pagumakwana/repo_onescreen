@@ -12,11 +12,12 @@ import { categoryMaster, fileChoosenDataModel, fileConfigModel, SaveModuleFileMo
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { CommonModule } from '@angular/common';
+import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent,SweetAlert2Module],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent,SweetAlert2Module,WebdtexteditorComponent],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })
@@ -177,7 +178,7 @@ export class AddmodifycategoryComponent {
         this.fgcategorymaster.controls['category'].setValue(this._categoryMaster.category);
         this.fgcategorymaster.controls['isfeatured'].setValue(this._categoryMaster.isfeatured);
         this.fgcategorymaster.controls['isactive'].setValue(this._categoryMaster.isactive);
-        // this.fgcategorymaster.controls['textarea'].get('description').setValue(this._categoryMaster.description);
+        this.fgcategorymaster.get('textarea.description')?.setValue(this._categoryMaster.description);
         this.fgcategorymaster.controls['aliasname'].setValue(this._categoryMaster.aliasname);
         this.fgcategorymaster.controls['category_id'].setValue(this._categoryMaster.category_id);
         this.fgcategorymaster.controls['parent_category_id'].setValue(this._categoryMaster.parent_category_id);
@@ -264,10 +265,10 @@ export class AddmodifycategoryComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
+              this.successSwal.fire()
+              setTimeout(() => {
                 this._base._router.navigate(['/app/managecategory']);
-              });
+              }, 1500);
             }, 1000);
           }
         });

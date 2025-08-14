@@ -37,6 +37,22 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.manageproduct(objproductModel);
             }
         }
+
+        public responseModel getbrand(string flag, Int64 brand_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getbrand(flag, brand_id, start_count, end_count);
+            }
+        }
+
+        public string managebrand(brandModel objbrandModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.managebrand(objbrandModel);
+            }
+        }
         public void Dispose() 
         { 
         }

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
@@ -12,7 +12,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 @Component({
   selector: 'app-typemastermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './typemastermodule.component.html',
   styleUrl: './typemastermodule.component.scss'
 })
@@ -140,6 +140,9 @@ export class TypemastermoduleComponent {
                   this.TypeMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

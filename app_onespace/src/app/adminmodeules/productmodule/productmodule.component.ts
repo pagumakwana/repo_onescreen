@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
@@ -13,7 +13,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 @Component({
   selector: 'app-productmodule',
   standalone: true,
-  imports: [CommonModule, WebdtableComponent],
+  imports: [CommonModule, WebdtableComponent,SweetAlert2Module],
   templateUrl: './productmodule.component.html',
   styleUrl: './productmodule.component.scss'
 })
@@ -140,6 +140,9 @@ export class ProductmoduleComponent {
                   this.productMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

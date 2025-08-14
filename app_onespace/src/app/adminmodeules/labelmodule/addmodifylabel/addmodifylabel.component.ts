@@ -106,7 +106,7 @@ export class AddmodifylabelComponent {
         this.isLabelModify = true;
         this.fglabelmaster.controls['lsttypemaster'].setValue([{ typemaster: this._labelMaster.typemaster, typemaster_id: parseInt(this._labelMaster.typemaster_id) }]);
         this.fglabelmaster.controls['label'].setValue(this._labelMaster.label);
-        // this.fglabelmaster.controls['textarea'].get('description').setValue(this._labelMaster.description);
+        this.fglabelmaster.get('textarea.description')?.setValue(this._labelMaster.description);
         this.fglabelmaster.controls['aliasname'].setValue(this._labelMaster.aliasname);
         this.fglabelmaster.controls['isactive'].setValue(this._labelMaster.isactive);
         this._labelMaster.typemaster_id = this.fglabelmaster.value.typemaster_id;
@@ -163,10 +163,10 @@ export class AddmodifylabelComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
+              this.successSwal.fire()
+              setTimeout(() => {
                 this._base._router.navigate(['/app/managelabel']);
-              });
+              }, 1500);
             }, 1000);
           }
         });
