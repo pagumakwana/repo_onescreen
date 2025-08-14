@@ -9,8 +9,22 @@
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
-        <li class="pc-item pc-caption">
-          <label>Navigation</label>
+        <li class="pc-item pc-hasmenu">
+          <a class="pc-link">
+            <span class="pc-micon">
+              <i class="ph-duotone ph-gauge"></i>
+            </span>
+            <span class="pc-mtext">Dashboard</span>
+            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            <span class="pc-badge">2</span>
+          </a>
+          <ul class="pc-submenu">
+            <li class="pc-item"><a class="pc-link" href="../dashboard/index.html">Analytics</a></li>
+            <li class="pc-item"><a class="pc-link" href="../dashboard/affiliate.html">Affiliate</a></li>
+            <li class="pc-item"><a class="pc-link" href="../dashboard/finance.html">Finance</a></li>
+            <li class="pc-item"><a class="pc-link" href="../admins/helpdesk-dashboard.html">Helpdesk</a></li>
+            <li class="pc-item"><a class="pc-link" href="../dashboard/invoice.html">Invoice</a></li>
+          </ul>
         </li>
         <ng-container *ngFor="let menu of menuStructure">
           <li class="pc-item" *ngIf="menu.children.length == 0">
@@ -21,7 +35,7 @@
                 <span class="pc-micon">
                   <i class="{{menu.moduleicon}}"></i>
                 </span>
-                <span class="pc-mtext" translate="{{menu.module_identifier}}">{{menu.modulename}}</span>
+                <span class="pc-mtext">{{menu.modulename}}</span>
 
               </a>
             </ng-container>
@@ -32,13 +46,16 @@
                 <span class="pc-micon">
                   <i class="ph-duotone ph-gauge"></i>
                 </span>
-                <span class="pc-mtext" translate="{{menu.module_identifier}}">{{menu.modulename}}</span>
+                <span class="pc-mtext">{{menu.modulename}}</span>
                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
               </a>
               <ul class="pc-submenu">
-                <li class="pc-item" *ngFor="let childmenu of menu.children"><a class="pc-link"
-                    [routerLink]="childmenu.modulerouting" routerLinkActive="active"
-                    translate="{{childmenu.module_identifier}}">{{childmenu.modulename}}</a></li>
+                <ng-container *ngFor="let childmenu of menu.children">
+
+                  <li class="pc-item"><a class="pc-link" [routerLink]="childmenu.modulerouting"
+                      routerLinkActive="active">{{childmenu.modulename}}</a>
+                  </li>
+                </ng-container>
               </ul>
             </li>
           </ng-container>
