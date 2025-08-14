@@ -1,0 +1,167 @@
+<div class="card mb-5 mb-xl-10">
+  <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
+    data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Profile Details</h3>
+    </div>
+  </div>
+  <div id="kt_account_profile_details" class="collapse show">
+    <form [formGroup]="fgUser">
+      <div class="card-body border-top p-9">
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Profile</label>
+          <div class="row mb-6">
+            <webd-mediauploader [fileChoosenData]="fileChoosenData['profilepicture']"
+              [controlObject]="fgUser.controls['profilepicture']" [fileConfig]="this.fileConfig['profilepicture']">
+            </webd-mediauploader>
+          </div>
+          <!-- <div class="col-lg-8">
+                        <div class="image-input image-input-outline" data-kt-image-input="true"
+                            [style.background-image]="'url(./assets/media/avatars/blank.png)'">
+                            <div class="image-input-wrapper w-125px h-125px" [style.background-image]="
+                    'url(./assets/media/avatars/300-1.jpg)'
+                  "></div>
+                        </div>
+                    </div> -->
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6"> Full Name</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input type="text" class="form-control form-control-sm form-control-solid" id="fullname" name="fullname"
+                  placeholder="Full Name" formControlName="fullname" required>
+                <div
+                  *ngIf="fgUser.controls.fullname.invalid && (fgUser.controls.fullname.dirty || fgUser.controls.fullname.touched) ">
+                  <ng-container *ngIf="fgUser.controls.fullname.errors?.['required']">
+                    Full Name is required.
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6">Email Address</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input type="text" class="form-control form-control-sm form-control-solid" id="email_id" name="email_id"
+                  placeholder="Email Address" formControlName="email_id" required>
+                <div
+                  *ngIf="fgUser.controls.email_id.invalid && (fgUser.controls.email_id.dirty || fgUser.controls.email_id.touched) ">
+                  <ng-container *ngIf="fgUser.controls.email_id.errors?.['required']">
+                    Email ID is required.
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Company</label>
+          <div class="col-lg-4 fv-row">
+            <input type="text" class="form-control form-control-sm form-control-solid" placeholder="Company name"
+              name="company" />
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6">Mobile</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input type="text" class="form-control form-control-sm form-control-solid" id="mobilenumber"
+                  name="mobilenumber" placeholder="+91 917287011" formControlName="mobilenumber" required>
+                <div
+                  *ngIf="fgUser.controls.mobilenumber.invalid && (fgUser.controls.mobilenumber.dirty || fgUser.controls.mobilenumber.touched) ">
+                  <ng-container *ngIf="fgUser.controls.mobilenumber.errors?.['required']">
+                    Mobile Number is required.
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">DOB</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <div class="input-group" style="cursor: pointer;">
+                  <input type="text" class="form-control" style="cursor: pointer;" ngbDatepicker
+                    #travellingdate="ngbDatepicker" travellingdate.displayMonths="true" readonly formControlName="dob"
+                    placeholder="dd-mm-yyyy" (click)="travellingdate.toggle()">
+                  <span class="input-group-text" (click)="travellingdate.toggle()">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <!-- <div 
+                                    *ngIf="fgUser.controls.dob.invalid && (fgUser.controls.dob.dirty || fgUser.controls.dob.touched) ">
+                                    <ng-container *ngIf="fgUser.controls.dob.errors?.['required']">
+                                        DOB is required.
+                                    </ng-container>
+
+                                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Bio</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <webd-texteditor [formGroupTextArea]="this.fgUser.controls['textarea']">
+                </webd-texteditor>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Website</label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input type="text" class="form-control form-control-sm form-control-solid" id="website" name="website"
+                  placeholder="Website" formControlName="website">
+                <!-- <div 
+                                    *ngIf="fgUser.controls.website.invalid && (fgUser.controls.website.dirty || fgUser.controls.website.touched) ">
+                                    <ng-container *ngIf="fgUser.controls.website.errors?.['required']">
+                                        Website is required.
+                                    </ng-container>
+
+                                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"><span>
+              Company Site</span></label>
+          <div class="col-lg-4 fv-row">
+            <input type="text" class="form-control form-control-sm form-control-solid" placeholder="Company website"
+              name="website" />
+          </div>
+        </div>
+      </div>
+      <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="button" class="btn btn-primary btn-sm" [disabled]="isLoading" (click)="setUserModel(true)">
+          <ng-container *ngIf="!isLoading">Save Changes</ng-container>
+          <ng-container *ngIf="isLoading">
+            <span clas="indicator-progress" [style.display]="'block'">
+              Please wait...{{ " " }}
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </ng-container>
+        </button>
+      </div>
+      <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+        [customClass]="{confirmButton: 'btn btn-success btn-sm'}">
+      </swal>
+    </form>
+  </div>
+</div>
