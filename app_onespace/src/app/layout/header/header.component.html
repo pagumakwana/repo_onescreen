@@ -9,7 +9,7 @@
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
-      
+
         <li class="pc-item">
           <a routerLink="/home" class="pc-link">
             <span class="pc-micon">
@@ -18,9 +18,9 @@
             <span class="pc-mtext">Home</span>
           </a>
         </li>
-   
+
         <li class="pc-item">
-          
+
           <a routerLink="/aboutus" class="pc-link">
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
@@ -29,7 +29,7 @@
           </a>
         </li>
         <li class="pc-item">
-          
+
           <a routerLink="/contactus" class="pc-link">
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
@@ -38,7 +38,7 @@
           </a>
         </li>
         <li class="pc-item">
-          
+
           <a routerLink="/faqs" class="pc-link">
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
@@ -47,7 +47,7 @@
           </a>
         </li>
         <li class="pc-item">
-          
+
           <a routerLink="/cart" class="pc-link">
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
@@ -72,7 +72,8 @@
           </div>
           <div class="flex-grow-1 ms-3">
             <div class="dropdown">
-              <a href="#" class="arrow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,20">
+              <a href="#" class="arrow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                data-bs-offset="0,20">
                 <div class="d-flex align-items-center">
                   <div class="flex-grow-1 me-2">
                     <h6 class="mb-0">Jonh Smith</h6>
@@ -80,7 +81,7 @@
                   </div>
                   <div class="flex-shrink-0">
                     <div class="btn btn-icon btn-link-secondary avtar">
-                      <i class="ph-duotone ph-windows-logo"></i>    
+                      <i class="ph-duotone ph-windows-logo"></i>
                     </div>
                   </div>
                 </div>
@@ -88,7 +89,7 @@
               <div class="dropdown-menu">
                 <ul>
                   <li>
-                    <a class="pc-user-links" (click)="navigate()">
+                    <a class="pc-user-links">
                       <i class="ph-duotone ph-user"></i>
                       <span>My Account</span>
                     </a>
@@ -104,7 +105,7 @@
                       <i class="ph-duotone ph-lock-key"></i>
                       <span>Lock Screen</span>
                     </a>
-                    </li>
+                  </li>
                   <li>
                     <a class="pc-user-links">
                       <i class="ph-duotone ph-power"></i>
@@ -185,7 +186,44 @@
           </div>
         </li>
 
-        <li class="dropdown pc-h-item">
+        <li class="dropdown pc-h-item" *ngIf="!isLoggedIn">
+          <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
+            data-bs-auto-close="outside">
+            <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+          </a>
+          <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+            <a (click)="login()" class="dropdown-item">
+              <i class="ph-duotone ph-user-circle"></i>
+              <span>Sign In</span>
+            </a>
+          </div>
+        </li>
+
+        <!-- If logged in -->
+        <li class="dropdown pc-h-item" *ngIf="isLoggedIn">
+          <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
+            data-bs-auto-close="outside">
+            <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+          </a>
+          <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+            <a class="dropdown-item" (click)="navigate()">
+              <i class="ph-duotone ph-user"></i> My Account
+            </a>
+            <a href="#!" class="dropdown-item">
+              <i class="ph-duotone ph-gear"></i> Settings
+            </a>
+            <a href="#!" class="dropdown-item">
+              <i class="ph-duotone ph-lifebuoy"></i> Support
+            </a>
+            <a href="#!" class="dropdown-item">
+              <i class="ph-duotone ph-lock-key"></i> Lock Screen
+            </a>
+            <a (click)="logout()" class="dropdown-item">
+              <i class="ph-duotone ph-power"></i> Logout
+            </a>
+          </div>
+        </li>
+        <!-- <li class="dropdown pc-h-item">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
             <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
@@ -212,7 +250,8 @@
               <span>Logout</span>
             </a>
           </div>
-        </li>
+        </li> -->
+        <!-- ================================================================== -->
         <!-- <li class="dropdown pc-h-item">
         <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
           aria-haspopup="false" aria-expanded="false">

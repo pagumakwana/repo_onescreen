@@ -12,10 +12,10 @@ import { AuthService } from './_authservice/auth.service';
 @Component({
   selector: 'app-authmodule',
   standalone: true,
-  imports: [RouterModule,FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './authmodule.component.html',
   styleUrl: './authmodule.component.scss',
-  providers:[AuthService,WebDService,BaseServiceHelper]
+  providers: [AuthService, WebDService, BaseServiceHelper]
 })
 export class AuthmoduleComponent {
   hasError: boolean | undefined;
@@ -74,15 +74,20 @@ export class AuthmoduleComponent {
           this.getUserConfig(user.user_id).then(resUserConfig => {
             this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
               if (res) {
-                this._base._commonService.getauthoritymodule(user.user_id).then((resUserModule: any) => {
-                  let UserModule: any[] = [];
-                  UserModule = Array.isArray(resUserModule) ? resUserModule : [];
-                  setTimeout(() => {
-                    debugger
-                    this._base._router.navigate([UserModule[0].modulerouting]);
-                  }, 500);
+                setTimeout(() => {
+                  this._base._router.navigate(['/home']);
+                  location.reload();
+                }, 500);
+                // this._base._commonService.getauthoritymodule(user.user_id).then((resUserModule: any) => {
+                //   let UserModule: any[] = [];
+                //   UserModule = Array.isArray(resUserModule) ? resUserModule : [];
+                //   setTimeout(() => {
+                //     debugger
+                //     this._base._router.navigate(['/home']);
+                //     // this._base._router.navigate([UserModule[0].modulerouting]);
+                //   }, 500);
 
-                });
+                // });
               }
             })
           }, error => {
