@@ -30,7 +30,7 @@ export const routes: Routes = [
     {
         path: 'auth',
         component: AuthmoduleComponent,
-        title: 'Sing-in',
+        title: 'Sign-in',
     },
     {
         path: '',
