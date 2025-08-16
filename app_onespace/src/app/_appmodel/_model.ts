@@ -1998,3 +1998,43 @@ export interface brandsMaster {
     }>
 
 }
+
+export interface productoptionvalue{
+    option_value_id?: any,
+    option_value?: any,
+    display_order?: any,
+    option_type_id?: any,
+    title?: any,
+    lstoptiontype?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoptiontype{
+    option_type_id: any,
+    title: any,
+    display_order: any,
+    isactive:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoption{
+    option_id: any,
+    option_type_id: any,
+    title: any,
+    product_id: any,
+    product_name: any,
+    lstoptionvalue: any,
+    lstproduct: any,
+    isactive:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}

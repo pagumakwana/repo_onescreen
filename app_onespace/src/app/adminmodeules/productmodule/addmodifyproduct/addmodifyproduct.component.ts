@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-addmodifyproduct',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent, SweetAlert2Module, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module, CommonModule],
   templateUrl: './addmodifyproduct.component.html',
   styleUrl: './addmodifyproduct.component.scss'
 })
@@ -25,8 +25,7 @@ export class AddmodifyproductComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateBack()
-  {
+  navigateBack() {
     this._base._router.navigate(["app/manageproduct"])
   }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
@@ -46,7 +45,7 @@ export class AddmodifyproductComponent {
     this.unsubscribe.push(loadingSubscr);
   }
 
-   public productSubscribe!: Subscription;
+  public productSubscribe!: Subscription;
   _productMaster: productMaster = {};
   product_id: any;
   CategoryMaster: any = [];
@@ -114,34 +113,55 @@ export class AddmodifyproductComponent {
     }
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifyproductmaster(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifyproductmaster(this.flagType);
+    }
+  }
 
-  // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgproductmaster.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
-  //     if (Array.isArray(uploadResponse)) {
-  //       for (let uploadedFile of uploadResponse) {
-  //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
-  //       }
-  //     }
-  //     resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
-  //     if (counter > 1) {
-  //       counter--
-  //       this.saveModuleFile_multi_helper(arrayData, counter, resolveData)
-  //     } else {
-  //       this._productMaster.filemanager = resolveData
-  //       this.addmodifyproductmaster(this.flagType);
-  //     }
-  //   })
-  // }
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
 
-  getproductmaster(product_id:any) {
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgproductmaster.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._productMaster.filemanager = resolveData;
+          this.addmodifyproductmaster(this.flagType);
+        }
+      });
+  }
+
+  getproductmaster(product_id: any) {
     return new Promise((resolve, reject) => {
       this._webDService.getproduct('Details', product_id).subscribe((resproductMaster: any) => {
         let productMaster = Array.isArray(resproductMaster.data) ? resproductMaster.data : [];
@@ -162,7 +182,7 @@ export class AddmodifyproductComponent {
   }
 
   flagType: any;
-  setproductMaster(flag:any) {
+  setproductMaster(flag: any) {
     this.flagType = flag;
     this.isLoading$.next(true);
     this._base._commonService.markFormGroupTouched(this.fgproductmaster)
@@ -176,8 +196,8 @@ export class AddmodifyproductComponent {
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
           this._productMaster.project_id = parseInt(project_id);
-           this.addmodifyproductmaster(this.flagType);
-          // this.saveModuleFile_helper();
+          // this.addmodifyproductmaster(this.flagType);
+          this.saveModuleFile_helper();
         });
       });
     } else {
@@ -188,7 +208,7 @@ export class AddmodifyproductComponent {
     }
   }
 
-  addmodifyproductmaster(flag:any) {
+  addmodifyproductmaster(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._productMaster.flag = this.isProductModify ? 'MODIFYPRODUCT' : 'NEWPRODUCT';
@@ -244,13 +264,13 @@ export class AddmodifyproductComponent {
     });
   }
 
-  onCategory($event:any) {
+  onCategory($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.category_id = $event[0].category_id;
     }
   }
 
-  onBrand($event:any) {
+  onBrand($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.brand_id = $event[0].brand_id;
     }

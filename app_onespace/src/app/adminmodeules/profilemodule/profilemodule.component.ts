@@ -8,7 +8,6 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { fileChoosenDataModel, fileConfigModel, SaveModuleFileModel, userModel } from '../../_appmodel/_model';
 import { enAppSession } from '../../_appmodel/sessionstorage';
-import { AuthService } from '../../authmodule/_authservice/auth.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebdmediauploadComponent } from '../../layout_template/webdmediaupload/webdmediaupload.component';
@@ -17,8 +16,8 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-profilemodule',
   standalone: true,
-  imports: [SweetAlert2Module,CommonModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent, NgbModule, WebdtexteditorComponent],
-  providers:[AuthService,WebDService,BaseServiceHelper],
+  imports: [SweetAlert2Module, CommonModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent, NgbModule, WebdtexteditorComponent],
+  providers: [BaseServiceHelper],
   templateUrl: './profilemodule.component.html',
   styleUrl: './profilemodule.component.scss'
 })
@@ -48,10 +47,7 @@ export class ProfilemoduleComponent {
     public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbUser: FormBuilder,
-    private _activatedRouter: ActivatedRoute,
     private _cdr: ChangeDetectorRef,
-    private router: Router,
-    private auth: AuthService,
 
   ) {
     const current = new Date();
@@ -103,7 +99,7 @@ export class ProfilemoduleComponent {
   }
 
 
-  getUserList(user_id:any) {
+  getUserList(user_id: any) {
     return new Promise((resolve, reject) => {
       this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
         this._webDService.userlist('Detail', user_id).subscribe((resUserListdata: any) => {
@@ -129,33 +125,8 @@ export class ProfilemoduleComponent {
     });
   }
 
-
-
-  // flagType: string = null
-  // setUserModel(flag) {
-  //   this.isLoading$.next(true);
-  //   this.isFormSubmit = false;
-  //   this.flagType = flag;
-  //   if (this.fgUser.valid) {
-  //     let travelldate = this.fgUser.value.dob;
-  //     this._base._commonService.markFormGroupTouched(this.fgUser);
-  //     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-  //       this._userModel.fullname = this.fgUser.value.fullname;
-  //       this._userModel.username = this.fgUser.value.email_id;
-  //       this._userModel.email_id = this.fgUser.value.email_id;
-  //       this._userModel.mobilenumber = this.fgUser.value.mobilenumber;
-  //       this._userModel.password = this.fgUser.value.password;
-  //       this._userModel.dob = `${travelldate.year}-${travelldate.month}-${travelldate.day}`;
-  //       this._userModel.bio = this.fgUser.value.textarea.description;
-  //       this._userModel.website = this.fgUser.value.website;
-  //       this.addmodifyuser(flag);
-  //     });
-  //     this.isFormSubmit = true;
-  //   }
-
-  // }
   flagType: any
-  setUserModel(flag:any) {
+  setUserModel(flag: any) {
     this.flagType = flag;
     this._base._commonService.markFormGroupTouched(this.fgUser);
     debugger
@@ -174,14 +145,14 @@ export class ProfilemoduleComponent {
           this._userModel.client_id = client_id;
           this._userModel.project_id = project_id;
           this._userModel.filemanager = []
-          this.addmodifyuser(flag);
-          // this.saveModuleFile_helper()
+          // this.addmodifyuser(flag);
+          this.saveModuleFile_helper()
         });
       });
     }
   }
 
-  addmodifyuser(flag:any) {
+  addmodifyuser(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._userModel.flag = this.isUserModify ? 'MODIFYUSER' : 'NEWUSER';
@@ -201,7 +172,7 @@ export class ProfilemoduleComponent {
           if (isRedirect && flag) {
             setTimeout(() => {
               this.successSwal.fire().then(() => {
-                this._base._router.navigate(['/app/profile/overview']);
+                this._base._router.navigate(['/app/manageprofile']);
               });
             }, 1000);
           }
@@ -229,18 +200,56 @@ export class ProfilemoduleComponent {
     }
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('profilepicture'))
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifyuser(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('profilepicture'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifyuser(this.flagType);
+    }
+  }
 
-  
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
+
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgUser.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._userModel.filemanager = resolveData;
+          this.addmodifyuser(this.flagType);
+        }
+      });
+  }
+
   // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgUser.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
+  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgUser.controls[arrayData[counter - 1].fileidentifier].value as string | any[] ).then((uploadResponse: Array<any>) => {
   //     if (Array.isArray(uploadResponse)) {
   //       for (let uploadedFile of uploadResponse) {
   //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier

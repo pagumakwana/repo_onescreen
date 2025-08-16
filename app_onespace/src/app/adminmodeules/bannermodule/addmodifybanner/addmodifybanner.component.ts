@@ -13,11 +13,12 @@ import * as _ from "lodash";
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module],
+  imports: [FormsModule,CommonModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module],
   templateUrl: './addmodifybanner.component.html',
   styleUrl: './addmodifybanner.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -135,32 +136,53 @@ export class AddmodifybannerComponent {
     })
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifybanner(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifybanner(this.flagType);
+    }
+  }
 
-  // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgbanner.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
-  //     if (Array.isArray(uploadResponse)) {
-  //       for (let uploadedFile of uploadResponse) {
-  //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
-  //       }
-  //     }
-  //     resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
-  //     if (counter > 1) {
-  //       counter--
-  //       this.saveModuleFile_multi_helper(arrayData, counter, resolveData)
-  //     } else {
-  //       this._banner.filemanager = resolveData
-  //       this.addmodifybanner(this.flagType);
-  //     }
-  //   })
-  // }
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
+
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgbanner.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._banner.filemanager = resolveData;
+          this.addmodifybanner(this.flagType);
+        }
+      });
+  }
 
   getbannerdetails(banner_id: any) {
     return new Promise((resolve, reject) => {
@@ -226,8 +248,8 @@ export class AddmodifybannerComponent {
         this._banner.isactive = this.fgbanner.value.isactive;
         this._banner.project_id = parseInt(project_id);
         this._banner.filemanager = []
-        // this.saveModuleFile_helper()
-        this.addmodifybanner(flag);
+        this.saveModuleFile_helper()
+        // this.addmodifybanner(flag);
       });
     }
   }
