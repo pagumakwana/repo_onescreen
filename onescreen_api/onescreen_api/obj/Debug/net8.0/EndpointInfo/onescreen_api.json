@@ -4432,7 +4432,8 @@
             "nullable": true
           },
           "thirdparty": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "dob": {
             "type": "string",

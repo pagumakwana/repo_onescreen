@@ -10,6 +10,8 @@ import { EncryptedStorage } from './_appservice/encryptedstorage.service';
 import { ScriptLoaderService } from './_appservice/script-loader.service';
 import { PageTitleService } from './_appservice/title.service';
 import { WebDService } from './_appservice/webdpanel.service';
+import { AuthService } from './authmodule/_authservice/auth.service';
+import { AuthGuard } from './authmodule/_authservice/auth.guard';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,8 @@ import { WebDService } from './_appservice/webdpanel.service';
   styleUrl: './app.component.scss',
   providers:[BaseServiceHelper, PageTitleService,
     ApiService,
+    AuthService,
+    AuthGuard,
     WebDService,
     CommonService,
     ScriptLoaderService,

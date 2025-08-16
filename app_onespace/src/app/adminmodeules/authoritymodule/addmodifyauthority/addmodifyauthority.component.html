@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Manage Banner</h5>
+                <h5>Manage Authority</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -13,9 +13,9 @@
                                     <label class="form-label">Authority</label>
                                     <input type="text" class="form-control" id="authority"
                                     placeholder="Administrator, Forum" formControlName="authority">
-                                    <div *ngIf="fgbanner.controls['authority'].invalid && (fgbanner.controls['authority'].dirty || fgbanner.controls['authority'].touched)"
+                                    <div *ngIf="fguserAuthority.controls['authority'].invalid && (fguserAuthority.controls['authority'].dirty || fguserAuthority.controls['authority'].touched)"
                                         class="text-danger">
-                                        <ng-container *ngIf="fgbanner.controls.authority.errors?.['required']">
+                                        <ng-container *ngIf="fguserAuthority.controls.authority.errors?.['required']">
                                             authority is required.
                                         </ng-container>
                                     </div>

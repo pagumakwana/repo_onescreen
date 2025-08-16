@@ -15,7 +15,7 @@
 
         <!--begin::Card footer-->
         <div class="card-footer flex-wrap pt-0">
-          <a [routerLink]="['/app/configuration/authority', role.authority_id]" class="btn btn-light btn-active-primary my-1 me-2">View
+          <a [routerLink]="['/app/manageauthority', role.authority_id]" class="btn btn-light btn-active-primary my-1 me-2">View
             Authority</a>
           <!-- <button type="button" class="btn btn-light btn-active-light-primary my-1" [attr.data-id]="role.authority_id"
             data-action="edit">Edit Authority</button> -->
@@ -33,7 +33,7 @@
             <!--begin::Button-->
             <button (click)="navigateaddform()" class="btn btn-clear d-flex flex-column flex-center" data-action="create">
                 <!--begin::Illustration-->
-                <img src="assets/media/illustrations/sketchy-1/4.png" alt="" class="mw-100 mh-150px mb-7" />
+                <img src="assets/media/4.png" alt="" class="mw-150 mh-500px mb-7" />
                 <!--end::Illustration-->
                 <!--begin::Label-->
                 <div class="fw-bold fs-3 text-gray-600 text-hover-primary">Add New Authority</div>

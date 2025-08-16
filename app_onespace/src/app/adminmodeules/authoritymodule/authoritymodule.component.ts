@@ -7,11 +7,12 @@ import { catchError, finalize, first, map, Observable, of, Subscription } from '
 import { SweetAlertOptions } from 'sweetalert2';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-authoritymodule',
   standalone: true,
-  imports: [SweetAlert2Module],
+  imports: [SweetAlert2Module,CommonModule],
   templateUrl: './authoritymodule.component.html',
   styleUrl: './authoritymodule.component.scss'
 })
@@ -23,6 +24,9 @@ export class AuthoritymoduleComponent {
   AuthorityModule: any = [];
 
 
+  navigate(){
+    this._base._router.navigate(['/app/manageauthority/0']);
+  }
   navigateaddform() {
     this._base._router.navigate(['/app/manageauthority/0']);
   }
