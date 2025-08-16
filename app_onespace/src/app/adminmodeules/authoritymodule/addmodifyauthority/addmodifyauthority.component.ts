@@ -13,11 +13,12 @@ import { WebDService } from '../../../_appservice/webdpanel.service';
 import { userAuthority } from '../../../_appmodel/_model';
 import { dataTableConfig } from '../../../_appmodel/_componentModel';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifyauthority',
   standalone: true,
-  imports: [SweetAlert2Module, WebdtexteditorComponent,FormsModule,ReactiveFormsModule],
+  imports: [SweetAlert2Module, WebdtexteditorComponent,FormsModule,ReactiveFormsModule,CommonModule],
   templateUrl: './addmodifyauthority.component.html',
   styleUrl: './addmodifyauthority.component.scss'
 })

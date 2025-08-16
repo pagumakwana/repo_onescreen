@@ -24,6 +24,10 @@ import { CartComponent } from './cart/cart.component';
 import { AddmodifyauthorityComponent } from './adminmodeules/authoritymodule/addmodifyauthority/addmodifyauthority.component';
 import { AuthoritymoduleComponent } from './adminmodeules/authoritymodule/authoritymodule.component';
 import { ProfilemoduleComponent } from './adminmodeules/profilemodule/profilemodule.component';
+import { ProductComponent } from './product/product.component';
+import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
+import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
+import { AuthGuard } from './authmodule/_authservice/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -60,10 +64,16 @@ export const routes: Routes = [
                 path: 'cart',
                 component: CartComponent,
                 title: 'Cart',
+            },
+            {
+                path: 'product',
+                component: ProductComponent,
+                title: 'Product',
             }]
     },
     {
         path: 'app',
+        // canActivate: [AuthGuard],
         component: AdminmodeulesComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: "full" },
@@ -147,6 +157,16 @@ export const routes: Routes = [
                 component: ProfilemoduleComponent,
                 title: 'Profile',
             },
+            // {
+            //     path: 'managevalues',
+            //     component: ProductoptionvaluesComponent,
+            //     title: 'Manage Optionvalues',
+            // },
+            // {
+            //     path: 'managevalues/:option_value_id',
+            //     component: AddmodifyvaluesComponent,
+            //     title: 'Add Modify Optionvalues',
+            // },
         ]
     },
 ];
