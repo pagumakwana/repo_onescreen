@@ -32,4 +32,18 @@ namespace onescreenModel.ProductManagement
         public Int64 category_id { get; set; }
         public string category { get; set; }
     }
+
+    public class productOptionTypesModel : commonModel
+    {
+        public Int64 option_type_id { get; set; }
+        public string title { get; set; }
+        public Int64 display_order { get; set; }
+    }
+    public class productOptionValuesModel : commonModel
+    {
+        public Int64 option_value_id { get; set; }
+        public Int64 option_type_id { get; set; }
+        public string option_value { get; set; }
+        public Int64 display_order { get; set; }
+    }
 }

@@ -178,6 +178,8 @@ namespace onescreenModel.Common
         public const string getbrand = "[dbo].[getbrand]";
         public const string manageproduct = "[dbo].[manageproduct]";
         public const string managebrand = "[dbo].[managebrand]";
+        public const string manageproductoptiontypes = "[dbo].[manageproductoptiontypes]";
+        public const string manageroductoptionvalues = "[dbo].[manageroductoptionvalues]";
         //END :: PRODUCT
     }
 }

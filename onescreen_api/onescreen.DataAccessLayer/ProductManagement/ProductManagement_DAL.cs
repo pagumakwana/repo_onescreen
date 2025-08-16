@@ -391,6 +391,91 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public string manageproductoptiontypes(productOptionTypesModel objproductOptionTypesModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objproductOptionTypesModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_type_id", objproductOptionTypesModel.option_type_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@title", objproductOptionTypesModel.title, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@display_order", objproductOptionTypesModel.display_order, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objproductOptionTypesModel.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objproductOptionTypesModel.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objproductOptionTypesModel.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objproductOptionTypesModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objproductOptionTypesModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageproductoptiontypes, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                       ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string manageproductoptionvalues(productOptionValuesModel objproductOptionValuesModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objproductOptionValuesModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_value_id", objproductOptionValuesModel.option_value_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_type_id", objproductOptionValuesModel.option_type_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_value", objproductOptionValuesModel.option_value, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@display_order", objproductOptionValuesModel.display_order, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objproductOptionValuesModel.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objproductOptionValuesModel.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objproductOptionValuesModel.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objproductOptionValuesModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objproductOptionValuesModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageroductoptionvalues, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose() 
         { 
         }

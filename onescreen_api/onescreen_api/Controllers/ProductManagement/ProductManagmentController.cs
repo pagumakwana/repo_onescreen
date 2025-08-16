@@ -86,5 +86,35 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.managebrand(objbrandModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objproductOptionTypesModel"></param>
+        /// <returns></returns>
+        [Route("manageproductoptiontypes")]
+        [HttpPost]
+        public string manageproductoptiontypes(productOptionTypesModel objproductOptionTypesModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.manageproductoptiontypes(objproductOptionTypesModel);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objproductOptionValuesModel"></param>
+        /// <returns></returns>
+        [Route("manageproductoptionvalues")]
+        [HttpPost]
+        public string manageproductoptionvalues(productOptionValuesModel objproductOptionValuesModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.manageproductoptionvalues(objproductOptionValuesModel);
+            }
+        }
     }
 }
