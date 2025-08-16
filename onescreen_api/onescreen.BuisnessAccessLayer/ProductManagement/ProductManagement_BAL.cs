@@ -54,11 +54,27 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public responseModel productoptiontypes(string flag, Int64 option_type_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.productoptiontypes(flag, option_type_id, start_count, end_count);
+            }
+        }
+
         public string manageproductoptiontypes(productOptionTypesModel objproductOptionTypesModel)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
                 return objProductManagement_DAL.manageproductoptiontypes(objproductOptionTypesModel);
+            }
+        }
+
+        public responseModel productoptionvalues(string flag, Int64 option_value_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.productoptionvalues(flag, option_value_id, start_count, end_count);
             }
         }
 

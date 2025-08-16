@@ -305,6 +305,7 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
         public string managebrand(brandModel objbrandModel)
         {
             try
@@ -391,6 +392,63 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+
+        public responseModel productoptiontypes(string flag, Int64 option_type_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_type_id", option_type_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getproductoptiontypes, ObJParameterCOl, CommandType.StoredProcedure);
+                List<productOptionTypesModel> lstoptiontype = new List<productOptionTypesModel>();
+                if (ds != null)
+                {
+
+                    lstoptiontype = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new productOptionTypesModel
+                          {
+                              option_type_id = Row.Field<Int64>("option_type_id"),
+                              title = Row.Field<string>("title"),
+                              display_order = Row.Field<Int64>("display_order"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                    }
+                    if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                    {
+                        response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                    }
+                    response.data = lstoptiontype;
+               
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string manageproductoptiontypes(productOptionTypesModel objproductOptionTypesModel)
         {
             try
@@ -432,6 +490,64 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
+        public responseModel productoptionvalues(string flag, Int64 option_value_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_value_id", @option_value_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getproductoptionvalues, ObJParameterCOl, CommandType.StoredProcedure);
+                List<productOptionValuesModel> lstvalue = new List<productOptionValuesModel>();
+                if (ds != null)
+                {
+
+                    lstvalue = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new productOptionValuesModel
+                          {
+                              option_type_id = Row.Field<Int64>("option_type_id"),
+                              option_value_id = Row.Field<Int64>("option_value_id"),
+                              option_value = Row.Field<string>("option_value"),
+                              display_order = Row.Field<Int64>("display_order"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstvalue;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string manageproductoptionvalues(productOptionValuesModel objproductOptionValuesModel)
         {
             try

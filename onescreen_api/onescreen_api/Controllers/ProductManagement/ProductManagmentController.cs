@@ -87,6 +87,16 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+        [Route("productoptiontypes")]
+        [HttpGet]
+        public responseModel productoptiontypes(string flag, Int64 option_type_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.productoptiontypes(flag, option_type_id, start_count, end_count);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -99,6 +109,16 @@ namespace onescreen_api.Controllers.ProductManagement
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
                 return objProductManagement_BAL.manageproductoptiontypes(objproductOptionTypesModel);
+            }
+        }
+
+        [Route("productoptionvalues")]
+        [HttpGet]
+        public responseModel productoptionvalues(string flag, Int64 option_value_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.productoptionvalues(flag, option_value_id, start_count, end_count);
             }
         }
 
