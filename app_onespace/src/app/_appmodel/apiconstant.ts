@@ -204,8 +204,8 @@ export class ApiConstant {
         manageutility: "account/manageutility",
         getjournal: "account/getjournal",
         managejournal: "account/managejournal",
-        manageinvoicetemplate:"account/manageinvoicetemplate",
-        getinvoicetemplate:"account/getinvoicetemplate",
+        manageinvoicetemplate: "account/manageinvoicetemplate",
+        getinvoicetemplate: "account/getinvoicetemplate",
         getheaderflat: "account/getheaderflat",
         updateInvoiceHeaderAmount: "account/updateInvoiceHeaderAmount",
         get_generalreceipt: "account/get_generalreceipt"
@@ -247,7 +247,7 @@ export class ApiConstant {
         getcommunicatonlogs: "Report/getcommunicatonlogs",
         getpendingqueue: "Report/getpendingqueue",
         getactivedeactiveWidget: "Report/getactivedeactiveWidget",
-        getactivesocietyWidget:"Report/getactivesocietyWidget"
+        getactivesocietyWidget: "Report/getactivesocietyWidget"
     }
 
     public static product = {
@@ -257,6 +257,8 @@ export class ApiConstant {
         getproduct: "product/getproduct",
         get_product_enquiry: "product/get_product_enquiry",
         modify_enquiry: "product/modify_enquiry",
-        manage_enquiry: "product/manage_enquiry"
+        manage_enquiry: "product/manage_enquiry",
+        manageproductoptiontypes: "product/manageproductoptiontypes",
+        manageproductoptionvalues: "product/manageproductoptionvalues",
     }
 }
