@@ -3,7 +3,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { Observable } from 'rxjs';
 import { EncryptedStorage } from './encryptedstorage.service';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppSessionService {
     constructor(public _encryptedStorage: EncryptedStorage) { }
     setUserSession(responseData: any, userConfig: any): Observable<any> {

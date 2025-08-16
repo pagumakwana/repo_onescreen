@@ -7,7 +7,7 @@ import { ScriptLoaderService } from './script-loader.service';
 import { Router } from '@angular/router';
 import { EncryptedStorage } from './encryptedstorage.service';
 import { AppSessionService } from './appsession.service';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BaseServiceHelper {
 
     constructor(public _apiService: ApiService,

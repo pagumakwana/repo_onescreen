@@ -4,7 +4,9 @@ import { ApiConstant } from '../_appmodel/apiconstant';
 import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
-@Injectable()
+@Injectable(
+    { providedIn: 'root' }
+)
 export class WebDService {
 
     constructor(private _base: BaseServiceHelper) {

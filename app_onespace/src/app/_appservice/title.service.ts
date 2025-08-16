@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PageTitleService {
     public moduleTitle: string = ''
     public moduleSubTitle: string = ''

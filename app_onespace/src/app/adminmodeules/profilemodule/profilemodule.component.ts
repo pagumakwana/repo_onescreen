@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-profilemodule',
   standalone: true,
   imports: [SweetAlert2Module, CommonModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent, NgbModule, WebdtexteditorComponent],
-  providers: [BaseServiceHelper],
+  providers: [BaseServiceHelper,WebDService],
   templateUrl: './profilemodule.component.html',
   styleUrl: './profilemodule.component.scss'
 })

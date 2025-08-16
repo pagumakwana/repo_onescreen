@@ -12,7 +12,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { EncryptedStorage } from './encryptedstorage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CommonService {
     constructor(public _apiService: ApiService,
         public _encryptedStorage: EncryptedStorage,

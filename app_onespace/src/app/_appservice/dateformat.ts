@@ -2,7 +2,7 @@ import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstra
 import { Injectable } from '@angular/core';
 // import {  parseInt, padNumbe } from '@ng-bootstrap/ng-bootstrap/util/util';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
     parse(value: string): NgbDateStruct | null {
         if (value) {

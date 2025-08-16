@@ -25,8 +25,6 @@ import { AddmodifyauthorityComponent } from './adminmodeules/authoritymodule/add
 import { AuthoritymoduleComponent } from './adminmodeules/authoritymodule/authoritymodule.component';
 import { ProfilemoduleComponent } from './adminmodeules/profilemodule/profilemodule.component';
 import { ProductComponent } from './product/product.component';
-import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
-import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
 import { AuthGuard } from './authmodule/_authservice/auth.guard';
 
 export const routes: Routes = [
@@ -73,7 +71,7 @@ export const routes: Routes = [
     },
     {
         path: 'app',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         component: AdminmodeulesComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: "full" },
