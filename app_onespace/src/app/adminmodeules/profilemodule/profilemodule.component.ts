@@ -13,10 +13,12 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebdmediauploadComponent } from '../../layout_template/webdmediaupload/webdmediaupload.component';
 import { WebdtexteditorComponent } from "../../layout_template/webdtexteditor/webdtexteditor.component";
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-profilemodule',
   standalone: true,
-  imports: [SweetAlert2Module, FormsModule, ReactiveFormsModule, WebdmediauploadComponent, NgbModule, WebdtexteditorComponent],
+  imports: [SweetAlert2Module,CommonModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent, NgbModule, WebdtexteditorComponent],
+  providers:[AuthService,WebDService,BaseServiceHelper],
   templateUrl: './profilemodule.component.html',
   styleUrl: './profilemodule.component.scss'
 })

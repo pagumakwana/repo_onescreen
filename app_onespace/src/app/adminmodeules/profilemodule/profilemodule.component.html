@@ -32,8 +32,8 @@
                 <input type="text" class="form-control form-control-sm form-control-solid" id="fullname" name="fullname"
                   placeholder="Full Name" formControlName="fullname" required>
                 <div
-                  *ngIf="fgUser.controls.fullname.invalid && (fgUser.controls.fullname.dirty || fgUser.controls.fullname.touched) ">
-                  <ng-container *ngIf="fgUser.controls.fullname.errors?.['required']">
+                  *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched) ">
+                  <ng-container *ngIf="fgUser.controls['fullname'].errors?.['required']">
                     Full Name is required.
                   </ng-container>
 
@@ -50,8 +50,8 @@
                 <input type="text" class="form-control form-control-sm form-control-solid" id="email_id" name="email_id"
                   placeholder="Email Address" formControlName="email_id" required>
                 <div
-                  *ngIf="fgUser.controls.email_id.invalid && (fgUser.controls.email_id.dirty || fgUser.controls.email_id.touched) ">
-                  <ng-container *ngIf="fgUser.controls.email_id.errors?.['required']">
+                  *ngIf="fgUser.controls['email_id'].invalid && (fgUser.controls['email_id'].dirty || fgUser.controls['email_id'].touched) ">
+                  <ng-container *ngIf="fgUser.controls['email_id'].errors?.['required']">
                     Email ID is required.
                   </ng-container>
 
@@ -75,8 +75,8 @@
                 <input type="text" class="form-control form-control-sm form-control-solid" id="mobilenumber"
                   name="mobilenumber" placeholder="+91 917287011" formControlName="mobilenumber" required>
                 <div
-                  *ngIf="fgUser.controls.mobilenumber.invalid && (fgUser.controls.mobilenumber.dirty || fgUser.controls.mobilenumber.touched) ">
-                  <ng-container *ngIf="fgUser.controls.mobilenumber.errors?.['required']">
+                  *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched) ">
+                  <ng-container *ngIf="fgUser.controls['mobilenumber'].errors?.['required']">
                     Mobile Number is required.
                   </ng-container>
 

@@ -16,10 +16,10 @@ namespace onescreenModel.UserManagement
         public string fullname { get; set; }
         public string email_id { get; set; }
         public string mobilenumber { get; set; }
-        public string bio { get; set; }
-        public bool thirdparty { get; set; }
-        public string dob { get; set; }
-        public string website { get; set; }
+        public string? bio { get; set; }
+        public bool? thirdparty { get; set; }
+        public string? dob { get; set; }
+        public string? website { get; set; }
         public string? profilepicture { get; set; }
         public Nullable<bool> is_approved { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
