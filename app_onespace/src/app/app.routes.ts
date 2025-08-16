@@ -155,16 +155,16 @@ export const routes: Routes = [
                 component: ProfilemoduleComponent,
                 title: 'Profile',
             },
-            // {
-            //     path: 'managevalues',
-            //     component: ProductoptionvaluesComponent,
-            //     title: 'Manage Optionvalues',
-            // },
-            // {
-            //     path: 'managevalues/:option_value_id',
-            //     component: AddmodifyvaluesComponent,
-            //     title: 'Add Modify Optionvalues',
-            // },
+            {
+                path: 'managevalues',
+                component: ProductoptionvaluesComponent,
+                title: 'Manage Optionvalues',
+            },
+            {
+                path: 'managevalues/:option_value_id',
+                component: AddmodifyvaluesComponent,
+                title: 'Add Modify Optionvalues',
+            },
         ]
     },
 ];
