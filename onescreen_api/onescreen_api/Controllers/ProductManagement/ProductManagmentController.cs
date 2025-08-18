@@ -136,5 +136,20 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.manageproductoptionvalues(objproductOptionValuesModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objproductOptionsModel"></param>
+        /// <returns></returns>
+        [Route("manageproductoptions")]
+        [HttpPost]
+        public string manageproductoptions(productOptionsModel objproductOptionsModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.manageproductoptions(objproductOptionsModel);
+            }
+        }
     }
 }

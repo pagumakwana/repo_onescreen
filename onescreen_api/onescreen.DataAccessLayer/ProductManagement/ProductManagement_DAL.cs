@@ -21,8 +21,8 @@ namespace onescreenDAL.ProductManagement
         public ProductManagement_DAL(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            client_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
-            project_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
+            client_id = 1;// Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
+            project_id = 1;// Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
         }
 
         public responseModel getproduct(string flag, Int64 product_id, Int64 brand_id = 0, string category_name = "", Int64 start_count = 0, Int64 end_count = 0)
@@ -577,6 +577,49 @@ namespace onescreenDAL.ProductManagement
 
                 DBHelper objDbHelper = new DBHelper();
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageroductoptionvalues, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public string manageproductoptions(productOptionsModel objproductOptionsModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objproductOptionsModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_id", objproductOptionsModel.option_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_id", objproductOptionsModel.product_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_type_id", objproductOptionsModel.option_type_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objproductOptionsModel.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objproductOptionsModel.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objproductOptionsModel.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objproductOptionsModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objproductOptionsModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageproductoption, ObJParameterCOl, CommandType.StoredProcedure);
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)

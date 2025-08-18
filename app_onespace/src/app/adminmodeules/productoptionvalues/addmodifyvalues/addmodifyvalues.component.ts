@@ -48,6 +48,7 @@ export class AddmodifyvaluesComponent {
   _optionValue: productoptionvalue = {};
   aliasname: any;
   option_value_id: any;
+  option_type_id: any;
   OptionType: any = [];
   private isvalueModify: boolean = false;
 
@@ -64,9 +65,10 @@ export class AddmodifyvaluesComponent {
   ngOnInit(): void {
     this.initForm();
     this.option_value_id = this._activatedRouter.snapshot.paramMap.get('option_value_id');
-    this.gettypemasterdetails();
-    if (this.aliasname != 'new')
+    this.gettype();
+    if (this.option_value_id != '0') {
       this.getoptionValue(this.option_value_id);
+    }
     setTimeout(() => {
       this._cdr.detectChanges();
     }, 500);
@@ -78,16 +80,16 @@ export class AddmodifyvaluesComponent {
       option_value: [0, [Validators.required]],
       display_order: [''],
       isactive: [true],
-      lstoptiontype: [[]],
+      lstoptiontype: [''],
     })
   }
 
   getoptionValue(option_value_id: any) {
     return new Promise((resolve, reject) => {
-      this._webDService.getlabelmaster('Details', option_value_id, '').subscribe((resLabelMaster: any) => {
-        let labelMaster = Array.isArray(resLabelMaster.data) ? resLabelMaster.data : [];
+      this._webDService.productoptionvalues('all', option_value_id).subscribe((resOptionValue: any) => {
+        let OptionValue = Array.isArray(resOptionValue.data) ? resOptionValue.data : [];
         debugger
-        this._optionValue = labelMaster[0];
+        this._optionValue = OptionValue[0];
         this.isvalueModify = true;
         this.fgoptionvalue.controls['option_value'].setValue(this._optionValue.option_value);
         this.fgoptionvalue.controls['display_order'].setValue(this._optionValue.display_order);
@@ -150,9 +152,9 @@ export class AddmodifyvaluesComponent {
     });
   }
 
-  gettypemasterdetails() {
+  gettype() {
     return new Promise((resolve, reject) => {
-      this._webDService.gettypemaster().subscribe((resOptionType: any) => {
+      this._webDService.productoptiontypes().subscribe((resOptionType: any) => {
         this.OptionType = [];
         this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
         resolve(this.OptionType)

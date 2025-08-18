@@ -258,7 +258,10 @@ export class ApiConstant {
         get_product_enquiry: "product/get_product_enquiry",
         modify_enquiry: "product/modify_enquiry",
         manage_enquiry: "product/manage_enquiry",
+        productoptiontypes: "product/productoptiontypes",
         manageproductoptiontypes: "product/manageproductoptiontypes",
+        productoptionvalues: "product/productoptionvalues",
         manageproductoptionvalues: "product/manageproductoptionvalues",
+        manageproductoptions: "product/manageproductoptions",
     }
 }
