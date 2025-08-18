@@ -33,6 +33,9 @@ export class ProductoptionvaluesComponent {
   @ViewChild('deleteSwal')
   public readonly deleteSwal!: SwalComponent;
 
+  @ViewChild('saveSwal')
+  public readonly saveSwal!: SwalComponent;
+
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
   private unsubscribe: Subscription[] = [];
@@ -87,6 +90,8 @@ export class ProductoptionvaluesComponent {
   public labelSubscribe!: Subscription;
   importFile!: FormData;
   OptionValue: any = [];
+  product_id: any;
+  option_type_id: any;
   _optionValue: productoptionvalue = {};
   _productOption: productoption = {};
   _optionType: productoptiontype = {};
@@ -94,15 +99,15 @@ export class ProductoptionvaluesComponent {
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "label", title: "Label Name", type: "text" },
-      { identifer: "typemaster", title: "Type Master", type: "text" },
-      { identifer: "description", title: "Description", type: "text" },
+      { identifer: "option_value", title: "Value", type: "text" },
+      { identifer: "display_order", title: "Display Order", type: "text" },
+      { identifer: "title", title: "Type Name", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
     isCustom: {
       current: 0,
       steps: 10,
       total: 0,
-      callbackfn: this.getLabelMaster.bind(this)
+      callbackfn: this.getoptionValue.bind(this)
     }
   }
 
@@ -116,8 +121,9 @@ export class ProductoptionvaluesComponent {
 
   ngOnInit(): void {
     this.initForm();
-    this.getLabelMaster();
+    this.getoptionValue();
     this.getproduct();
+    this.gettype();
   }
 
   initForm() {
@@ -130,17 +136,17 @@ export class ProductoptionvaluesComponent {
 
     this.fgoption = this._fb.group({
       option_id: [0],
-      lsttype: [[]],
-      lstproduct: [[]],
+      lsttype: [''],
+      lstproduct: [''],
       isactive: [true],
     });
   }
 
   tableClick(dataItem: tableEvent) {
     if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Edit")) {
-      this.modifylabel(dataItem.tableItem, 'MODIFYLABEL');
+      this.modifylabel(dataItem.tableItem, 'MODIFYOPTIONVALUE');
     } else if (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
-      this.modifylabel(dataItem.tableItem, 'DELETELABEL');
+      this.modifylabel(dataItem.tableItem, 'DELETEOPTIONVALUE');
     }
   }
 
@@ -169,11 +175,11 @@ export class ProductoptionvaluesComponent {
     });
   }
 
-  getLabelMaster() {
+  getoptionValue() {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getlabelmaster('all', 0, 'null', 0, 'null', 'null', parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
+    this._webDService.productoptionvalues('all', 0,parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
       this.OptionValue = resLabel.data;
       this.OptionValue = Array.isArray(resLabel.data) ? resLabel.data : [];
       if (this.tableConfig?.isCustom) {
@@ -188,13 +194,13 @@ export class ProductoptionvaluesComponent {
   modifylabel(data: any, flag: any) {
     this._optionValue = data;
     this._optionValue.flag = flag;
-    if (flag == 'MODIFYLABEL') {
+    if (flag == 'MODIFYOPTIONVALUE') {
       this._base._router.navigate([`/app/managevalues/${data.option_value_id}`]);
-    } else if (flag == 'DELETELABEL') {
+    } else if (flag == 'DELETEOPTIONVALUE') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
           this._optionValue.isactive = false;
-          this._webDService.labelmaster(this._optionValue).subscribe((response: any) => {
+          this._webDService.manageproductoptionvalues(this._optionValue).subscribe((response: any) => {
             if (response == 'deletesuccess') {
               this.OptionValue.filter((res: any, index: number) => {
                 if (res.option_value_id === this._optionValue.option_value_id) {
@@ -253,9 +259,60 @@ export class ProductoptionvaluesComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire()
+              this.saveSwal.fire()
               setTimeout(() => {
                 this._base._router.navigate(['/app/managevalues']);
+                location.reload();
+              }, 1500);
+            }, 1000);
+          }
+        });
+      });
+    });
+  }
+
+  setproductoption(flag: any) {
+    this.isLoading$.next(true);
+    this._base._commonService.markFormGroupTouched(this.fgoption)
+    if (this.fgoption.valid) {
+      this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
+        this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
+          this._productOption.lstproduct = this.fgoption.value.lstproduct;
+          this._productOption.lsttype = this.fgoption.value.lsttype;
+          this._productOption.isactive = this.fgoption.value.isactive;
+          this._productOption.client_id = parseInt(client_id);
+          this._productOption.project_id = parseInt(project_id);
+          this.addmodifyproductoption(flag);
+        });
+      });
+    }
+  }
+
+  addmodifyproductoption(flag: any) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        this._productOption.flag = this.istypeModify ? 'MODIFYPRODUCTOPTION' : 'NEWPRODUCTOPTION';
+        this._productOption.createdname = fullname;
+        this._productOption.user_id = parseInt(user_id);
+        this._webDService.manageproductoptions(this._productOption).subscribe((response: any) => {
+          let isRedirect: boolean = true
+          if (response === 'labelexists') {
+            // Show warning if society already exists
+            // this._base._alertMessageService.warning("Society already exists!");
+            isRedirect = false;
+          }
+
+          setTimeout(() => {
+            this.isLoading$.next(false);
+            this._cdr.detectChanges();
+          }, 1500);
+
+          if (isRedirect && flag) {
+            setTimeout(() => {
+              this.saveSwal.fire()
+              setTimeout(() => {
+                this._base._router.navigate(['/app/managevalues']);
+                location.reload();
               }, 1500);
             }, 1000);
           }
@@ -277,7 +334,7 @@ export class ProductoptionvaluesComponent {
   }
   gettype() {
     return new Promise((resolve, reject) => {
-      this._webDService.getproduct('all').subscribe((resOptionType: any) => {
+      this._webDService.productoptiontypes('all').subscribe((resOptionType: any) => {
         this.OptionType = [];
         this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
         resolve(this.OptionType)
@@ -288,12 +345,12 @@ export class ProductoptionvaluesComponent {
   }
   onItemSelect($event: any) {
     if ($event && $event != null && $event.length > 0) {
-      this.fgoption.controls['product_id'].setValue($event[0].product_id);
+      this.fgoption.get('product_id')?.setValue($event[0].product_id);
     }
   }
   onSelect($event: any) {
     if ($event && $event != null && $event.length > 0) {
-      this.fgtype.controls['option_type_id'].setValue($event[0].option_type_id);
+      this.fgtype.get('option_type_id')?.setValue($event[0].option_type_id);
     }
   }
   clearFormData() {

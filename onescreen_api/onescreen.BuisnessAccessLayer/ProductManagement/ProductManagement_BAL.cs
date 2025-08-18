@@ -18,8 +18,8 @@ namespace onescreenBAL.ProductManagement
         public ProductManagement_BAL(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            client_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
-            project_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
+            client_id = 1;// Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
+            project_id = 1;// Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
         }
 
         public responseModel getproduct(string flag, Int64 product_id, Int64 brand_id = 0, string category_name = "", Int64 start_count = 0, Int64 end_count = 0)
@@ -83,6 +83,14 @@ namespace onescreenBAL.ProductManagement
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
                 return objProductManagement_DAL.manageproductoptionvalues(objproductOptionValuesModel);
+            }
+        }
+
+        public string manageproductoptions(productOptionsModel objproductOptionsModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.manageproductoptions(objproductOptionsModel);
             }
         }
         public void Dispose() 

@@ -46,4 +46,11 @@ namespace onescreenModel.ProductManagement
         public string option_value { get; set; }
         public Int64 display_order { get; set; }
     }
+
+    public class productOptionsModel : commonModel
+    {
+        public Int64 option_id { get; set; }
+        public Int64 option_type_id { get; set; }
+        public Int64 product_id { get; set; }
+    }
 }

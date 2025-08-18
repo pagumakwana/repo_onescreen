@@ -26,6 +26,8 @@ import { AuthoritymoduleComponent } from './adminmodeules/authoritymodule/author
 import { ProfilemoduleComponent } from './adminmodeules/profilemodule/profilemodule.component';
 import { ProductComponent } from './product/product.component';
 import { AuthGuard } from './authmodule/_authservice/auth.guard';
+import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
+import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },

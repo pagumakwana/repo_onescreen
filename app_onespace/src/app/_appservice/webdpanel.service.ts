@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable(
@@ -620,11 +620,21 @@ export class WebDService {
         return this._base._apiService.get(`${ApiConstant.product.getbrand}?flag=${flag}&brand_id=${brand_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
+    public productoptiontypes(flag = 'all', option_type_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.productoptiontypes}?flag=${flag}&option_type_id=${option_type_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
     public manageproductoptiontypes(_optionType: productoptiontype) {
         return this._base._apiService.post(`${ApiConstant.product.manageproductoptiontypes}`, _optionType);
     }
+
+    public productoptionvalues(flag = 'all', option_value_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.productoptionvalues}?flag=${flag}&option_value_id=${option_value_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
     public manageproductoptionvalues(_optionValue: productoptionvalue) {
         return this._base._apiService.post(`${ApiConstant.product.manageproductoptionvalues}`, _optionValue);
+    }
+    public manageproductoptions(_productOption: productoption) {
+        return this._base._apiService.post(`${ApiConstant.product.manageproductoptions}`, _productOption);
     }
 
 
