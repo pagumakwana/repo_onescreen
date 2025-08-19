@@ -46,26 +46,34 @@ export class ProductoptionvaluesComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
+  // modalConfig: NgbModalOptions = {
+  //   modalDialogClass: 'modal-dialog modal-dialog-centered mw-650px',
+  // };
+
   modalConfig: NgbModalOptions = {
-    modalDialogClass: 'modal-dialog modal-dialog-centered mw-650px',
-  };
+    size: 'xl',
+    backdrop: true,
+    centered: true
+  }
   private modalRef!: NgbModalRef;
 
   OptionType: any = [];
   ProductMaster: any = [];
   fgtype!: FormGroup
   fgoption!: FormGroup
-  
+
   private istypeModify: boolean = false;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     private _cdr: ChangeDetectorRef,
     public _fb: FormBuilder,
     // public _fboption: FormBuilder,
-    private modalService: NgbModal,) { const loadingSubscr = this.isLoading$
+    private modalService: NgbModal,) {
+    const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
-    this.unsubscribe.push(loadingSubscr);}
+    this.unsubscribe.push(loadingSubscr);
+  }
 
   public _configProduct: IDropdownSettings = {
     singleSelection: true,
@@ -95,7 +103,8 @@ export class ProductoptionvaluesComponent {
   _optionValue: productoptionvalue = {};
   _productOption: productoption = {};
   _optionType: productoptiontype = {};
-  tableConfig: dataTableConfig = {
+
+  tableConfigoptionvalue: dataTableConfig = {
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
@@ -108,6 +117,36 @@ export class ProductoptionvaluesComponent {
       steps: 10,
       total: 0,
       callbackfn: this.getoptionValue.bind(this)
+    }
+  }
+
+  tableConfigoptiontype: dataTableConfig = {
+    tableData: [],
+    tableConfig: [
+      { identifer: "createddatetime", title: "Date", type: "date" },
+      { identifer: "title", title: "Option Type", type: "text" },
+      { identifer: "display_order", title: "Display Order", type: "text" },
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+    isCustom: {
+      current: 0,
+      steps: 10,
+      total: 0,
+      callbackfn: this.gettype.bind(this)
+    }
+  }
+
+  tableConfigproductoption: dataTableConfig = {
+    tableData: [],
+    tableConfig: [
+      { identifer: "createddatetime", title: "Date", type: "date" },
+      { identifer: "option_type_id", title: "Type Id", type: "text" },
+      { identifer: "product_id", title: "Product Id", type: "text" },
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+    isCustom: {
+      current: 0,
+      steps: 10,
+      total: 0,
+      callbackfn: this.getproduct.bind(this)
     }
   }
 
@@ -176,16 +215,16 @@ export class ProductoptionvaluesComponent {
   }
 
   getoptionValue() {
-    let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
+    let obj = this._base._commonService.getcatalogrange(this.tableConfigoptionvalue?.isCustom?.steps, (this.tableConfigoptionvalue?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.productoptionvalues('all', 0,parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
+    this._webDService.productoptionvalues('all', 0, parseInt(start), parseInt(end)).subscribe((resLabel: any) => {
       this.OptionValue = resLabel.data;
       this.OptionValue = Array.isArray(resLabel.data) ? resLabel.data : [];
-      if (this.tableConfig?.isCustom) {
-        this.tableConfig.isCustom.total = resLabel.count;
+      if (this.tableConfigoptionvalue?.isCustom) {
+        this.tableConfigoptionvalue.isCustom.total = resLabel.count;
       }
-      this.tableConfig.tableData = this.OptionValue;
+      this.tableConfigoptionvalue.tableData = this.OptionValue;
       this.tableObj.initializeTable();
       this._cdr.detectChanges();
     });
@@ -322,22 +361,35 @@ export class ProductoptionvaluesComponent {
   }
 
   getproduct() {
-    return new Promise((resolve, reject) => {
-      this._webDService.getproduct('all').subscribe((resProductMaster: any) => {
-        this.ProductMaster = [];
-        this.ProductMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
-        resolve(this.ProductMaster)
-      }, error => {
-        resolve(false);
-      });
+    let obj = this._base._commonService.getcatalogrange(this.tableConfigoptiontype?.isCustom?.steps, (this.tableConfigoptiontype?.isCustom?.current ?? 0) + 1)
+    let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
+    let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
+    this._webDService.getproduct('all', 0, 0, '', parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
+      this.ProductMaster = resProductMaster.data;
+      this.ProductMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
+      if (this.tableConfigoptionvalue?.isCustom) {
+        this.tableConfigoptionvalue.isCustom.total = resProductMaster.count;
+      }
+      this.tableConfigoptionvalue.tableData = this.ProductMaster;
+      this.tableObj.initializeTable();
+      this._cdr.detectChanges();
     });
   }
   gettype() {
     return new Promise((resolve, reject) => {
+      let obj = this._base._commonService.getcatalogrange(this.tableConfigproductoption?.isCustom?.steps, (this.tableConfigproductoption?.isCustom?.current ?? 0) + 1)
+      let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
+      let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
       this._webDService.productoptiontypes('all').subscribe((resOptionType: any) => {
         this.OptionType = [];
         this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
         resolve(this.OptionType)
+        if (this.tableConfigoptionvalue?.isCustom) {
+          this.tableConfigoptionvalue.isCustom.total = resOptionType.count;
+        }
+        this.tableConfigoptionvalue.tableData = this.OptionType;
+        this.tableObj.initializeTable();
+
       }, error => {
         resolve(false);
       });

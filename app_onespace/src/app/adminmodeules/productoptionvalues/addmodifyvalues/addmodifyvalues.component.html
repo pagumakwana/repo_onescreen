@@ -10,7 +10,7 @@
                         <form [formGroup]="fgoptionvalue">
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
-                                    <label class="form-label">Value</label>
+                                    <label class="form-label">Option Value</label>
                                     <input type="text" class="form-control " id="label" name="label" placeholder="Value"
                                         formControlName="option_value" required>
                                     <div *ngIf="fgoptionvalue.controls['option_value'].invalid && (fgoptionvalue.controls['option_value'].dirty || fgoptionvalue.controls['option_value'].touched)"
