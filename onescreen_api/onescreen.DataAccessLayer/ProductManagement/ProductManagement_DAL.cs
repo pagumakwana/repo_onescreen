@@ -597,36 +597,44 @@ namespace onescreenDAL.ProductManagement
         {
             try
             {
-                string ResponseMessage = "";
-                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@flag", objproductOptionsModel.flag, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@option_id", objproductOptionsModel.option_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@product_id", objproductOptionsModel.product_id, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@option_type_id", objproductOptionsModel.option_type_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@isactive", objproductOptionsModel.isactive, DbType.Boolean);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", objproductOptionsModel.client_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", objproductOptionsModel.project_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@user_id", objproductOptionsModel.user_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@createdname", objproductOptionsModel.createdname, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-
-                DBHelper objDbHelper = new DBHelper();
-                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageproductoption, ObJParameterCOl, CommandType.StoredProcedure);
-                if (ds != null)
+                string ResponseMessage = "success";
+                Int64 product_id = 0;
+                if(objproductOptionsModel.lstproduct.Count > 0)
                 {
-                    if (ds.Tables[0].Rows.Count > 0)
+                    product_id = objproductOptionsModel.lstproduct[0].product_id;
+
+                    objproductOptionsModel.optiontype_list.ForEach(item =>
                     {
-                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
-                    }
+                        item.option_type_id = item.option_type_id;
+                        item.product_id = product_id;
+                        item.client_id = client_id;
+                        item.project_id = project_id;
+                        item.createdby = objproductOptionsModel.user_id;
+                        item.createdname = objproductOptionsModel.createdname;
+                        item.createddatetime = DateTime.Now;
+                        item.isactive = true;
+                        item.isdeleted = false;
+                    });
+                    Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                    DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objproductOptionsModel.optiontype_list);
+                    DBHelper objDbHelperModule = new DBHelper();
+                    string tablename = objDbHelperModule.BulkImport("WebD_ProductOptionMapping", dtfilemanagercategory);
+                    objDbHelperModule = new DBHelper();
+                    DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                    DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                    ObJParameterCOl2.Add(objDBParameter2);
+                    objDbHelperModule.ExecuteNonQuery(Constant.mapfilemanager, ObJParameterCOl2, CommandType.StoredProcedure);
                 }
+
+                //DBHelper objDbHelper = new DBHelper();
+                //DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageproductoption, ObJParameterCOl, CommandType.StoredProcedure);
+                //if (ds != null)
+                //{
+                //    if (ds.Tables[0].Rows.Count > 0)
+                //    {
+                //        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                //    }
+                //}
                 return ResponseMessage;
             }
             catch (Exception ex)

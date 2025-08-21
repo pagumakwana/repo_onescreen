@@ -64,7 +64,6 @@ export class MultiselectComponent implements OnInit {
 
   get listData() {
     for (let item of this.data) {
-      debugger
       item[this.config?.idField!] = item[this.valueField!];
       item[this.config?.textField!] = item[this.textField!];
     }
