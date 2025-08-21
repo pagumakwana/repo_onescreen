@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import _ from 'lodash';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { menuStructure } from '../../../_appmodel/_model';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
+declare var feather: any;
 
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.scss'
 })
-export class AdminSidebarComponent implements OnInit {
+export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef) { }
 
@@ -26,18 +27,61 @@ export class AdminSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.getAuthorityModule();
   }
+  ngAfterViewInit() {
+    feather.replace();
+  }
 
+  ngAfterViewChecked() {
+    feather.replace();
+  }
   getAuthorityModule() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._commonService.getauthoritymodule(user_id).then((resUserModule: any) => {
-        debugger
         this.userModule = [];
         this.userModule = Array.isArray(resUserModule) ? resUserModule : [];
-        this.menuStructure = this.list_to_tree(this.userModule)
-        console.log(this.menuStructure);
+        this.menuStructure = this.list_to_tree(this.userModule);
+        if (this.menuStructure.length > 0)
+          this.menuHtml = this.buildMenu(this.menuStructure);
         this._cdr.detectChanges();
       });
     });
+  }
+  // Build HTML string recursively
+  buildMenu(nodes: any[]): string {
+    debugger
+    let html = '<ul class="pc-navbar">';
+    for (let node of nodes) {
+      const hasChildren = node.children && node.children.length > 0;
+      html += `<li class="pc-item ${hasChildren ? 'pc-hasmenu' : ''}">`;
+      html += `
+        <a class="pc-link">
+          <span class="pc-micon">
+            <i class="ph-duotone ${node.icon || 'ph-gauge'}"></i>
+          </span>
+          <span class="pc-mtext">${node.modulename}</span>
+          ${hasChildren ? `<span class="pc-arrow"><i data-feather="chevron-right"></i></span>` : ''}
+          ${node.badge ? `<span class="pc-badge">${node.badge}</span>` : ''}
+        </a>
+      `;
+
+      if (hasChildren) {
+        html += '<ul class="pc-submenu">';
+        for (let child of node.children) {
+          html += `
+            <li class="pc-item">
+              <a class="pc-link">${child.modulename}</a>
+            </li>
+          `;
+        }
+        html += '</ul>';
+      }
+
+      html += '</li>';
+    }
+    html += '</ul>';
+
+    console.log(html)
+    return html;
   }
 
   generateMenuData(arrayData: any) {
@@ -56,7 +100,7 @@ export class AdminSidebarComponent implements OnInit {
     })
     return index > -1 ? this.userModule[index] : []
   }
-
+  public menuHtml: string = '';
 
   list_to_tree(list: any) {
     let map: { [key: number]: number } = {}, node, roots = [], i;

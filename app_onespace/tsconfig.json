@@ -36,6 +36,7 @@
   },
   "exclude": [
     "node_modules/ng-multiselect-dropdown/*",
-    "node_modules/ckeditor4-angular/*"
+    "node_modules/ckeditor4-angular/*",
+    "node_modules/@ali-hm/angular-tree-component"
   ]
 }

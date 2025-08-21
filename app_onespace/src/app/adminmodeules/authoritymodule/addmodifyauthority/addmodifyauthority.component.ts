@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Config } from 'datatables.net';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,22 +7,23 @@ import { ViewChild } from '@angular/core';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
-import { WebdtableComponent } from '../../../layout_template/webdtable/webdtable.component';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
 import { userAuthority } from '../../../_appmodel/_model';
-import { dataTableConfig } from '../../../_appmodel/_componentModel';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { CommonModule } from '@angular/common';
+import { treeConfig } from '../../../layout_template/webdtreeview/treeview.model';
+import { WebdtreeviewComponent } from '../../../layout_template/webdtreeview/webdtreeview.component';
 
 @Component({
   selector: 'app-addmodifyauthority',
   standalone: true,
-  imports: [SweetAlert2Module, WebdtexteditorComponent,FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [SweetAlert2Module, WebdtexteditorComponent,FormsModule,ReactiveFormsModule,CommonModule,RouterModule,WebdtreeviewComponent],
   templateUrl: './addmodifyauthority.component.html',
-  styleUrl: './addmodifyauthority.component.scss'
+  styleUrl: './addmodifyauthority.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
-export class AddmodifyauthorityComponent {
+export class AddmodifyauthorityComponent implements OnInit{
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
@@ -34,7 +35,7 @@ export class AddmodifyauthorityComponent {
   }
 
   navigateBack() {
-    this._base._router.navigate(['/app/configuration/authority']);
+    this._base._router.navigate(['/app/manageauthority']);
   }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -77,20 +78,21 @@ export class AddmodifyauthorityComponent {
   //   }
   // }
 
-  // treeConfig: treeConfig = {
-  //   childrenField: 'children',
-  //   displayField: 'modulename',
-  //   idField: 'module_id',
-  //   treeData: [],
-  //   selectedNodes: []
-  // }
+  treeConfig: treeConfig = {
+    childrenField: 'children',
+    displayField: 'modulename',
+    idField: 'module_id',
+    treeData: [],
+    selectedNodes: []
+  }
   initform() {
     this.fguserAuthority = this._fbUserAuthority.group({
       authority_id: [0],
       authority: ['', [Validators.required]],
       textarea: this._fbUserAuthority.group({
         description: [''],
-      })
+      }),
+      lstmodule: [[]]
     })
   }
   ngAfterViewInit(): void {
@@ -101,14 +103,14 @@ export class AddmodifyauthorityComponent {
     this.authorityid = this._activatedRouter.snapshot.paramMap.get('authority_id');
     // this.getControls().then((isControl``: boolean) => {
     //   if (isControl) {
-    //     this.getusermodule().then((isMenu: any) => {
-    //       if (isMenu) {
-    //         this.treeConfig.treeData = this._base._commonService.list_to_tree(isMenu, 'module_id', 'module_parent_id');
-    //         if (this.authorityid != '0' && isMenu) {
-    //           this.getAuhtority(this.authorityid);
-    //         }
-    //       }
-    //     });
+        this.getusermodule().then((isMenu: any) => {
+          if (isMenu) {
+            this.treeConfig.treeData = this._base._commonService.list_to_tree(isMenu, 'module_id', 'module_parent_id');
+            if (this.authorityid != '0' && isMenu) {
+              this.getAuhtority(this.authorityid);
+            }
+          }
+        });
     //   }
     // });
 
@@ -117,7 +119,6 @@ export class AddmodifyauthorityComponent {
     return new Promise((resolve, rejects) => {
       this._webDService.getusermodule().subscribe((res: any) => {
         res = Array.isArray(res?.data) && res?.data?.length > 0 ? res?.data : [];
-        this._cdr.detectChanges();
         resolve(res);
       }, error => {
         resolve(false);
@@ -148,29 +149,15 @@ export class AddmodifyauthorityComponent {
   //   this.fguserAuthority.controls.lstcontrol.setValue(this.lstcheckdata);
   // }
 
-  // treeEvent(event) {
-  //   let obj = [];
-  //   event?.checkedObj.filter(res => {
-  //     if (!obj.includes(res.data))
-  //       obj.push(res.data);
-  //   });
-  //   this.fguserAuthority.controls.lstmodule.setValue(obj);
-  // }
+  treeEvent(event:any) {
+    let obj:any = [];
+    event?.checkedObj.filter((res:any) => {
+      if (!obj.includes(res.data))
+        obj.push(res.data);
+    });
+    this.fguserAuthority.controls['lstmodule'].setValue(obj);
+  }
 
-  // getAuhtority(authority_id) {
-  //     this._webDService.getauthority(authority_id, 'DETAILS').subscribe((resuserModulelist: any) => {
-  //         let userModulelist = Array.isArray(resuserModulelist.data) ? resuserModulelist.data : [];
-  //         debugger
-  //         this._userAuthority = userModulelist[0];
-  //         this.isAuthorityModify = true;
-  //         this.fguserAuthority.controls.authority.setValue(this._userAuthority.authority);
-  //         this.fguserAuthority.controls.textarea.get('description').setValue(this._userAuthority.description);
-  //         this.fguserAuthority.controls.authority_id.setValue(this._userAuthority.authority_id);
-  //         this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
-  //         this.fguserAuthority.controls.lstmodule.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
-  //         this.fguserAuthority.controls.lstcontrol.setValue(this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(','));
-  //     });
-  // }
 
   getAuhtority(authority_id:any) {
     this._webDService.getauthority(authority_id, 'DETAILS').subscribe((resuserModulelist: any) => {
@@ -184,9 +171,9 @@ export class AddmodifyauthorityComponent {
         this.fguserAuthority.controls['authority_id'].setValue(this._userAuthority.authority_id);
 
         // Set checked state in treeConfig
-        // this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
-        // this.fguserAuthority.controls.lstmodule.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
-
+        this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
+        this.fguserAuthority.controls['lstmodule']?.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
+        this.fguserAuthority.controls['lstcontrol'].setValue(this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(','));
         // // ** Update checkboxes based on the assigned controls **
         // const assignedControlIds = this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(',');
 
@@ -212,7 +199,6 @@ export class AddmodifyauthorityComponent {
       this._userAuthority.authority = this.fguserAuthority.value.authority;
       this._userAuthority.description = this.fguserAuthority.value.textarea.description;
       this._userAuthority.lstmodule = this.fguserAuthority.value.lstmodule;
-      this._userAuthority.lstcontrol = this.fguserAuthority.value.lstcontrol;
       this._userAuthority.authority_id = this.fguserAuthority.value.authority_id;
       this.addmodifyuserauthority(flag);
     }

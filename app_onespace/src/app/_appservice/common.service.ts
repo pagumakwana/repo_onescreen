@@ -297,28 +297,36 @@ export class CommonService {
         })
         return index > -1 ? object[index] : null
     }
-
-    list_to_tree(listData: Array<any>, idField: string, parentidField: string) {
-        let map: any, node, roots = [], i;
-
-        for (i = 0; i < listData.length; i += 1) {
-            map[listData[i][idField]] = i; // initialize the map
-            listData[i].children = []; // initialize the children
-        }
-
-        for (i = 0; i < listData.length; i += 1) {
-            node = listData[i];
-            if (node[parentidField] !== parseInt("0")) {
-                // if you have dangling branches check that map[node[parentidField]] exists
-                listData[map[node[parentidField]]].children.push(node);
-            } else {
-                roots.push(node);
+    
+    list_to_tree(list: any[], idField = 'id', parentField = 'parent_id') {
+        const map: Record<string, any> = {};
+        const roots: any[] = [];
+      
+        for (const item of list) {
+          const id = item[idField];
+          const parentId = item[parentField];
+      
+          // Ensure entry exists in map
+          if (!map[id]) {
+            map[id] = { ...item, children: [] };
+          } else {
+            map[id] = { ...map[id], ...item };
+          }
+      
+          if (parentId == null || parentId == 0) {
+            roots.push(map[id]); // root node
+          } else {
+            // Ensure parent exists
+            if (!map[parentId]) {
+              map[parentId] = { children: [] };
             }
+            map[parentId].children.push(map[id]); // safe push
+          }
         }
-
+      
         return roots;
-    }
-
+      }
+      
     readonly DELIMITER = '-';
 
     fromModeltoDate(value: string | null): NgbDateStruct | null {

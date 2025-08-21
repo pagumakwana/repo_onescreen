@@ -44,6 +44,36 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Property</label>
+                                    <webd-multiselect [data]="PropertyCategoryMaster" class="col-sm-3 col-form-label"
+                                        textField='category' valueField='category_id'
+                                        [formControl]="fgproductmaster?.controls?.lstpropertycategoryroute"
+                                        placeholder="Select Property" [config]="_configPropertyCategory" (onSelection)="onPropertyCategory($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgproductmaster.controls['lstpropertycategoryroute'].touched && fgproductmaster.controls['lstpropertycategoryroute'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls['lstpropertycategoryroute'].errors?.['required']">
+                                            Property is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Route</label>
+                                    <webd-multiselect [data]="RouteCategoryMaster" class="col-sm-3 col-form-label"
+                                        textField='category' valueField='category_id'
+                                        [formControl]="fgproductmaster?.controls?.lstcategoryroute"
+                                        placeholder="Select Category" [config]="_configRouteCategory" (onSelection)="onRouteCategory($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgproductmaster.controls['lstcategoryroute'].touched && fgproductmaster.controls['lstcategoryroute'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls['lstcategoryroute'].errors?.['required']">
+                                            Route is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3" style="display: none;">
                                     <label class="form-label">Brand Selection</label>
                                     <webd-multiselect [data]="BrandMaster" class="col-sm-3 col-form-label"
                                         textField='brand_name' valueField='brand_id'

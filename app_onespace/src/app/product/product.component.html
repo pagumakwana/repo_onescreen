@@ -41,9 +41,9 @@
                     </webd-multiselect>
                   </div>
                   <div class="col-lg-4 mb-3">
-                    <label class="form-label">No. of Screen</label>
-                    <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
+                    <label class="form-label">Screen/ Product</label>
+                    <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='product_name'
+                      valueField='product_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
                       placeholder="Select Screen" [config]="_screen" (onSelection)="onSelectscreen($event)">
                     </webd-multiselect>
                   </div>

@@ -49,6 +49,8 @@ export class AddmodifyproductComponent {
   _productMaster: productMaster = {};
   product_id: any;
   CategoryMaster: any = [];
+  RouteCategoryMaster: any = [];
+  PropertyCategoryMaster: any = [];
   BrandMaster: any = [];
   private isProductModify: boolean = false;
 
@@ -80,6 +82,28 @@ export class AddmodifyproductComponent {
     allowSearchFilter: true
   };
 
+  public _configRouteCategory: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
+
+  public _configPropertyCategory: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
+
   public _configBrand: IDropdownSettings = {
     singleSelection: true,
     idField: 'brand_id',
@@ -98,6 +122,8 @@ export class AddmodifyproductComponent {
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
       lstbrand: [''],
+      lstcategoryroute: ['', [Validators.required]],
+      lstpropertycategoryroute: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
         description: [''],
       })
@@ -106,7 +132,8 @@ export class AddmodifyproductComponent {
   ngOnInit(): void {
     this.initForm();
     this.product_id = this._activatedRouter.snapshot.paramMap.get('product_id');
-    this.getcategory();
+    this.getcategory('vehicle_type', 0);
+    this.getcategory('selected_area', 0);
     this.getbrand();
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
@@ -165,11 +192,14 @@ export class AddmodifyproductComponent {
     return new Promise((resolve, reject) => {
       this._webDService.getproduct('Details', product_id).subscribe((resproductMaster: any) => {
         let productMaster = Array.isArray(resproductMaster.data) ? resproductMaster.data : [];
+        debugger
         this._productMaster = productMaster[0];
         this.isProductModify = true;
         this.fgproductmaster.controls['product_name'].setValue(this._productMaster.product_name);
         this.fgproductmaster.get('textarea.description')?.setValue(this._productMaster.product_description);
         this.fgproductmaster.controls['lstcategory'].setValue(this._productMaster.lstcategory);
+        this.fgproductmaster.controls['lstcategoryroute'].setValue(this._productMaster.lstcategoryroute);
+        this.fgproductmaster.controls['lstpropertycategoryroute'].setValue(this._productMaster.lstpropertycategoryroute);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
@@ -192,6 +222,8 @@ export class AddmodifyproductComponent {
           this._productMaster.product_name = this.fgproductmaster.value.product_name;
           this._productMaster.product_description = this.fgproductmaster.value.textarea.description;
           this._productMaster.lstcategory = this.fgproductmaster.value.lstcategory;
+          this._productMaster.lstcategoryroute = this.fgproductmaster.value.lstcategoryroute;
+          this._productMaster.lstpropertycategoryroute = this.fgproductmaster.value.lstpropertycategoryroute;
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
@@ -240,11 +272,19 @@ export class AddmodifyproductComponent {
     });
   }
 
-  getcategory() {
+  getcategory(flag: string = 'product_type', parent_id: number = 0) {
     return new Promise((resolve, rejects) => {
-      this._webDService.getcategory('all').subscribe((rescategoryMaster: any) => {
-        this.CategoryMaster = [];
-        this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+      this._webDService.getcategory('all', 0, flag, 0, 'null', false, parent_id).subscribe((rescategoryMaster: any) => {
+        if (flag == 'vehicle_type' && parent_id == 0) {
+          this.CategoryMaster = [];
+          this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        } else if (flag == 'product_type' && parent_id > 0) {
+          this.PropertyCategoryMaster = [];
+          this.PropertyCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        } else if (flag == 'selected_area' && parent_id == 0) {
+          this.RouteCategoryMaster = [];
+          this.RouteCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        }
         resolve(true)
       }, error => {
         resolve(false)
@@ -267,6 +307,17 @@ export class AddmodifyproductComponent {
   onCategory($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.category_id = $event[0].category_id;
+      this.getcategory('product_type', this._productMaster.category_id)
+    }
+  }
+  onRouteCategory($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._productMaster.route_category_id = $event[0].category_id;
+    }
+  }
+  onPropertyCategory($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._productMaster.property_category_id = $event[0].category_id;
     }
   }
 

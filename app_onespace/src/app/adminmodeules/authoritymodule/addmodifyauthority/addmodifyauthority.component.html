@@ -24,6 +24,16 @@
                            
                             <div class="mb-6">
                                 <div class="mb-12">
+                                    <label class="form-label">Authority Module</label>
+                                    <webd-treeview *ngIf="treeConfig?.treeData?.length > 0"
+                                        [treeConfigData]='treeConfig' [control]="fguserAuthority?.controls['lstmodule']"
+                                        (treeEvent)="treeEvent($event)">
+                                    </webd-treeview>
+                                </div>
+                            </div>
+                           
+                            <div class="mb-6">
+                                <div class="mb-12">
                                     <label class="form-label">Authority Description</label>
                                     <webd-texteditor [formGroupTextArea]="this.fguserAuthority.controls['textarea']">
                                     </webd-texteditor>
