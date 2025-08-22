@@ -33,21 +33,21 @@
             <div class="col-md-12">
               <form [formGroup]="fgcategorymaster">
                 <div class="row mb-6">
-                  <div class="col-lg-4 mb-3">
+                  <div class="col-lg-3 mb-3">
                     <label class="form-label">Route</label>
                     <webd-multiselect [data]="RouteMaster" class="col-sm-3 col-form-label" textField='category'
                       valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstroute"
                       placeholder="Select Route" [config]="_route" (onSelection)="onSelectroute($event)">
                     </webd-multiselect>
                   </div>
-                  <div class="col-lg-4 mb-3">
+                  <div class="col-lg-3 mb-3">
                     <label class="form-label">Screen/ Product</label>
                     <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='product_name'
                       valueField='product_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
                       placeholder="Select Screen" [config]="_screen" (onSelection)="onSelectscreen($event)">
                     </webd-multiselect>
                   </div>
-                  <div class="col-lg-4 mb-3">
+                  <div class="col-lg-3 mb-3">
                     <label class="form-label">Time Slot</label>
                     <webd-multiselect [data]="TimeMaster" class="col-sm-3 col-form-label" textField='category'
                       valueField='category_id' [formControl]="fgcategorymaster?.controls?.lsttimeslot"
@@ -55,85 +55,29 @@
                     </webd-multiselect>
                   </div>
                 </div>
-                <div class="row mb-6">
-                  <div class="col-lg-4 mb-3">
-                    <label class="form-label">Screen Interval</label>
-                    <input type="text" class="form-control form-control-sm" id="category" name="category"
-                      placeholder="Screen interval" formControlName="category">
-                  </div>
-                  <div class="col-lg-4 mb-3">
-                    <label class="form-label">From Date</label>
-                    <input type="date" class="form-control form-control-sm form-control-solid" id="from_date"
-                      name="from_date" placeholder="dd-mm-yyyy" formControlName="dob" />
-                  </div>
-                  <div class="col-lg-4 mb-3">
-                    <label class="form-label">To Date</label>
-                    <input type="date" class="form-control form-control-sm form-control-solid" id="to_date"
-                      name="to_date" placeholder="dd-mm-yyyy" formControlName="dob" />
+                <div formArrayName="lstcategoryslab">
+                  <div class="row mb-3" *ngFor="let slab of penaltyArray.controls; let i = index" [formGroupName]="i">
+                     <div class="col-lg-3 mb-3">
+                      <span></span>  <input type="text" class="form-control form-control-sm disabled" placeholder="Screen interval"
+                        formControlName="category">
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                      <input type="text" class="form-control form-control-sm" placeholder="Screen interval"
+                        formControlName="screenInterval">
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                      <input type="date" class="form-control form-control-sm" formControlName="fromDate">
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                      <input type="date" class="form-control form-control-sm" formControlName="toDate">
+                    </div>
                   </div>
                 </div>
+                
               </form>
             </div>
           </div>
         </div>
-        <!-- <ng-container formArray='lstpenaltyslab'>
-          <ng-container [formGroup]='_objPass' *ngFor="let _objPass of penaltyArray?.controls;let i =index">
-            <ng-container data-repeater-list="inner-group">
-              <div class="card-title m-0">
-                <div class="col-md-12 btn_container align_left" data-repeater-create>
-                  <button type="button" class="btn btn-primary btn-sm"
-                    (click)="addremove_penaltyslab(i+1,true,null)">New Slab</button>&nbsp;
-                  <button type="button" class="btn btn-success btn-sm" [disabled]="i==0 && penaltyArray?.length==1"
-                    (click)="addremove_penaltyslab(i,false,null)">Remove</button>
-                </div>
-              </div>
-              <div class="card-body border-top p-9">
-                <div class="row mb-6">
-                  <div class="col-lg-4 fv-row">
-                    <label for="route{{i+1}}" class="col-lg-8 col-form-label fw-bold fs-7">Route</label>
-                    <webd-multiselect id="route{{i+1}}" [data]="CategoryMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstroute"
-                      placeholder="Select Route" [config]="_route" (onSelection)="onSelectroute($event)">
-                    </webd-multiselect>
-                  </div>
-
-                  <div class="col-lg-4 fv-row">
-                    <label for="screen{{i+1}}" class="col-lg-8 col-form-label required fw-bold fs-7">No. of Screen</label>
-                    <webd-multiselect id="route{{i+1}}" [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
-                      placeholder="Select Screen" [config]="_screen" (onSelection)="onSelectscreen($event)">
-                    </webd-multiselect>
-                  </div>
-
-                  <div class="col-lg-4 fv-row">
-                    <label for="timeslot{{i+1}}" class="col-lg-8 col-form-label required fw-bold fs-7">Time Slot</label>
-                    <webd-multiselect [data]="CategoryMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lsttimeslot"
-                      placeholder="Select Timeslot" [config]="_timeslot" (onSelection)="onSelecttimeslot($event)">
-                    </webd-multiselect>
-                  </div>
-
-                  <div class="col-lg-4 fv-row">
-                    <label for="penalty_frequency{{i+1}}" class="col-lg-8 col-form-label required fw-bold fs-">Penalty
-                      Frequency</label>
-                    <select-mul id="penalty_frequency{{i+1}}" [data]="penaltyfrequencyMaster"
-                      class="col-sm-3 col-form-label" textField='category' valueField='category_id'
-                      [formControl]="_objPass?.controls?.lstpenaltyfrequency" placeholder="Select Penalty Frequency"
-                      [config]="_configpenaltyfrequency" required>
-                    </select-mul>
-                    <div
-                      *ngIf="_objPass?.controls?.lstpenaltyfrequency.touched && _objPass.controls.lstpenaltyfrequency.invalid"
-                      style="color: #ed053d;">
-                      <ng-container *ngIf="_objPass?.controls?.lstpenaltyfrequency.errors?.['required']">
-                        penalty frequency is required.
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
-          </ng-container>
-        </ng-container> -->
       </div>
     </div>
     <div class="accordion-item">

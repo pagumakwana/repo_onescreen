@@ -8,11 +8,12 @@ import { MultiselectComponent } from '../layout_template/multiselect/multiselect
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { categoryMaster } from '../_appmodel/_model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, FormsModule],
+  imports: [MultiselectComponent, ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -51,7 +52,7 @@ export class ProductComponent {
     allowSearchFilter: true
   };
   public _timeslot: IDropdownSettings = {
-    singleSelection: true,
+    singleSelection: false,
     idField: 'category_id',
     textField: 'category',
     selectAllText: 'Select All',
@@ -63,7 +64,7 @@ export class ProductComponent {
   ngOnInit(): void {
     this.initform();
     this.getroute();
-   
+
     this.gettimeslot();
   }
 
@@ -73,7 +74,7 @@ export class ProductComponent {
       lstroute: [''],
       lstscreen: [''],
       lsttimeslot: [''],
-      lstcategoryslab: this._fbCategoryMaster .array([]),
+      lstcategoryslab: this._fbCategoryMaster.array([]),
     })
   }
 
@@ -84,8 +85,8 @@ export class ProductComponent {
       this._cdr.detectChanges();
     });
   }
-  getscreen(category_id :number=0) {
-    this._webDService.getproduct('all',0,category_id).subscribe((resProduct: any) => {
+  getscreen(category_id: number = 0) {
+    this._webDService.getproduct('all', 0, category_id).subscribe((resProduct: any) => {
       this.ScreenMaster = resProduct.data;
       this.ScreenMaster = Array.isArray(resProduct.data) ? resProduct.data : [];
       this._cdr.detectChanges();
@@ -112,23 +113,54 @@ export class ProductComponent {
       debugger
       this._categoryRouteMaster.category_id = ($event[0]?.category_id);
       this.getscreen(this._categoryRouteMaster.category_id);
-    } 
+    }
   }
 
   onSelectscreen($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._categoryScreenMaster.category_id = ($event[0]?.category_id);
-    } 
+    }
   }
 
-  onSelecttimeslot($event: any) {
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-      this._categoryTimeMaster.category_id = ($event[0]?.category_id);
-    } 
-  }
+  
 
   get penaltyArray(): FormArray {
     return this.fgcategorymaster.get("lstcategoryslab") as FormArray
+  }
+
+  onSelecttimeslot($event: any) {
+    const formArray = this.penaltyArray;
+
+    const selectedIds = $event.map((slot: any) => slot.category_id);
+
+    selectedIds.forEach((id: number) => {
+      
+        const found = $event.find((x:any) => x.category_id === id);
+
+      const _index = formArray.controls.findIndex(
+        (ctrl) => ctrl.get('timeslot_id')?.value === id
+      );
+      console.log("exists",_index);
+      console.log("$event",$event);
+
+      if (_index < 0) {
+        formArray.push(this.createSlabGroup({ category_id: id,category : found.category}));
+      }else{
+        formArray.removeAt(_index);
+      }
+    });
+
+    console.log("Updated FormArray:", this.fgcategorymaster.value.lstcategoryslab);
+  }
+
+  createSlabGroup(slot: any) {
+    return this._fbCategoryMaster.group({
+      timeslot_id: [slot ? slot.category_id : null],
+      category: [slot ? slot.category : null],
+      screenInterval: [''],
+      fromDate: [''],
+      toDate: ['']
+    });
   }
 
 }
