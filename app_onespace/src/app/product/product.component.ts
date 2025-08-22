@@ -63,7 +63,7 @@ export class ProductComponent {
   ngOnInit(): void {
     this.initform();
     this.getroute();
-    this.getscreen();
+   
     this.gettimeslot();
   }
 
@@ -84,10 +84,10 @@ export class ProductComponent {
       this._cdr.detectChanges();
     });
   }
-  getscreen() {
-    this._webDService.getcategory('all', 0, 'time_slots', 0, 'null', false,this._categoryRouteMaster.category_id, 'null', 0, 0).subscribe((resCategory: any) => {
-      this.ScreenMaster = resCategory.data;
-      this.ScreenMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+  getscreen(category_id :number=0) {
+    this._webDService.getproduct('all',0,category_id).subscribe((resProduct: any) => {
+      this.ScreenMaster = resProduct.data;
+      this.ScreenMaster = Array.isArray(resProduct.data) ? resProduct.data : [];
       this._cdr.detectChanges();
     });
   }
@@ -109,7 +109,9 @@ export class ProductComponent {
 
   onSelectroute($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
+      debugger
       this._categoryRouteMaster.category_id = ($event[0]?.category_id);
+      this.getscreen(this._categoryRouteMaster.category_id);
     } 
   }
 

@@ -53,6 +53,8 @@ namespace onescreenDAL.ProductManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getproduct, ObJParameterCOl, CommandType.StoredProcedure);
                 List<productCategoryModel> lstcategory = new List<productCategoryModel>();
                 List<brandModel> lstbrand = new List<brandModel>();
+                List<productrouteCategoryModel> lstcategoryroute = new List<productrouteCategoryModel>();
+                List<productpropertyCategoryModel> lstpropertycategoryroute = new List<productpropertyCategoryModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 List<productModel> lstproducts = new List<productModel>();
                 if (ds != null)
@@ -79,7 +81,25 @@ namespace onescreenDAL.ProductManagement
                         }
                         if (ds.Tables[2].Rows.Count > 0)
                         {
-                            lstFileinfo = ds.Tables[2].AsEnumerable().Select(Row =>
+                            lstcategoryroute = ds.Tables[2].AsEnumerable().Select(Row =>
+                                new productrouteCategoryModel
+                                {
+                                    category_id = Row.Field<Int64>("category_id"),
+                                    category = Row.Field<string>("category")
+                                }).ToList();
+                        }
+                        if (ds.Tables[3].Rows.Count > 0)
+                        {
+                            lstpropertycategoryroute = ds.Tables[3].AsEnumerable().Select(Row =>
+                                new productpropertyCategoryModel
+                                {
+                                    category_id = Row.Field<Int64>("category_id"),
+                                    category = Row.Field<string>("category")
+                                }).ToList();
+                        }
+                        if (ds.Tables[4].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[4].AsEnumerable().Select(Row =>
                                 new fileInfoModel
                                 {
                                     ref_id = Row.Field<Int64>("ref_id"),
@@ -96,9 +116,9 @@ namespace onescreenDAL.ProductManagement
                         }
 
                     }
-                    if (ds.Tables[flag == "Details" ? 3 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 5 : 0].Rows.Count > 0)
                     {
-                        lstproducts = ds.Tables[flag == "Details" ? 3 : 0].AsEnumerable().Select(Row =>
+                        lstproducts = ds.Tables[flag == "Details" ? 5 : 0].AsEnumerable().Select(Row =>
                           new productModel
                           {
                               product_id = Row.Field<Int64>("product_id"),
@@ -109,7 +129,11 @@ namespace onescreenDAL.ProductManagement
                               thumbnail = Row.Field<string>("thumbnail"),
                               category_id = Row.Field<Int64>("category_id"),
                               category = Row.Field<string>("category"),
+                              route_category_id = Row.Field<Int64>("route_category_id"),
+                              route_category = Row.Field<string>("route_category"),
                               lstcategory = lstcategory,
+                              lstcategoryroute = lstcategoryroute,
+                              lstpropertycategoryroute = lstpropertycategoryroute,
                               lstbrand = lstbrand,
                               filemanager = lstFileinfo,
                               createdby = Row.Field<Int64?>("createdby"),
@@ -122,9 +146,9 @@ namespace onescreenDAL.ProductManagement
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
                     }
-                    if (ds.Tables[flag == "Details" ? 4 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 6 : 1].Rows.Count > 0)
                     {
-                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 4 : 1].Rows[0]["RESPONSE"].ToString());
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 6 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     response.data = lstproducts;
                 }
@@ -152,6 +176,10 @@ namespace onescreenDAL.ProductManagement
                 objDBParameter = new DBParameter("@product_description", objproductModel.product_description, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@category_id", objproductModel.category_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@property_category_id", objproductModel.property_category_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@route_category_id", objproductModel.route_category_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@thumbnail", objproductModel.thumbnail, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);

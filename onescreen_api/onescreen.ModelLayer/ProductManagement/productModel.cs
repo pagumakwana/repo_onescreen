@@ -14,9 +14,15 @@ namespace onescreenModel.ProductManagement
         public string product_name { get; set; }
         public string product_description { get; set; }
         public Int64? category_id { get; set; }
+        public Int64? property_category_id { get; set; }
+        public Int64? route_category_id { get; set; }
         public string? category { get; set; }
+        public string? route_category { get; set; }
+        public string? property_category { get; set; }
         public string? brand_name { get; set; }
         public List<productCategoryModel> lstcategory { get; set; }
+        public List<productrouteCategoryModel> lstcategoryroute { get; set; }
+        public List<productpropertyCategoryModel> lstpropertycategoryroute { get; set; }
         public List<brandModel>? lstbrand { get; set; }
     }
 
@@ -28,6 +34,18 @@ namespace onescreenModel.ProductManagement
     }
 
     public class productCategoryModel
+    {
+        public Int64 category_id { get; set; }
+        public string category { get; set; }
+    }
+
+    public class productrouteCategoryModel
+    {
+        public Int64 category_id { get; set; }
+        public string category { get; set; }
+    }
+
+    public class productpropertyCategoryModel
     {
         public Int64 category_id { get; set; }
         public string category { get; set; }

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { catchError, finalize, first, map, Observable, of, Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-authoritymodule',
   standalone: true,
-  imports: [SweetAlert2Module,CommonModule],
+  imports: [SweetAlert2Module,CommonModule,RouterModule],
   templateUrl: './authoritymodule.component.html',
   styleUrl: './authoritymodule.component.scss'
 })

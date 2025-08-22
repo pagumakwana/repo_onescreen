@@ -77,7 +77,7 @@ export class AddmodifyvaluesComponent {
   initForm() {
     this.fgoptionvalue = this._fboptionvalue.group({
       option_value_id: [''],
-      option_value: [0, [Validators.required]],
+      option_value: ['', [Validators.required]],
       display_order: [''],
       isactive: [true],
       lstoptiontype: [''],

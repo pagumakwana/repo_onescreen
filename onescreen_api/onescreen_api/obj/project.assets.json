@@ -4305,42 +4305,35 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\RAVI OCTAGON\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/pragneshmakwana/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen_api\\onescreen_api.csproj",
+      "projectUniqueName": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/onescreen_api.csproj",
       "projectName": "onescreen_api",
-      "projectPath": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen_api\\onescreen_api.csproj",
-      "packagesPath": "C:\\Users\\RAVI OCTAGON\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen_api\\obj\\",
+      "projectPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/onescreen_api.csproj",
+      "packagesPath": "/Users/pragneshmakwana/.nuget/packages/",
+      "outputPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\RAVI OCTAGON\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/pragneshmakwana/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj": {
-              "projectPath": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj"
+            "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/onescreen.BuisnessAccessLayer.csproj": {
+              "projectPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/onescreen.BuisnessAccessLayer.csproj"
             },
-            "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\onescreen.ModelLayer.csproj": {
-              "projectPath": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\onescreen.ModelLayer.csproj"
+            "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj": {
+              "projectPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj"
             }
           }
         }
@@ -4354,8 +4347,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -4385,7 +4377,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
