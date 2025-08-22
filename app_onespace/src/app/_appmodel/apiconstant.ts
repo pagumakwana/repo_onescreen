@@ -263,5 +263,7 @@ export class ApiConstant {
         productoptionvalues: "product/productoptionvalues",
         manageproductoptionvalues: "product/manageproductoptionvalues",
         manageproductoptions: "product/manageproductoptions",
+        getcoupon: "product/getcoupon",
+        managecoupon: "product/managecoupon",
     }
 }

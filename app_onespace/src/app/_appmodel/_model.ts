@@ -2047,3 +2047,18 @@ export interface productoption{
     user_id?: number,
     createdname?: string
 }
+
+export interface couponModel{
+    flag?: any,
+    coupon_id?: any,
+    coupon_code?: any,
+    discount_value?: any,
+    from_date?: any,
+    to_date?: any,
+    isdisable?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}

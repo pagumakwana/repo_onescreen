@@ -93,6 +93,22 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.manageproductoptions(objproductOptionsModel);
             }
         }
+
+        public responseModel getcoupon(Int64 coupon_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getcoupon(coupon_id, start_count, end_count);
+            }
+        }
+
+        public string managecoupon(couponModel objcouponModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.managecoupon(objcouponModel);
+            }
+        }
         public void Dispose() 
         { 
         }

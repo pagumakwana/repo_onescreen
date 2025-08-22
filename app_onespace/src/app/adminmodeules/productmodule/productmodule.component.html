@@ -5,6 +5,10 @@
     <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
         New Product
     </button>
+    &nbsp;
+    <button (click)="opencouponModal()" class="btn btn-primary btn-sm">
+        Add Coupon
+    </button>
     <!--end::Add user-->
 </div>
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
@@ -17,3 +21,72 @@
 <swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
     [showConfirmButton]="false">
 </swal>
+
+<ng-template #formModal let-modal>
+    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Coupon</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+
+            <div [formGroup]="fgcoupon">
+                <div class="row mb-6">
+                    <div class="col-lg-4 fv-row">
+                        <!-- <label class="form-label">Coupon Code</label> -->
+                        <input type="text" class="form-control form-control-sm" id="coupon_code" name="coupon_code"
+                            placeholder="Coupon Code" formControlName="coupon_code">
+                    </div>
+
+                    <div class="col-lg-4 fv-row">
+                        <!-- <label class="form-label">Discount Value</label> -->
+                        <input type="text" class="form-control form-control-sm" id="discount_value"
+                            name="discount_value" placeholder="Discount Value" formControlName="discount_value">
+                    </div>
+                    <div class="col-lg-4 fv-row">
+                        <!-- <label class="form-label">From Date</label> -->
+                        <input type="date" class="form-control form-control-sm form-control-solid" id="from_date"
+                            name="from_date" placeholder="From Date (dd-mm-yyyy)" formControlName="from_date" />
+                    </div>
+                </div>
+                <br/>
+                <div class="row mb-6">
+
+                    <div class="col-lg-4 fv-row">
+                        <!-- <label class="form-label">To Date</label> -->
+                        <input type="date" class="form-control form-control-sm form-control-solid" id="to_date"
+                            name="to_date" placeholder="To Date (dd-mm-yyyy)" formControlName="to_date" />
+                    </div>
+                    <div class="col-lg-4 fv-row">
+                        <label class="form-check-label text-dark fw-bold me-2">Disable</label>
+                        <div class="form-check form-check-inline form-check-solid m-0">
+                            <input type="checkbox" class="form-check-input" id="isdisable" formControlName="isdisable">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 fv-row">
+                        <label class="form-check-label text-dark fw-bold me-2">Publish</label>
+                        <div class="form-check form-check-inline form-check-solid m-0">
+                            <input type="checkbox" class="form-check-input" id="isactive" formControlName="isactive">
+                        </div>
+                    </div>
+                </div>
+                &nbsp;
+                <div class="col d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary btn-sm" (click)="setcoupon(true)">
+                        Save
+                    </button>
+                </div>
+                <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                    [showConfirmButton]="false">
+                </swal>
+            </div>
+            &nbsp;
+            <webd-table #coupondataTableCom [config]='coupontableConfig'></webd-table>
+        </div>
+    </form>
+</ng-template>

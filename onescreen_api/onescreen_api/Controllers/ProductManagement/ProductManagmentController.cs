@@ -151,5 +151,37 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.manageproductoptions(objproductOptionsModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coupon_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getcoupon")]
+        [HttpGet]
+        public responseModel getcoupon(Int64 coupon_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getcoupon(coupon_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objcouponModel"></param>
+        /// <returns></returns>
+        [Route("managecoupon")]
+        [HttpPost]
+        public string managecoupon(couponModel objcouponModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.managecoupon(objcouponModel);
+            }
+        }
     }
 }
