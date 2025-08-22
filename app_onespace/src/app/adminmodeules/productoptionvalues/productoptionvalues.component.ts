@@ -23,6 +23,8 @@ import { enAppSession } from '../../_appmodel/sessionstorage';
 })
 export class ProductoptionvaluesComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
+  @ViewChild('typedataTableCom', { static: false }) typetableObj!: WebdtableComponent;
+  @ViewChild('optiondataTableCom', { static: false }) optiontableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
 
@@ -361,35 +363,42 @@ export class ProductoptionvaluesComponent {
   }
 
   getproduct() {
-    let obj = this._base._commonService.getcatalogrange(this.tableConfigoptiontype?.isCustom?.steps, (this.tableConfigoptiontype?.isCustom?.current ?? 0) + 1)
+    let obj = this._base._commonService.getcatalogrange(this.tableConfigproductoption?.isCustom?.steps, (this.tableConfigproductoption?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
     this._webDService.getproduct('all', 0, 0, '', parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
       this.ProductMaster = resProductMaster.data;
       this.ProductMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
-      if (this.tableConfigoptionvalue?.isCustom) {
-        this.tableConfigoptionvalue.isCustom.total = resProductMaster.count;
+      if (this.tableConfigproductoption?.isCustom) {
+        this.tableConfigproductoption.isCustom.total = resProductMaster.count;
       }
-      this.tableConfigoptionvalue.tableData = this.ProductMaster;
-      this.tableObj.initializeTable();
+      this.tableConfigproductoption = {
+        ...this.tableConfigproductoption,
+        tableData: [...this.ProductMaster]
+      };
+      // this.optiontableObj.initializeTable();
+      setTimeout(() => this.optiontableObj?.initializeTable());
       this._cdr.detectChanges();
     });
   }
   gettype() {
     return new Promise((resolve, reject) => {
-      let obj = this._base._commonService.getcatalogrange(this.tableConfigproductoption?.isCustom?.steps, (this.tableConfigproductoption?.isCustom?.current ?? 0) + 1)
+      let obj = this._base._commonService.getcatalogrange(this.tableConfigoptiontype?.isCustom?.steps, (this.tableConfigoptiontype?.isCustom?.current ?? 0) + 1)
       let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
       let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
       this._webDService.productoptiontypes('all').subscribe((resOptionType: any) => {
         this.OptionType = [];
         this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
         resolve(this.OptionType)
-        if (this.tableConfigoptionvalue?.isCustom) {
-          this.tableConfigoptionvalue.isCustom.total = resOptionType.count;
+        if (this.tableConfigoptiontype?.isCustom) {
+          this.tableConfigoptiontype.isCustom.total = resOptionType.count;
         }
-        this.tableConfigoptionvalue.tableData = this.OptionType;
-        this.tableObj.initializeTable();
-
+        this.tableConfigoptiontype = {
+          ...this.tableConfigoptiontype,
+          tableData: [...this.OptionType]
+        };
+        // this.typetableObj.initializeTable();
+         setTimeout(() => this.typetableObj?.initializeTable());
       }, error => {
         resolve(false);
       });

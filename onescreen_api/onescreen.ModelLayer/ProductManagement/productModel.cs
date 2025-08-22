@@ -85,4 +85,15 @@ namespace onescreenModel.ProductManagement
         public Int64 product_id { get; set; }
         public string title { get; set; }
     }
+
+    public class couponModel : commonModel
+    {
+        public Int64 coupon_id { get; set; }
+        public string coupon_code { get; set; }
+        public string discount_value { get; set; }
+        public string from_date { get; set; }
+        public string to_date { get; set; }
+        public bool isdisable { get; set; }
+
+    }
 }

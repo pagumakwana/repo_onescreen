@@ -1,24 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
-import { Subscription } from 'rxjs';
-import { productMaster } from '../../_appmodel/_model';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { couponModel, productMaster } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-productmodule',
   standalone: true,
-  imports: [CommonModule, WebdtableComponent,SweetAlert2Module],
+  imports: [CommonModule, WebdtableComponent, SweetAlert2Module, FormsModule, ReactiveFormsModule],
   templateUrl: './productmodule.component.html',
   styleUrl: './productmodule.component.scss'
 })
 export class ProductmoduleComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
+  @ViewChild('coupondataTableCom', { static: false }) coupontableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
   @ViewChild('deleteSwal')
@@ -27,21 +30,49 @@ export class ProductmoduleComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateaddform()
-  {
+  @ViewChild('saveSwal')
+  public readonly saveSwal!: SwalComponent;
+
+  @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+
+  navigateaddform() {
     this._base._router.navigate(["app/manageproduct/0"])
   }
+
+  modalConfig: NgbModalOptions = {
+    size: 'xl',
+    backdrop: true,
+    centered: true
+  }
+
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading!: boolean;
+  private unsubscribe: Subscription[] = [];
+  private iscouponModify: boolean = false;
+
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   private modalRef!: NgbModalRef;
   dataTable: any;
+  fgcoupon!: FormGroup;
+
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
-    private _cdr: ChangeDetectorRef) { }
+    public _fbcoupon: FormBuilder,
+    private _cdr: ChangeDetectorRef,
+    private modalService: NgbModal,) {
+      const loadingSubscr = this.isLoading$
+        .asObservable()
+        .subscribe((res) => (this.isLoading = res));
+    this.unsubscribe.push(loadingSubscr);
+  }
 
   public productSubscribe!: Subscription;
   importFile!: FormData;
   productMaster: any = [];
+  couponMaster: any = [];
   _productMaster: productMaster = {};
+  _couponModel: couponModel = {};
+
   tableConfig: dataTableConfig = {
     tableData: [],
     tableConfig: [
@@ -60,8 +91,40 @@ export class ProductmoduleComponent {
     }
   }
 
+  coupontableConfig: dataTableConfig = {
+    tableData: [],
+    tableConfig: [
+      { identifer: "createddatetime", title: "Date", type: "date" },
+      { identifer: "coupon_code", title: "Coupon Code", type: "text"},
+      { identifer: "discount_value", title: "Discount Value", type: "text" },
+      { identifer: "from_date", title: "From Date", type: "text" },
+      { identifer: "to_date", title: "To Date", type: "text" },
+      { identifer: "isdisable", title: "Is Disable", type: "text" },
+      // { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+    ],
+      isCustom: {
+      current: 0,
+      steps: 10,
+      total: 0,
+      callbackfn: this.getcoupon.bind(this)
+    }
+  }
+
   ngOnInit(): void {
+    this.initForm()
     this.getproductMaster();
+  }
+
+  initForm() {
+    this.fgcoupon = this._fbcoupon.group({
+      coupon_id: [0],
+      coupon_code: [''],
+      discount_value: [''],
+      from_date: [''],
+      to_date: [''],
+      isdisable: [false],
+      isactive: [true],
+    });
   }
 
   tableClick(dataItem: tableEvent) {
@@ -70,6 +133,11 @@ export class ProductmoduleComponent {
     } else if (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
       this.modifyproduct(dataItem.tableItem, 'DELETEPRODUCT');
     }
+  }
+
+  opencouponModal() {
+    this.modalRef = this.modalService.open(this.formModal, this.modalConfig);
+    this.getcoupon();
   }
 
   exportToExcel() {
@@ -111,7 +179,7 @@ export class ProductmoduleComponent {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getproduct('all', 0, 0,'null',parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
+    this._webDService.getproduct('all', 0, 0, 'null', parseInt(start), parseInt(end)).subscribe((resProductMaster: any) => {
       this.productMaster = resProductMaster.data;
       this.productMaster = Array.isArray(resProductMaster.data) ? resProductMaster.data : [];
       if (this.tableConfig?.isCustom) {
@@ -123,7 +191,7 @@ export class ProductmoduleComponent {
     });
   }
 
-  modifyproduct(data:any, flag:any) {
+  modifyproduct(data: any, flag: any) {
     this._productMaster = data;
     this._productMaster.flag = flag;
     this._productMaster.product_id = data.product_id;
@@ -153,6 +221,74 @@ export class ProductmoduleComponent {
       });
     }
   }
+
+  getcoupon() {
+    let obj = this._base._commonService.getcatalogrange(this.coupontableConfig?.isCustom?.steps, (this.coupontableConfig?.isCustom?.current ?? 0) + 1)
+    let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
+    let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
+    this._webDService.getcoupon(0, parseInt(start), parseInt(end)).subscribe((rescouponMaster: any) => {
+      this.couponMaster = rescouponMaster.data;
+      this.couponMaster = Array.isArray(rescouponMaster.data) ? rescouponMaster.data : [];
+      if (this.coupontableConfig?.isCustom) {
+        this.coupontableConfig.isCustom.total = rescouponMaster.count;
+      }
+      this.coupontableConfig.tableData = this.couponMaster;
+      this.coupontableObj.initializeTable();
+      this._cdr.detectChanges();
+    });
+  }
+
+  setcoupon(flag: any) {
+    this.isLoading$.next(true);
+    this._base._commonService.markFormGroupTouched(this.fgcoupon)
+    if (this.fgcoupon.valid) {
+      this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
+        this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
+          this._couponModel.coupon_code = this.fgcoupon.value.coupon_code;
+          this._couponModel.discount_value = this.fgcoupon.value.discount_value;
+          this._couponModel.from_date = this.fgcoupon.value.from_date;
+          this._couponModel.to_date = this.fgcoupon.value.to_date;
+          this._couponModel.isdisable = this.fgcoupon.value.isdisable;
+          this._couponModel.isactive = this.fgcoupon.value.isactive;
+          this._couponModel.client_id = parseInt(client_id);
+          this._couponModel.project_id = parseInt(project_id);
+          this.addmodifycoupon(flag);
+        });
+      });
+    }
+  }
+
+  addmodifycoupon(flag: any) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        this._couponModel.flag = this.iscouponModify ? 'MODIFYCOUPON' : 'NEWCOUPON';
+        this._couponModel.createdname = fullname;
+        this._couponModel.user_id = parseInt(user_id);
+        this._webDService.managecoupon(this._couponModel).subscribe((response: any) => {
+          let isRedirect: boolean = true
+          if (response === 'couponexists') {
+            isRedirect = false;
+          }
+
+          setTimeout(() => {
+            this.isLoading$.next(false);
+            this._cdr.detectChanges();
+          }, 1500);
+
+          if (isRedirect && flag) {
+            setTimeout(() => {
+              this.saveSwal.fire()
+              setTimeout(() => {
+                this._base._router.navigate(['/app/manageproduct']);
+                location.reload();
+              }, 1500);
+            }, 1000);
+          }
+        });
+      });
+    });
+  }
+
 
   clearFormData() {
     this._productMaster = {};
