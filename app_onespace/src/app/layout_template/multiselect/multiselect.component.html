@@ -5,7 +5,7 @@
         <option selected="selected" *ngFor="let obj of listData" value="obj.id" >{{obj.text}}</option>
     </select> -->
     <ng-multiselect-dropdown [placeholder]="placeholder" [settings]="dropdownSettings" [data]="listData"
-        [(ngModel)]="value" [config]="config" name="multiSelect" >
+        [(ngModel)]="value" [config]="config" name="multiSelect"  (onSelect)="onItemSelect($event)"  (onDeSelect)="onItemDeSelect($event)">
     </ng-multiselect-dropdown>
 
     <!-- (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" -->

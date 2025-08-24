@@ -137,6 +137,28 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="option_id"></param>
+        /// <param name="product_id"></param>
+        /// <param name="option_type_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getproductoptions")]
+        [HttpGet]
+        public responseModel getproductoption(string flag, Int64 option_id, Int64 product_id, Int64 option_type_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getproductoption(flag, option_id, product_id, option_type_id, start_count, end_count);
+            }
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

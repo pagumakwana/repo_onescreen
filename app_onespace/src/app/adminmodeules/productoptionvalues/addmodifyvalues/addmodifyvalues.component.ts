@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -15,11 +15,11 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-addmodifyvalues',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, MultiselectComponent, SweetAlert2Module],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, MultiselectComponent, SweetAlert2Module, RouterModule],
   templateUrl: './addmodifyvalues.component.html',
   styleUrl: './addmodifyvalues.component.scss'
 })
-export class AddmodifyvaluesComponent {
+export class AddmodifyvaluesComponent  implements OnInit{
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
@@ -86,9 +86,8 @@ export class AddmodifyvaluesComponent {
 
   getoptionValue(option_value_id: any) {
     return new Promise((resolve, reject) => {
-      this._webDService.productoptionvalues('all', option_value_id).subscribe((resOptionValue: any) => {
+      this._webDService.productoptionvalues('Details', option_value_id).subscribe((resOptionValue: any) => {
         let OptionValue = Array.isArray(resOptionValue.data) ? resOptionValue.data : [];
-        debugger
         this._optionValue = OptionValue[0];
         this.isvalueModify = true;
         this.fgoptionvalue.controls['option_value'].setValue(this._optionValue.option_value);
@@ -164,8 +163,9 @@ export class AddmodifyvaluesComponent {
     });
   }
   onItemSelect($event: any) {
+    console.log("$event[0]",$event[0]);
     if ($event && $event != null && $event.length > 0) {
-      this.fgoptionvalue.controls['option_type_id'].setValue($event[0].option_type_id);
+      this._optionValue.option_type_id = $event[0].option_type_id;
     }
   }
 

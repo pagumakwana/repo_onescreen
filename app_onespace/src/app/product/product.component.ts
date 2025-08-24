@@ -22,16 +22,41 @@ export class ProductComponent {
   _categoryRouteMaster: categoryMaster = {};
   _categoryScreenMaster: categoryMaster = {};
   _categoryTimeMaster: categoryMaster = {};
-  fgcategorymaster!: FormGroup
-  CategoryMaster: any = [];
+  _categoryTypeMaster: categoryMaster = {};
+  _categoryPropertyMaster: categoryMaster = {};
+  fgcategorymaster!: FormGroup;
   ScreenMaster: any = [];
   RouteMaster: any = [];
+  TypeMaster: any = [];
+  PropertyMaster: any = [];
   TimeMaster: any = [];
 
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbCategoryMaster: FormBuilder,
     private _cdr: ChangeDetectorRef) { }
+
+  public _screentype: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
+
+  public _propertytype: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
 
   public _route: IDropdownSettings = {
     singleSelection: true,
@@ -40,7 +65,8 @@ export class ProductComponent {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
   public _screen: IDropdownSettings = {
     singleSelection: true,
@@ -49,7 +75,8 @@ export class ProductComponent {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
   public _timeslot: IDropdownSettings = {
     singleSelection: false,
@@ -63,8 +90,7 @@ export class ProductComponent {
 
   ngOnInit(): void {
     this.initform();
-    this.getroute();
-
+    this.gettypecategory();
     this.gettimeslot();
   }
 
@@ -72,14 +98,17 @@ export class ProductComponent {
     this.fgcategorymaster = this._fbCategoryMaster.group({
       category_id: [0],
       lstroute: [''],
+      lsttype: [''],
+      lstproperty: [''],
       lstscreen: [''],
       lsttimeslot: [''],
       lstcategoryslab: this._fbCategoryMaster.array([]),
+      final_price: ['']
     })
   }
 
-  getroute() {
-    this._webDService.getcategory('all', 0, 'selected_area', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
+  getroute(parent_category_id: number = 0) {
+    this._webDService.getcategory('all', 0, 'selected_area', 0, 'null', false, parent_category_id, 'null', 0, 0).subscribe((resCategory: any) => {
       this.RouteMaster = resCategory.data;
       this.RouteMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
       this._cdr.detectChanges();
@@ -99,68 +128,94 @@ export class ProductComponent {
       this._cdr.detectChanges();
     });
   }
-  getcategory() {
-    this._webDService.getcategory('all', 0, 'null', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
-      this.CategoryMaster = resCategory.data;
-      this.CategoryMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+  gettypecategory() {
+    this._webDService.getcategory('all', 0, 'vehicle_type', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
+      this.TypeMaster = resCategory.data;
+      this.TypeMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+      this._cdr.detectChanges();
+    });
+  }
+  getpropertycategory(parent_category_id: number) {
+    this._webDService.getcategory('all', 0, 'product_type', 0, 'null', false, parent_category_id, 'null', 0, 0).subscribe((resCategory: any) => {
+      this.PropertyMaster = resCategory.data;
+      this.PropertyMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
       this._cdr.detectChanges();
     });
   }
 
 
+  onSelecttype($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._categoryTypeMaster.category_id = ($event[0]?.category_id);
+      this._categoryTypeMaster.category = ($event[0]?.category);
+      this.getpropertycategory(this._categoryTypeMaster.category_id);
+    }
+  }
+  onSelectproperty($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._categoryPropertyMaster.category_id = ($event[0]?.category_id);
+      this._categoryPropertyMaster.category = ($event[0]?.category);
+      this.getroute(this._categoryPropertyMaster.category_id);
+    }
+  }
   onSelectroute($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
-      debugger
       this._categoryRouteMaster.category_id = ($event[0]?.category_id);
+      this._categoryRouteMaster.category = ($event[0]?.category);
       this.getscreen(this._categoryRouteMaster.category_id);
     }
   }
 
   onSelectscreen($event: any) {
+    console.log("$event", $event)
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._categoryScreenMaster.category_id = ($event[0]?.category_id);
+      this._categoryScreenMaster.category = ($event[0]?.category);
     }
   }
 
-  
-
-  get penaltyArray(): FormArray {
+  get timeArray(): FormArray {
     return this.fgcategorymaster.get("lstcategoryslab") as FormArray
   }
 
   onSelecttimeslot($event: any) {
-    const formArray = this.penaltyArray;
+    if ($event && $event != null && $event != '' && $event.length > 0) {
 
-    const selectedIds = $event.map((slot: any) => slot.category_id);
 
-    selectedIds.forEach((id: number) => {
-      
-        const found = $event.find((x:any) => x.category_id === id);
-
-      const _index = formArray.controls.findIndex(
-        (ctrl) => ctrl.get('timeslot_id')?.value === id
-      );
-      console.log("exists",_index);
-      console.log("$event",$event);
-
-      if (_index < 0) {
-        formArray.push(this.createSlabGroup({ category_id: id,category : found.category}));
-      }else{
-        formArray.removeAt(_index);
-      }
-    });
-
-    console.log("Updated FormArray:", this.fgcategorymaster.value.lstcategoryslab);
+    }
   }
 
-  createSlabGroup(slot: any) {
-    return this._fbCategoryMaster.group({
-      timeslot_id: [slot ? slot.category_id : null],
-      category: [slot ? slot.category : null],
-      screenInterval: [''],
-      fromDate: [''],
-      toDate: ['']
-    });
+  onSelectEvent($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("select : ", $event);
+      let control: FormGroup = this._fbCategoryMaster.group({
+        route_category_id: [this._categoryRouteMaster.category_id],
+        route_category: [this._categoryRouteMaster.category],
+        scree_category_id: [this._categoryScreenMaster.category_id],
+        screen_category: [this._categoryScreenMaster.category],
+        timeslot_category_id: [$event ? $event.category_id : 0],
+        timeslot_category: [$event ? $event.category : ''],
+        from_date: [''],
+        to_date: [''],
+        product_price: [''],
+        screen_interval: [''],
+      });
+      this.timeArray.push(control);
+    }
+  }
+  onDeSelectEvent($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("Deselect : ", $event);
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.timeslot_category_id === $event?.category_id;
+      });
+      this.timeArray.removeAt(_indexTime);
+    }
+  }
+  get_product_price(product_id: number) {
+    return this.ScreenMaster.filter((res: any) => {
+      res.product_id == product_id
+    })
   }
 
 }

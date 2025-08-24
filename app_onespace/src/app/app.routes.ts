@@ -28,6 +28,7 @@ import { ProductComponent } from './product/product.component';
 import { AuthGuard } from './authmodule/_authservice/auth.guard';
 import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
 import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
+import { AddmodifyoptionComponent } from './adminmodeules/productoptionvalues/addmodifyoption/addmodifyoption.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -165,6 +166,16 @@ export const routes: Routes = [
             {
                 path: 'managevalues/:option_value_id',
                 component: AddmodifyvaluesComponent,
+                title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'manageoption',
+                component: AddmodifyoptionComponent,
+                title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'manageoption/:option_id',
+                component: AddmodifyoptionComponent,
                 title: 'Add Modify Optionvalues',
             },
         ]

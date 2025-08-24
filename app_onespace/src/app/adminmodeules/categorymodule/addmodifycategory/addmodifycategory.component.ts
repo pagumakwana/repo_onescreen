@@ -17,7 +17,7 @@ import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent,SweetAlert2Module,WebdtexteditorComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent, SweetAlert2Module, WebdtexteditorComponent],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })
@@ -174,6 +174,7 @@ export class AddmodifycategoryComponent {
       this._webDService.getcategory('Details', 0, 'null', category_id, 'null', false, 0, 'null', parseInt('0'), parseInt('0')).subscribe((resCategoryMaster: any) => {
         let categoryMaster = Array.isArray(resCategoryMaster.data) ? resCategoryMaster.data : [];
         this._categoryMaster = categoryMaster[0];
+        debugger
         this.isTypeMasterModify = true;
         this.fgcategorymaster.controls['category'].setValue(this._categoryMaster.category);
         this.fgcategorymaster.controls['isfeatured'].setValue(this._categoryMaster.isfeatured);

@@ -612,6 +612,9 @@ export class WebDService {
     public getproduct(flag = 'all', product_id = 0, brand_id = 0, category_name = 'null', start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getproduct}?flag=${flag}&product_id=${product_id}&brand_id=${brand_id}&category_name=${category_name}&start_count=${start_count}&end_count=${end_count}`);
     }
+    public getproductoption(flag = 'all', option_id = 0, product_id = 0, option_type_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getproductoptions}?flag=${flag}&option_id=${option_id}&product_id=${product_id}&option_type_id=${option_type_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
 
     public managebrand(_brandMaster: brandsMaster) {
         return this._base._apiService.post(`${ApiConstant.product.managebrand}`, _brandMaster);

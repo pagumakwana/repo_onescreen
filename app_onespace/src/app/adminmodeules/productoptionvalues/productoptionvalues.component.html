@@ -1,21 +1,16 @@
 <div class="d-flex justify-content-end">
-    <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
-    &nbsp; -->
-    <!--begin::Add user-->
-
-    <button (click)="opentypeModal()" class="btn btn-primary btn-sm">
+    <button class="btn btn-primary btn-sm">
         New Type
     </button>
     &nbsp;
-    <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
+    <a class="btn btn-primary btn-sm">
         New Values
-    </button>
+    </a>
     &nbsp;
     
-    <button (click)="openoptionModal()" class="btn btn-primary btn-sm">
+    <button class="btn btn-primary btn-sm">
         New Option
     </button>
-    <!--end::Add user-->
 </div>
 <webd-table #dataTableCom [config]='tableConfigoptionvalue' (tableEvent)="tableClick($event)"></webd-table>
 
@@ -27,104 +22,3 @@
 <swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
     [showConfirmButton]="false">
 </swal>
-
-<ng-template #formModal let-modal>
-    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Option Type</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
-                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
-                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
-                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
-            </div>
-
-            <form [formGroup]="fgtype">
-                <div class="row mb-6">
-                    <div class="col-lg-4 fv-row">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control form-control-sm" id="title" name="title"
-                            placeholder="Title" formControlName="title">
-                    </div>
-                
-                    <div class="col-lg-4 fv-row">
-                        <label class="form-label">Display Order</label>
-                        <input type="number" min="0" class="form-control form-control-sm" id="displayorder" name="displayorder"
-                            placeholder="0" formControlName="display_order" onkeypress="numberOnly($event)" />
-                    </div>
-                    <div class="col-lg-4 fv-row">
-                        <label class="form-check-label text-dark fw-bold me-2">Publish</label>
-                        <div class="form-check form-check-inline form-check-solid m-0">
-                            <input type="checkbox" class="form-check-input" id="isactive" formControlName="isactive">
-                        </div>
-                    </div>
-                </div>
-                &nbsp;
-                <div class="col d-flex justify-content-center align-items-center">
-                    <button class="btn btn-primary btn-sm" (click)="setoptionType(true)">
-                        Save
-                    </button>
-                </div>
-                <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
-                    [showConfirmButton]="false">
-                </swal>
-            </form>
-            &nbsp;
-            <webd-table #typedataTableCom [config]='tableConfigoptiontype' (tableEvent)="tableClick($event)"></webd-table>
-        </div>
-    </form>
-</ng-template>
-
-<ng-template #formModal1 let-modal>
-    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Product Option</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
-                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
-                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
-                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
-            </div>
-
-            <form [formGroup]="fgoption">
-                <div class="row mb-6">
-                    <div class="col-lg-4 fv-row">
-                        <webd-multiselect [data]="ProductMaster" class="col-sm-3 col-form-label" textField='product_name'
-                            valueField='product_id' [formControl]="fgoption?.controls?.lstproduct"
-                            placeholder="Select product" [config]="_configProduct"
-                            (onSelection)="onItemSelect($event)">
-                        </webd-multiselect>
-                    </div>
-                    <div class="col-lg-4 fv-row">
-                        <webd-multiselect [data]="OptionType" class="col-sm-3 col-form-label" textField='title'
-                            valueField='option_type_id' [formControl]="fgoption?.controls?.lsttype"
-                            placeholder="Select option type" [config]="_configType"
-                            (onSelection)="onSelect($event)">
-                        </webd-multiselect>
-                    </div>
-                    <div class="col-lg-4 fv-row">
-                        <label class="form-check-label text-dark fw-bold me-2">Publish</label>
-                        <div class="form-check form-check-inline form-check-solid m-0">
-                            <input type="checkbox" class="form-check-input" id="isactive" formControlName="isactive">
-                        </div>
-                    </div>
-                </div> 
-                &nbsp;
-                <div class="col d-flex justify-content-center align-items-center">
-                    <button class="btn btn-primary btn-sm" (click)="setproductoption(true)">
-                        Save
-                    </button>
-                </div>
-                <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
-                    [showConfirmButton]="false">
-                </swal>
-            </form>
-            &nbsp;
-            <webd-table #optiondataTableCom [config]='tableConfigoptiontype' (tableEvent)="tableClick($event)"></webd-table>
-        </div>
-    </form>
-</ng-template>

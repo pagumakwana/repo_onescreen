@@ -2039,7 +2039,7 @@ export interface productoption{
     title?: any,
     product_id?: any,
     product_name?: any,
-    lsttype?: any,
+    optiontype_list?: any,
     lstproduct?: any,
     isactive?:any,
     client_id?: number,

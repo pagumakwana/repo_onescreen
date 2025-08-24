@@ -13,7 +13,11 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   isLoggedIn = false;
-
+  public isSuccessModal_Open: boolean = false;
+  public is_category_open: boolean = false;
+  is_mobile_menu: boolean = false;
+  public isModal_Open: boolean = false;
+  
   constructor(
     public _base: BaseServiceHelper,
     private router: Router
@@ -24,10 +28,10 @@ export class HeaderComponent {
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }
 
-  navigate(){
+  navigate() {
     this._base._router.navigate(['/app/dashboard'])
   }
-  
+
   login() {
     localStorage.setItem('isLoggedIn', 'true');
     this.isLoggedIn = true;
