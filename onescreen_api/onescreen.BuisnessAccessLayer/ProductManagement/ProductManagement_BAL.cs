@@ -116,6 +116,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.managecoupon(objcouponModel);
             }
         }
+
+        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getoptionvalue(option_type, start_count, end_count);
+            }
+        }
+
         public void Dispose() 
         { 
         }

@@ -187,6 +187,7 @@ namespace onescreenModel.Common
         public const string managecoupon = "[dbo].[managecoupon]";
         public const string getproductoption = "[dbo].[getproductoption]";
         public const string mapproductoption = "[dbo].[mapproductoption]";
+        public const string getoptionvalue = "[dbo].[getoptionvalue]";
         //END :: PRODUCT
     }
 }
