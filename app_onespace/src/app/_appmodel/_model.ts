@@ -2062,3 +2062,18 @@ export interface couponModel{
     user_id?: number,
     createdname?: string
 }
+
+export interface orderDetails{
+    flag?: any,
+    order_id?: any,
+    order_number?: any,
+    payment_type?: any,
+    payment_order_id?: any,
+    payment_response?: any,
+    isdisable?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}

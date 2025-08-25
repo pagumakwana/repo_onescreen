@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 export class AdminHeaderComponent {
 
   navigate() {
-    this._base._router.navigate(['/app/profile']);
+    this._base._router.navigate(['/home']);
   }
   constructor(
     public _base: BaseServiceHelper,

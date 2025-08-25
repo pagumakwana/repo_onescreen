@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { menuStructure } from '../../../_appmodel/_model';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 declare var feather: any;
 
 @Component({
@@ -16,7 +17,8 @@ declare var feather: any;
 })
 export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
-  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef) { }
+  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer) { }
 
   userModule: any;
   menuStructure: Array<any> = []
@@ -24,15 +26,16 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
   public fullname: string = '';
   @Output() allMenu: EventEmitter<any> = new EventEmitter();
 
+  public menuHtml: SafeHtml = '';
   ngOnInit(): void {
     this.getAuthorityModule();
   }
   ngAfterViewInit() {
-    feather.replace();
+    if (typeof feather?.replace === 'function') feather.replace();
   }
 
   ngAfterViewChecked() {
-    feather.replace();
+    if (typeof feather?.replace === 'function') feather.replace();
   }
   getAuthorityModule() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
@@ -40,21 +43,26 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
         this.userModule = [];
         this.userModule = Array.isArray(resUserModule) ? resUserModule : [];
         this.menuStructure = this.list_to_tree(this.userModule);
-        if (this.menuStructure.length > 0)
-          this.menuHtml = this.buildMenu(this.menuStructure);
-        this._cdr.detectChanges();
+        if (this.menuStructure.length > 0) {
+          // this.menuHtml = this.buildMenu(this.menuStructure);
+          const html = this.buildMenu(this.menuStructure);
+          this.menuHtml = this.sanitizer.bypassSecurityTrustHtml(html);
+          this._cdr.detectChanges();
+          setTimeout(() => {
+            if (typeof feather?.replace === 'function') feather.replace();
+          });
+        }
       });
     });
   }
   // Build HTML string recursively
   buildMenu(nodes: any[]): string {
-    debugger
     let html = '<ul class="pc-navbar">';
     for (let node of nodes) {
       const hasChildren = node.children && node.children.length > 0;
       html += `<li class="pc-item ${hasChildren ? 'pc-hasmenu' : ''}">`;
       html += `
-        <a class="pc-link">
+        <a class="pc-link" data-role="menu-link">
           <span class="pc-micon">
             <i class="ph-duotone ${node.icon || 'ph-gauge'}"></i>
           </span>
@@ -69,7 +77,7 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
         for (let child of node.children) {
           html += `
             <li class="pc-item">
-              <a class="pc-link">${child.modulename}</a>
+              <a class="pc-link"  data-role="submenu-link">${child.modulename}</a>
             </li>
           `;
         }
@@ -100,20 +108,38 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
     })
     return index > -1 ? this.userModule[index] : []
   }
-  public menuHtml: string = '';
+  // public menuHtml: string = '';
+
+  // list_to_tree(list: any) {
+  //   let map: { [key: number]: number } = {}, node, roots = [], i;
+
+  //   for (i = 0; i < list.length; i += 1) {
+  //     map[list[i].module_id] = i; // initialize the map
+  //     list[i].children = []; // initialize the children
+  //   }
+
+  //   for (i = 0; i < list.length; i += 1) {
+  //     node = list[i];
+  //     if (node.module_parent_id !== parseInt("0")) {
+  //       // if you have dangling branches check that map[node.module_parent_id] exists
+  //       list[map[node.module_parent_id]]?.children?.push(node);
+  //     } else {
+  //       roots.push(node);
+  //     }
+  //   }
+  //   return roots;
+  // }
 
   list_to_tree(list: any) {
-    let map: { [key: number]: number } = {}, node, roots = [], i;
-
-    for (i = 0; i < list.length; i += 1) {
-      map[list[i].module_id] = i; // initialize the map
-      list[i].children = []; // initialize the children
+    const map: { [key: number]: number } = {};
+    const roots: any[] = [];
+    for (let i = 0; i < list.length; i++) {
+      map[list[i].module_id] = i;
+      list[i].children = [];
     }
-
-    for (i = 0; i < list.length; i += 1) {
-      node = list[i];
-      if (node.module_parent_id !== parseInt("0")) {
-        // if you have dangling branches check that map[node.module_parent_id] exists
+    for (let i = 0; i < list.length; i++) {
+      const node = list[i];
+      if (node.module_parent_id !== parseInt('0')) {
         list[map[node.module_parent_id]]?.children?.push(node);
       } else {
         roots.push(node);
@@ -122,6 +148,26 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
     return roots;
   }
 
+  onMenuContainerClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const link = target.closest('.pc-link') as HTMLElement | null;
+    if (!link) return;
+
+    const li = link.closest('.pc-item') as HTMLElement | null;
+    if (!li) return;
+
+    // Toggle if it has a submenu
+    if (li.classList.contains('pc-hasmenu')) {
+      event.preventDefault();
+      li.classList.toggle('open');
+      return;
+    }
+
+    // For leaf links, you can route if desired later.
+    // Example: read a data attribute and navigate.
+    // const route = link.getAttribute('data-route');
+    // if (route) this._base._router.navigate([route]);
+  }
   logout() {
     this._base._appSessionService.clearUserSession();
     setTimeout(() => {
