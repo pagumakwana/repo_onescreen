@@ -4,9 +4,9 @@
         <div class="card-body">
           <div class="d-flex align-items-center">
             <div class="flex-grow-1 me-3">
-              <p class="mb-1 fw-medium text-muted">Registrations</p>
-              <h4 class="mb-1">980+</h4>
-              <p class="mb-0 text-sm">May 23 - June 01 (2018)</p>
+              <h4 class="mb-1 fw-medium">Total Products</h4>
+              <h4 class="mb-1 text-mutedx">{{userdashboard[0]?.total_product}}</h4>
+              <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
             </div>
             <div class="flex-shrink-0">
               <div class="avtar avtar-l bg-light-primary rounded-circle">
@@ -22,9 +22,9 @@
         <div class="card-body">
           <div class="d-flex align-items-center">
             <div class="flex-grow-1 me-3">
-              <p class="mb-1 fw-medium text-muted">Renewals</p>
-              <h4 class="mb-1">1,563</h4>
-              <p class="mb-0 text-sm">May 23 - June 01 (2018)</p>
+              <h5 class="mb-1 fw-medium">Product In Cart</h5>
+              <h4 class="mb-1 text-muted">{{userdashboard[0]?.in_cart}}</h4>
+              <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
             </div>
             <div class="flex-shrink-0">
               <div class="avtar avtar-l bg-light-success rounded-circle">
@@ -40,9 +40,9 @@
         <div class="card-body">
           <div class="d-flex align-items-center">
             <div class="flex-grow-1 me-3">
-              <p class="mb-1 fw-medium text-muted">Revenue</p>
-              <h4 class="mb-1">42.6%</h4>
-              <p class="mb-0 text-sm">May 23 - June 01 (2018)</p>
+              <h4 class="mb-1 fw-medium">Total Sell</h4>
+              <h4 class="mb-1 text-muted">0</h4>
+              <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
             </div>
             <div class="flex-shrink-0">
               <div class="avtar avtar-l bg-light-warning rounded-circle">
@@ -58,9 +58,9 @@
         <div class="card-body">
           <div class="d-flex align-items-center">
             <div class="flex-grow-1 me-3">
-              <p class="mb-1 fw-medium text-muted">Cancellations</p>
-              <h4 class="mb-1">42.6%</h4>
-              <p class="mb-0 text-sm">May 23 - June 01 (2018)</p>
+              <h4 class="mb-1 fw-medium">0</h4>
+              <h4 class="mb-1 text-muted">0</h4>
+              <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
             </div>
             <div class="flex-shrink-0">
               <div class="avtar avtar-l bg-light-danger rounded-circle">
@@ -71,4 +71,6 @@
         </div>
       </div>
     </div>
+
+    <webd-table #dataTableCom [config]='tableConfig'></webd-table>
 </div>

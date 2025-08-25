@@ -365,8 +365,8 @@ export class WebDService {
     // , start_date = 'null', end_date = 'null'
     // &start_date=${start_date}&end_date=${end_date}
 
-    public getdashboardwidget(flag = 'all') {
-        return this._base._apiService.get(`${ApiConstant.reports.getdashboardwidget}?flag=${flag}`);
+    public getdashboardwidget(flag = 'all', user_id = 0 ) {
+        return this._base._apiService.get(`${ApiConstant.common.getdashboardwidget}?flag=${flag}&user_id=${user_id}`);
     }
 
     public gethelpdeskWidget(flag = 'week') {
@@ -647,4 +647,8 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.managecoupon}`, _couponModel);
     }
 
+    
+    public getorderdetails(flag = 'all', order_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
 }

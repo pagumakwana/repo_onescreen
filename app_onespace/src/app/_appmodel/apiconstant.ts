@@ -28,7 +28,8 @@ export class ApiConstant {
         managenotification: "common/managenotification",
         getpost: "common/getpost",
         managepost: "common/managepost",
-        update_moduledata: "common/update_moduledata"
+        update_moduledata: "common/update_moduledata",
+        getdashboardwidget: "common/getdashboardwidget",
     }
     public static customer = {
         signIn: "usermanagement/SignIn",
@@ -239,7 +240,6 @@ export class ApiConstant {
 
     public static reports = {
         getinoutreport: "Report/getinoutreport",
-        getdashboardwidget: "Report/getdashboardwidget",
         gethelpdeskWidget: "Report/gethelpdeskWidget",
         getinvoiceWidget: "Report/getinvoiceWidget",
         getserviceproviderWidget: "Report/getserviceproviderWidget",
@@ -266,5 +266,6 @@ export class ApiConstant {
         getcoupon: "product/getcoupon",
         managecoupon: "product/managecoupon",
         getproductoptions: "product/getproductoptions",
+        getorderdertails: "product/getorderdertails",
     }
 }
