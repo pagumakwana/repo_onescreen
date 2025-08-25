@@ -205,5 +205,23 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.managecoupon(objcouponModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="option_type"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getoptionvalue")]
+        [HttpGet]
+        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getoptionvalue(option_type,start_count, end_count);
+            }
+        }
+
     }
 }

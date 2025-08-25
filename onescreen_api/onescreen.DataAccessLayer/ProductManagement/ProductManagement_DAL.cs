@@ -869,6 +869,51 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@option_type", option_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getoptionvalue, ObJParameterCOl, CommandType.StoredProcedure);
+                List<productOptionValuesModel> lstoptionvalue = new List<productOptionValuesModel>();
+                if (ds != null)
+                {
+
+                    lstoptionvalue = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new productOptionValuesModel
+                          {
+                              option_value_id = Row.Field<Int64>("option_value_id"),
+                              option_value = Row.Field<string>("option_value")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstoptionvalue;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose() 
         { 
         }
