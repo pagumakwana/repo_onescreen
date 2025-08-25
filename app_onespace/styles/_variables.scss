@@ -1,11 +1,11 @@
-$transition: all .10s ease-in-out;
-$primaryColor: #FABA1C;
-$primaryColorHover: #ffd05b;
-$secondaryColor: #cfb182;
-$secondaryColorHover: #cda565;
-$ternaryColor: #E7E7E7;
-$ternaryColorHover: #e7e7e7e5;
-$graphikFont: 'Graphik';
+all .10s ease-in-out: all .10s ease-in-out;
+#FABA1C: #FABA1C;
+#ffd05b: #ffd05b;
+#cfb182: #cfb182;
+#cda565: #cda565;
+#E7E7E7: #E7E7E7;
+#e7e7e7e5: #e7e7e7e5;
+$arial: 'Graphik';
 
 .header_container_section {
     max-width: 1174px;
@@ -15,7 +15,7 @@ body .section_gap {
     margin-bottom: 108px;
 }
 .domain_color {
-    color: $primaryColor;
+    color: #FABA1C;
 }
 
 // Responsive CSS

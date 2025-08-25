@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
@@ -12,7 +12,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 @Component({
   selector: 'app-bannermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './bannermodule.component.html',
   styleUrl: './bannermodule.component.scss'
 })
@@ -27,6 +27,11 @@ export class BannermoduleComponent {
   public readonly successSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
+  
+  navigateaddform() {
+    this._base._router.navigate(['/app/managebanner/0']);
+  }
 
   private modalRef!: NgbModalRef;
   dataTable: any;
@@ -128,7 +133,7 @@ export class BannermoduleComponent {
     this._banner.flag = flag;
     this._banner.banner_id = data.banner_id;
     if (flag == 'MODIFYBANNER') {
-      this._base._router.navigate([`/app/catalogue/banner/${data.banner_id}`]);
+      this._base._router.navigate([`/app/managebanner/${data.banner_id}`]);
     } else if (flag == 'DELETEBANNER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -140,6 +145,9 @@ export class BannermoduleComponent {
                   this.bannerList.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

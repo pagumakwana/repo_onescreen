@@ -57,6 +57,7 @@ export interface userModel {
     createdby?: number,
     createdname?: string,
     profilepicture?: any,
+    isactive?: any,
     filemanager?: Array<{
         ref_id: number,
         file_id: number,
@@ -1948,9 +1949,15 @@ export interface productMaster {
     isactive?: boolean,
     category_id?: any,
     category?: any,
+    route_category_id?: any,
+    route_category?: any,
+    property_category_id?: any,
+    property_category?: any,
     brand_id?: any,
     brand_name?: any,
     lstcategory?: any,
+    lstcategoryroute?: any,
+    lstpropertycategoryroute?: any,
     lstbrand?: any,
     thumbnail?: any,
     client_id?: number,
@@ -1970,4 +1977,103 @@ export interface productMaster {
         module: string
     }>
 
+}
+
+export interface brandsMaster {
+    flag?: any,
+    brand_id?: any,
+    brand_name?: any,
+    brand_description?: any,
+    isactive?: boolean,
+    thumbnail?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+
+}
+
+export interface productoptionvalue{
+    flag?: any,
+    option_value_id?: any,
+    option_value?: any,
+    display_order?: any,
+    option_type_id?: any,
+    title?: any,
+    lstoptiontype?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoptiontype{
+    flag?: any,
+    option_type_id?: any,
+    title?: any,
+    display_order?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoption{
+    flag?: any,
+    option_id?: any,
+    option_type_id?: any,
+    title?: any,
+    product_id?: any,
+    product_name?: any,
+    optiontype_list?: any,
+    lstproduct?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface couponModel{
+    flag?: any,
+    coupon_id?: any,
+    coupon_code?: any,
+    discount_value?: any,
+    from_date?: any,
+    to_date?: any,
+    isdisable?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface orderDetails{
+    flag?: any,
+    order_id?: any,
+    order_number?: any,
+    payment_type?: any,
+    payment_order_id?: any,
+    payment_response?: any,
+    isdisable?: any,
+    isactive?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
 }

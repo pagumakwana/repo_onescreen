@@ -158,6 +158,53 @@ namespace onescreen.DAL.Common
             return dataTable;
         }
 
+        public responseModel getdashboardwidget(string flag, Int64 user_id)
+        {
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                responseModel lstresponse = new responseModel();
+                List<userdashboardModel> lstuserdashboard = new List<userdashboardModel>();
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getdashboardwidget, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstuserdashboard = ds.Tables[0].AsEnumerable().Select(Row =>
+                            new userdashboardModel
+                            {
+                                total_product = Row.Field<Int32>("total_product")
+                            }).ToList();
+                    }
+
+                    if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].in_cart = ds.Tables[1].Rows[0].Field<Int32>("in_cart");
+                    }
+                    lstresponse.data = lstuserdashboard;
+                    lstresponse.response = "success";
+                    lstresponse.count = lstuserdashboard.Count;
+
+                }
+                return lstresponse;
+            }
+            catch
+            {
+                return new responseModel() { count = 0, data = "", response = "invalid_request" };
+            }
+        }
+
 
         public void Dispose()
         {

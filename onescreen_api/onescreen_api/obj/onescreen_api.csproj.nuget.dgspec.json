@@ -273,6 +273,9 @@
             "projectReferences": {
               "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/onescreen.BuisnessAccessLayer.csproj": {
                 "projectPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/onescreen.BuisnessAccessLayer.csproj"
+              },
+              "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj": {
+                "projectPath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj"
               }
             }
           }
@@ -287,14 +290,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.AspNetCore": {
-              "target": "Package",
-              "version": "[2.3.0, )"
-            },
-            "Microsoft.Data.SqlClient": {
-              "target": "Package",
-              "version": "[6.0.1, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"

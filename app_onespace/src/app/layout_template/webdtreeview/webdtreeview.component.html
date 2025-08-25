@@ -1,0 +1,14 @@
+<div style="height:30vh;">
+    <tree-root #tree [nodes]="nodes" [options]="treeOption" (initialized)="onInitialized(tree)">
+      <ng-template #treeNodeTemplate let-node>
+        <span (click)="checkBoxChecked($event,node)"><input type="checkbox" [(ngModel)]="node.data.isChecked">
+          {{node?.data?.modulename}}</span>
+      </ng-template>
+      <ng-template #loadingTemplate>Loading, please hold....</ng-template>
+    </tree-root>
+    
+  
+    <!-- <ngx-treeview [config]="config" [items]="nodes" (selectedChange)="onSelectedChange($event)"
+      (filterChange)="onFilterChange($event)">
+    </ngx-treeview> -->
+  </div>

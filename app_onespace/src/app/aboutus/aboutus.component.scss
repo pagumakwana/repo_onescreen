@@ -1,0 +1,135 @@
+.aboutus .inner_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 30px;
+}
+.aboutus_thumbnail img {
+    max-width: 450px;
+    height: auto;
+}
+.aboutus_thumbnail {
+    text-align: right;
+    width: 49%;
+}
+.aboutus_content {
+    width: 38%;
+}
+.aboutus_content ul {
+    list-style: none;
+    margin-bottom: 31px;
+}
+.aboutus_content ul li::marker {
+    display: none;
+}
+.aboutus_content ul img {
+    height: 18px;
+    width: auto;
+    margin-right: 15px;
+}
+.aboutus_content ul li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+.aboutus_content ul li span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.ourstory {
+    background: rgb(232 236 241 / 20%);
+    padding: 62px 0;
+    margin-bottom: 108px;
+}
+.ourstory .inner_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.ourstory .inner_container > div {
+    width: 32%;
+} 
+.story_thumbnail img {
+    width: 100%;
+    height: auto;
+}
+.missions > div {
+    display: inline-block;
+    vertical-align: top;
+}
+.mission {
+    width: calc(100% - 65px);
+}
+.missions img {
+    height: 42px;
+    width: auto;
+    margin-right: 15px;
+}
+.mission h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #383838;
+    margin-bottom: 11px;
+}
+.ourstory .container_section {
+    margin-bottom: 0;
+}
+
+// Responsive CSS
+@media only screen and (max-width: 1200px) {
+    .aboutus_thumbnail {
+        width: 35%;
+    }
+    .aboutus_content {
+        width: 60%;
+    }
+    .aboutus_thumbnail img {
+        width: 100%;
+    }
+    .ourstory {
+        padding: 50px 0;
+    }
+    .story_right_section {
+        width: 100% !important;
+        padding-top: 20px;
+    }
+    .story_left_section {
+        width: 60% !important;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .aboutus_content ul {
+        margin-bottom: 20px;
+    }
+    .aboutus_content ul img {
+        height: 15px;
+    }
+    .missions img {
+        height: 30px;
+    }
+    .mission h3 {
+        font-size: 20px;
+        margin-bottom: 7px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .ourstory {
+        padding: 30px 0;
+    }
+    .aboutus_thumbnail, .aboutus_content {
+        width: 100% !important;
+    }
+    .ourstory .inner_container {
+        gap: 30px;
+    }
+    .ourstory .inner_container > div {
+        width: 100% !important;
+        padding-top: 0;
+    }
+}

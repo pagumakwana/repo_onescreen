@@ -21,6 +21,8 @@ export class MultiselectComponent implements OnInit {
   @Input() isMultiSelect: boolean = false;
   @Input() placeholder!: string;
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
+  @Output() onSelectEvent: EventEmitter<any> = new EventEmitter();
+  @Output() onDeSelectEvent: EventEmitter<any> = new EventEmitter();
   public options!: Options;
   public exampleData!: Array<any>;
   public _value!: string[];
@@ -38,6 +40,14 @@ export class MultiselectComponent implements OnInit {
     // this._value = value;
     this.formControl.setValue(value)
     this.onSelectionChange(value);
+  }
+
+  onItemSelect($event:any){
+    this.onSelectEvent.emit($event);
+  }
+
+  onItemDeSelect($event:any){
+    this.onDeSelectEvent.emit($event);
   }
 
 
@@ -64,7 +74,6 @@ export class MultiselectComponent implements OnInit {
 
   get listData() {
     for (let item of this.data) {
-      debugger
       item[this.config?.idField!] = item[this.valueField!];
       item[this.config?.textField!] = item[this.textField!];
     }

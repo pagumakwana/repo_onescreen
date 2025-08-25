@@ -1,8 +1,6 @@
-@import '../../../styles/variables';
-
 // hero section css
 .hero {
-    @extend .section_gap;
+    margin-bottom: 108px;
 }
 .hero img {
     width: 100%;
@@ -65,12 +63,12 @@
 .howitsworks {
     max-width: 1345px;
     margin: 0 auto;
-    @extend .section_gap;
+    margin-bottom: 108px;
 }
 .step_count {
     display: block;
     margin: 0 auto;
-    background: $primaryColor;
+    background: #FABA1C;
     padding: 18px;
     line-height: 22px;
     width: 55px;
@@ -98,7 +96,7 @@
     margin-top: 30px;
 }
 .testimonial:hover {
-    background-color: $primaryColor;
+    background-color: #FABA1C;
     &:before {
         transition: 0s ease-in-out;
         display: none;
@@ -132,7 +130,7 @@
     bottom: auto;
 }
 .swiper-button-prev, .swiper-container-rtl, .swiper-button-next {
-    background: $primaryColor url('../../assets/images/left_arrow.svg') no-repeat !important;
+    background: #FABA1C url('../../assets/images/left_arrow.svg') no-repeat !important;
     width: 50px !important;
     height: 50px !important;
     background-size: 9px !important;

@@ -61,5 +61,12 @@ namespace onescreenModel.Common
         public Int64? createdby { get; set; }
         public string? createdname { get; set; }
     }
-    
+
+    public class userdashboardModel : commonModel
+    {
+        public Int32 total_product { get; set; }
+        public Int32 in_cart { get; set; }
+
+    }
+
 }

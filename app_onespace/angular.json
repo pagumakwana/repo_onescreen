@@ -31,12 +31,14 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/assets/fonts/feather.css",
               "node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/datatables.net/js/dataTables.js",
-              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js"
+              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+              "src/assets/js/plugins/feather.min.js"
             ]
           },
           "configurations": {
@@ -44,13 +46,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "6kB"
                 }
               ],
               "outputHashing": "all"

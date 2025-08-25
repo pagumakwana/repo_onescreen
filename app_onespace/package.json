@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@ali-hm/angular-tree-component": "^19.1.0",
     "@angular/animations": "^18.2.0",
     "@angular/common": "^18.2.0",
     "@angular/compiler": "^18.2.0",
@@ -24,6 +25,7 @@
     "crypto-js": "^4.2.0",
     "datatables.net": "^2.0.4",
     "datatables.net-bs5": "^2.0.4",
+    "feather-icons": "^4.29.2",
     "jquery": "^3.6.0",
     "ng-multiselect-dropdown": "^1.0.0",
     "ngx-dropzone": "^3.1.0",

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
@@ -12,7 +12,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 @Component({
   selector: 'app-usermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './usermodule.component.html',
   styleUrl: './usermodule.component.scss'
 })
@@ -25,6 +25,11 @@ export class UsermoduleComponent {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  navigateaddform()
+  {
+    this._base._router.navigate(["/app/manageuser/0"]);
+  }
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
@@ -133,7 +138,7 @@ export class UsermoduleComponent {
     this._userModel.flag = flag;
     this._userModel.user_id = data.user_id;
     if (flag == 'MODIFYUSER') {
-      this._base._router.navigate([`/app/user/userlist/${data.user_id}`]);
+      this._base._router.navigate([`/app/manageuser/${data.user_id}`]);
     } else if (flag == 'DELETEUSER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -145,6 +150,9 @@ export class UsermoduleComponent {
                   this.userListData.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

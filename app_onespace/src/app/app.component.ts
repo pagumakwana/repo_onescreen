@@ -1,4 +1,4 @@
-import { Component, inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -17,6 +17,7 @@ import { WebDService } from './_appservice/webdpanel.service';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers:[BaseServiceHelper, PageTitleService,
     ApiService,
     WebDService,

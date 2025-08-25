@@ -64,6 +64,7 @@ namespace onescreenModel.Common
         public const string getnotification = "[dbo].[getnotification]";
         public const string managenotification = "[dbo].[managenotification]";
         public const string update_moduledata = "[dbo].[update_moduledata]";
+        public const string getdashboardwidget = "[dbo].[getdashboardwidget]";
         //END :: COMMON
 
         //START :: BannerManagemet
@@ -178,6 +179,19 @@ namespace onescreenModel.Common
         public const string getbrand = "[dbo].[getbrand]";
         public const string manageproduct = "[dbo].[manageproduct]";
         public const string managebrand = "[dbo].[managebrand]";
+        public const string manageproductoptiontypes = "[dbo].[manageproductoptiontypes]";
+        public const string manageroductoptionvalues = "[dbo].[manageroductoptionvalues]";
+        public const string getproductoptiontypes = "[dbo].[getproductoptiontypes]";
+        public const string getproductoptionvalues = "[dbo].[getproductoptionvalues]";
+        public const string manageproductoption = "[dbo].[manageproductoption]";
+        public const string getcoupon = "[dbo].[getcoupon]";
+        public const string managecoupon = "[dbo].[managecoupon]";
+        public const string getproductoption = "[dbo].[getproductoption]";
+        public const string mapproductoption = "[dbo].[mapproductoption]";
+        public const string getoptionvalue = "[dbo].[getoptionvalue]";
+        public const string managecartmaster = "[dbo].[managecartmaster]";
+        public const string manageproductcart = "[dbo].[manageproductcart]";
+        public const string getorderdertails = "[dbo].[getorderdertails]";
         //END :: PRODUCT
     }
 }

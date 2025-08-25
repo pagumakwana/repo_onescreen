@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
@@ -11,11 +11,12 @@ import { userModel } from '../../../_appmodel/_model';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifyuser',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,NgbModule, MultiselectComponent],
+  imports: [FormsModule, ReactiveFormsModule,NgbModule, MultiselectComponent,SweetAlert2Module, CommonModule],
   templateUrl: './addmodifyuser.component.html',
   styleUrl: './addmodifyuser.component.scss'
 })
@@ -23,6 +24,9 @@ export class AddmodifyuserComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  navigateBack(){
+    this._base._router.navigate(["app/manageuser"])
+  }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
@@ -87,6 +91,7 @@ export class AddmodifyuserComponent {
       projectname: [''],
       authority_id: [''],
       authority: [''],
+      isactive:[true],
     })
   }
 
@@ -134,6 +139,7 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['user_id'].setValue(this._userModel.user_id);
         this.fgUser.controls['lstauthority'].setValue(this._userModel.lstauthority);
         this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
+        this.fgUser.controls['isactive'].setValue(this._userModel.isactive);
         resolve(true)
       }, error => {
         resolve(false);
@@ -173,7 +179,7 @@ export class AddmodifyuserComponent {
         debugger
         this._userModel.flag = this.isUserModify ? 'MODIFYUSER' : 'NEWUSER';
         this._userModel.createdname = fullname;
-        this._userModel.createdby = user_id;
+         this._userModel.createdby = Number(user_id) || 0; 
         this._webDService.useraddmodify(this._userModel).subscribe((response: any) => {
           let isRedirect: boolean = true
           if (response === 'userexists') {
@@ -189,10 +195,10 @@ export class AddmodifyuserComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/user/userlist']);
-              });
+              this.successSwal.fire()
+              setTimeout(() => {
+                this._base._router.navigate(['/app/manageuser']);
+              }, 1500);
             }, 1000);
           }
         });

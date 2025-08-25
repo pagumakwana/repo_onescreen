@@ -1,0 +1,17 @@
+.pc-submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.pc-item.open > .pc-submenu {
+  display: block;
+}
+
+.pc-arrow {
+  float: right;
+  transition: transform 0.3s ease;
+}
+
+.pc-item.open > .pc-link .pc-arrow {
+  transform: rotate(90deg);
+}

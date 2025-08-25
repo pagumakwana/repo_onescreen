@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
@@ -12,11 +12,12 @@ import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifyproduct',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
+  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module, CommonModule],
   templateUrl: './addmodifyproduct.component.html',
   styleUrl: './addmodifyproduct.component.scss'
 })
@@ -24,6 +25,9 @@ export class AddmodifyproductComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  navigateBack() {
+    this._base._router.navigate(["app/manageproduct"])
+  }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
@@ -41,10 +45,12 @@ export class AddmodifyproductComponent {
     this.unsubscribe.push(loadingSubscr);
   }
 
-   public productSubscribe!: Subscription;
+  public productSubscribe!: Subscription;
   _productMaster: productMaster = {};
   product_id: any;
   CategoryMaster: any = [];
+  RouteCategoryMaster: any = [];
+  PropertyCategoryMaster: any = [];
   BrandMaster: any = [];
   private isProductModify: boolean = false;
 
@@ -76,6 +82,28 @@ export class AddmodifyproductComponent {
     allowSearchFilter: true
   };
 
+  public _configRouteCategory: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
+
+  public _configPropertyCategory: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'category_id',
+    textField: 'category',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
+  };
+
   public _configBrand: IDropdownSettings = {
     singleSelection: true,
     idField: 'brand_id',
@@ -93,7 +121,9 @@ export class AddmodifyproductComponent {
       isactive: [true],
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
-      lstbrand: ['', [Validators.required]],
+      lstbrand: [''],
+      lstcategoryroute: ['', [Validators.required]],
+      lstpropertycategoryroute: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
         description: [''],
       })
@@ -102,49 +132,74 @@ export class AddmodifyproductComponent {
   ngOnInit(): void {
     this.initForm();
     this.product_id = this._activatedRouter.snapshot.paramMap.get('product_id');
-    this.getcategory();
-    // this.getbrand();
+    this.getcategory('vehicle_type', 0);
+    this.getcategory('selected_area', 0);
+    this.getbrand();
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
     }
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifyproductmaster(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifyproductmaster(this.flagType);
+    }
+  }
 
-  // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgproductmaster.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
-  //     if (Array.isArray(uploadResponse)) {
-  //       for (let uploadedFile of uploadResponse) {
-  //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
-  //       }
-  //     }
-  //     resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
-  //     if (counter > 1) {
-  //       counter--
-  //       this.saveModuleFile_multi_helper(arrayData, counter, resolveData)
-  //     } else {
-  //       this._productMaster.filemanager = resolveData
-  //       this.addmodifyproductmaster(this.flagType);
-  //     }
-  //   })
-  // }
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
 
-  getproductmaster(product_id:any) {
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgproductmaster.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._productMaster.filemanager = resolveData;
+          this.addmodifyproductmaster(this.flagType);
+        }
+      });
+  }
+
+  getproductmaster(product_id: any) {
     return new Promise((resolve, reject) => {
       this._webDService.getproduct('Details', product_id).subscribe((resproductMaster: any) => {
         let productMaster = Array.isArray(resproductMaster.data) ? resproductMaster.data : [];
+        debugger
         this._productMaster = productMaster[0];
         this.isProductModify = true;
         this.fgproductmaster.controls['product_name'].setValue(this._productMaster.product_name);
-        // this.fgproductmaster.controls['textarea'].get('description').setValue(this._productMaster.product_description);
+        this.fgproductmaster.get('textarea.description')?.setValue(this._productMaster.product_description);
         this.fgproductmaster.controls['lstcategory'].setValue(this._productMaster.lstcategory);
+        this.fgproductmaster.controls['lstcategoryroute'].setValue(this._productMaster.lstcategoryroute);
+        this.fgproductmaster.controls['lstpropertycategoryroute'].setValue(this._productMaster.lstpropertycategoryroute);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
@@ -157,7 +212,7 @@ export class AddmodifyproductComponent {
   }
 
   flagType: any;
-  setproductMaster(flag:any) {
+  setproductMaster(flag: any) {
     this.flagType = flag;
     this.isLoading$.next(true);
     this._base._commonService.markFormGroupTouched(this.fgproductmaster)
@@ -167,12 +222,14 @@ export class AddmodifyproductComponent {
           this._productMaster.product_name = this.fgproductmaster.value.product_name;
           this._productMaster.product_description = this.fgproductmaster.value.textarea.description;
           this._productMaster.lstcategory = this.fgproductmaster.value.lstcategory;
+          this._productMaster.lstcategoryroute = this.fgproductmaster.value.lstcategoryroute;
+          this._productMaster.lstpropertycategoryroute = this.fgproductmaster.value.lstpropertycategoryroute;
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
           this._productMaster.project_id = parseInt(project_id);
-           this.addmodifyproductmaster(this.flagType);
-          // this.saveModuleFile_helper();
+          // this.addmodifyproductmaster(this.flagType);
+          this.saveModuleFile_helper();
         });
       });
     } else {
@@ -183,7 +240,7 @@ export class AddmodifyproductComponent {
     }
   }
 
-  addmodifyproductmaster(flag:any) {
+  addmodifyproductmaster(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._productMaster.flag = this.isProductModify ? 'MODIFYPRODUCT' : 'NEWPRODUCT';
@@ -204,10 +261,10 @@ export class AddmodifyproductComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/product/manageproduct']);
-              });
+              this.successSwal.fire()
+              setTimeout(() => {
+                this._base._router.navigate(['/app/manageproduct']);
+              }, 1500);
             }, 1000);
           }
         });
@@ -215,11 +272,19 @@ export class AddmodifyproductComponent {
     });
   }
 
-  getcategory() {
+  getcategory(flag: string = 'product_type', parent_id: number = 0) {
     return new Promise((resolve, rejects) => {
-      this._webDService.getcategory('all').subscribe((rescategoryMaster: any) => {
-        this.CategoryMaster = [];
-        this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+      this._webDService.getcategory('all', 0, flag, 0, 'null', false, parent_id).subscribe((rescategoryMaster: any) => {
+        if (flag == 'vehicle_type' && parent_id == 0) {
+          this.CategoryMaster = [];
+          this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        } else if (flag == 'product_type' && parent_id > 0) {
+          this.PropertyCategoryMaster = [];
+          this.PropertyCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        } else if (flag == 'selected_area' && parent_id == 0) {
+          this.RouteCategoryMaster = [];
+          this.RouteCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        }
         resolve(true)
       }, error => {
         resolve(false)
@@ -227,25 +292,36 @@ export class AddmodifyproductComponent {
     });
   }
 
-  // getbrand() {
-  //   return new Promise((resolve, rejects) => {
-  //     this._webDService.getbrand('all').subscribe((resbrandMaster: any) => {
-  //       this.BrandMaster = [];
-  //       this.BrandMaster = Array.isArray(resbrandMaster.data) ? resbrandMaster.data : [];
-  //       resolve(true)
-  //     }, error => {
-  //       resolve(false)
-  //     })
-  //   });
-  // }
+  getbrand() {
+    return new Promise((resolve, rejects) => {
+      this._webDService.getbrand('all').subscribe((resbrandMaster: any) => {
+        this.BrandMaster = [];
+        this.BrandMaster = Array.isArray(resbrandMaster.data) ? resbrandMaster.data : [];
+        resolve(true)
+      }, error => {
+        resolve(false)
+      })
+    });
+  }
 
-  onCategory($event:any) {
+  onCategory($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.category_id = $event[0].category_id;
+      this.getcategory('product_type', this._productMaster.category_id)
+    }
+  }
+  onRouteCategory($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._productMaster.route_category_id = $event[0].category_id;
+    }
+  }
+  onPropertyCategory($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._productMaster.property_category_id = $event[0].category_id;
     }
   }
 
-  onBrand($event:any) {
+  onBrand($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.brand_id = $event[0].brand_id;
     }
