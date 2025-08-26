@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -52,6 +52,8 @@ export class AddmodifyproductComponent {
   RouteCategoryMaster: any = [];
   PropertyCategoryMaster: any = [];
   BrandMaster: any = [];
+  TimeSlotAttr: any = [];
+  RepeAttr: any = [];
   private isProductModify: boolean = false;
 
   fileChoosenData: { [key: string]: Array<fileChoosenDataModel> } = {
@@ -113,6 +115,24 @@ export class AddmodifyproductComponent {
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
+  public _configTime: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'option_value_id',
+    textField: 'option_value',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+  public _configRepe: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'option_value_id',
+    textField: 'option_value',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
 
   initForm() {
     this.fgproductmaster = this._fbproductMaster.group({
@@ -122,6 +142,11 @@ export class AddmodifyproductComponent {
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
       lstbrand: [''],
+      base_price:[''],
+      lsttimeattribute: [''],
+      lstrepeattribute: [''],
+      lsttimeattr: this._fbproductMaster.array([]),
+      lstrepeattr: this._fbproductMaster.array([]),
       lstcategoryroute: ['', [Validators.required]],
       lstpropertycategoryroute: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
@@ -135,6 +160,12 @@ export class AddmodifyproductComponent {
     this.getcategory('vehicle_type', 0);
     this.getcategory('selected_area', 0);
     this.getbrand();
+    this.getoptionvalues('Time Slot').then((res: any) => {
+      this.TimeSlotAttr = res;
+    });
+    this.getoptionvalues('Screen Interval').then((res: any) => {
+      this.RepeAttr = res;
+    });
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
     }
@@ -200,9 +231,18 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['lstcategory'].setValue(this._productMaster.lstcategory);
         this.fgproductmaster.controls['lstcategoryroute'].setValue(this._productMaster.lstcategoryroute);
         this.fgproductmaster.controls['lstpropertycategoryroute'].setValue(this._productMaster.lstpropertycategoryroute);
+        this.fgproductmaster.controls['lsttimeattribute'].setValue(this._productMaster.lsttimeattribute);
+        this.fgproductmaster.controls['lstrepeattribute'].setValue(this._productMaster.lstrepeattribute);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
+        this.fgproductmaster.controls['base_price'].setValue(this._productMaster.base_price);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
+        this._productMaster.lsttimeattribute?.filter((_res:any)=>{
+          this.onSelectTime(_res);
+        })
+        this._productMaster.lstrepeattribute?.filter((_res:any)=>{
+          this.onSelectRepe(_res);
+        })
         this.initFilesUrl(this._productMaster.filemanager)
         resolve(true)
       }, error => {
@@ -219,11 +259,16 @@ export class AddmodifyproductComponent {
     if (this.fgproductmaster.valid) {
       this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
         this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
+          debugger
           this._productMaster.product_name = this.fgproductmaster.value.product_name;
           this._productMaster.product_description = this.fgproductmaster.value.textarea.description;
           this._productMaster.lstcategory = this.fgproductmaster.value.lstcategory;
           this._productMaster.lstcategoryroute = this.fgproductmaster.value.lstcategoryroute;
           this._productMaster.lstpropertycategoryroute = this.fgproductmaster.value.lstpropertycategoryroute;
+          this._productMaster.lsttimeattribute = this.fgproductmaster.value.lsttimeattr;
+          this._productMaster.lstrepeattribute = this.fgproductmaster.value.lstrepeattr;
+          this._productMaster.base_price = this.fgproductmaster.value.base_price;
+          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute)
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
@@ -273,22 +318,17 @@ export class AddmodifyproductComponent {
   }
 
   getcategory(flag: string = 'product_type', parent_id: number = 0) {
-    return new Promise((resolve, rejects) => {
-      this._webDService.getcategory('all', 0, flag, 0, 'null', false, parent_id).subscribe((rescategoryMaster: any) => {
-        if (flag == 'vehicle_type' && parent_id == 0) {
-          this.CategoryMaster = [];
-          this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-        } else if (flag == 'product_type' && parent_id > 0) {
-          this.PropertyCategoryMaster = [];
-          this.PropertyCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-        } else if (flag == 'selected_area' && parent_id == 0) {
-          this.RouteCategoryMaster = [];
-          this.RouteCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-        }
-        resolve(true)
-      }, error => {
-        resolve(false)
-      })
+    this._webDService.getcategory('all', 0, flag, 0, 'null', false, parent_id).subscribe((rescategoryMaster: any) => {
+      if (flag == 'vehicle_type' && parent_id == 0) {
+        this.CategoryMaster = [];
+        this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+      } else if (flag == 'product_type' && parent_id > 0) {
+        this.PropertyCategoryMaster = [];
+        this.PropertyCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+      } else if (flag == 'selected_area' && parent_id == 0) {
+        this.RouteCategoryMaster = [];
+        this.RouteCategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+      }
     });
   }
 
@@ -367,8 +407,76 @@ export class AddmodifyproductComponent {
     return arrayReturn
   }
 
+
+  get timeArray(): FormArray {
+    return this.fgproductmaster.get("lsttimeattr") as FormArray
+  }
+
+  get repetitionArray(): FormArray {
+    return this.fgproductmaster.get("lstrepeattr") as FormArray
+  }
+
+  onSelectTime($event: any) {
+    if ($event && $event != null && $event != '') {
+      debugger
+      const _repre = this.TimeSlotAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
+      let control: FormGroup = this._fbproductMaster.group({
+        product_option_adj_id: [0],
+        product_id: [0],
+        option_value_id: [$event ? $event.option_value_id : 0],
+        option_value: [$event ? $event.option_value : ''],
+        price_delta: [$event ? $event?.price_delta :0],
+      });
+      this.timeArray.push(control);
+    }
+  }
+  onDeSelectTime($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("Deselect : ", $event);
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.option_value_id === $event?.option_value_id;
+      });
+      this.timeArray.removeAt(_indexTime);
+    }
+  }
+  onSelectRepe($event: any) {
+    if ($event && $event != null && $event != '') {
+      debugger
+      const _repre = this.RepeAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
+      let control: FormGroup = this._fbproductMaster.group({
+        product_option_adj_id: [0],
+        product_id: [0],
+        option_value_id: [$event ? $event.option_value_id : 0],
+        option_value: [$event ? $event.option_value : ''],
+        price_delta: [$event ? $event?.price_delta : 0],
+      });
+      this.repetitionArray.push(control);
+    }
+  }
+  onDeSelectRepe($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("Deselect : ", $event);
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.option_value_id === $event?.option_value_id;
+      });
+      this.repetitionArray.removeAt(_indexTime);
+    }
+  }
+
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
+  getoptionvalues(flag: string = 'Time Slot') {
+    return new Promise((resolve, rejects) => {
+      this._webDService.getoptionvalue(flag).subscribe((rescategoryMaster: any) => {
+        let _optionvalues = [];
+        _optionvalues = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+
+        resolve(_optionvalues)
+      }, error => {
+        resolve(false)
+      })
+    });
+  }
 }

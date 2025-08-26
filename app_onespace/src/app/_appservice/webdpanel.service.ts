@@ -647,6 +647,10 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.managecoupon}`, _couponModel);
     }
 
+    public getoptionvalue(option_type = '', product_id = 0,start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getoptionvalue}?option_type=${option_type}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
     
     public getorderdetails(flag = 'all', order_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);

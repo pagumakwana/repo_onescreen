@@ -20,10 +20,23 @@ namespace onescreenModel.ProductManagement
         public string? route_category { get; set; }
         public string? property_category { get; set; }
         public string? brand_name { get; set; }
+        public decimal? base_price { get; set; }
         public List<productCategoryModel> lstcategory { get; set; }
         public List<productrouteCategoryModel> lstcategoryroute { get; set; }
         public List<productpropertyCategoryModel> lstpropertycategoryroute { get; set; }
         public List<brandModel>? lstbrand { get; set; }
+        public List<productAttributeModel>? lstattribute { get; set; }
+        public List<productAttributeModel>? lstrepeattribute { get; set; }
+        public List<productAttributeModel>? lsttimeattribute { get; set; }
+    }
+
+    public class productAttributeModel : commonModel
+    {
+        public Int64? product_option_adj_id { get; set; }
+        public Int64? option_value_id { get; set; }
+        public string? option_value { get; set; }
+        public decimal price_delta { get; set; }
+        public Int64? product_id { get; set; }
     }
 
     public class brandModel : commonModel
@@ -63,6 +76,7 @@ namespace onescreenModel.ProductManagement
         public Int64 option_type_id { get; set; }
         public string? title { get; set; }
         public string option_value { get; set; }
+        public decimal? price_delta { get; set; }
         public Int64 display_order { get; set; }
         public List<productOptionTypesModel>? lstoptiontype { get; set; }
     }

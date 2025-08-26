@@ -1,99 +1,115 @@
 <div class="card" id="accordionExample">
-
-  <!-- <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-        aria-expanded="false" aria-controls="collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-      data-bs-parent="#accordionExample">
-      <div class="accordion-body"> -->
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <form [formGroup]="fgcategorymaster">
-                <div class="row mb-6">
-                  <div class="col-lg-3 mb-3">
-                    <label class="form-label">Screen Type</label>
-                    <webd-multiselect [data]="TypeMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lsttype"
-                      placeholder="Select Type" [config]="_screentype" (onSelection)="onSelecttype($event)">
-                    </webd-multiselect>
-                  </div>
-                  <div class="col-lg-3 mb-3">
-                    <label class="form-label">Vehicle/ Property</label>
-                    <webd-multiselect [data]="PropertyMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstproperty"
-                      placeholder="Select Property" [config]="_propertytype" (onSelection)="onSelectproperty($event)">
-                    </webd-multiselect>
-                  </div>
-                </div>
-                <div class="row mb-6">
-                  <div class="col-lg-3 mb-3">
-                    <label class="form-label">Route</label>
-                    <webd-multiselect [data]="RouteMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstroute"
-                      placeholder="Select Route" [config]="_route" (onSelection)="onSelectroute($event)">
-                    </webd-multiselect>
-                  </div>
-                  <div class="col-lg-3 mb-3">
-                    <label class="form-label">Screen/ Product</label>
-                    <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='product_name'
-                      valueField='product_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
-                      placeholder="Select Screen" [config]="_screen" (onSelection)="onSelectscreen($event)">
-                    </webd-multiselect>
-                  </div>
-                  <div class="col-lg-3 mb-3">
-                    <label class="form-label">Time Slot</label>
-                    <webd-multiselect [data]="TimeMaster" class="col-sm-3 col-form-label" textField='category'
-                      valueField='category_id' [formControl]="fgcategorymaster?.controls?.lsttimeslot"
-                      placeholder="Select Timeslot" [config]="_timeslot" (onSelectEvent)="onSelectEvent($event)"
-                      (onDeSelectEvent)="onDeSelectEvent($event)">
-                    </webd-multiselect>
-                  </div>
-                </div>
-                <ng-container formArray="lstcategoryslab">
-                  <ng-container [formGroup]='_objPass' *ngFor="let _objPass of timeArray?.controls;let i =index">
-                    <div class="row mb-3">
-                      <!-- <ng-container data-repeater-list="inner-group"> -->
-                      <div class="col-lg-2 mb-3">
-                        <label for="timeslot_category_id_{{i+1}}" class="form-label">Time Slot :</label>
-                        <input type="text" id="timeslot_category_id_{{i+1}}"
-                          class="form-control form-control-sm disabled" placeholder="Time Slot"
-                          formControlName="timeslot_category">
-                      </div>
-                      <div class="col-lg-2   mb-2">
-                        <label for="screen_category_id_{{i+1}}" class="form-label">Screen Property :</label>
-                        <input type="text" id="screen_category_id_{{i+1}}" class="form-control form-control-sm disabled"
-                          placeholder="Screen interval" formControlName="screen_category">
-                      </div>
-                      <div class="col-lg-2   mb-2">
-                        <label for="screen_interval_id_{{i+1}}" class="form-label">Screen Repetition :</label>
-                        <input type="text" id="screen_interval_id_{{i+1}}" class="form-control form-control-sm"
-                          placeholder="Screen interval" formControlName="screen_interval">
-                      </div>
-                    
-                      <div class="col-lg-2 mb-2">
-                        <label for="from_date{{i+1}}" class="form-label">From Date:</label>
-                        <input type="date" id="from_date{{i+1}}" class="form-control form-control-sm"
-                          formControlName="from_date">
-                      </div>
-                      <div class="col-lg-2 mb-2">
-                        <label for="to_date{{i+1}}" class="form-label">To Date :</label>
-                        <input type="date" id="to_date{{i+1}}" class="form-control form-control-sm"
-                          formControlName="to_date">
-                      </div>
-                      <!-- </ng-container> -->
-                    </div>
-                    </ng-container>
-                </ng-container>
-
-              </form>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="fgcategorymaster">
+          <div class="row mb-6">
+            <div class="col-lg-2 mb-2">
+              <label class="form-label">Screen Type</label>
+              <webd-multiselect [data]="TypeMaster" class="col-sm-3 col-form-label" textField='category'
+                valueField='category_id' [formControl]="fgcategorymaster?.controls?.lsttype" placeholder="Select Type"
+                [config]="_screentype" (onSelection)="onSelecttype($event)">
+              </webd-multiselect>
+            </div>
+            <div class="col-lg-2 mb-2">
+              <label class="form-label">Vehicle/ Property</label>
+              <webd-multiselect [data]="PropertyMaster" class="col-sm-3 col-form-label" textField='category'
+                valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstproperty"
+                placeholder="Select Property" [config]="_propertytype" (onSelection)="onSelectproperty($event)">
+              </webd-multiselect>
+            </div>
+            <div class="col-lg-2 mb-2">
+              <label class="form-label">Route</label>
+              <webd-multiselect [data]="RouteMaster" class="col-sm-3 col-form-label" textField='category'
+                valueField='category_id' [formControl]="fgcategorymaster?.controls?.lstroute" placeholder="Select Route"
+                [config]="_route" (onSelection)="onSelectroute($event)">
+              </webd-multiselect>
+            </div>
+            <div class="col-lg-2 mb-2">
+              <label class="form-label">Screen/ Product</label>
+              <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label" textField='product_name'
+                valueField='product_id' [formControl]="fgcategorymaster?.controls?.lstscreen"
+                placeholder="Select Screen" [config]="_screen" (onSelection)="onSelectscreen($event)">
+              </webd-multiselect>
+            </div>
+            <div class="col-lg-2 mb-2">
+              <label class="form-label">Time Slot</label>
+              <webd-multiselect [data]="TimeMaster" class="col-sm-3 col-form-label" textField='option_value'
+                valueField='option_value_id' [formControl]="fgcategorymaster?.controls?.lsttimeslot"
+                placeholder="Select Timeslot" [config]="_timeslot" (onSelectEvent)="onSelectEvent($event)"
+                (onDeSelectEvent)="onDeSelectEvent($event)">
+              </webd-multiselect>
             </div>
           </div>
-        </div>
-      <!-- </div>
+          <ng-container formArray="lstcategoryslab">
+            <ng-container [formGroup]='_objPass' *ngFor="let _objPass of timeArray?.controls;let i =index">
+              <div class="row mb-3">
+                <div class="col-lg-2 mb-3">
+                  <label for="timeslot_category_id_{{i+1}}" class="form-label">Time Slot :</label>
+                  <input type="text" id="timeslot_category_id_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Time Slot" formControlName="timeslot_category">
+                </div>
+                <div class="col-lg-2   mb-2">
+                  <label for="screen_category_id_{{i+1}}" class="form-label">Screen Property :</label>
+                  <input type="text" id="screen_category_id_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Screen interval" formControlName="screen_category">
+                </div>
+                <div class="col-lg-2   mb-2">
+                  <label for="screen_base_price_{{i+1}}" class="form-label">Base Price :</label>
+                  <input type="text" id="screen_base_price_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Screen interval" formControlName="base_price">
+                </div>
+                <div class="col-lg-2 mb-2">
+                  <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen Repetition :</label>
+                  <select class="form-control form-control-sm" id="screen_interval" (change)="onRepetitionChange($event,i)">
+                    <option id="repet_value_id_" value="">Select Repetition</option>
+                    <option *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
+                      id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                      {{_item.option_value}}</option>
+                  </select>
+                </div>
+                <div class="col-lg-2   mb-2">
+                  <label for="repetition_price_{{i+1}}" class="form-label">Repetition Price :</label>
+                  <input type="text" id="repetition_price_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Screen interval" formControlName="repetition_price">
+                </div>
+                <div class="col-lg-2 mb-2">
+                  <label for="from_date{{i+1}}" class="form-label">From Date :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ngbDatepicker #from_date="ngbDatepicker"
+                      id="from_date{{i+1}}" from_date.displayMonths="true" formControlName="from_date" required
+                      placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="from_date.toggle()">
+                    <span class="input-group-text" (click)="from_date.toggle()">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 mb-2">
+                  <label for="to_date{{i+1}}" class="form-label">To Date :</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ngbDatepicker #to_date="ngbDatepicker"
+                      id="to_date{{i+1}}" to_date.displayMonths="true" formControlName="to_date" required
+                      placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="to_date.toggle()">
+                    <span class="input-group-text" (click)="to_date.toggle()">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2   mb-2">
+                  <label for="time_price_{{i+1}}" class="form-label">Repetition Price :</label>
+                  <input type="text" id="time_price_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Screen interval" formControlName="timeslot_price">
+                </div>
+                <div class="col-lg-2   mb-2">
+                  <label for="total_price_{{i+1}}" class="form-label">Total Price :</label>
+                  <input type="text" id="total_price_{{i+1}}" class="form-control form-control-sm disabled"
+                    placeholder="Total" formControlName="total_price">
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+        </form>
+      </div>
     </div>
-  </div> -->
+  </div>

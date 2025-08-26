@@ -59,6 +59,8 @@ namespace onescreenDAL.ProductManagement
                 List<productpropertyCategoryModel> lstpropertycategoryroute = new List<productpropertyCategoryModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 List<productModel> lstproducts = new List<productModel>();
+                List<productAttributeModel> lsttimeattribute = new List<productAttributeModel>();
+                List<productAttributeModel> lstrepeattribute = new List<productAttributeModel>();
                 if (ds != null)
                 {
                     if (flag == "Details")
@@ -116,11 +118,31 @@ namespace onescreenDAL.ProductManagement
                                     module = Row.Field<string>("module")
                                 }).ToList();
                         }
+                        if (ds.Tables[5].Rows.Count > 0)
+                        {
+                            lsttimeattribute = ds.Tables[5].AsEnumerable().Select(Row =>
+                                new productAttributeModel
+                                {
+                                    option_value_id = Row.Field<Int64>("option_value_id"),
+                                    option_value = Row.Field<string>("option_value"),
+                                    price_delta = Row.Field<decimal>("price_delta")
+                                }).ToList();
+                        }
+                        if (ds.Tables[6].Rows.Count > 0)
+                        {
+                            lstrepeattribute = ds.Tables[6].AsEnumerable().Select(Row =>
+                                new productAttributeModel
+                                {
+                                    option_value_id = Row.Field<Int64>("option_value_id"),
+                                    option_value = Row.Field<string>("option_value"),
+                                    price_delta = Row.Field<decimal>("price_delta")
+                                }).ToList();
+                        }
 
                     }
-                    if (ds.Tables[flag == "Details" ? 5 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 7 : 0].Rows.Count > 0)
                     {
-                        lstproducts = ds.Tables[flag == "Details" ? 5 : 0].AsEnumerable().Select(Row =>
+                        lstproducts = ds.Tables[flag == "Details" ? 7 : 0].AsEnumerable().Select(Row =>
                           new productModel
                           {
                               product_id = Row.Field<Int64>("product_id"),
@@ -131,6 +153,7 @@ namespace onescreenDAL.ProductManagement
                               thumbnail = Row.Field<string>("thumbnail"),
                               category_id = Row.Field<Int64>("category_id"),
                               category = Row.Field<string>("category"),
+                              base_price = Row.Field<decimal>("base_price"),
                               route_category_id = Row.Field<Int64>("route_category_id"),
                               route_category = Row.Field<string>("route_category"),
                               lstcategory = lstcategory,
@@ -138,6 +161,8 @@ namespace onescreenDAL.ProductManagement
                               lstpropertycategoryroute = lstpropertycategoryroute,
                               lstbrand = lstbrand,
                               filemanager = lstFileinfo,
+                              lsttimeattribute = lsttimeattribute,
+                              lstrepeattribute = lstrepeattribute,
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -148,9 +173,9 @@ namespace onescreenDAL.ProductManagement
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
                     }
-                    if (ds.Tables[flag == "Details" ? 6 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 8 : 1].Rows.Count > 0)
                     {
-                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 6 : 1].Rows[0]["RESPONSE"].ToString());
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 8 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     response.data = lstproducts;
                 }
@@ -180,6 +205,8 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@category_id", objproductModel.category_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@base_price", objproductModel.base_price, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@property_category_id", objproductModel.property_category_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@route_category_id", objproductModel.route_category_id, DbType.Int64);
@@ -208,6 +235,37 @@ namespace onescreenDAL.ProductManagement
                             ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
                             var Res = ResponseMessage.Split('~');
                             objproductModel.product_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objproductModel.lstattribute != null && objproductModel.lstattribute.Count > 0))
+                            {
+                                objproductModel.lstattribute.ForEach(_item =>
+                                {
+                                    DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                                    DBParameter objDBParameter = new DBParameter("@product_option_adj_id", _item.product_option_adj_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@option_value_id", _item.option_value_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@option_value", _item.option_value, DbType.String);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@price_delta", _item.price_delta, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@product_id", objproductModel.product_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@isactive", _item.isactive, DbType.Boolean);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@user_id", objproductModel.user_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@createdname", objproductModel.createdname, DbType.String);
+                                    ObJParameterCOl.Add(objDBParameter);
+
+                                    DBHelper objDbHelper = new DBHelper();
+                                    DataSet ds = objDbHelper.ExecuteDataSet(Constant.mapproductattribute, ObJParameterCOl, CommandType.StoredProcedure);
+                                });
+                            }
+
                             if ((objproductModel.filemanager != null && objproductModel.filemanager.Count > 0))
                             {
                                 objproductModel.filemanager.ForEach(filemanager =>
@@ -869,7 +927,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -877,6 +935,8 @@ namespace onescreenDAL.ProductManagement
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@option_type", option_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_id", product_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -897,7 +957,8 @@ namespace onescreenDAL.ProductManagement
                           new productOptionValuesModel
                           {
                               option_value_id = Row.Field<Int64>("option_value_id"),
-                              option_value = Row.Field<string>("option_value")
+                              option_value = Row.Field<string>("option_value"),
+                              price_delta = Row.Field<decimal?>("price_delta"),
                           }).ToList();
                 }
                 if (ds.Tables[1].Rows.Count > 0)

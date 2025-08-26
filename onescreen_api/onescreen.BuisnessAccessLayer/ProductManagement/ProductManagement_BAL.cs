@@ -117,11 +117,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getoptionvalue(option_type, start_count, end_count);
+                return objProductManagement_DAL.getoptionvalue(option_type,product_id, start_count, end_count);
             }
         }
 

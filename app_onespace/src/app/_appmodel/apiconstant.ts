@@ -266,6 +266,7 @@ export class ApiConstant {
         getcoupon: "product/getcoupon",
         managecoupon: "product/managecoupon",
         getproductoptions: "product/getproductoptions",
+        getoptionvalue: "product/getoptionvalue",
         getorderdertails: "product/getorderdertails",
     }
 }

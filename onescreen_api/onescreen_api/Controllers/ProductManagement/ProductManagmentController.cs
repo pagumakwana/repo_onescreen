@@ -215,11 +215,11 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <returns></returns>
         [Route("getoptionvalue")]
         [HttpGet]
-        public responseModel getoptionvalue(string option_type, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getoptionvalue(option_type,start_count, end_count);
+                return objProductManagement_BAL.getoptionvalue(option_type,product_id,start_count, end_count);
             }
         }
 
