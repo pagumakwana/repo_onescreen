@@ -16,11 +16,11 @@ namespace onescreenBAL.UserManagement
         public UserManagement_BAL(IHttpContextAccessor httpContextAccessor) =>
             _httpContextAccessor = httpContextAccessor;
 
-        public string SignUp(userManagementModel objclsUserManagement)
+        public string SignUp(userRegistration objuserRegistration)
         {
             using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
             {
-                return objUserManagement_DAL.SignUp(objclsUserManagement);
+                return objUserManagement_DAL.SignUp(objuserRegistration);
             }
         }
         public List<userManagementModel> SignIn(string userName, string password)

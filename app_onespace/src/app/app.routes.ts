@@ -29,6 +29,7 @@ import { AuthGuard } from './authmodule/_authservice/auth.guard';
 import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
 import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
 import { AddmodifyoptionComponent } from './adminmodeules/productoptionvalues/addmodifyoption/addmodifyoption.component';
+import { UserregistrationComponent } from './userregistration/userregistration.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -70,7 +71,12 @@ export const routes: Routes = [
                 path: 'product',
                 component: ProductComponent,
                 title: 'Product',
-            }]
+            },
+            {
+                path: 'userregistration',
+                component: UserregistrationComponent,
+                title: 'User Registration',
+            },]
     },
     {
         path: 'app',

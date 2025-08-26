@@ -17,7 +17,7 @@ export class HeaderComponent {
   public is_category_open: boolean = false;
   is_mobile_menu: boolean = false;
   public isModal_Open: boolean = false;
-  
+
   constructor(
     public _base: BaseServiceHelper,
     private router: Router
@@ -42,5 +42,13 @@ export class HeaderComponent {
     localStorage.removeItem('isLoggedIn');
     this.isLoggedIn = false;
     this.router.navigate(['/']);
+  }
+
+  goToProduct() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/product']); 
+    } else {
+      this.router.navigate(['/userregistration']); 
+    }
   }
 }

@@ -2081,3 +2081,16 @@ export interface orderDetails{
     user_id?: number,
     createdname?: string
 }
+
+export interface userRegistration{
+    flag?: any,
+    user_id?: any,
+    fullname?: any,
+    email_id?: any,
+    mobilenumber?: any,
+    password?: any,
+    client_id?: number,
+    project_id?: number,
+    createdby?: number,
+    createdname?: string
+}

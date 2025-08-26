@@ -30,15 +30,15 @@ namespace onescreen_api.Controllers.UserManagement
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="objuserManagementModel"></param>
+        /// <param name="objuserRegistration"></param>
         /// <returns></returns>
         [Route("SignUp")]
         [HttpPost]
-        public string SignUp(userManagementModel objuserManagementModel)
+        public string SignUp(userRegistration objuserRegistration)
         {
             using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
             {
-                return objUserManagement_BAL.SignUp(objuserManagementModel);
+                return objUserManagement_BAL.SignUp(objuserRegistration);
             }
         }
 

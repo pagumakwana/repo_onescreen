@@ -33,6 +33,7 @@ export class ApiConstant {
     }
     public static customer = {
         signIn: "usermanagement/SignIn",
+        SignUp: "usermanagement/SignUp",
         registerCustomer: "usermanagement/SignUp",
         validateUser: "Admin/usermanagement/ValidateUser",
         forgotPassword: "Admin/usermanagement/ForgotPassword",

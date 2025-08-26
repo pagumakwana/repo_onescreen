@@ -106,4 +106,14 @@ namespace onescreenModel.UserManagement
         public List<projectModel> lstproject { get; set; }
         public string password { get; set; }
     }
+
+    public class userRegistration : commonModel
+    {
+        public Int64 user_id { get; set; }
+        public string fullname { get; set; }
+        public string email_id { get; set; }
+        public string mobilenumber { get; set; }
+        public string password { get; set; }
+
+    }
 }
