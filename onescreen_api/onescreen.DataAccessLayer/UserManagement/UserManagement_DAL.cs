@@ -25,33 +25,29 @@ namespace onescreenDAL.UserManagement
             client_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
         }
 
-        public string SignUp(userManagementModel objclsUserManagement)
+        public string SignUp(userRegistration objuserRegistration)
         {
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@flag", objclsUserManagement.flag, DbType.String);
+                DBParameter objDBParameter = new DBParameter("@flag", objuserRegistration.flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@fullname", objclsUserManagement.fullname, DbType.String);
+                objDBParameter = new DBParameter("@fullname", objuserRegistration.fullname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@email_id", objclsUserManagement.email_id, DbType.String);
+                objDBParameter = new DBParameter("@email_id", objuserRegistration.email_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@mobilenumber", objclsUserManagement.mobilenumber, DbType.String);
+                objDBParameter = new DBParameter("@mobilenumber", objuserRegistration.mobilenumber, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@password", objclsUserManagement.password, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@thirdparty", objclsUserManagement.thirdparty, DbType.Boolean);
+                objDBParameter = new DBParameter("@password", objuserRegistration.password, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@createdby", objclsUserManagement.createdby, DbType.Int64);
+                objDBParameter = new DBParameter("@createdby", objuserRegistration.createdby, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@createdname", objclsUserManagement.createdname, DbType.String);
+                objDBParameter = new DBParameter("@createdname", objuserRegistration.createdname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();

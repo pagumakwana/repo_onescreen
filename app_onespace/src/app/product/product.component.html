@@ -41,75 +41,80 @@
               </webd-multiselect>
             </div>
           </div>
-          <ng-container formArray="lstcategoryslab">
-            <ng-container [formGroup]='_objPass' *ngFor="let _objPass of timeArray?.controls;let i =index">
-              <div class="row mb-3">
-                <div class="col-lg-2 mb-3">
-                  <label for="timeslot_category_id_{{i+1}}" class="form-label">Time Slot :</label>
-                  <input type="text" id="timeslot_category_id_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Time Slot" formControlName="timeslot_category">
-                </div>
-                <div class="col-lg-2   mb-2">
-                  <label for="screen_category_id_{{i+1}}" class="form-label">Screen Property :</label>
-                  <input type="text" id="screen_category_id_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Screen interval" formControlName="screen_category">
-                </div>
-                <div class="col-lg-2   mb-2">
-                  <label for="screen_base_price_{{i+1}}" class="form-label">Base Price :</label>
-                  <input type="text" id="screen_base_price_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Screen interval" formControlName="base_price">
-                </div>
-                <div class="col-lg-2 mb-2">
-                  <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen Repetition :</label>
-                  <select class="form-control form-control-sm" id="screen_interval" (change)="onRepetitionChange($event,i)">
-                    <option id="repet_value_id_" value="">Select Repetition</option>
-                    <option *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
-                      id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
-                      {{_item.option_value}}</option>
-                  </select>
-                </div>
-                <div class="col-lg-2   mb-2">
-                  <label for="repetition_price_{{i+1}}" class="form-label">Repetition Price :</label>
-                  <input type="text" id="repetition_price_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Screen interval" formControlName="repetition_price">
-                </div>
-                <div class="col-lg-2 mb-2">
-                  <label for="from_date{{i+1}}" class="form-label">From Date :</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" ngbDatepicker #from_date="ngbDatepicker"
-                      id="from_date{{i+1}}" from_date.displayMonths="true" formControlName="from_date" required
-                      placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="from_date.toggle()">
-                    <span class="input-group-text" (click)="from_date.toggle()">
-                      <i class="fa fa-calendar"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="col-lg-2 mb-2">
-                  <label for="to_date{{i+1}}" class="form-label">To Date :</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" ngbDatepicker #to_date="ngbDatepicker"
-                      id="to_date{{i+1}}" to_date.displayMonths="true" formControlName="to_date" required
-                      placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="to_date.toggle()">
-                    <span class="input-group-text" (click)="to_date.toggle()">
-                      <i class="fa fa-calendar"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="col-lg-2   mb-2">
-                  <label for="time_price_{{i+1}}" class="form-label">Repetition Price :</label>
-                  <input type="text" id="time_price_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Screen interval" formControlName="timeslot_price">
-                </div>
-                <div class="col-lg-2   mb-2">
-                  <label for="total_price_{{i+1}}" class="form-label">Total Price :</label>
-                  <input type="text" id="total_price_{{i+1}}" class="form-control form-control-sm disabled"
-                    placeholder="Total" formControlName="total_price">
-                </div>
-              </div>
-            </ng-container>
-          </ng-container>
+
 
         </form>
       </div>
     </div>
   </div>
+</div>
+
+<ng-container formArray="lstcategoryslab">
+  <div class="card" [formGroup]='_objPass' *ngFor="let _objPass of timeArray?.controls;let i =index">
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-lg-2 mb-3">
+          <label for="timeslot_category_id_{{i+1}}" class="form-label">Time Slot :</label>
+          <input type="text" id="timeslot_category_id_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Time Slot" formControlName="timeslot_category">
+        </div>
+        <div class="col-lg-2   mb-2">
+          <label for="screen_category_id_{{i+1}}" class="form-label">Screen Property :</label>
+          <input type="text" id="screen_category_id_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Screen interval" formControlName="screen_category">
+        </div>
+        <div class="col-lg-2   mb-2">
+          <label for="screen_base_price_{{i+1}}" class="form-label">Base Price :</label>
+          <input type="text" id="screen_base_price_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Screen interval" formControlName="base_price">
+        </div>
+        <div class="col-lg-2 mb-2">
+          <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen Repetition :</label>
+          <select class="form-control form-control-sm" id="screen_interval" (change)="onRepetitionChange($event,i)">
+            <option id="repet_value_id_" value="">Select Repetition</option>
+            <option *ngFor="let _item of this.ScreenRepeMaster; let _ind=index" id="repet_value_id_{{_ind}}"
+              [value]="_item.option_value_id">
+              {{_item.option_value}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2   mb-2">
+          <label for="repetition_price_{{i+1}}" class="form-label">Repetition Price :</label>
+          <input type="text" id="repetition_price_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Screen interval" formControlName="repetition_price">
+        </div>
+        <div class="col-lg-2 mb-2">
+          <label for="from_date{{i+1}}" class="form-label">From Date :</label>
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" ngbDatepicker #from_date="ngbDatepicker"
+              id="from_date{{i+1}}" from_date.displayMonths="true" formControlName="from_date" required
+              placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="from_date.toggle()">
+            <span class="input-group-text" (click)="from_date.toggle()">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-2 mb-2">
+          <label for="to_date{{i+1}}" class="form-label">To Date :</label>
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" ngbDatepicker #to_date="ngbDatepicker"
+              id="to_date{{i+1}}" to_date.displayMonths="true" formControlName="to_date" required
+              placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="to_date.toggle()">
+            <span class="input-group-text" (click)="to_date.toggle()">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-2   mb-2">
+          <label for="time_price_{{i+1}}" class="form-label">Repetition Price :</label>
+          <input type="text" id="time_price_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Screen interval" formControlName="timeslot_price">
+        </div>
+        <div class="col-lg-2   mb-2">
+          <label for="total_price_{{i+1}}" class="form-label">Total Price :</label>
+          <input type="text" id="total_price_{{i+1}}" class="form-control form-control-sm disabled" placeholder="Total"
+            formControlName="total_price">
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
