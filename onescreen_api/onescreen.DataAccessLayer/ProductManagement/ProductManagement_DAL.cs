@@ -914,6 +914,67 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public responseModel getorderdertails(string flag, Int64 order_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_id", order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getorderdertails, ObJParameterCOl, CommandType.StoredProcedure);
+                List<orderDetails> lstorder = new List<orderDetails>();
+                if (ds != null)
+                {
+
+                    lstorder = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new orderDetails
+                          {
+                              order_id = Row.Field<Int64>("order_id"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              order_number = Row.Field<string>("order_number"),
+                              payment_type = Row.Field<string>("payment_type"),
+                              payment_order_id = Row.Field<string>("payment_order_id"),
+                              payment_response = Row.Field<string>("payment_response"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstorder;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
         public void Dispose() 
         { 
         }

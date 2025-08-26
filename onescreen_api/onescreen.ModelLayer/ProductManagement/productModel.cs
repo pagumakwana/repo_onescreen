@@ -100,4 +100,35 @@ namespace onescreenModel.ProductManagement
         public bool isdisable { get; set; }
 
     }
+
+    public class cartMaster : commonModel
+    {
+        public Int64 cartmaster_id { get; set; }
+        public Int64 user_id { get; set; }
+    }
+
+    public class productCartMap : commonModel
+    {
+        public Int64 product_cart_mapid { get; set; }
+        public Int64 user_id { get; set; }
+        public Int64 product_id { get; set; }
+        public Int64 cartmaster_id { get; set; }
+        public string optiovalues_ids { get; set; }
+        public decimal total_amount { get; set; }
+        public decimal attribute_amount { get; set; }
+        public decimal base_amount { get; set; }
+        public List<productOptionValuesModel>? lstvalues {get; set;}
+       
+    }
+
+    public class orderDetails : commonModel
+    {
+        public Int64 order_id { get; set; }
+        public Int64 user_id { get; set; }
+        public string order_number { get; set; }
+        public string payment_type { get; set; }
+        public string payment_order_id { get; set; }
+        public string payment_response { get; set; }
+
+    }
 }

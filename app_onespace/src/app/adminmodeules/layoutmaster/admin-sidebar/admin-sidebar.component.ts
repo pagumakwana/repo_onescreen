@@ -15,171 +15,104 @@ declare var feather: any;
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.scss'
 })
-export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AdminSidebarComponent implements OnInit {
+  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef) { }
 
-  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef,
-    private sanitizer: DomSanitizer) { }
-
-  userModule: any;
-  menuStructure: Array<any> = []
+  userModule: any[] = [];
+  menuStructure: Array<any> = [];
   _menuStructure: menuStructure = {};
   public fullname: string = '';
   @Output() allMenu: EventEmitter<any> = new EventEmitter();
 
-  public menuHtml: SafeHtml = '';
   ngOnInit(): void {
     this.getAuthorityModule();
   }
+
   ngAfterViewInit() {
+    // initial feather run (if feather available)
     if (typeof feather?.replace === 'function') feather.replace();
   }
 
   ngAfterViewChecked() {
+    // ensure icons remain rendered
     if (typeof feather?.replace === 'function') feather.replace();
   }
+
   getAuthorityModule() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._commonService.getauthoritymodule(user_id).then((resUserModule: any) => {
-        this.userModule = [];
+        // ensure array
         this.userModule = Array.isArray(resUserModule) ? resUserModule : [];
+        // build tree
         this.menuStructure = this.list_to_tree(this.userModule);
-        if (this.menuStructure.length > 0) {
-          // this.menuHtml = this.buildMenu(this.menuStructure);
-          const html = this.buildMenu(this.menuStructure);
-          this.menuHtml = this.sanitizer.bypassSecurityTrustHtml(html);
-          this._cdr.detectChanges();
-          setTimeout(() => {
-            if (typeof feather?.replace === 'function') feather.replace();
-          });
-        }
+        // initialize expanded flag false for all nodes
+        this.prepareNodes(this.menuStructure);
+        this._cdr.detectChanges();
+      }).catch(err => {
+        console.error('getauthoritymodule error', err);
       });
+    }).catch(err => {
+      console.error('encryptedStorage get user_id error', err);
     });
   }
-  // Build HTML string recursively
-  buildMenu(nodes: any[]): string {
-    let html = '<ul class="pc-navbar">';
-    for (let node of nodes) {
-      const hasChildren = node.children && node.children.length > 0;
-      html += `<li class="pc-item ${hasChildren ? 'pc-hasmenu' : ''}">`;
-      html += `
-        <a class="pc-link" data-role="menu-link">
-          <span class="pc-micon">
-            <i class="ph-duotone ${node.icon || 'ph-gauge'}"></i>
-          </span>
-          <span class="pc-mtext">${node.modulename}</span>
-          ${hasChildren ? `<span class="pc-arrow"><i data-feather="chevron-right"></i></span>` : ''}
-          ${node.badge ? `<span class="pc-badge">${node.badge}</span>` : ''}
-        </a>
-      `;
 
-      if (hasChildren) {
-        html += '<ul class="pc-submenu">';
-        for (let child of node.children) {
-          html += `
-            <li class="pc-item">
-              <a class="pc-link"  data-role="submenu-link">${child.modulename}</a>
-            </li>
-          `;
-        }
-        html += '</ul>';
-      }
-
-      html += '</li>';
-    }
-    html += '</ul>';
-
-    console.log(html)
-    return html;
-  }
-
-  generateMenuData(arrayData: any) {
-    for (let obj of arrayData) {
-      if (obj.module_parent_id == 0) {
-        this.menuStructure.push(obj)
-      } else {
-
+  // Recursively set expanded = false for all nodes
+  private prepareNodes(nodes: any[]) {
+    if (!nodes || !nodes.length) return;
+    for (const n of nodes) {
+      (n as any).expanded = false;
+      if (n.children && n.children.length > 0) {
+        this.prepareNodes(n.children);
       }
     }
   }
 
-  getChildData(dataId: any) {
-    let index = _.findIndex(this.userModule, (o: any) => {
-      o.module_id = dataId
-    })
-    return index > -1 ? this.userModule[index] : []
-  }
-  // public menuHtml: string = '';
-
-  // list_to_tree(list: any) {
-  //   let map: { [key: number]: number } = {}, node, roots = [], i;
-
-  //   for (i = 0; i < list.length; i += 1) {
-  //     map[list[i].module_id] = i; // initialize the map
-  //     list[i].children = []; // initialize the children
-  //   }
-
-  //   for (i = 0; i < list.length; i += 1) {
-  //     node = list[i];
-  //     if (node.module_parent_id !== parseInt("0")) {
-  //       // if you have dangling branches check that map[node.module_parent_id] exists
-  //       list[map[node.module_parent_id]]?.children?.push(node);
-  //     } else {
-  //       roots.push(node);
-  //     }
-  //   }
-  //   return roots;
-  // }
-
-  list_to_tree(list: any) {
-    const map: { [key: number]: number } = {};
+  // Convert flat list to nested tree
+  list_to_tree(list: any[]) {
+    const map: Record<number, any> = {};
     const roots: any[] = [];
+
+    // first pass: create map entries and children array
     for (let i = 0; i < list.length; i++) {
-      map[list[i].module_id] = i;
-      list[i].children = [];
+      const item = list[i];
+      map[item.module_id] = { ...item, children: [] };
     }
-    for (let i = 0; i < list.length; i++) {
-      const node = list[i];
-      if (node.module_parent_id !== parseInt('0')) {
-        list[map[node.module_parent_id]]?.children?.push(node);
+
+    // second pass: link children to parents
+    for (const id in map) {
+      const node = map[id];
+      const parentId = node.module_parent_id;
+      if (parentId && parentId !== 0 && map[parentId]) {
+        map[parentId].children.push(node);
+      } else if (!parentId || parentId === 0) {
+        roots.push(node);
       } else {
+        // parent not found - treat as root (safe fallback)
         roots.push(node);
       }
     }
+
     return roots;
   }
 
-  onMenuContainerClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const link = target.closest('.pc-link') as HTMLElement | null;
-    if (!link) return;
-
-    const li = link.closest('.pc-item') as HTMLElement | null;
-    if (!li) return;
-
-    // Toggle if it has a submenu
-    if (li.classList.contains('pc-hasmenu')) {
+  // toggle expand/collapse (called when clicking parent row)
+  toggleMenu(menu: any, event?: MouseEvent) {
+    if (event) {
+      // prevent link navigation when clicking caret/parent
       event.preventDefault();
-      li.classList.toggle('open');
-      return;
+      event.stopPropagation();
     }
-
-    // For leaf links, you can route if desired later.
-    // Example: read a data attribute and navigate.
-    // const route = link.getAttribute('data-route');
-    // if (route) this._base._router.navigate([route]);
-  }
-  logout() {
-    this._base._appSessionService.clearUserSession();
-    setTimeout(() => {
-      this._base._router.navigate(['/auth']);
-    }, 1000);
+    menu.expanded = !menu.expanded;
+    // rerun CD to update classes and feather icons if needed
+    this._cdr.detectChanges();
+    if (typeof feather?.replace === 'function') {
+      // run asynchronously to ensure DOM updated
+      setTimeout(() => feather.replace(), 0);
+    }
   }
 
-  onRouterLinkActive(event: any) {
-    console.log("event", event);
-  }
-
-  navigateToMenu(menu: any, allMenu: any) {
+  // Called when clicking a leaf item (no children)
+  navigateToMenu(menu: any, allMenu?: any) {
     this._menuStructure = {
       module_id: menu.module_id,
       module_parent_id: menu.module_parent_id,
@@ -188,9 +121,10 @@ export class AdminSidebarComponent implements OnInit, AfterViewInit, AfterViewCh
       children: menu.children,
       meuItems: allMenu,
       modulename: menu.modulename
-    }
+    };
     this.allMenu.emit(this._menuStructure);
-    if (menu.modulerouting != '' && menu.modulerouting != undefined && menu.modulerouting != null) {
+
+    if (menu.modulerouting != null && menu.modulerouting !== '' && menu.modulerouting !== '/') {
       this._base._router.navigate([menu.modulerouting]);
     } else {
       this._base._router.navigate(['app', menu.modulename]);
