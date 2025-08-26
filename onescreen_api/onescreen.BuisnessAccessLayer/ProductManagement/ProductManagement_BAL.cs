@@ -125,6 +125,14 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public responseModel getorderdertails(string flag, Int64 order_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getorderdertails(flag, order_id, start_count, end_count);
+            }
+        }
+        
         public void Dispose() 
         { 
         }
