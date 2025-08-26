@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<ng-container formArray="lstcategoryslab">
+<ng-container formArray="lst_cart_product">
   <div class="card" [formGroup]='_objPass' *ngFor="let _objPass of timeArray?.controls;let i =index">
     <div class="card-body">
       <div class="row mb-3">
@@ -59,9 +59,9 @@
             placeholder="Time Slot" formControlName="timeslot_category">
         </div>
         <div class="col-lg-2   mb-2">
-          <label for="screen_category_id_{{i+1}}" class="form-label">Screen Property :</label>
-          <input type="text" id="screen_category_id_{{i+1}}" class="form-control form-control-sm disabled"
-            placeholder="Screen interval" formControlName="screen_category">
+          <label for="product_id_{{i+1}}" class="form-label">Screen Property :</label>
+          <input type="text" id="product_id_{{i+1}}" class="form-control form-control-sm disabled"
+            placeholder="Screen interval" formControlName="product_name">
         </div>
         <div class="col-lg-2   mb-2">
           <label for="screen_base_price_{{i+1}}" class="form-label">Base Price :</label>
@@ -76,33 +76,55 @@
               [value]="_item.option_value_id">
               {{_item.option_value}}</option>
           </select>
+          <!-- <div
+            *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
+            class="error_msg">
+            <ng-container *ngIf="_objPass.controls.repetition_price.errors?.['required']">
+              Repetition is required.
+            </ng-container>
+          </div> -->
         </div>
         <div class="col-lg-2   mb-2">
           <label for="repetition_price_{{i+1}}" class="form-label">Repetition Price :</label>
           <input type="text" id="repetition_price_{{i+1}}" class="form-control form-control-sm disabled"
             placeholder="Screen interval" formControlName="repetition_price">
+
         </div>
         <div class="col-lg-2 mb-2">
           <label for="from_date{{i+1}}" class="form-label">From Date :</label>
           <div class="input-group">
             <input type="text" class="form-control form-control-sm" ngbDatepicker #from_date="ngbDatepicker"
-              id="from_date{{i+1}}" from_date.displayMonths="true" formControlName="from_date" required
+              id="from_date{{i+1}}" from_date.displayMonths="true" formControlName="from_date"
               placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="from_date.toggle()">
             <span class="input-group-text" (click)="from_date.toggle()">
               <i class="fa fa-calendar"></i>
             </span>
           </div>
+          <!-- <div
+            *ngIf="_objPass.controls.from_date.invalid && (_objPass.controls.from_date.dirty || _objPass.controls.from_date.touched)"
+            class="error_msg">
+            <ng-container *ngIf="_objPass.controls.from_date.errors?.['required']">
+              From Date is required.
+            </ng-container>
+          </div> -->
         </div>
         <div class="col-lg-2 mb-2">
           <label for="to_date{{i+1}}" class="form-label">To Date :</label>
           <div class="input-group">
             <input type="text" class="form-control form-control-sm" ngbDatepicker #to_date="ngbDatepicker"
-              id="to_date{{i+1}}" to_date.displayMonths="true" formControlName="to_date" required
+              id="to_date{{i+1}}" to_date.displayMonths="true" formControlName="to_date"
               placeholder="dd-mm-yyyy" [minDate]="minDate" [maxDate]="maxDate" (click)="to_date.toggle()">
             <span class="input-group-text" (click)="to_date.toggle()">
               <i class="fa fa-calendar"></i>
             </span>
           </div>
+          <!-- <div
+            *ngIf="_objPass.controls.to_date.invalid && (_objPass.controls.to_date.dirty || _objPass.controls.to_date.touched)"
+            class="error_msg">
+            <ng-container *ngIf="_objPass.controls.to_date.errors?.['required']">
+              To Date is required.
+            </ng-container>
+          </div> -->
         </div>
         <div class="col-lg-2   mb-2">
           <label for="time_price_{{i+1}}" class="form-label">Repetition Price :</label>
@@ -118,3 +140,12 @@
     </div>
   </div>
 </ng-container>
+
+<div class="card-body">
+  <div class="row mb-3">
+    <div class="col-lg-2 mb-3">
+      <button type="submit" id="btn_cart" class="btn btn-primary btn-sm" (click)="add_to_cart()"> Proceed to
+        Cart</button>
+    </div>
+  </div>
+</div>

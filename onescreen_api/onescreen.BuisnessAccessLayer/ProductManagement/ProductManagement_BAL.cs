@@ -132,7 +132,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getorderdertails(flag, order_id, start_count, end_count);
             }
         }
-        
+
+        public string add_to_cart(usercartMaster objusercartmaster)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.add_to_cart(objusercartmaster);
+            }
+        }
+
         public void Dispose() 
         { 
         }

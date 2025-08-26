@@ -269,5 +269,6 @@ export class ApiConstant {
         getproductoptions: "product/getproductoptions",
         getoptionvalue: "product/getoptionvalue",
         getorderdertails: "product/getorderdertails",
+        add_to_cart: "product/add_to_cart",
     }
 }

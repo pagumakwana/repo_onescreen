@@ -7,19 +7,19 @@ export class AuthModel {
     authToken: string;
     refreshToken: string;
     expiresIn: Date;
-  
+
     constructor(authToken: string = '', refreshToken: string = '', expiresIn: Date = new Date()) {
-      this.authToken = authToken;
-      this.refreshToken = refreshToken;
-      this.expiresIn = expiresIn;
+        this.authToken = authToken;
+        this.refreshToken = refreshToken;
+        this.expiresIn = expiresIn;
     }
-  
+
     setAuth(auth: AuthModel) {
-      this.authToken = auth.authToken;
-      this.refreshToken = auth.refreshToken;
-      this.expiresIn = auth.expiresIn;
+        this.authToken = auth.authToken;
+        this.refreshToken = auth.refreshToken;
+        this.expiresIn = auth.expiresIn;
     }
-  }
+}
 
 export interface userModel {
     flag?: string,
@@ -681,10 +681,10 @@ export interface societyModel {
     location_id?: number;
     pincode?: string;
     search?: any,
-    usermaster_id?:any,
-    usermasterdata_id?:any,
-    usermasterdata_name?:any,
-    usermasterdata_parent_id?:any,
+    usermaster_id?: any,
+    usermasterdata_id?: any,
+    usermasterdata_name?: any,
+    usermasterdata_parent_id?: any,
     isactive?: boolean,
     client_id?: number,
     project_id?: number,
@@ -1467,8 +1467,8 @@ export interface invoicebatchModel {
     financialyear_id?: number,
     financialyear?: string,
     lstinvfinancialyear?: any;
-    category_id?:any;
-    category?:any;
+    category_id?: any;
+    category?: any;
     inv_template_id?: any;
     society_id?: any;
     society_name?: any;
@@ -1523,9 +1523,9 @@ export interface receiptModel {
     amount?: any,
     date?: any,
     cheque_date?: any,
-    invoice_number?:any,
+    invoice_number?: any,
     invoice_date?: any,
-    invoice_duedate?:any,
+    invoice_duedate?: any,
     society_id?: any,
     society_name?: any,
     society_address?: any,
@@ -1909,8 +1909,8 @@ export interface invoiceTemplateModel {
     financialyear_id?: number,
     financialyear?: string,
     lstinvfinancialyear?: any;
-    category_id?:any;
-    category?:any;
+    category_id?: any;
+    category?: any;
     society_id?: any;
     society_name?: any;
     complex_id?: any;
@@ -1921,19 +1921,19 @@ export interface invoiceTemplateModel {
     lstcomplex?: any;
     lstwing?: any;
     lstfinancialmonth?: any;
-    accountheader_id?:any;
-    accountheader_title?:any;
-    lstaccountheaders?:any;
-    invoice_accountheader_id?:any;
+    accountheader_id?: any;
+    accountheader_title?: any;
+    lstaccountheaders?: any;
+    invoice_accountheader_id?: any;
     isactive?: boolean,
     client_id?: number,
     project_id?: number,
     user_id?: number,
-    createdby?:any,
+    createdby?: any,
     createdname?: string,
 }
 
-export interface useramountModel{
+export interface useramountModel {
     flat_id: any;
     accountheader_id: any;
     total_amount: any;
@@ -2009,7 +2009,7 @@ export interface brandsMaster {
 
 }
 
-export interface productoptionvalue{
+export interface productoptionvalue {
     flag?: any,
     option_value_id?: any,
     option_value?: any,
@@ -2017,26 +2017,26 @@ export interface productoptionvalue{
     option_type_id?: any,
     title?: any,
     lstoptiontype?: any,
-    isactive?:any,
+    isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
     createdname?: string
 }
 
-export interface productoptiontype{
+export interface productoptiontype {
     flag?: any,
     option_type_id?: any,
     title?: any,
     display_order?: any,
-    isactive?:any,
+    isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
     createdname?: string
 }
 
-export interface productoption{
+export interface productoption {
     flag?: any,
     option_id?: any,
     option_type_id?: any,
@@ -2045,14 +2045,14 @@ export interface productoption{
     product_name?: any,
     optiontype_list?: any,
     lstproduct?: any,
-    isactive?:any,
+    isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
     createdname?: string
 }
 
-export interface couponModel{
+export interface couponModel {
     flag?: any,
     coupon_id?: any,
     coupon_code?: any,
@@ -2060,14 +2060,14 @@ export interface couponModel{
     from_date?: any,
     to_date?: any,
     isdisable?: any,
-    isactive?:any,
+    isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
     createdname?: string
 }
 
-export interface orderDetails{
+export interface orderDetails {
     flag?: any,
     order_id?: any,
     order_number?: any,
@@ -2075,14 +2075,14 @@ export interface orderDetails{
     payment_order_id?: any,
     payment_response?: any,
     isdisable?: any,
-    isactive?:any,
+    isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
     createdname?: string
 }
 
-export interface userRegistration{
+export interface userRegistration {
     flag?: any,
     user_id?: any,
     fullname?: any,
@@ -2093,4 +2093,40 @@ export interface userRegistration{
     project_id?: number,
     createdby?: number,
     createdname?: string
+}
+
+export interface usercartMaster {
+    flag?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    lst_cart_product?: usercartmappingModel[];
+    client_id?: number,
+    project_id?: number,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface usercartmappingModel {
+    user_cart_mapping_id?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    product_id?: any,
+    optionvalues?: any,
+    total_amount?: any,
+    attribute_amount?: any,
+    base_amount?: any,
+    lstvalues?: Array<{
+        timeslot_category_id : number,
+        timeslot_category:string,
+        timeslot_price:any,
+        from_date:string,
+        to_date:string,
+        route_category_id:number,
+        route_category:string,
+        product_id:number,
+        product_name:string,
+        repetition_category_id:number,
+        repetition_category:string,
+    }>,
+
 }

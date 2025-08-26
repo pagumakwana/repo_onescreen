@@ -193,6 +193,7 @@ namespace onescreenModel.Common
         public const string managecartmaster = "[dbo].[managecartmaster]";
         public const string manageproductcart = "[dbo].[manageproductcart]";
         public const string getorderdertails = "[dbo].[getorderdertails]";
+        public const string mapusercart = "[dbo].[mapusercart]";
         //END :: PRODUCT
     }
 }

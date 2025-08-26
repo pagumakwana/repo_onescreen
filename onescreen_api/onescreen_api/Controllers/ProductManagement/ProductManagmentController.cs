@@ -241,5 +241,20 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objusercartmaster"></param>
+        /// <returns></returns>
+        [Route("add_to_cart")]
+        [HttpPost]
+        public string add_to_cart(usercartMaster objusercartmaster)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.add_to_cart(objusercartmaster);
+            }
+        }
+
     }
 }

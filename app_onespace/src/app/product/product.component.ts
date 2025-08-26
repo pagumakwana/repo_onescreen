@@ -1,16 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { SweetAlertOptions } from 'sweetalert2';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { MultiselectComponent } from '../layout_template/multiselect/multiselect.component';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { categoryMaster, productMaster } from '../_appmodel/_model';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { categoryMaster, productMaster, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
 import { CommonModule } from '@angular/common';
 import { NgbDateParserFormatter, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
+import { enAppSession } from '../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-product',
@@ -32,6 +30,7 @@ export class ProductComponent implements OnInit {
   _categoryTimeMaster: categoryMaster = {};
   _categoryTypeMaster: categoryMaster = {};
   _categoryPropertyMaster: categoryMaster = {};
+  _categoryrepetition: any = {};
   fgcategorymaster!: FormGroup;
   ScreenMaster: any = [];
   ScreenRepeMaster: any = [];
@@ -127,7 +126,7 @@ export class ProductComponent implements OnInit {
       lstproperty: [''],
       lstscreen: [''],
       lsttimeslot: [''],
-      lstcategoryslab: this._fbCategoryMaster.array([]),
+      lst_cart_product: this._fbCategoryMaster.array([]),
       final_price: ['']
     })
   }
@@ -215,7 +214,7 @@ export class ProductComponent implements OnInit {
   }
 
   get timeArray(): FormArray {
-    return this.fgcategorymaster.get("lstcategoryslab") as FormArray
+    return this.fgcategorymaster.get("lst_cart_product") as FormArray
   }
 
   onSelecttimeslot($event: any) {
@@ -224,9 +223,11 @@ export class ProductComponent implements OnInit {
 
     }
   }
-
+  _indexTimearray: any = [];
+  _index_time: number = 0;
   onSelectEvent($event: any) {
     if ($event && $event != null && $event != '') {
+
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
       const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
 
@@ -234,20 +235,36 @@ export class ProductComponent implements OnInit {
       let control: FormGroup = this._fbCategoryMaster.group({
         route_category_id: [this._categoryRouteMaster.category_id],
         route_category: [this._categoryRouteMaster.category],
-        scree_category_id: [this._categoryScreenMaster.product_id],
-        screen_category: [this._categoryScreenMaster.product_name],
-        timeslot_category_id: [$event ? $event?.option_value_id : 0],
-        timeslot_category: [$event ? $event?.option_value : ''],
-        from_date: [''],
-        to_date: [''],
+        product_id: [this._categoryScreenMaster.product_id],
+        product_name: [this._categoryScreenMaster.product_name],
+        timeslot_category_id: [$event ? $event?.option_value_id : '', [Validators.required]],
+        timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
+        from_date: ['', [Validators.required]],
+        to_date: ['', [Validators.required]],
         total_price: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
-        repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : 0.00],
+        repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
         base_price: [this._categoryScreenMaster.base_price],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
-        screen_interval: [[{ "option_value_id": 2, "option_value": "Afternoon" }]],
+        repetition_category_id: [],
+        repetition_category: [],
       });
       console.log("control : ", control);
+      // let obj = this.timeArray.at(this._index_time - 1) as FormGroup;
+      // if (obj != undefined) {
+      //   this._base._commonService.markFormGroupTouched(obj);
+      //   if (obj.valid) {
+      //     this._indexTimearray.push(this._index_time + 1);
+      //     this.timeArray.push(control);
+      //   } else {
+      //     const selected = this.fgcategorymaster.get('lsttimeslot')?.value || [];
+      //     const updated = selected.filter((x: any) => x.option_value_id !== $event.option_value_id);
+      //     this.fgcategorymaster.get('lsttimeslot')?.setValue(updated);
+      //   }
+      // } else {
+      //   this._indexTimearray.push(this._index_time + 1);
       this.timeArray.push(control);
+      //   this._index_time++
+      // }
     }
   }
   onDeSelectEvent($event: any) {
@@ -280,19 +297,83 @@ export class ProductComponent implements OnInit {
 
   onRepetitionChange($event: any, _index: number) {
     const selectedValue = $event.target.value;
-    debugger
     if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenRepeMaster.find((x: any) => x.option_value_id == selectedValue);
       let obj = this.timeArray.at(_index) as FormGroup;
-
+      obj.controls["repetition_category"].setValue(selectedItem ? selectedItem?.option_value : '');
+      obj.controls["repetition_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
       obj.controls["repetition_price"].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
       obj.controls['repetition_price'].updateValueAndValidity()
-      obj.controls["total_price"].setValue( + (obj.controls["total_price"].value)+(selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["repetition_price"].value));
+      obj.controls["total_price"].setValue(+ (obj.controls["total_price"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["repetition_price"].value));
       obj.controls['total_price'].updateValueAndValidity()
       console.log("obj", obj)
       this._cdr.detectChanges();
     }
 
+  }
+
+  _usercartMaster: usercartMaster = {};
+  _usercartmappingModel: usercartmappingModel = {};
+  add_to_cart() {
+    this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
+    if (this.fgcategorymaster.valid) {
+      this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
+      this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
+      let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
+      this.proceed_to_cart(_objFormData);
+
+    }
+
+    console.log("add to cart");
+
+  }
+
+  proceed_to_cart(_form_date: any = null) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        debugger
+        let _value_object: any = [];
+        _form_date?.filter((_item: any) => {
+          _value_object?.push({
+            timeslot_category_id: _item.timeslot_category_id,
+            timeslot_category: _item.timeslot_category,
+            timeslot_price: _item.timeslot_price,
+            from_date: _item.from_date,
+            to_date: _item.to_date,
+            route_category_id: _item.route_category_id,
+            route_category: _item.route_category,
+            product_id: _item.product_id,
+            product_name: _item.product_name,
+            repetition_category_id: _item.repetition_category_id,
+            repetition_category: _item.repetition_category,
+          })
+        })
+        this._usercartmappingModel = {
+          attribute_amount: 0,
+          base_amount: this._categoryScreenMaster.base_price,
+          product_id: this._categoryScreenMaster.product_id,
+          total_amount: 0,
+          user_id: user_id,
+          optionvalues: JSON.stringify(_value_object)
+        }
+        this._usercartMaster = {
+          flag: 'NEWCART',
+          createdname: fullname,
+          user_id: parseInt(user_id),
+          lst_cart_product: [this._usercartmappingModel]
+        }
+        console.log("_usercartMaster", this._usercartMaster);
+
+        this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
+
+          console.log("response", response);
+
+        });
+      });
+    });
+
+
+    console.log("cartModel", this.fgcategorymaster.value.lst_cart_product);
   }
 
 }

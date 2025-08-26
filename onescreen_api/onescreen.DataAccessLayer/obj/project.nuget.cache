@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EfPc8Z43EdLBZw8mtC+uzttH+/U5vpTBIXyPrhOJZTZTkP3v0yzBQZ5gGfSJEfsvzSB9xTuzQV+M1hci25Uiyg==",
+  "dgSpecHash": "PUCQ29VYbVAMKtFsus50aF3yYaZ2cI8J7QFki9pzP0r8EsRdTscATSc6opylcLwdhYEBBHZxED1RYnvV7vUEFg==",
   "success": true,
   "projectFilePath": "/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/onescreen.DataAccessLayer.csproj",
   "expectedPackageFiles": [
@@ -70,6 +70,7 @@
     "/Users/pragneshmakwana/.nuget/packages/microsoft.identitymodel.tokens/7.5.0/microsoft.identitymodel.tokens.7.5.0.nupkg.sha512",
     "/Users/pragneshmakwana/.nuget/packages/microsoft.net.http.headers/2.3.0/microsoft.net.http.headers.2.3.0.nupkg.sha512",
     "/Users/pragneshmakwana/.nuget/packages/microsoft.sqlserver.server/1.0.0/microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "/Users/pragneshmakwana/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/Users/pragneshmakwana/.nuget/packages/system.buffers/4.6.0/system.buffers.4.6.0.nupkg.sha512",
     "/Users/pragneshmakwana/.nuget/packages/system.clientmodel/1.0.0/system.clientmodel.1.0.0.nupkg.sha512",
     "/Users/pragneshmakwana/.nuget/packages/system.configuration.configurationmanager/9.0.2/system.configuration.configurationmanager.9.0.2.nupkg.sha512",

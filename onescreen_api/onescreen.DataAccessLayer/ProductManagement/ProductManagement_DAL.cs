@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using onescreen.DAL.Common;
 using onescreenModel.ClientManagement;
 using onescreenModel.Common;
@@ -1034,6 +1035,81 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public string add_to_cart(usercartMaster objusercartmaster)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objusercartmaster.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_master_id", objusercartmaster.cart_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objusercartmaster.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objusercartmaster.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objusercartmaster.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objusercartmaster.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objusercartmaster.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managecartmaster, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objusercartmaster.flag.Contains("NEWCART") || objusercartmaster.flag.Contains("MODIFYCART"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objusercartmaster.cart_master_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objusercartmaster.lst_cart_product != null && objusercartmaster.lst_cart_product.Count > 0))
+                            {
+                                objusercartmaster.lst_cart_product.ForEach(item =>
+                                {
+                                    item.cart_master_id = objusercartmaster.cart_master_id;
+                                    item.product_id = item.product_id;
+                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvalues);
+                                    item.base_amount = item.base_amount;
+                                    item.total_amount = item.total_amount;
+                                    item.attribute_amount = item.attribute_amount;
+                                    item.client_id = client_id;
+                                    item.project_id = project_id;
+                                    item.createdby = objusercartmaster.user_id;
+                                    item.createdname = objusercartmaster.createdname;
+                                    item.isactive = true;
+                                    item.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objusercartmaster.lst_cart_product);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_UserCartMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapusercart, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+                            ResponseMessage = Res[0].ToString();
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         public void Dispose() 

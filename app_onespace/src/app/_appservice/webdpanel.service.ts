@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable(
@@ -204,37 +204,6 @@ export class WebDService {
     public formdetails(datamodel: any) {
         return this._base._apiService.post(ApiConstant.managetour.bookinginfo, datamodel);
     }
-    public anthology(_anthology: anthology) {
-        return this._base._apiService.post(`${ApiConstant.postmanagement.anthology}`, _anthology);
-    }
-    public getanthology(flag = 'all', anthology_id = 0, aliasname = 'null', category_id = 0, category = 'null', label_id = 0, label = 'null', start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.postmanagement.getanthology}?flag=${flag}&anthology_id=${anthology_id}&aliasname=${aliasname}&category_id=${category_id}&category=${category}&label_id=${label_id}&label=${label}&start_count=${start_count}&end_count=${end_count}`);
-    }
-
-    public managesociety(_societyModel: societyModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managesociety}`, _societyModel);
-    }
-    public getsociety(flag = 'all', society_id = 0, category_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getsociety}?flag=${flag}&society_id=${society_id}&category_id=${category_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managecomplex(_complexModel: complexModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managecomplex}`, _complexModel);
-    }
-    public getcomplex(flag = 'all', society_id = 0, complex_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getcomplex}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managewing(_wingModel: wingModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managewing}`, _wingModel);
-    }
-    public getwing(flag = 'all', society_id = 0, complex_id = 0, wing_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getwing}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public manageflat(_flatModel: flatModel) {
-        return this._base._apiService.post(`${ApiConstant.society.manageflat}`, _flatModel);
-    }
-    public getflat(flag = 'all', society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getflat}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&flat_id=${flat_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
     public get_usermaster(flag = 'all', usermaster_id = 0, is_mandatory = false, has_parent = false, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.mastermanagement.getusermaster}?flag=${flag}&usermaster_id=${usermaster_id}&is_mandatory=${is_mandatory}&has_parent=${has_parent}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
@@ -252,12 +221,6 @@ export class WebDService {
     }
     public managenotice(_noticeModel: noticeModel) {
         return this._base._apiService.post(`${ApiConstant.common.managenotice}`, _noticeModel);
-    }
-    public getgate(flag = 'all', gate_id = 0, society_id = 0, complex_id = 0, wing_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getgate}?flag=${flag}&gate_id=${gate_id}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managegate(_gateModel: gateModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managegate}`, _gateModel);
     }
 
     public getsupport(flag = 'all', support_id = 0, category_id = 0, society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0, search = "null", start_count = 0, end_count = 0) {
@@ -657,5 +620,8 @@ export class WebDService {
     }
      public signUp(_userregister: userRegistration) {
         return this._base._apiService.post(`${ApiConstant.customer.SignUp}`, _userregister);
+    }
+     public add_to_cart(_usercartMaster: usercartMaster) {
+        return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
     }
 }

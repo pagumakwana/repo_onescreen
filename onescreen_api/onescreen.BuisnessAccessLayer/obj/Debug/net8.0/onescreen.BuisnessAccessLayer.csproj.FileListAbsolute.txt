@@ -250,3 +250,4 @@ D:/Project/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/obj/Debug/
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/obj/Debug/net8.0/onescreen.BuisnessAccessLayer.pdb
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/obj/Debug/net8.0/onescreen.BuisnessAccessLayer.genruntimeconfig.cache
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/obj/Debug/net8.0/ref/onescreen.BuisnessAccessLayer.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/bin/Debug/net8.0/Newtonsoft.Json.dll
