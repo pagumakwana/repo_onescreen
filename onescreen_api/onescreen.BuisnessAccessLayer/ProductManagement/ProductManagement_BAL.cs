@@ -141,6 +141,13 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public responseModel getusercartdetail(Int64 user_cart_mapping_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getusercartdetail(user_cart_mapping_id, user_id, product_id, start_count, end_count);
+            }
+        }
         public void Dispose() 
         { 
         }

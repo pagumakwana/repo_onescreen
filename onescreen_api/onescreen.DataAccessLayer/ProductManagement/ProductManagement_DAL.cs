@@ -1111,6 +1111,70 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public responseModel getusercartdetail(Int64 user_cart_mapping_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@user_cart_mapping_id", user_cart_mapping_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_id", product_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getusercartdetail, ObJParameterCOl, CommandType.StoredProcedure);
+                List<usercartmappingModel> lstusercart = new List<usercartmappingModel>();
+                if (ds != null)
+                {
+
+                    lstusercart = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new usercartmappingModel
+                          {
+                              user_cart_mapping_id = Row.Field<Int64>("user_cart_mapping_id"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              fullname = Row.Field<string>("fullname"),
+                              product_id = Row.Field<Int64>("product_id"),
+                              product_name = Row.Field<string>("product_name"),
+                              optionvalues = Row.Field<string>("optionvalues"),
+                              total_amount = Row.Field<decimal>("total_amount"),
+                              attribute_amount = Row.Field<decimal>("attribute_amount"),
+                              base_amount = Row.Field<decimal>("base_amount"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstusercart;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public void Dispose() 
         { 
