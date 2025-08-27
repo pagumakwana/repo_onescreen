@@ -127,7 +127,11 @@ namespace onescreenModel.ProductManagement
         public Int64 user_cart_mapping_id { get; set; }
         public Int64 cart_master_id { get; set; }
         public Int64 product_id { get; set; }
-        public string optionvalues { get; set; }
+        public string? product_name { get; set; }
+        public Int64? user_id { get; set; }
+        public string? fullname { get; set; }
+        public string? optionvalues { get; set; }
+        //public Dictionary<string, string>? optionvalues { get; set; }
         public decimal total_amount { get; set; }
         public decimal attribute_amount { get; set; }
         public decimal base_amount { get; set; }

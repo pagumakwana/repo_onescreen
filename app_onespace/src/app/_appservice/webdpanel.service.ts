@@ -624,4 +624,7 @@ export class WebDService {
      public add_to_cart(_usercartMaster: usercartMaster) {
         return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
     }
+    public getusercartdetail(user_cart_mapping_id = 0, user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?user_cart_mapping_id=${user_cart_mapping_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
 }
