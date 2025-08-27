@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { NgbDateParserFormatter, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { enAppSession } from '../_appmodel/sessionstorage';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, FormsModule, CommonModule, NgbModule],
+  imports: [MultiselectComponent, ReactiveFormsModule, FormsModule, CommonModule, NgbModule,RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [

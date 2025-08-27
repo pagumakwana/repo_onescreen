@@ -9,11 +9,12 @@ import {  productoptionvalue } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-productoptionvalues',
   standalone: true,
-  imports: [WebdtableComponent, SweetAlert2Module, ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [WebdtableComponent, SweetAlert2Module, ReactiveFormsModule, FormsModule, CommonModule,RouterModule],
   templateUrl: './productoptionvalues.component.html',
   styleUrl: './productoptionvalues.component.scss'
 })

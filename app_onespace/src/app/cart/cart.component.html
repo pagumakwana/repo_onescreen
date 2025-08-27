@@ -88,8 +88,10 @@
                     <thead>
                       <tr>
                         <th>Product</th>
+                        <th class="text-end">Base Price</th>
+                        <th class="text-end">Attribute Price</th>
                         <th class="text-end">Total</th>
-                        <th class="text-end"></th>
+                        <th class="text-end">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -101,17 +103,18 @@
                                 class="bg-light wid-50 rounded" />
                             </div> -->
                             <div class="flex-grow-1 ms-3">
-                              <h5 class="mb-1">{{ item.product_name }} - Base Price: {{ item.base_amount}}</h5>
+                              <h5 class="mb-1">{{ item.product_name }}</h5>
                               <div *ngFor="let item of UserCart">
                                 <ng-container *ngIf="item.optionvaluesParsed?.length > 0; else noOptions">
                                   <div *ngFor="let opt of item.optionvaluesParsed">
                                     <p class="text-sm text-muted mb-0">
                                       {{ opt.timeslot_category }} - ₹{{ opt.timeslot_price }}
-                                      <br/>
-                                      {{opt.route_category}} <br/>
-                                      {{opt.repetition_category}} <br/>
-                                      {{opt.from_date}} To {{opt.to_date}}
+                                      <br />
+                                      {{opt.route_category}} <br />
+                                      {{opt.repetition_category}} - ₹{{ opt.timeslot_price }} <br />
+                                      {{opt.from_date | date:'dd/MM/yyyy'}} to {{opt.to_date | date:'dd/MM/yyyy'}}
                                     </p>
+                                    <hr>
                                   </div>
                                 </ng-container>
                               </div>
@@ -123,7 +126,13 @@
                           </div>
                         </td>
                         <td class="text-end">
-                          <h5 class="mb-0">{{ item.total_amount | currency }}</h5>
+                          <h5 class="mb-0">₹{{ item.base_amount}}</h5>
+                        </td>
+                        <td class="text-end">
+                          <h5 class="mb-0">₹{{ item.attribute_amount}}</h5>
+                        </td>
+                        <td class="text-end">
+                          <h5 class="mb-0">₹{{ item.total_amount}}</h5>
                         </td>
                         <td class="text-end">
                           <a href="javascript:void(0)" (click)="removeFromCart(item)"
@@ -140,80 +149,80 @@
                     </tbody>
                   </table>
                 </div>
-                
+
               </div>
 
             </div>
             <div class="text-end">
-                <a href="../application/ecom_product.html"
-                  class="btn btn-link-secondary d-inline-flex align-items-center"><i
-                    class="ti ti-chevron-left me-2"></i> Back to Shopping</a>
-              </div>
+              <a routerLink="/product"
+                class="btn btn-link-secondary d-inline-flex align-items-center"><i class="ti ti-chevron-left me-2"></i>
+                Back to Shopping</a>
+            </div>
           </div>
           <div class="col-xl-4">
-              <div class="card">
-                <div class="card-body">
-                  <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal"
-                    data-bs-target="#couponModal">
-                    Have a coupon code?
-                  </button>
-                  <div class="input-group my-2">
-                    <input type="text" class="form-control" placeholder="Discount Coupon">
-                    <button class="btn btn-outline-secondary" type="button">Apply</button>
-                  </div>
+            <div class="card">
+              <div class="card-body">
+                <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal"
+                  data-bs-target="#couponModal">
+                  Have a coupon code?
+                </button>
+                <div class="input-group my-2">
+                  <input type="text" class="form-control" placeholder="Discount Coupon">
+                  <button class="btn btn-outline-secondary" type="button">Apply</button>
                 </div>
-              </div>
-              <div class="card">
-                <div class="card-body py-2">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item px-0">
-                      <h5 class="mb-0">Order Summary</h5>
-                    </li>
-                    <li class="list-group-item px-0">
-                      <div class="float-end">
-                        <h5 class="mb-0">$300.00</h5>
-                      </div><span class="text-muted">Sub Total</span>
-                    </li>
-                    <li class="list-group-item px-0">
-                      <div class="float-end">
-                        <h5 class="mb-0">-</h5>
-                      </div><span class="text-muted">Estimated Delivery</span>
-                    </li>
-                    <li class="list-group-item px-0">
-                      <div class="float-end">
-                        <h5 class="mb-0">-</h5>
-                      </div><span class="text-muted">Voucher</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-body py-2">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item px-0">
-                      <div class="float-end">
-                        <h5 class="mb-0">$300.00</h5>
-                      </div>
-                      <h5 class="mb-0 d-inline-block">Total</h5>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex align-items-center text-muted">
-                    <div class="avtar avtar-s bg-light-primary flex-shrink-0 me-2">
-                      <i class="material-icons-two-tone text-primary f-20">security</i>
-                    </div>
-                    <span class="text-muted text-sm w-100">Safe & Secure Payment. Easy returns. 100% Athentic
-                      products.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="d-grid mb-3">
-                <button class="btn btn-primary">Place an Order</button>
               </div>
             </div>
+            <div class="card">
+              <div class="card-body py-2">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item px-0">
+                    <h5 class="mb-0">Order Summary</h5>
+                  </li>
+                  <li class="list-group-item px-0">
+                    <div class="float-end">
+                      <h5 class="mb-0">$300.00</h5>
+                    </div><span class="text-muted">Sub Total</span>
+                  </li>
+                  <li class="list-group-item px-0">
+                    <div class="float-end">
+                      <h5 class="mb-0">-</h5>
+                    </div><span class="text-muted">Estimated Delivery</span>
+                  </li>
+                  <li class="list-group-item px-0">
+                    <div class="float-end">
+                      <h5 class="mb-0">-</h5>
+                    </div><span class="text-muted">Voucher</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body py-2">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item px-0">
+                    <div class="float-end">
+                      <h5 class="mb-0">$300.00</h5>
+                    </div>
+                    <h5 class="mb-0 d-inline-block">Total</h5>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex align-items-center text-muted">
+                  <div class="avtar avtar-s bg-light-primary flex-shrink-0 me-2">
+                    <i class="material-icons-two-tone text-primary f-20">security</i>
+                  </div>
+                  <span class="text-muted text-sm w-100">Safe & Secure Payment. Easy returns. 100% Athentic
+                    products.</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-grid mb-3">
+              <button class="btn btn-primary">Place an Order</button>
+            </div>
+          </div>
         </div>
 
       </div>
