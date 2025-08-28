@@ -275,6 +275,37 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="vendor_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getvendor")]
+        [HttpGet]
+        public responseModel getvendor(string flag, Int64 vendor_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getvendor(flag, vendor_id, start_count, end_count);
+            }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objvendorModel"></param>
+        /// <returns></returns>
+        [Route("managevendor")]
+        [HttpPost]
+        public string managevendor(vendorModel objvendorModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.managevendor(objvendorModel);
+            }
+        }
     }
 }

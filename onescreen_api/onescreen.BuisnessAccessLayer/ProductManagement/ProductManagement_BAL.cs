@@ -148,6 +148,22 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getusercartdetail(user_cart_mapping_id, user_id, product_id, start_count, end_count);
             }
         }
+
+        public responseModel getvendor(string flag, Int64 vendor_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getvendor(flag, vendor_id, start_count, end_count);
+            }
+        }
+
+        public string managevendor(vendorModel objvendorModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.managevendor(objvendorModel);
+            }
+        }
         public void Dispose() 
         { 
         }

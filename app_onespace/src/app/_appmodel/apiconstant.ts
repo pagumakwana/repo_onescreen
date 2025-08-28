@@ -18,8 +18,6 @@ export class ApiConstant {
         managesupportresponse: "common/managesupportresponse",
         getdocuments: "common/getdocuments",
         managedocuments: "common/managedocuments",
-        getvendor: "common/getvendor",
-        managevendor: "common/managevendor",
         getserviceprovider: "common/getserviceprovider",
         manageserviceprovider: "common/manageserviceprovider",
         getcompany: "common/getcompany",
@@ -271,5 +269,7 @@ export class ApiConstant {
         getorderdertails: "product/getorderdertails",
         add_to_cart: "product/add_to_cart",
         getusercartdetail: "product/getusercartdetail",
+        getvendor: "product/getvendor",
+        managevendor: "product/managevendor",
     }
 }

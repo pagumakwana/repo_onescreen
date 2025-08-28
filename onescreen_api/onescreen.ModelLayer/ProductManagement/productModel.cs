@@ -149,4 +149,15 @@ namespace onescreenModel.ProductManagement
         public string payment_response { get; set; }
 
     }
+
+    public class vendorModel : commonModel
+    {
+        public Int64 vendor_id { get; set; }
+        public string contact_person_name { get; set; }
+        public string company_name { get; set; }
+        public string email_id { get; set; }
+        public string mobile_no { get; set; }
+        public string vendor_address { get; set; }
+
+    }
 }
