@@ -1,13 +1,14 @@
-<div class="d-flex justify-content-end">
-    <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
-    &nbsp; -->
-    <!--begin::Add user-->
-    <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-end mb-2">
+      <button (click)="navigateaddform()" class="btn btn-primary btn-sm" style="border-radius: 0;">
         New Vendor
-    </button>
-    <!--end::Add user-->
+      </button>
+    </div>
+
+    <webd-table #dataTableCom [config]="tableConfig" (tableEvent)="tableClick($event)"></webd-table>
+  </div>
 </div>
-<webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 
 <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
     icon="warning" [showCancelButton]="true" [focusCancel]="true"
