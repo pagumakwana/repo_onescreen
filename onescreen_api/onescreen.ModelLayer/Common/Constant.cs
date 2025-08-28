@@ -48,8 +48,8 @@ namespace onescreenModel.Common
         public const string managedocuments = "[dbo].[managedocuments]";
         public const string mapdocumentcategory = "[dbo].[mapdocumentcategory]";
 
-        public const string getvendor = "[dbo].[getvendor]";
-        public const string managevendor = "[dbo].[managevendor]";
+        //public const string getvendor = "[dbo].[getvendor]";
+        //public const string managevendor = "[dbo].[managevendor]";
 
         public const string getserviceprovider = "[dbo].[getserviceprovider]";
         public const string manageserviceprovider = "[dbo].[manageserviceprovider]";
@@ -195,6 +195,8 @@ namespace onescreenModel.Common
         public const string getorderdertails = "[dbo].[getorderdertails]";
         public const string mapusercart = "[dbo].[mapusercart]";
         public const string getusercartdetail = "[dbo].[getusercartdetail]";
+        public const string getvendor = "[dbo].[getvendor]";
+        public const string managevendor = "[dbo].[managevendor]";
         //END :: PRODUCT
     }
 }

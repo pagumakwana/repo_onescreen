@@ -30,6 +30,8 @@ import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalue
 import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
 import { AddmodifyoptionComponent } from './adminmodeules/productoptionvalues/addmodifyoption/addmodifyoption.component';
 import { UserregistrationComponent } from './userregistration/userregistration.component';
+import { VendormoduleComponent } from './adminmodeules/vendormodule/vendormodule.component';
+import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodifyvendor/addmodifyvendor.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -183,6 +185,16 @@ export const routes: Routes = [
                 path: 'manageoption/:option_id',
                 component: AddmodifyoptionComponent,
                 title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'managevendor',
+                component: VendormoduleComponent,
+                title: 'Manage Vendor',
+            },
+            {
+                path: 'managevendor/:vendor_id',
+                component: AddmodifyvendorComponent,
+                title: 'Add Modify Vendor',
             },
         ]
     },

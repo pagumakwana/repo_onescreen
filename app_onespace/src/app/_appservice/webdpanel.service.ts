@@ -288,12 +288,7 @@ export class WebDService {
     public appuser_approved_reject(_app_userapproved_model: app_userapproved_model) {
         return this._base._apiService.post(`${ApiConstant.customer.appuser_approved_reject}`, _app_userapproved_model);
     }
-    public getvendor(flag = 'all', vendor_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.common.getvendor}?flag=${flag}&vendor_id=${vendor_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managevendor(_vendorModel: vendorModel) {
-        return this._base._apiService.post(`${ApiConstant.common.managevendor}`, _vendorModel);
-    }
+    
     public getserviceprovider(flag = 'all', serviceprovider_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getserviceprovider}?flag=${flag}&serviceprovider_id=${serviceprovider_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
@@ -626,5 +621,11 @@ export class WebDService {
     }
     public getusercartdetail(user_cart_mapping_id = 0, user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?user_cart_mapping_id=${user_cart_mapping_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getvendor(flag = 'all', vendor_id = 0,start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getvendor}?flag=${flag}&vendor_id=${vendor_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public managevendor(_vendor: vendorModel) {
+        return this._base._apiService.post(`${ApiConstant.product.managevendor}`, _vendor);
     }
 }

@@ -23,11 +23,25 @@
             <!-- <p disabled class="mb-3">Don't have an Account? <a href="../pages/register-v2.html" class="link-primary ms-1">Create Account</a></p> -->
             <div class="mb-3">
               <input type="text" class="form-control" id="username" formControlName="username" name="username"
-                placeholder="Email Address/ Mobile Number">
+                placeholder="Email Address/ Mobile Number" required>
+              <div
+                *ngIf="formSignIn.controls['username'].invalid && (formSignIn.controls['username'].dirty || formSignIn.controls['username'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="formSignIn.controls.username.errors?.['required']">
+                  Username is required.
+                </ng-container>
+              </div>
             </div>
             <div class="mb-3">
               <input type="password" class="form-control" id="password" formControlName="password" name="password"
-                placeholder="Password">
+                placeholder="Password" required>
+              <div
+                *ngIf="formSignIn.controls['password'].invalid && (formSignIn.controls['password'].dirty || formSignIn.controls['password'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="formSignIn.controls.password.errors?.['required']">
+                  Password is required.
+                </ng-container>
+              </div>
             </div>
             <div class="d-flex mt-1 justify-content-between align-items-center">
               <div class="form-check">
