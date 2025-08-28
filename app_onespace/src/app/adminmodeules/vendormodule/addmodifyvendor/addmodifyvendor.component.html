@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Vendor</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="fgvendor">
+                            <div class="row mb-6">
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Contact Person Name</label>
+                                    <input type="text" class="form-control " id="contact_person_name"
+                                        name="contact_person_name" placeholder="Person Name"
+                                        formControlName="contact_person_name" required>
+                                    <div *ngIf="fgvendor.controls['contact_person_name'].invalid && (fgvendor.controls['contact_person_name'].dirty || fgvendor.controls['contact_person_name'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgvendor.controls.contact_person_name.errors?.['required']">
+                                            Contact Person Name is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Company Name</label>
+                                    <input type="text" class="form-control " id="company_name"
+                                        name="company_name" placeholder="Company Name"
+                                        formControlName="company_name" required>
+                                    <div *ngIf="fgvendor.controls['company_name'].invalid && (fgvendor.controls['company_name'].dirty || fgvendor.controls['company_name'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgvendor.controls.company_name.errors?.['required']">
+                                            Company Name is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Email Id</label>
+                                    <input type="text" class="form-control " id="email_id"
+                                        name="email_id" placeholder="Email Id"
+                                        formControlName="email_id" required>
+                                    <div *ngIf="fgvendor.controls['email_id'].invalid && (fgvendor.controls['email_id'].dirty || fgvendor.controls['email_id'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgvendor.controls.email_id.errors?.['required']">
+                                            Email Id is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control " id="mobile_no"
+                                        name="mobile_no" placeholder="Mobile Number"
+                                        formControlName="mobile_no" required>
+                                    <div *ngIf="fgvendor.controls['mobile_no'].invalid && (fgvendor.controls['mobile_no'].dirty || fgvendor.controls['mobile_no'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgvendor.controls.mobile_no.errors?.['required']">
+                                            Mobile Number is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label">Vendor Address</label>
+                                    <webd-texteditor [formGroupTextArea]="this.fgvendor.controls['textarea']">
+                                    </webd-texteditor>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3 form-check">
+                                    <label class="form-label"></label>
+                                    <label>Published</label>
+                                    <input type="checkbox" class="form-check-input" id="isPublished"
+                                        formControlName="isactive">
+                                    <span class="new-control-indicator"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-4" (click)="setvendor(true)">Submit</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack">Back</button>
+
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

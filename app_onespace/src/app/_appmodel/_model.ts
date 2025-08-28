@@ -1144,29 +1144,29 @@ export interface financialyearModel {
     user_id?: number,
     createdname?: string
 }
-export interface vendorModel {
-    flag?: any,
-    vendor_id?: number,
-    vendor_name?: string,
-    vendor_code?: any,
-    email_id?: string,
-    mobile_number?: string,
-    gst_number?: any,
-    pan_number?: any,
-    vendor_address?: string,
-    gst_rate?: string,
-    gsttax_id?: number,
-    gsttaxtype?: string,
-    department_id?: number,
-    department?: string,
-    lstgsttaxtype?: any,
-    lstdepartment?: any,
-    isactive?: boolean,
-    client_id?: number,
-    project_id?: number,
-    user_id?: number,
-    createdname?: string
-}
+// export interface vendorModel {
+//     flag?: any,
+//     vendor_id?: number,
+//     vendor_name?: string,
+//     vendor_code?: any,
+//     email_id?: string,
+//     mobile_number?: string,
+//     gst_number?: any,
+//     pan_number?: any,
+//     vendor_address?: string,
+//     gst_rate?: string,
+//     gsttax_id?: number,
+//     gsttaxtype?: string,
+//     department_id?: number,
+//     department?: string,
+//     lstgsttaxtype?: any,
+//     lstdepartment?: any,
+//     isactive?: boolean,
+//     client_id?: number,
+//     project_id?: number,
+//     user_id?: number,
+//     createdname?: string
+// }
 export interface modeModel {
     flag?: any,
     mode_id?: number,
@@ -2131,4 +2131,18 @@ export interface usercartmappingModel {
         repetition_category:string,
     }>,
 
+}
+export interface vendorModel {
+    flag?: any,
+    vendor_id?: any,
+    contact_person_name?: any,
+    company_name?: any,
+    email_id?: any,
+    mobile_no?: any,
+    vendor_address?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,    
+    createdby?: number,
+    createdname?: string
 }
