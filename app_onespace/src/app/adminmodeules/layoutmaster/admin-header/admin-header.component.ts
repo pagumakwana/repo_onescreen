@@ -17,6 +17,9 @@ export class AdminHeaderComponent {
   navigate() {
     this._base._router.navigate(['/home']);
   }
+  cart() {
+    this._base._router.navigate(['/cart']);
+  }
   constructor(
     public _base: BaseServiceHelper,
     private auth: AuthService,

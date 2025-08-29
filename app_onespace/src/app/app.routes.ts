@@ -32,6 +32,7 @@ import { AddmodifyoptionComponent } from './adminmodeules/productoptionvalues/ad
 import { UserregistrationComponent } from './userregistration/userregistration.component';
 import { VendormoduleComponent } from './adminmodeules/vendormodule/vendormodule.component';
 import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodifyvendor/addmodifyvendor.component';
+import { SignupmoduleComponent } from './authmodule/signupmodule/signupmodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -39,6 +40,11 @@ export const routes: Routes = [
         path: 'auth',
         component: AuthmoduleComponent,
         title: 'Sign-in',
+    },
+    {
+        path: 'signup',
+        component: SignupmoduleComponent,
+        title: 'Sign-up',
     },
     {
         path: '',
