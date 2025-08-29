@@ -106,12 +106,12 @@ namespace onescreenModel.ProductManagement
 
     public class couponModel : commonModel
     {
-        public Int64 coupon_id { get; set; }
-        public string coupon_code { get; set; }
-        public string discount_value { get; set; }
-        public string from_date { get; set; }
-        public string to_date { get; set; }
-        public bool isdisable { get; set; }
+        public Int64? coupon_id { get; set; }
+        public string? coupon_code { get; set; }
+        public string? discount_value { get; set; }
+        public string? from_date { get; set; }
+        public string? to_date { get; set; }
+        public bool? isdisable { get; set; }
 
     }
 
@@ -126,7 +126,7 @@ namespace onescreenModel.ProductManagement
         public decimal cart_subtotal { get; set; }
         public decimal cart_discount { get; set; }
         public decimal cart_tax { get; set; }
-        public List<usercartmappingModel> lst_cart_product { get; set; }
+        public List<usercartmappingModel>? lst_cart_product { get; set; }
     }
 
     public class usercartmappingModel : commonModel
@@ -141,8 +141,8 @@ namespace onescreenModel.ProductManagement
         public decimal attribute_amount { get; set; }
         public decimal total_amount { get; set; }
         public decimal base_amount { get; set; }
-        public List<productOptionValuesModel>? lstvalues {get; set;}
-       
+        public List<productOptionValuesModel>? lstvalues { get; set; }
+
     }
 
     public class orderDetails : commonModel
@@ -223,5 +223,14 @@ namespace onescreenModel.ProductManagement
         public decimal attribute_amount { get; set; }
         public List<productOptionValuesModel>? lstvalues { get; set; }
 
+    }
+
+    public class user_coupon_model : commonModel
+    {
+        public Int64 coupon_cart_mapid { get; set; }
+        public Int64 coupon_id { get; set; }
+        public Int64 cart_id { get; set; }
+        public Int64 user_id { get; set; }
+        public string? product_ids { get; set; }
     }
 }

@@ -831,7 +831,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getcoupon(Int64 coupon_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(Int64 coupon_id, string coupon_code = "", Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -839,6 +839,8 @@ namespace onescreenDAL.ProductManagement
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@coupon_id", coupon_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_code", coupon_code, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1167,6 +1169,7 @@ namespace onescreenDAL.ProductManagement
                               user_id = Row.Field<Int64>("user_id"),
                               product_id = Row.Field<Int64>("product_id"),
                               product_name = Row.Field<string>("product_name"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
                               optionvalues = Row.Field<string>("optionvalues"),
                               attribute_amount = Row.Field<decimal>("attribute_amount"),
                               base_amount = Row.Field<decimal>("base_amount"),
@@ -1522,6 +1525,51 @@ namespace onescreenDAL.ProductManagement
                             ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                         }
 
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string apply_coupon(user_coupon_model objusercoupon)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objusercoupon.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_cart_mapid", objusercoupon.coupon_cart_mapid, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", objusercoupon.coupon_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_id", objusercoupon.cart_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objusercoupon.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_ids", objusercoupon.product_ids, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objusercoupon.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", objusercoupon.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objusercoupon.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.user_coupon_mapping, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                     }
                 }
                 return ResponseMessage;
