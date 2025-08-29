@@ -2177,3 +2177,14 @@ export interface razorpayPaymentResponse {
     razorpay_signature: string,
     status: string
 }
+
+export interface user_coupon_model{
+    flag?:any,
+    coupon_cart_mapid?: any,
+    coupon_id? :any
+    cart_id? :any
+    user_id? :any
+    product_ids? :any,
+    createdby?: number,
+    createdname?: string
+}

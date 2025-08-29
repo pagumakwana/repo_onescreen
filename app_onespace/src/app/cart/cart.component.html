@@ -103,14 +103,14 @@
                               <div *ngFor="let _item of item?.optionvaluesParsed">
                                 <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
                                   <!-- <div *ngFor="let opt of _item.optionvaluesParsed"> -->
-                                    <p class="text-sm text-muted mb-0">
-                                      {{ _item?.timeslot_category }} - ₹{{ _item?.timeslot_price }}
-                                      <br />
-                                      {{_item?.route_category}} <br />
-                                      {{_item?.repetition_category}} - ₹{{ _item?.repetition_price }} <br />
-                                      {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}}
-                                    </p>
-                                    <hr>
+                                  <p class="text-sm text-muted mb-0">
+                                    {{ _item?.timeslot_category }} - ₹{{ _item?.timeslot_price }}
+                                    <br />
+                                    {{_item?.route_category}} <br />
+                                    {{_item?.repetition_category}} - ₹{{ _item?.repetition_price }} <br />
+                                    {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}}
+                                  </p>
+                                  <hr>
                                   <!-- </div> -->
                                 </ng-container>
                               </div>
@@ -144,6 +144,14 @@
                       </tr>
                     </tbody>
                   </table>
+                  <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?"
+                    text="This cannot be undone" icon="warning" [showCancelButton]="true" [focusCancel]="true"
+                    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+                  </swal>
+
+                  <swal #delsuccessSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
+                    [showConfirmButton]="false">
+                  </swal>
                 </div>
 
               </div>
@@ -163,10 +171,16 @@
                   Have a coupon code?
                 </button>
                 <div class="input-group my-2">
-                  <input type="text" class="form-control" placeholder="Discount Coupon">
-                  <button class="btn btn-outline-secondary" type="button">Apply</button>
+                  <input type="text" class="form-control" placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
+                  <button class="btn btn-outline-secondary" type="button" (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
                 </div>
               </div>
+              <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
+                [showConfirmButton]="false">
+              </swal>
+              <swal #invalidcodeSwal [swalOptions]="swalOptions" title="Invalid Coupon!" text="" icon="warning"
+                [showConfirmButton]="false">
+              </swal>
             </div>
             <div class="card">
               <div class="card-body py-2">
@@ -181,7 +195,7 @@
                   </li>
                   <li class="list-group-item px-0">
                     <div class="float-end">
-                      <h5 class="mb-0">{{this.coupon_code}}</h5>
+                      <h5 class="mb-0">{{coupon_code}}</h5>
                     </div><span class="text-muted">Coupon Code</span>
                   </li>
                   <li class="list-group-item px-0">
@@ -194,7 +208,7 @@
                       <h5 class="mb-0">₹{{this.cart_tax}}</h5>
                     </div><span class="text-muted">TAX</span>
                   </li>
-                 
+
                 </ul>
               </div>
             </div>

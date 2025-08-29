@@ -101,11 +101,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getcoupon(Int64 coupon_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(Int64 coupon_id, string coupon_code ="", Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getcoupon(coupon_id, start_count, end_count);
+                return objProductManagement_DAL.getcoupon(coupon_id, coupon_code,start_count, end_count);
             }
         }
 
@@ -186,6 +186,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.move_to_order(objuserorderMaster);
             }
         }
+
+        public string apply_coupon(user_coupon_model objusercoupon)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.apply_coupon(objusercoupon);
+            }
+        }
+
         public void Dispose() 
         { 
         }
