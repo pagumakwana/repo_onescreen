@@ -12,6 +12,9 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Threading.Tasks;
 using webdHelper;
+using Razorpay.Api;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.Json;
 
 namespace onescreenDAL.ProductManagement
 {
@@ -20,6 +23,9 @@ namespace onescreenDAL.ProductManagement
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Int64 client_id;
         private readonly Int64 project_id;
+
+        private readonly string _key = "rzp_test_RAp1XhaN6GAi6K";
+        private readonly string _secret = "CIqkb8Ivu8lE9DQmnIxd830x";
 
         public ProductManagement_DAL(IHttpContextAccessor httpContextAccessor)
         {
@@ -1045,6 +1051,18 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@cart_master_id", objusercartmaster.cart_master_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", objusercartmaster.coupon_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_code", objusercartmaster.coupon_code, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_total", objusercartmaster.cart_total, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_subtotal", objusercartmaster.cart_subtotal, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_discount", objusercartmaster.cart_discount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_tax", objusercartmaster.cart_tax, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objusercartmaster.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objusercartmaster.client_id, DbType.Int64);
@@ -1111,14 +1129,14 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getusercartdetail(Int64 user_cart_mapping_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@user_cart_mapping_id", user_cart_mapping_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@user_cart_id", user_cart_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1135,20 +1153,21 @@ namespace onescreenDAL.ProductManagement
 
                 DBHelper objDbHelper = new DBHelper();
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getusercartdetail, ObJParameterCOl, CommandType.StoredProcedure);
-                List<usercartmappingModel> lstusercart = new List<usercartmappingModel>();
+                List<usercartmappingModel> lstusercartmapping = new List<usercartmappingModel>();
+                List<usercartMaster> lstusercart = new List<usercartMaster>();
+
                 if (ds != null)
                 {
-
-                    lstusercart = ds.Tables[0].AsEnumerable().Select(Row =>
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstusercartmapping = ds.Tables[0].AsEnumerable().Select(Row =>
                           new usercartmappingModel
                           {
                               user_cart_mapping_id = Row.Field<Int64>("user_cart_mapping_id"),
                               user_id = Row.Field<Int64>("user_id"),
-                              fullname = Row.Field<string>("fullname"),
                               product_id = Row.Field<Int64>("product_id"),
                               product_name = Row.Field<string>("product_name"),
                               optionvalues = Row.Field<string>("optionvalues"),
-                              total_amount = Row.Field<decimal>("total_amount"),
                               attribute_amount = Row.Field<decimal>("attribute_amount"),
                               base_amount = Row.Field<decimal>("base_amount"),
                               createdby = Row.Field<Int64?>("createdby"),
@@ -1160,10 +1179,38 @@ namespace onescreenDAL.ProductManagement
                               isactive = Row.Field<bool>("isactive"),
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
+
+                    }
+                    if (ds.Tables[1].Rows.Count > 0)
+                    {
+
+                        lstusercart = ds.Tables[1].AsEnumerable().Select(Row =>
+                              new usercartMaster
+                              {
+                                  cart_master_id = Row.Field<Int64>("cart_master_id"),
+                                  user_id = Row.Field<Int64>("user_id"),
+                                  batch_id = Row.Field<Guid>("batch_id"),
+                                  coupon_id = Row.Field<Int64>("coupon_id"),
+                                  coupon_code = Row.Field<string>("coupon_code"),
+                                  cart_total = Row.Field<decimal>("cart_total"),
+                                  cart_subtotal = Row.Field<decimal>("cart_subtotal"),
+                                  cart_discount = Row.Field<decimal>("cart_discount"),
+                                  cart_tax = Row.Field<decimal>("cart_tax"),
+                                  lst_cart_product = lstusercartmapping,
+                                  createdby = Row.Field<Int64?>("createdby"),
+                                  createdname = Row.Field<string>("createdname"),
+                                  createddatetime = Row.Field<DateTime?>("createddatetime"),
+                                  updatedby = Row.Field<Int64?>("updatedby"),
+                                  updatedname = Row.Field<string>("updatedname"),
+                                  updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                                  isactive = Row.Field<bool>("isactive"),
+                                  isdeleted = Row.Field<bool>("isdeleted")
+                              }).ToList();
+                    }
                 }
-                if (ds.Tables[1].Rows.Count > 0)
+                if (ds.Tables[2].Rows.Count > 0)
                 {
-                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                    response.count = Convert.ToInt64(ds.Tables[2].Rows[0]["RESPONSE"].ToString());
                 }
                 response.data = lstusercart;
 
@@ -1281,6 +1328,209 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public Razorpay_OrderAttribute CreateOrder(Dictionary<string, object> _obj_dictionay)
+        {
+            RazorpayClient client = new RazorpayClient(_key, _secret);
+            //Dictionary<string, object> options = new Dictionary<string, object>
+            //{
+            //    { "amount", (int)10000 }, // paise
+            //    { "currency", "INR" },
+            //    { "payment_capture", 1 }
+            //};
+            if (_obj_dictionay.ContainsKey("amount"))
+            {
+                int amountInPaise = 0;
+
+                if (_obj_dictionay["amount"] is JsonElement element)
+                {
+                    // Try to parse as decimal
+                    if (element.ValueKind == JsonValueKind.Number)
+                    {
+                        decimal amountInRupees = element.GetDecimal();
+                        amountInPaise = Convert.ToInt32(Math.Round(amountInRupees * 100));
+                    }
+                    else if (element.ValueKind == JsonValueKind.String &&
+                             decimal.TryParse(element.GetString(), out var amt))
+                    {
+                        amountInPaise = Convert.ToInt32(Math.Round(amt * 100));
+                    }
+                }
+                else
+                {
+                    decimal amountInRupees = Convert.ToDecimal(_obj_dictionay["amount"]);
+                    amountInPaise = Convert.ToInt32(Math.Round(amountInRupees * 100));
+                }
+
+                _obj_dictionay["amount"] = amountInPaise;
+            }
+            if (_obj_dictionay.ContainsKey("currency"))
+            {
+                if (_obj_dictionay["currency"] is JsonElement element)
+                {
+                    _obj_dictionay["currency"] = element.GetString();
+                }
+                else
+                {
+                    _obj_dictionay["currency"] = _obj_dictionay["currency"].ToString();
+                }
+            }
+            else
+            {
+                _obj_dictionay["currency"] = "INR"; // default
+            }
+
+            if (_obj_dictionay.ContainsKey("payment_capture"))
+            {
+                if (_obj_dictionay["payment_capture"] is JsonElement element)
+                {
+                    if (element.ValueKind == JsonValueKind.True)
+                        _obj_dictionay["payment_capture"] = true;
+                    else if (element.ValueKind == JsonValueKind.False)
+                        _obj_dictionay["payment_capture"] = false;
+                }
+                else
+                {
+                    // Convert string "true"/"false" to bool
+                    _obj_dictionay["payment_capture"] =
+                        Convert.ToBoolean(_obj_dictionay["payment_capture"]);
+                }
+            }
+
+
+            Order order = client.Order.Create(_obj_dictionay);
+
+            string json = JsonConvert.SerializeObject(order.Attributes);
+
+            // Deserialize into your custom model
+            try
+            {
+                Razorpay_OrderAttribute response = JsonConvert.DeserializeObject<Razorpay_OrderAttribute>(json);
+            return response;
+            }
+            catch (Exception)
+            {
+                return new Razorpay_OrderAttribute { status = "failure" };
+            }
+        }
+
+        public RazorpayPaymentResponse verify_order(RazorpayPaymentResponse objRazorpayPaymentResponse)
+        {
+            string orderId = objRazorpayPaymentResponse.razorpay_order_id;
+            string paymentId = objRazorpayPaymentResponse.razorpay_payment_id;
+            string signature = objRazorpayPaymentResponse.razorpay_signature;
+
+            var attributes = new Dictionary<string, string>
+            {
+                { "razorpay_order_id", orderId },
+                { "razorpay_payment_id", paymentId },
+                { "razorpay_signature", signature }
+            };
+
+            try
+            {
+                Utils.verifyPaymentSignature(attributes);
+                return new RazorpayPaymentResponse { razorpay_order_id= orderId, razorpay_payment_id= paymentId, razorpay_signature= signature, status = "failure" };
+            }
+            catch (Exception)
+            {
+                return new RazorpayPaymentResponse { status = "failure" };
+            }
+        }
+
+        public string move_to_order(userorderMaster objuserorderMaster)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objuserorderMaster.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_id", objuserorderMaster.order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@payment_type", objuserorderMaster.payment_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@payment_order_id", objuserorderMaster.payment_order_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@payment_response", objuserorderMaster.payment_response, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", objuserorderMaster.coupon_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_total", objuserorderMaster.order_total, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_subtotal", objuserorderMaster.order_subtotal, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_discount", objuserorderMaster.order_discount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_tax", objuserorderMaster.order_tax, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_status", objuserorderMaster.order_status, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@payment_status", objuserorderMaster.payment_status, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objuserorderMaster.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", objuserorderMaster.client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", objuserorderMaster.project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objuserorderMaster.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objuserorderMaster.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageordermaster, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objuserorderMaster.flag.Contains("NEWCART") || objuserorderMaster.flag.Contains("MODIFYCART"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objuserorderMaster.order_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objuserorderMaster.lst_orderdetail != null && objuserorderMaster.lst_orderdetail.Count > 0))
+                            {
+                                objuserorderMaster.lst_orderdetail.ForEach(item =>
+                                {
+                                    item.order_id = objuserorderMaster.order_id;
+                                    item.product_id = item.product_id;
+                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvalues);
+                                    item.base_amount = item.base_amount;
+                                    item.attribute_amount = item.attribute_amount;
+                                    item.client_id = client_id;
+                                    item.project_id = project_id;
+                                    item.createdby = objuserorderMaster.user_id;
+                                    item.createdname = objuserorderMaster.createdname;
+                                    item.isactive = true;
+                                    item.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objuserorderMaster.lst_orderdetail);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapusercart, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+                            ResponseMessage = Res[0].ToString();
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public void Dispose() 
         { 

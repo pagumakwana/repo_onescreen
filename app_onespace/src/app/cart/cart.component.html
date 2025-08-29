@@ -76,7 +76,7 @@
                 <h5 class="mb-0">
                   Cart Item
                   <span class="ms-2 f-14 px-2 badge bg-light-secondary rounded-pill">
-                    {{ UserCart?.length || 0 }}
+                    {{ UserCart[0]?.length || 0 }}
                   </span>
                 </h5>
               </div>
@@ -95,27 +95,23 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of UserCart">
+                      <tr *ngFor="let item of UserCart[0]?.lst_cart_product">
                         <td>
                           <div class="d-flex align-items-center">
-                            <!-- <div class="flex-shrink-0">
-                              <img [src]="item.imagePath || '../assets/images/application/default.jpg'" alt="image"
-                                class="bg-light wid-50 rounded" />
-                            </div> -->
                             <div class="flex-grow-1 ms-3">
                               <h5 class="mb-1">{{ item.product_name }}</h5>
-                              <div *ngFor="let item of UserCart">
-                                <ng-container *ngIf="item.optionvaluesParsed?.length > 0; else noOptions">
-                                  <div *ngFor="let opt of item.optionvaluesParsed">
+                              <div *ngFor="let _item of item?.optionvaluesParsed">
+                                <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
+                                  <!-- <div *ngFor="let opt of _item.optionvaluesParsed"> -->
                                     <p class="text-sm text-muted mb-0">
-                                      {{ opt.timeslot_category }} - ₹{{ opt.timeslot_price }}
+                                      {{ _item?.timeslot_category }} - ₹{{ _item?.timeslot_price }}
                                       <br />
-                                      {{opt.route_category}} <br />
-                                      {{opt.repetition_category}} - ₹{{ opt.timeslot_price }} <br />
-                                      {{opt.from_date | date:'dd/MM/yyyy'}} to {{opt.to_date | date:'dd/MM/yyyy'}}
+                                      {{_item?.route_category}} <br />
+                                      {{_item?.repetition_category}} - ₹{{ _item?.repetition_price }} <br />
+                                      {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}}
                                     </p>
                                     <hr>
-                                  </div>
+                                  <!-- </div> -->
                                 </ng-container>
                               </div>
 
@@ -143,7 +139,7 @@
                       </tr>
 
                       <!-- If no items -->
-                      <tr *ngIf="!UserCart || UserCart.length === 0">
+                      <tr *ngIf="!UserCart[0] || UserCart[0].length === 0">
                         <td colspan="3" class="text-center text-muted">Your cart is empty</td>
                       </tr>
                     </tbody>
@@ -154,8 +150,8 @@
 
             </div>
             <div class="text-end">
-              <a routerLink="/product"
-                class="btn btn-link-secondary d-inline-flex align-items-center"><i class="ti ti-chevron-left me-2"></i>
+              <a routerLink="/product" class="btn btn-link-secondary d-inline-flex align-items-center"><i
+                  class="ti ti-chevron-left me-2"></i>
                 Back to Shopping</a>
             </div>
           </div>
@@ -180,19 +176,25 @@
                   </li>
                   <li class="list-group-item px-0">
                     <div class="float-end">
-                      <h5 class="mb-0">$300.00</h5>
+                      <h5 class="mb-0">₹{{this.cart_subtotal}}</h5>
                     </div><span class="text-muted">Sub Total</span>
                   </li>
                   <li class="list-group-item px-0">
                     <div class="float-end">
-                      <h5 class="mb-0">-</h5>
-                    </div><span class="text-muted">Estimated Delivery</span>
+                      <h5 class="mb-0">{{this.coupon_code}}</h5>
+                    </div><span class="text-muted">Coupon Code</span>
                   </li>
                   <li class="list-group-item px-0">
                     <div class="float-end">
-                      <h5 class="mb-0">-</h5>
-                    </div><span class="text-muted">Voucher</span>
+                      <h5 class="mb-0">{{this.cart_discount}}</h5>
+                    </div><span class="text-muted">Coupon Discount</span>
                   </li>
+                  <li class="list-group-item px-0">
+                    <div class="float-end">
+                      <h5 class="mb-0">₹{{this.cart_tax}}</h5>
+                    </div><span class="text-muted">TAX</span>
+                  </li>
+                 
                 </ul>
               </div>
             </div>
@@ -201,7 +203,7 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item px-0">
                     <div class="float-end">
-                      <h5 class="mb-0">$300.00</h5>
+                      <h5 class="mb-0">₹{{this.cart_total}}</h5>
                     </div>
                     <h5 class="mb-0 d-inline-block">Total</h5>
                   </li>
@@ -220,7 +222,7 @@
               </div>
             </div>
             <div class="d-grid mb-3">
-              <button class="btn btn-primary">Place an Order</button>
+              <button class="btn btn-primary" (click)="place_order()">Place an Order</button>
             </div>
           </div>
         </div>
@@ -232,3 +234,7 @@
   <!-- [ sample-page ] end -->
 </div>
 <!-- [ Main Content ] end -->
+<!-- <ng-template #formModal let-modal> -->
+<app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
+  (pay_order)="proceeds_payment($event)"></app-checkout>
+<!-- </ng-template> -->

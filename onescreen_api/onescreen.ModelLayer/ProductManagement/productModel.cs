@@ -117,23 +117,29 @@ namespace onescreenModel.ProductManagement
 
     public class usercartMaster : commonModel
     {
-        public Int64 cart_master_id { get; set; }
-        public Int64 user_id { get; set; }
+        public Int64? cart_master_id { get; set; }
+        public Int64? user_id { get; set; }
+        public Guid? batch_id { get; set; }
+        public Int64? coupon_id { get; set; }
+        public string? coupon_code { get; set; }
+        public decimal cart_total { get; set; }
+        public decimal cart_subtotal { get; set; }
+        public decimal cart_discount { get; set; }
+        public decimal cart_tax { get; set; }
         public List<usercartmappingModel> lst_cart_product { get; set; }
     }
 
     public class usercartmappingModel : commonModel
     {
         public Int64 user_cart_mapping_id { get; set; }
-        public Int64 cart_master_id { get; set; }
-        public Int64 product_id { get; set; }
+        public Int64? cart_master_id { get; set; }
+        public Int64? product_id { get; set; }
         public string? product_name { get; set; }
         public Int64? user_id { get; set; }
         public string? fullname { get; set; }
         public string? optionvalues { get; set; }
-        //public Dictionary<string, string>? optionvalues { get; set; }
-        public decimal total_amount { get; set; }
         public decimal attribute_amount { get; set; }
+        public decimal total_amount { get; set; }
         public decimal base_amount { get; set; }
         public List<productOptionValuesModel>? lstvalues {get; set;}
        
@@ -158,6 +164,64 @@ namespace onescreenModel.ProductManagement
         public string email_id { get; set; }
         public string mobile_no { get; set; }
         public string vendor_address { get; set; }
+
+    }
+
+    public class Razorpay_OrderAttribute
+    {
+        public Int64 amount { get; set; }
+        public Int64 amount_due { get; set; }
+        public Int64 amount_paid { get; set; }
+        public Int64 attempts { get; set; }
+        public Int64 created_at { get; set; }
+        public string currency { get; set; }
+        public string entity { get; set; }
+        public string id { get; set; }
+        public dynamic? notes { get; set; }
+        public string? offer_id { get; set; }
+        public string? receipt { get; set; }
+        public string? status { get; set; }
+    }
+
+    public class RazorpayPaymentResponse
+    {
+        public string razorpay_order_id { get; set; }
+        public string razorpay_payment_id { get; set; }
+        public string razorpay_signature { get; set; }
+        public string? status { get; set; }
+    }
+
+    public class userorderMaster : commonModel
+    {
+        public Int64 order_id { get; set; }
+        public Int64 user_id { get; set; }
+        public Int64 coupon_id { get; set; }
+        public string? order_number { get; set; }
+        public string? payment_type { get; set; }
+        public string? payment_order_id { get; set; }
+        public string? payment_response { get; set; }
+        public decimal? order_total { get; set; }
+        public decimal? order_subtotal { get; set; }
+        public decimal? order_discount { get; set; }
+        public decimal? order_tax { get; set; }
+        public string? order_status { get; set; }
+        public string? payment_status { get; set; }
+        public List<userorderhistoryModel> lst_orderdetail { get; set; }
+    }
+
+    public class userorderhistoryModel : commonModel
+    {
+        public Int64 order_id { get; set; }
+        public Int64 order_history_id { get; set; }
+        public Int64 user_id { get; set; }
+        public Int64 product_id { get; set; }
+        public string? product_name { get; set; }
+        public string? from_date { get; set; }
+        public string? to_date { get; set; }
+        public decimal base_amount { get; set; }
+        public string? optionvalues { get; set; }
+        public decimal attribute_amount { get; set; }
+        public List<productOptionValuesModel>? lstvalues { get; set; }
 
     }
 }

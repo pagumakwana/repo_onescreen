@@ -241,3 +241,5 @@ D:/Project/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/obj/Debug/net8
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/obj/Debug/net8.0/onescreen.DataAccessLayer.genruntimeconfig.cache
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/obj/Debug/net8.0/ref/onescreen.DataAccessLayer.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/BouncyCastle.Crypto.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Razorpay.dll

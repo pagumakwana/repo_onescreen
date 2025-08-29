@@ -141,11 +141,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getusercartdetail(Int64 user_cart_mapping_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getusercartdetail(user_cart_mapping_id, user_id, product_id, start_count, end_count);
+                return objProductManagement_DAL.getusercartdetail(user_cart_id, user_id, product_id, start_count, end_count);
             }
         }
 
@@ -162,6 +162,28 @@ namespace onescreenBAL.ProductManagement
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
                 return objProductManagement_DAL.managevendor(objvendorModel);
+            }
+        }
+        public Razorpay_OrderAttribute CreateOrder(Dictionary<string, object> _obj_dictionay)
+        {
+
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.CreateOrder(_obj_dictionay);
+            }
+        }
+        public RazorpayPaymentResponse verify_order(RazorpayPaymentResponse objRazorpay_OrderAttribute)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.verify_order(objRazorpay_OrderAttribute);
+            }
+        }
+        public string move_to_order(userorderMaster objuserorderMaster)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.move_to_order(objuserorderMaster);
             }
         }
         public void Dispose() 

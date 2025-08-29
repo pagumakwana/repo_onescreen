@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Validators } from 'ngx-editor';
@@ -17,7 +17,7 @@ import { AuthService } from './_authservice/auth.service';
   styleUrl: './authmodule.component.scss',
   providers: [AuthService, WebDService, BaseServiceHelper]
 })
-export class AuthmoduleComponent {
+export class AuthmoduleComponent implements OnInit{
   hasError: boolean | undefined;
   isLoading$: Observable<boolean>;
 
@@ -43,7 +43,6 @@ export class AuthmoduleComponent {
 
   ngOnInit(): void {
     this.initForm();
-
   }
 
   initForm() {
@@ -64,6 +63,8 @@ export class AuthmoduleComponent {
       // this.isLoading$ = false;
     }
   }
+
+  loginsuccess :boolean=false;
   SignInCustomer(_username: string = '', _passsword: string = '') {
     this.hasError = false;
     const loginSubscr = this.authService
@@ -74,9 +75,10 @@ export class AuthmoduleComponent {
           this.getUserConfig(user.user_id).then(resUserConfig => {
             this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
               if (res) {
+                this.loginsuccess = true;
                 setTimeout(() => {
                   this._base._router.navigate(['/home']);
-                  location.reload();
+                  this.loginsuccess = true;
                 }, 500);
                 // this._base._commonService.getauthoritymodule(user.user_id).then((resUserModule: any) => {
                 //   let UserModule: any[] = [];

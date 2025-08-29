@@ -2099,6 +2099,12 @@ export interface usercartMaster {
     flag?: any,
     cart_master_id?: any,
     user_id?: any,
+    coupon_id?:number,
+    coupon_code?:string,
+    cart_total?:any,
+    cart_subtotal?:any,
+    cart_discount?:any,
+    cart_tax?:any,
     lst_cart_product?: usercartmappingModel[];
     client_id?: number,
     project_id?: number,
@@ -2118,17 +2124,17 @@ export interface usercartmappingModel {
     attribute_amount?: any,
     base_amount?: any,
     lstvalues?: Array<{
-        timeslot_category_id : number,
-        timeslot_category:string,
-        timeslot_price:any,
-        from_date:string,
-        to_date:string,
-        route_category_id:number,
-        route_category:string,
-        product_id:number,
-        product_name:string,
-        repetition_category_id:number,
-        repetition_category:string,
+        timeslot_category_id: number,
+        timeslot_category: string,
+        timeslot_price: any,
+        from_date: string,
+        to_date: string,
+        route_category_id: number,
+        route_category: string,
+        product_id: number,
+        product_name: string,
+        repetition_category_id: number,
+        repetition_category: string,
     }>,
 
 }
@@ -2142,7 +2148,29 @@ export interface vendorModel {
     vendor_address?: any,
     isactive?: any,
     client_id?: number,
-    project_id?: number,    
+    project_id?: number,
     createdby?: number,
     createdname?: string
+}
+export interface razorpay_OrderAttribute {
+    amount?: number,
+    amount_due?: number,
+    amount_paid?: number,
+    payment_capture?: any,
+    attempts?: number,
+    created_at?: number,
+    currency?: any,
+    entity?: string,
+    id?: string,
+    notes?: any,
+    offer_id?: string,
+    receipt?: string,
+    status?: string,
+}
+
+export interface razorpayPaymentResponse {
+    razorpay_order_id: string,
+    razorpay_payment_id: string,
+    razorpay_signature: string,
+    status: string
 }

@@ -39,9 +39,12 @@ export class HeaderComponent {
   }
 
   logout() {
-    localStorage.removeItem('isLoggedIn');
+    this._base._appSessionService.clearUserSession();
+    setTimeout(() => {
     this.isLoggedIn = false;
-    this.router.navigate(['/']);
+      localStorage.removeItem('isLoggedIn');
+      this._base._router.navigate(['/']);
+    }, 1000);
   }
 
   goToProduct() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable(
@@ -288,7 +288,7 @@ export class WebDService {
     public appuser_approved_reject(_app_userapproved_model: app_userapproved_model) {
         return this._base._apiService.post(`${ApiConstant.customer.appuser_approved_reject}`, _app_userapproved_model);
     }
-    
+
     public getserviceprovider(flag = 'all', serviceprovider_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getserviceprovider}?flag=${flag}&serviceprovider_id=${serviceprovider_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
@@ -323,7 +323,7 @@ export class WebDService {
     // , start_date = 'null', end_date = 'null'
     // &start_date=${start_date}&end_date=${end_date}
 
-    public getdashboardwidget(flag = 'all', user_id = 0 ) {
+    public getdashboardwidget(flag = 'all', user_id = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getdashboardwidget}?flag=${flag}&user_id=${user_id}`);
     }
 
@@ -605,27 +605,33 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.managecoupon}`, _couponModel);
     }
 
-    public getoptionvalue(option_type = '', product_id = 0,start_count = 0, end_count = 0) {
+    public getoptionvalue(option_type = '', product_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getoptionvalue}?option_type=${option_type}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
-    
+
     public getorderdetails(flag = 'all', order_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
     }
-     public signUp(_userregister: userRegistration) {
+    public signUp(_userregister: userRegistration) {
         return this._base._apiService.post(`${ApiConstant.customer.SignUp}`, _userregister);
     }
-     public add_to_cart(_usercartMaster: usercartMaster) {
+    public add_to_cart(_usercartMaster: usercartMaster) {
         return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
     }
-    public getusercartdetail(user_cart_mapping_id = 0, user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?user_cart_mapping_id=${user_cart_mapping_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getusercartdetail(user_cart_id = 0, user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?user_cart_id=${user_cart_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
     }
-    public getvendor(flag = 'all', vendor_id = 0,start_count = 0, end_count = 0) {
+    public getvendor(flag = 'all', vendor_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getvendor}?flag=${flag}&vendor_id=${vendor_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managevendor(_vendor: vendorModel) {
         return this._base._apiService.post(`${ApiConstant.product.managevendor}`, _vendor);
+    }
+    public createOrder(_razorpay_OrderAttribute: razorpay_OrderAttribute) {
+        return this._base._apiService.post(`${ApiConstant.customer.create_order}`, _razorpay_OrderAttribute);
+    }
+    public verifyorder(_razorpayPaymentResponse: razorpayPaymentResponse) {
+        return this._base._apiService.post(`${ApiConstant.customer.verify_order}`, _razorpayPaymentResponse);
     }
 }

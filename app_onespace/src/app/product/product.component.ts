@@ -6,15 +6,17 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { categoryMaster, productMaster, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
 import { CommonModule } from '@angular/common';
+import { SweetAlertOptions } from 'sweetalert2';
 import { NgbDateParserFormatter, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, FormsModule, CommonModule, NgbModule,RouterModule],
+  imports: [MultiselectComponent, ReactiveFormsModule,SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -25,6 +27,12 @@ export class ProductComponent implements OnInit {
 
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
+
+  @ViewChild('successSwal')
+  public readonly successSwal!: SwalComponent;
+
+  swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
 
   _categoryRouteMaster: categoryMaster = {};
   _categoryScreenMaster: productMaster = {};
@@ -193,12 +201,12 @@ export class ProductComponent implements OnInit {
 
   onSelectscreen($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
-
       const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event[0]?.product_id);
       console.log("$event", _item)
       this._categoryScreenMaster.product_id = ($event[0]?.product_id);
       this._categoryScreenMaster.product_name = ($event[0]?.product_name);
       this._categoryScreenMaster.base_price = (_item ? _item[0]?.base_price : 0.00);
+      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_price)
       this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
         this.TimeMaster = [];
         this.TimeMaster = res;
@@ -226,6 +234,7 @@ export class ProductComponent implements OnInit {
   }
   _indexTimearray: any = [];
   _index_time: number = 0;
+  _totalAmount = 0;
   onSelectEvent($event: any) {
     if ($event && $event != null && $event != '') {
 
@@ -242,13 +251,15 @@ export class ProductComponent implements OnInit {
         timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
         from_date: ['', [Validators.required]],
         to_date: ['', [Validators.required]],
-        total_price: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
+        total_amount: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
         repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
         base_price: [this._categoryScreenMaster.base_price],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
         repetition_category_id: [],
         repetition_category: [],
+        attribute_amount: 0.00,
       });
+
       console.log("control : ", control);
       // let obj = this.timeArray.at(this._index_time - 1) as FormGroup;
       // if (obj != undefined) {
@@ -305,8 +316,10 @@ export class ProductComponent implements OnInit {
       obj.controls["repetition_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
       obj.controls["repetition_price"].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
       obj.controls['repetition_price'].updateValueAndValidity()
-      obj.controls["total_price"].setValue(+ (obj.controls["total_price"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["repetition_price"].value));
-      obj.controls['total_price'].updateValueAndValidity()
+      obj.controls["total_amount"].setValue((obj.controls["total_amount"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["repetition_price"].value));
+      obj.controls['total_amount'].updateValueAndValidity();
+      obj.controls["attribute_amount"].setValue((obj.controls["repetition_price"].value) + (obj.controls["timeslot_price"].value))
+      obj.controls["attribute_amount"].updateValueAndValidity()
       console.log("obj", obj)
       this._cdr.detectChanges();
     }
@@ -316,25 +329,23 @@ export class ProductComponent implements OnInit {
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
   add_to_cart() {
+    debugger
     this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
     if (this.fgcategorymaster.valid) {
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
       let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
       this.proceed_to_cart(_objFormData);
-
     }
-
-    console.log("add to cart");
-
   }
 
-  proceed_to_cart(_form_date: any = null) {
+  proceed_to_cart(_form_data: any = null) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         debugger
         let _value_object: any = [];
-        _form_date?.filter((_item: any) => {
+        let _attriAmount = 0.00;
+        _form_data?.filter((_item: any) => {
           _value_object?.push({
             timeslot_category_id: _item.timeslot_category_id,
             timeslot_category: _item.timeslot_category,
@@ -347,27 +358,46 @@ export class ProductComponent implements OnInit {
             product_name: _item.product_name,
             repetition_category_id: _item.repetition_category_id,
             repetition_category: _item.repetition_category,
-          })
+            repetition_price: _item.repetition_price,
+            attribute_amount: _item.attribute_amount,
+            total_amount: _item.total_amount,
+          });
+          _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
         })
         this._usercartmappingModel = {
-          attribute_amount: 0,
           base_amount: this._categoryScreenMaster.base_price,
           product_id: this._categoryScreenMaster.product_id,
-          total_amount: 0,
+          total_amount: this._totalAmount,
+          attribute_amount: _attriAmount,
           user_id: user_id,
           optionvalues: JSON.stringify(_value_object)
         }
+        let _cart_subtotal = (this._totalAmount + _attriAmount);
+        let _cart_discount = 0.00;
+        let _cart_after_discount = (_cart_subtotal - _cart_discount);
+        let _cart_tax = (_cart_after_discount * (18 / 100));
+        let _cart_after_tax = (_cart_after_discount + _cart_tax);
+        let _cart_total = (_cart_after_tax);
+
         this._usercartMaster = {
           flag: 'NEWCART',
           createdname: fullname,
           user_id: parseInt(user_id),
-          lst_cart_product: [this._usercartmappingModel]
+          lst_cart_product: [this._usercartmappingModel],
+          coupon_id: 0,
+          coupon_code: '',
+          cart_total: _cart_total,
+          cart_subtotal: _cart_subtotal,
+          cart_discount: 0.00,
+          cart_tax: _cart_tax
         }
-        console.log("_usercartMaster", this._usercartMaster);
-
         this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
+          this.successSwal.fire();
+          setTimeout(() => {
+            this._base._router.navigate(['/app/cart']);
+          }, 500);
 
-          console.log("response", response);
+        },error=>{
 
         });
       });

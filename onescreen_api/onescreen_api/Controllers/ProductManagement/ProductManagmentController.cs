@@ -4,6 +4,7 @@ using onescreenBAL.ProductManagement;
 using onescreenModel.Common;
 using onescreenModel.ProductManagement;
 
+
 namespace onescreen_api.Controllers.ProductManagement
 {
     [Route("api/product")]
@@ -12,6 +13,7 @@ namespace onescreen_api.Controllers.ProductManagement
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+       
         /// <summary>
         /// 
         /// </summary>
@@ -259,7 +261,7 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="user_cart_mapping_id"></param>
+        /// <param name="user_cart_id"></param>
         /// <param name="user_id"></param>
         /// <param name="product_id"></param>
         /// <param name="start_count"></param>
@@ -267,11 +269,11 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <returns></returns>
         [Route("getusercartdetail")]
         [HttpGet]
-        public responseModel getusercartdetail(Int64 user_cart_mapping_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getusercartdetail(user_cart_mapping_id, user_id, product_id, start_count, end_count);
+                return objProductManagement_BAL.getusercartdetail(user_cart_id, user_id, product_id, start_count, end_count);
             }
         }
 
@@ -307,5 +309,52 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.managevendor(objvendorModel);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_obj_dictionay"></param>
+        /// <returns></returns>
+        [Route("create_order")]
+        [HttpPost]
+        public Razorpay_OrderAttribute CreateOrder(Dictionary<string, object> _obj_dictionay=null)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.CreateOrder(_obj_dictionay);
+            }
+        }
+
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="objRazorpayPaymentResponse"></param>
+       /// <returns></returns>
+        [Route("verify_order")]
+        [HttpPost]
+        public RazorpayPaymentResponse verify_order(RazorpayPaymentResponse objRazorpayPaymentResponse)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.verify_order(objRazorpayPaymentResponse);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objuserorderMaster"></param>
+        /// <returns></returns>
+        [Route("move_to_order")]
+        [HttpPost]
+        public string move_to_order(userorderMaster objuserorderMaster)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.move_to_order(objuserorderMaster);
+            }
+        }
+
+
     }
 }

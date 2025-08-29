@@ -48,6 +48,8 @@ export class ApiConstant {
         managecommuserdetail: "usermanagement/managecommuserdetail",
         getcommuserdetail: "usermanagement/getcommuserdetail",
         manage_delete_record: "usermanagement/manage_delete_record",
+        create_order: "product/create_order",
+        verify_order: "product/verify_order",
 
 
     }
