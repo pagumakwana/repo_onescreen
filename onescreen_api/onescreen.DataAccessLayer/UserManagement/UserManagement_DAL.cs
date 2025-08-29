@@ -225,6 +225,8 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@vendor_id", objclsUserManagement.vendor_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", objclsUserManagement.project_id, DbType.Int64);
@@ -359,6 +361,7 @@ namespace onescreenDAL.UserManagement
                 List<userManagementModel> lstuser = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
                 List<projectuserModel> lstproject = new List<projectuserModel>();
+                List<vendoruserModel> lstvendor = new List<vendoruserModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 responseModel lstresponse = new responseModel();
                 if (ds != null)
@@ -387,7 +390,16 @@ namespace onescreenDAL.UserManagement
                         }
                         if (ds.Tables[2].Rows.Count > 0)
                         {
-                            lstFileinfo = ds.Tables[2].AsEnumerable().Select(Row =>
+                            lstvendor = ds.Tables[2].AsEnumerable().Select(Row =>
+                                new vendoruserModel
+                                {
+                                    vendor_id = Row.Field<Int64>("vendor_id"),
+                                    contact_person_name = Row.Field<string>("contact_person_name")
+                                }).ToList();
+                        }
+                        if (ds.Tables[3].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[3].AsEnumerable().Select(Row =>
                                 new fileInfoModel
                                 {
                                     ref_id = Row.Field<Int64>("ref_id"),
@@ -403,9 +415,9 @@ namespace onescreenDAL.UserManagement
                                 }).ToList();
                         }
                     }
-                    if (ds.Tables[flag == "Detail" ? 3 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 4 : 0].Rows.Count > 0)
                     {
-                        lstuser = ds.Tables[flag == "Detail" ? 3 : 0].AsEnumerable().Select(Row =>
+                        lstuser = ds.Tables[flag == "Detail" ? 4 : 0].AsEnumerable().Select(Row =>
                       new userManagementModel
                       {
                           user_id = Row.Field<Int64>("user_id"),
@@ -428,11 +440,12 @@ namespace onescreenDAL.UserManagement
                           updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                           lstauthority = lstauthority,
                           lstproject = lstproject,
+                          lstvendor = lstvendor,
                       }).ToList();
                     }
-                    if (ds.Tables[flag == "Detail" ? 4 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 5 : 1].Rows.Count > 0)
                     {
-                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 4 : 1].Rows[0]["RESPONSE"].ToString());
+                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 5 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     lstresponse.data = lstuser;
                 }

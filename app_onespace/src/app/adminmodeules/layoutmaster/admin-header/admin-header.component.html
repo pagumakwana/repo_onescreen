@@ -1,20 +1,19 @@
-
 <header class="pc-header">
-    <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
-  <div class="me-auto pc-mob-drp">
-    <ul class="list-unstyled">
-      <!-- ======= Menu collapse Icon ===== -->
-      <li class="pc-h-item pc-sidebar-collapse">
-        <a  class="pc-head-link ms-0" id="sidebar-hide">
-          <i class="ti ti-menu-2"></i>
-        </a>
-      </li>
-      <li class="pc-h-item pc-sidebar-popup">
-        <a  class="pc-head-link ms-0" id="mobile-collapse">
-          <i class="ti ti-menu-2"></i>
-        </a>
-      </li>
-      <!-- <li class="dropdown pc-h-item d-inline-flex d-md-none">
+  <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
+    <div class="me-auto pc-mob-drp">
+      <ul class="list-unstyled">
+        <!-- ======= Menu collapse Icon ===== -->
+        <li class="pc-h-item pc-sidebar-collapse">
+          <a class="pc-head-link ms-0" id="sidebar-hide">
+            <i class="ti ti-menu-2"></i>
+          </a>
+        </li>
+        <li class="pc-h-item pc-sidebar-popup">
+          <a class="pc-head-link ms-0" id="mobile-collapse">
+            <i class="ti ti-menu-2"></i>
+          </a>
+        </li>
+        <!-- <li class="dropdown pc-h-item d-inline-flex d-md-none">
         <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" role="button"
           aria-haspopup="false" aria-expanded="false">
           <i class="ph-duotone ph-magnifying-glass"></i>
@@ -28,7 +27,7 @@
           </form>
         </div>
       </li> -->
-      <!-- <li class="pc-h-item d-none d-md-inline-flex">
+        <!-- <li class="pc-h-item d-none d-md-inline-flex">
         <form class="form-search">
           <i class="ph-duotone ph-magnifying-glass icon-search"></i>
           <input type="search" class="form-control" placeholder="Search..." />
@@ -36,18 +35,18 @@
           <button class="btn btn-search" style="padding: 0"><kbd>ctrl+k</kbd></button>
         </form>
       </li> -->
-    </ul>
-  </div>
-  <!-- [Mobile Media Block end] -->
-  <div class="ms-auto">
-    <ul class="list-unstyled">
-     
-      <!-- <li class="dropdown pc-h-item">
-        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-          aria-haspopup="false" aria-expanded="false">
-          <i class="ph-duotone ph-sun-dim"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+      </ul>
+    </div>
+    <!-- [Mobile Media Block end] -->
+    <div class="ms-auto">
+      <ul class="list-unstyled">
+
+        <!-- <li class="dropdown pc-h-item">
+          <a class="pc-head-link me-0" href="javascript:void(0)" (click)="cart()">
+            <i class="ph-duotone ph-shopping-cart"></i>
+          </a>
+        </li> -->
+        <!--<div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
           <a  class="dropdown-item" onclick="layout_change('dark')">
             <i class="ph-duotone ph-moon"></i>
             <span>Dark</span>
@@ -62,22 +61,22 @@
           </a>
         </div>
       </li> -->
-     
-      <li class="dropdown pc-h-item">
-        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-          aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-          <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
-        </a>
-        <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-          <a class="dropdown-item" routerLink="/app/profile">
-            <i class="ph-duotone ph-user"></i>
-            <span>My Account</span>
+
+        <li class="dropdown pc-h-item">
+          <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+            aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+            <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
           </a>
-          <a class="dropdown-item" (click)="navigate()">
-            <i class="ph-duotone ph-lifebuoy"></i>
-            <span>User Side</span>
-          </a>
-          <!-- <a class="dropdown-item">
+          <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+            <a class="dropdown-item" routerLink="/app/profile">
+              <i class="ph-duotone ph-user"></i>
+              <span>Profile setting</span>
+            </a>
+            <a class="dropdown-item" (click)="navigate()">
+              <i class="ph-duotone ph-lifebuoy"></i>
+              <span>User Side</span>
+            </a>
+            <!-- <a class="dropdown-item">
             <i class="ph-duotone ph-lifebuoy"></i>
             <span>Support</span>
           </a>
@@ -85,13 +84,13 @@
             <i class="ph-duotone ph-lock-key"></i>
             <span>Lock Screen</span>
           </a> -->
-          <a class="dropdown-item" (click)="logout()">
-            <i class="ph-duotone ph-power"></i>
-            <span>Logout</span>
-          </a>
-        </div>
-      </li>
-      <!-- <li class="dropdown pc-h-item">
+            <a class="dropdown-item" (click)="logout()">
+              <i class="ph-duotone ph-power"></i>
+              <span>Logout</span>
+            </a>
+          </div>
+        </li>
+        <!-- <li class="dropdown pc-h-item">
         <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
           aria-haspopup="false" aria-expanded="false">
           <i class="ph-duotone ph-bell"></i>
@@ -258,7 +257,8 @@
           </div>
         </div>
       </li> -->
-   
-    </ul>
-  </div> </div>
-  </header>
+
+      </ul>
+    </div>
+  </div>
+</header>

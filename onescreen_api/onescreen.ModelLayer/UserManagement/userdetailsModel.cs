@@ -22,8 +22,11 @@ namespace onescreenModel.UserManagement
         public string? website { get; set; }
         public string? profilepicture { get; set; }
         public Nullable<bool> is_approved { get; set; }
+        public Int64 vendor_id { get; set; }
+        public string? contact_person_name { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
         public List<projectuserModel> lstproject { get; set; }
+        public List<vendoruserModel> lstvendor { get; set; }
         public string password { get; set; }
     }
 
@@ -39,6 +42,11 @@ namespace onescreenModel.UserManagement
         public Int64 project_id { get; set; }
         public Int64 user_id { get; set; }
         public string projectname { get; set; }
+    }
+    public class vendoruserModel
+    {
+        public Int64 vendor_id { get; set; }
+        public string? contact_person_name { get; set; }
     }
 
     public class requestOTPModel : commonModel

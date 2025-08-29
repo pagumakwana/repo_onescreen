@@ -47,6 +47,7 @@ export class AddmodifyuserComponent {
   maxDate: NgbDateStruct;
   public lstProject: any = [];
   public lstAuthority: any = [];
+  public lstVendor: any=[];
   _userModel: userModel = {};
   userid: any;
   public dataSubscribe!: Subscription;
@@ -73,6 +74,16 @@ export class AddmodifyuserComponent {
     allowSearchFilter: true
   };
 
+  public _configVendor: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'vendor_id',
+    textField: 'contact_person_name',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+
   initform() {
     this.fgUser = this._fbUser.group({
       user_id: [0],
@@ -85,6 +96,7 @@ export class AddmodifyuserComponent {
       dob: [''],
       lstproject: [''],
       lstauthority: [''],
+      lstvendor:[''],
       bio: [''],
       is_approved: [''],
       project_id: [''],
@@ -107,6 +119,12 @@ export class AddmodifyuserComponent {
       // this.fgUser.controls.authority.setValue($event[0]?.authority);
     }
   }
+  onVendorSelect($event:any) {
+    if ($event && $event != null) {
+      this._userModel.vendor_id = $event[0]?.vendor_id;
+      // this.fgUser.controls.authority.setValue($event[0]?.authority);
+    }
+  }
   ngAfterViewInit(): void {
     this._base._pageTitleService.setTitle('Manage Users', 'Manage Users');
   }
@@ -115,6 +133,7 @@ export class AddmodifyuserComponent {
     this.userid = this._activatedRouter.snapshot.paramMap.get('user_id');
     this.getAuthority();
     this.getProject();
+    this.getVendor();
     debugger
     if (this.userid != '0')
       this.getUserList(this.userid);
@@ -139,6 +158,7 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['user_id'].setValue(this._userModel.user_id);
         this.fgUser.controls['lstauthority'].setValue(this._userModel.lstauthority);
         this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
+        this.fgUser.controls['lstvendor'].setValue(this._userModel.lstvendor);
         this.fgUser.controls['isactive'].setValue(this._userModel.isactive);
         resolve(true)
       }, error => {
@@ -166,6 +186,7 @@ export class AddmodifyuserComponent {
           this._userModel.website = this.fgUser.value.website;
           this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
+          this._userModel.lstvendor = this.fgUser.value.lstvendor;
           this._userModel.client_id = client_id;
           this._userModel.project_id = project_id;
           this.addmodifyuser(flag);
@@ -223,6 +244,15 @@ export class AddmodifyuserComponent {
       this.lstAuthority = [];
       let resauthoritydata = Array.isArray(resAuthorityData.data) ? resAuthorityData.data : [];
       this.lstAuthority = resauthoritydata;
+    }, error => {
+    });
+  }
+
+  getVendor() {
+    this._webDService.getvendor().subscribe((resVendor: any) => {
+      this.lstVendor = [];
+      let resvendordata = Array.isArray(resVendor.data) ? resVendor.data : [];
+      this.lstVendor = resvendordata;
     }, error => {
     });
   }

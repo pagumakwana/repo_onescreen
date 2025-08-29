@@ -1,0 +1,73 @@
+<div class="auth-main v2">
+    <div class="bg-overlay bg-dark"></div>
+    <div class="auth-wrapper">
+        <div class="auth-sidecontent">
+            <div class="auth-sidefooter">
+                <img src="../assets/images/logo-dark.svg" class="img-brand img-fluid" alt="images" />
+                <hr class="mb-3 mt-4" />
+                <div class="row">
+                    <div class="col my-1">
+                        <p class="m-0">Made by Team <a href="https://.in" target="_blank"> Top In Tech</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="auth-form">
+            <div class="card my-5 mx-3">
+                <div class="card-body">
+                    <h4 class="f-w-500 mb-1">Register with your email</h4>
+                    <p class="mb-3">Already have an Account? <a href="" class="link-primary" (click)="auth()">Log in</a></p>
+                    <form [formGroup]="fgUser">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="FullName" id="fullname"
+                                formControlName="fullname" name="fullname">
+                            <span class="form_error_msg"
+                                *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)">
+                                Full Name is required.
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email Address" id="email_id"
+                                formControlName="email_id" name="email_id">
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" placeholder="Mobile number" id="mobilenumber"
+                                formControlName="mobilenumber" name="mobilenumber">
+                            <span class="form_error_msg"
+                                *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched)">
+                                Mobile Number is required.
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" placeholder="Password" id="password"
+                                formControlName="password" name="password">
+                            <span class="form_error_msg"
+                                *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched)">
+                                Password is required.
+                            </span>
+                        </div>
+                        <!-- <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="Confirm Password">
+                        </div> -->
+                        <div class="d-flex mt-1 justify-content-between">
+                            <div class="form-check">
+                                <input class="form-check-input input-primary" type="checkbox" id="customCheckc1"
+                                    checked="">
+                                <label class="form-check-label text-muted" for="customCheckc1">I agree to all the Terms
+                                    & Condition</label>
+                            </div>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="button" class="btn btn-primary" (click)="setUserModel(true)">Create Account</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
