@@ -56,7 +56,7 @@
           </a>
         </li> -->
         <li class="pc-item">
-          <a class="pc-link" routerLink="/product">
+          <a class="pc-link" (click)="goToProduct()" style="cursor: pointer;">
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
             </span>
@@ -124,7 +124,7 @@
                     </a>
                   </li> -->
                   <li>
-                    <a class="pc-user-links">
+                    <a class="pc-user-links" (click)="logout()" style="cursor : pointer;">
                       <i class="ph-duotone ph-power"></i>
                       <span>Logout</span>
                     </a>
@@ -154,28 +154,6 @@
             <i class="ti ti-menu-2"></i>
           </a>
         </li>
-        <!-- <li class="dropdown pc-h-item d-inline-flex d-md-none">
-          <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" role="button"
-            aria-haspopup="false" aria-expanded="false">
-            <i class="ph-duotone ph-magnifying-glass"></i>
-          </a>
-          <div class="dropdown-menu pc-h-dropdown drp-search">
-            <form class="px-3">
-              <div class="mb-0 d-flex align-items-center">
-                <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." />
-                <button class="btn btn-light-secondary btn-search">Search</button>
-              </div>
-            </form>
-          </div>
-        </li> -->
-        <!-- <li class="pc-h-item d-none d-md-inline-flex">
-          <form class="form-search">
-            <i class="ph-duotone ph-magnifying-glass icon-search"></i>
-            <input type="search" class="form-control" placeholder="Search..." />
-
-            <button class="btn btn-search" style="padding: 0"><kbd>ctrl+k</kbd></button>
-          </form>
-        </li> -->
       </ul>
     </div>
     <!-- [Mobile Media Block end] -->
@@ -183,30 +161,10 @@
       <ul class="list-unstyled">
 
         <li class="dropdown pc-h-item">
-          <a class="pc-head-link me-0" routerLink="/cart">
+          <a class="pc-head-link me-0" (click)="this.goToCart()">
             <i class="ph-duotone ph-shopping-cart"></i>
           </a>
         </li>
-        <!-- <li class="dropdown pc-h-item">
-          <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-            aria-haspopup="false" aria-expanded="false">
-            <i class="ph-duotone ph-sun-dim"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-            <a class="dropdown-item" onclick="layout_change('dark')">
-              <i class="ph-duotone ph-moon"></i>
-              <span>Dark</span>
-            </a>
-            <a class="dropdown-item" onclick="layout_change('light')">
-              <i class="ph-duotone ph-sun-dim"></i>
-              <span>Light</span>
-            </a>
-            <a class="dropdown-item" onclick="layout_change_default()">
-              <i class="ph-duotone ph-cpu"></i>
-              <span>Default</span>
-            </a>
-          </div>
-        </li> -->
 
         <li class="dropdown pc-h-item">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
@@ -215,7 +173,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
             <ng-container *ngIf="!isLoggedIn">
-              <a (click)="login()" class="dropdown-item">
+              <a [routerLink]="['/auth']" class="dropdown-item">
                 <i class="ph-duotone ph-user-circle"></i>
                 <span>Sign In</span>
               </a>
@@ -224,10 +182,10 @@
               <a class="dropdown-item" routerLink="/app/dashboard">
                 <i class="ph-duotone ph-user"></i> My Account
               </a>
-               <a class="dropdown-item" routerLink="/app/profile">
+              <a class="dropdown-item" routerLink="/app/profile">
                 <i class="ph-duotone ph-user"></i> Edit Profile
               </a>
-              <a (click)="logout()" class="dropdown-item">
+              <a (click)="logout()" style="cursor : pointer;" class="dropdown-item">
                 <i class="ph-duotone ph-power"></i> Logout
               </a>
             </ng-container>

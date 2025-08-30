@@ -28,6 +28,7 @@ namespace onescreenModel.ProductManagement
         public List<productAttributeModel>? lstattribute { get; set; }
         public List<productAttributeModel>? lstrepeattribute { get; set; }
         public List<productAttributeModel>? lsttimeattribute { get; set; }
+        public List<productAttributeModel>? lstintervalattribute { get; set; }
     }
 
     public class productAttributeModel : commonModel
@@ -195,6 +196,7 @@ namespace onescreenModel.ProductManagement
     {
         public Int64 order_id { get; set; }
         public Int64 user_id { get; set; }
+        public Int64 cart_master_id { get; set; }
         public Int64 coupon_id { get; set; }
         public string? order_number { get; set; }
         public string? payment_type { get; set; }
@@ -207,21 +209,42 @@ namespace onescreenModel.ProductManagement
         public string? order_status { get; set; }
         public string? payment_status { get; set; }
         public List<userorderhistoryModel> lst_orderdetail { get; set; }
+        public List<userorderproductModel> lst_orderproduct { get; set; }
     }
 
     public class userorderhistoryModel : commonModel
     {
-        public Int64 order_id { get; set; }
-        public Int64 order_history_id { get; set; }
-        public Int64 user_id { get; set; }
-        public Int64 product_id { get; set; }
-        public string? product_name { get; set; }
-        public string? from_date { get; set; }
-        public string? to_date { get; set; }
-        public decimal base_amount { get; set; }
+        public long order_id { get; set; }
+        public long order_history_id { get; set; }
+        public long user_id { get; set; }
+        public long product_id { get; set; }
+        public long cart_master_id { get; set; }
         public string? optionvalues { get; set; }
-        public decimal attribute_amount { get; set; }
-        public List<productOptionValuesModel>? lstvalues { get; set; }
+
+    }
+    public class userorderproductModel : commonModel
+    {
+        public long order_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
+        public long? user_id { get; set; }             // [user_id]
+        public long? order_id { get; set; }            // [order_id]
+        public long? cart_master_id { get; set; }       // [cart_master_id]
+        public long? product_id { get; set; }          // [product_id]
+        public long? time_slot_id { get; set; }         // [time_slot_id]
+        public string? time_slot_value { get; set; }    // [time_slot_value] NVARCHAR(500)
+        public decimal? time_slot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
+        public long? repetition_id { get; set; }       // [repetition_id]
+        public string? repetition_value { get; set; }  // [repetition_value] NVARCHAR(150)
+        public decimal? repetition_price { get; set; } // [repetition_price] DECIMAL(7,2)
+        public long? interval_id { get; set; }         // [interval_id]
+        public string? interval_value { get; set; }    // [interval_value] NVARCHAR(150)
+        public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
+        public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
+        public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
+        public long? qty { get; set; }                // [qty]
+        public decimal? base_price { get; set; }       // [base_price] DECIMAL(7,2)
+        public decimal? attribute_price { get; set; }  // [attribute_price] DECIMAL(7,2)
+        public decimal? sub_total_price { get; set; }   // [sub_total_price] DECIMAL(7,2)
+        public decimal? total_price { get; set; }
 
     }
 

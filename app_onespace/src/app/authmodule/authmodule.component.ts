@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Validators } from 'ngx-editor';
 import { Observable, Subscription, first } from 'rxjs';
 import { userModel } from '../_appmodel/_model';
@@ -17,7 +17,7 @@ import { AuthService } from './_authservice/auth.service';
   styleUrl: './authmodule.component.scss',
   providers: [AuthService, WebDService, BaseServiceHelper]
 })
-export class AuthmoduleComponent implements OnInit{
+export class AuthmoduleComponent implements OnInit {
   hasError: boolean | undefined;
   isLoading$: Observable<boolean>;
 
@@ -29,10 +29,14 @@ export class AuthmoduleComponent implements OnInit{
     private _fbSignIn: FormBuilder,
     private authService: AuthService,
     private _webDService: WebDService,
-    private _cdr:ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.isLoading$ = this.authService.isLoading$;
-    debugger
+    this.route.queryParams.subscribe(params => {
+      this.redirectUrl = params['q'] ?? null;
+      console.log('Query param q =', this.redirectUrl);
+    });
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
       this._base._router.navigate(['/']);
@@ -42,10 +46,11 @@ export class AuthmoduleComponent implements OnInit{
   public formSignIn!: FormGroup;
   _userModel: userModel = {};
   returnUrl!: string;
+  redirectUrl: string | null = null;
 
   ngOnInit(): void {
-    debugger
     this.initForm();
+
   }
 
   initForm() {
@@ -67,7 +72,7 @@ export class AuthmoduleComponent implements OnInit{
     }
   }
 
-  loginsuccess :boolean=false;
+  loginsuccess: boolean = false;
   SignInCustomer(_username: string = '', _passsword: string = '') {
     this.hasError = false;
     const loginSubscr = this.authService
@@ -80,7 +85,12 @@ export class AuthmoduleComponent implements OnInit{
               if (res) {
                 this.loginsuccess = true;
                 setTimeout(() => {
-                  this._base._router.navigate(['/home']);
+                  debugger
+                  if (this.redirectUrl != null) {
+                    this._base._router.navigate([this.redirectUrl[0]]);
+                  } else {
+                    this._base._router.navigate(['home']);
+                  }
                   this.loginsuccess = false;
                   this._cdr.detectChanges();
                 }, 500);
@@ -148,5 +158,13 @@ export class AuthmoduleComponent implements OnInit{
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  goToSignup() {
+    if (this.redirectUrl) {
+      this._base._router.navigate(['signup'],{ queryParams: { q: [this.redirectUrl] } });
+    } else {
+      this._base._router.navigate(['signup']);
+    }
   }
 }

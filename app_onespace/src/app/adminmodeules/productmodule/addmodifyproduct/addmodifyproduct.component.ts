@@ -155,9 +155,10 @@ export class AddmodifyproductComponent {
       base_price:[''],
       lsttimeattribute: [''],
       lstrepeattribute: [''],
+      lstintervalattribute: [''],
       lsttimeattr: this._fbproductMaster.array([]),
       lstrepeattr: this._fbproductMaster.array([]),
-      lstintervalattribute: this._fbproductMaster.array([]),
+      lstinterattr: this._fbproductMaster.array([]),
       lstcategoryroute: ['', [Validators.required]],
       lstpropertycategoryroute: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
@@ -285,7 +286,7 @@ export class AddmodifyproductComponent {
           this._productMaster.lstpropertycategoryroute = this.fgproductmaster.value.lstpropertycategoryroute;
           this._productMaster.lsttimeattribute = this.fgproductmaster.value.lsttimeattr;
           this._productMaster.lstrepeattribute = this.fgproductmaster.value.lstrepeattr;
-          this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstintervalattribute;
+          this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstinterattr;
           this._productMaster.base_price = this.fgproductmaster.value.base_price;
           this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
@@ -436,7 +437,7 @@ export class AddmodifyproductComponent {
   }
 
   get intervalArray(): FormArray {
-    return this.fgproductmaster.get("lstintervalattr") as FormArray
+    return this.fgproductmaster.get("lstinterattr") as FormArray
   }
 
   onSelectTime($event: any) {
@@ -479,7 +480,7 @@ export class AddmodifyproductComponent {
   onDeSelectRepe($event: any) {
     if ($event && $event != null && $event != '') {
       console.log("Deselect : ", $event);
-      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+      const _indexTime = this.repetitionArray.controls.findIndex((ctrl: any) => {
         return ctrl.value.option_value_id === $event?.option_value_id;
       });
       this.repetitionArray.removeAt(_indexTime);
@@ -497,13 +498,13 @@ export class AddmodifyproductComponent {
         option_value: [$event ? $event.option_value : ''],
         price_delta: [$event ? $event?.price_delta : 0],
       });
-      this.repetitionArray.push(control);
+      this.intervalArray.push(control);
     }
   }
   onDeSelectInterval($event: any) {
     if ($event && $event != null && $event != '') {
       console.log("Deselect : ", $event);
-      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+      const _indexTime = this.intervalArray.controls.findIndex((ctrl: any) => {
         return ctrl.value.option_value_id === $event?.option_value_id;
       });
       this.intervalArray.removeAt(_indexTime);

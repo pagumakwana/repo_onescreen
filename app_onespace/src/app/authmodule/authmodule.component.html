@@ -35,7 +35,7 @@
           </ng-container>
           <form [formGroup]="formSignIn" novalidate="novalidate" id="kt_login_signin_form"
             (ngSubmit)="setSignInModel()">
-            <p disabled class="mb-3">Don't have an Account? <a [routerLink]="['/signup']" class="link-primary ms-1">Create Account</a></p>
+            <p disabled class="mb-3">Don't have an Account? <a (click)="this.goToSignup()" style="cursor: pointer;" class="link-primary ms-1">Create Account</a></p>
             <div class="mb-3">
               <input type="text" class="form-control" id="username" formControlName="username" name="username"
                 placeholder="Email Address/ Mobile Number" required>

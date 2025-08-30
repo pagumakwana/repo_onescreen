@@ -37,20 +37,23 @@ export class SignupmoduleComponent {
   isLoading!: boolean;
   private unsubscribe: Subscription[] = [];
   public error_message = 'Something went wrong. Please try again later. If the issue persists, kindly contact support.'
+  redirectUrl: string | null = null;
 
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbUser: FormBuilder,
     private _cdr: ChangeDetectorRef,
     private authService: AuthService,
-    private _activatedRouter: ActivatedRoute) {
-
+    private route: ActivatedRoute) {
+ this.route.queryParams.subscribe(params => {
+      this.redirectUrl = params['q'] ?? null;
+      console.log('Query param q =', this.redirectUrl);
+    });
   }
 
   public lstProject: any = [];
   public lstAuthority: any = [];
   _userregister: userRegistration = {};
-  userid: any;
   public dataSubscribe!: Subscription;
   private isUserModify: boolean = false;
   fgUser!: FormGroup;
@@ -75,7 +78,6 @@ export class SignupmoduleComponent {
   }
   ngOnInit(): void {
     this.initform();
-    this.userid = this._activatedRouter.snapshot.paramMap.get('user_id');
   }
 
   flagType: any
@@ -110,14 +112,15 @@ export class SignupmoduleComponent {
             isRedirect = false;
             this.hasError = true;
             this.error_message = 'A user already exists with the provided email ID or mobile number.';
+            setTimeout(() => {
+              this.isLoading$.next(false);
+              this._cdr.detectChanges();
+            }, 1500);
           } else if (response.includes('newsuccess')) {
             this.hasError = false;
             this.SignInCustomer(this._userregister.mobilenumber, this._userregister.password);
           }
-          setTimeout(() => {
-            this.isLoading$.next(false);
-            this._cdr.detectChanges();
-          }, 1500);
+         
         });
       });
     });
@@ -136,8 +139,14 @@ export class SignupmoduleComponent {
               if (res) {
                 this.loginsuccess = true;
                 setTimeout(() => {
-                  this._base._router.navigate(['/home']);
-                  this.loginsuccess = true;
+                  if (this.redirectUrl != null) {
+                    this._base._router.navigate([this.redirectUrl]);
+                  } else {
+                    this._base._router.navigate(['home']);
+                  }
+                  this.loginsuccess = false;
+                  this._cdr.detectChanges();
+                  this.isLoading$.next(false);
                 }, 500);
               }
             })
@@ -162,6 +171,14 @@ export class SignupmoduleComponent {
         resolve(false);
       });
     });
+  }
+
+  goToSignin() {
+    if (this.redirectUrl) {
+      this._base._router.navigate(['auth'],{ queryParams: { q: [this.redirectUrl] } });
+    } else {
+      this._base._router.navigate(['auth']);
+    }
   }
 
   ngOnDestroy() {

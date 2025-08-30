@@ -17,8 +17,9 @@
                             <div class="row mb-6">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" class="form-control  form-control-sm" id="product_name" name="product_name"
-                                        placeholder="Product Name" formControlName="product_name" required>
+                                    <input type="text" class="form-control  form-control-sm" id="product_name"
+                                        name="product_name" placeholder="Product Name" formControlName="product_name"
+                                        required>
                                     <div *ngIf="fgproductmaster.controls['product_name'].invalid && (fgproductmaster.controls['product_name'].dirty || fgproductmaster.controls['product_name'].touched)"
                                         class="text-danger">
                                         <ng-container
@@ -91,12 +92,12 @@
                                 </div>
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Product Base Price</label>
-                                    <input type="text" class="form-control form-control-sm" id="base_price" name="base_price"
-                                        placeholder="Product Base Price" formControlName="base_price" required>
+                                    <input type="text" class="form-control form-control-sm" id="base_price"
+                                        name="base_price" placeholder="Product Base Price" formControlName="base_price"
+                                        required>
                                     <div *ngIf="fgproductmaster.controls['base_price'].invalid && (fgproductmaster.controls['base_price'].dirty || fgproductmaster.controls['base_price'].touched)"
                                         class="text-danger">
-                                        <ng-container
-                                            *ngIf="fgproductmaster.controls.base_price.errors?.['required']">
+                                        <ng-container *ngIf="fgproductmaster.controls.base_price.errors?.['required']">
                                             Product Name is required.
                                         </ng-container>
                                     </div>
@@ -109,8 +110,8 @@
                                 <webd-multiselect [data]="TimeSlotAttr" class="col-sm-3 col-form-label"
                                     textField='option_value' valueField='option_value_id'
                                     [formControl]="fgproductmaster?.controls?.lsttimeattribute"
-                                    placeholder="Select Time Slot" [config]="_configTime" (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)"
-                                   >
+                                    placeholder="Select Time Slot" [config]="_configTime"
+                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)">
                                 </webd-multiselect>
                             </div>
                             <div class="card-body">
@@ -125,8 +126,8 @@
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Price" formControlName="price_delta">
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta">
                                             </div>
                                         </div>
                                     </ng-container>
@@ -153,8 +154,8 @@
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Price" formControlName="price_delta">
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta">
                                             </div>
                                         </div>
                                     </ng-container>
@@ -166,10 +167,29 @@
                                     textField='option_value' valueField='option_value_id'
                                     [formControl]="fgproductmaster?.controls?.lstintervalattribute"
                                     placeholder="Select Interval" [config]="_configInterval"
-                                    (onSelectEvent)="onSelectInterval($event)" (onDeSelectEvent)="onDeSelectInterval($event)">
+                                    (onSelectEvent)="onSelectInterval($event)"
+                                    (onDeSelectEvent)="onDeSelectInterval($event)">
                                 </webd-multiselect>
                             </div>
-                            
+                            <div class="card-body">
+                                <ng-container formArray="lstinterattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of intervalArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Screen Interval" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
                             <hr>
                             <div class="row mb-6">
                                 <div class="col-lg-12 mb-3">

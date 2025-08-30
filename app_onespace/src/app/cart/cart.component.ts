@@ -59,11 +59,7 @@ export class CartComponent implements OnInit {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._webDService.getusercartdetail(0, user_id, 0, 0, 0).subscribe((resUserCart: any) => {
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
-        this.cart_master_id = this.UserCart[0]?.cart_master_id;
-        this.cart_total = this.UserCart[0]?.cart_total;
-        this.cart_subtotal = this.UserCart[0]?.cart_subtotal;
-        this.cart_tax = this.UserCart[0]?.cart_tax;
-        this.cart_discount = this.UserCart[0]?.cart_discount;
+        this.calculatecart();
         this.UserCart[0]?.lst_cart_product?.forEach((res: any) => {
           if (res.optionvalues && typeof res.optionvalues === 'string') {
             try {
@@ -88,7 +84,6 @@ export class CartComponent implements OnInit {
   is_payment: boolean = false;
   proceeds_payment($event: any) {
     console.log("pay", $event);
-
     if ($event && $event.status === 'failure') {
       this.paysuccessSwal.fire();
       setTimeout(() => {
@@ -145,6 +140,7 @@ export class CartComponent implements OnInit {
       if (res) {
         this.razorpay_OrderAttribute = res;
         this.is_payment = true;
+        this._cdr.detectChanges();
       }
     })
 
@@ -216,6 +212,7 @@ export class CartComponent implements OnInit {
               }
               this._webDService.apply_coupon(this._user_coupon_model).subscribe((rescoupon: any) => {
                 if (rescoupon != null && rescoupon.includes('newsuccess')) {
+
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
@@ -235,6 +232,16 @@ export class CartComponent implements OnInit {
           }
         );
       });
+    });
+  }
+
+  calculatecart(){
+    this.UserCart?.filter((res: any) => {
+      this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
+      this.cart_total = (this.cart_total + res?.cart_total);
+      this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
+      this.cart_tax = (this.cart_tax + res?.cart_tax);
+      this.cart_discount = (this.cart_discount + res?.cart_discount);
     });
   }
 }

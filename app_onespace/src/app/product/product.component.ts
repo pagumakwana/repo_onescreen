@@ -244,12 +244,6 @@ export class ProductComponent implements OnInit {
     return this.fgcategorymaster.get("lst_cart_product") as FormArray
   }
 
-  onSelecttimeslot($event: any) {
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-
-
-    }
-  }
   _indexTimearray: any = [];
   _index_time: number = 0;
   _totalAmount = 0;
@@ -271,16 +265,16 @@ export class ProductComponent implements OnInit {
         from_date: ['', [Validators.required]],
         to_date: ['', [Validators.required]],
         total_amount: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
-        repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
-        interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
         base_price: [this._categoryScreenMaster.base_price],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
-        repetition_category_id: [],
-        repetition_category: [],
-        interval_category_id: [],
-        interval_category: [],
+        repetition_category_id: [0],
+        repetition_category: [''],
+        repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : ''],
+        interval_category_id: [0],
+        interval_category: [''],
+        interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
         attribute_amount: 0.00,
-        quantity: ['', [Validators.required]]
+        quantity: [0, [Validators.required]]
       });
 
       console.log("control : ", control);
@@ -441,7 +435,9 @@ export class ProductComponent implements OnInit {
         this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
           this.successSwal.fire();
           setTimeout(() => {
-            this._base._router.navigate(['/app/cart']);
+            this.successSwal.close();
+            this._base._router.navigate(['cart']);
+            this._cdr.detectChanges();
           }, 500);
 
         },error=>{

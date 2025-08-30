@@ -68,6 +68,7 @@ namespace onescreenDAL.ProductManagement
                 List<productModel> lstproducts = new List<productModel>();
                 List<productAttributeModel> lsttimeattribute = new List<productAttributeModel>();
                 List<productAttributeModel> lstrepeattribute = new List<productAttributeModel>();
+                List<productAttributeModel> lstintervalattribute = new List<productAttributeModel>();
                 if (ds != null)
                 {
                     if (flag == "Details")
@@ -145,11 +146,21 @@ namespace onescreenDAL.ProductManagement
                                     price_delta = Row.Field<decimal>("price_delta")
                                 }).ToList();
                         }
+                        if (ds.Tables[7].Rows.Count > 0)
+                        {
+                            lstintervalattribute = ds.Tables[7].AsEnumerable().Select(Row =>
+                                new productAttributeModel
+                                {
+                                    option_value_id = Row.Field<Int64>("option_value_id"),
+                                    option_value = Row.Field<string>("option_value"),
+                                    price_delta = Row.Field<decimal>("price_delta")
+                                }).ToList();
+                        }
 
                     }
-                    if (ds.Tables[flag == "Details" ? 7 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 8 : 0].Rows.Count > 0)
                     {
-                        lstproducts = ds.Tables[flag == "Details" ? 7 : 0].AsEnumerable().Select(Row =>
+                        lstproducts = ds.Tables[flag == "Details" ? 8 : 0].AsEnumerable().Select(Row =>
                           new productModel
                           {
                               product_id = Row.Field<Int64>("product_id"),
@@ -170,6 +181,7 @@ namespace onescreenDAL.ProductManagement
                               filemanager = lstFileinfo,
                               lsttimeattribute = lsttimeattribute,
                               lstrepeattribute = lstrepeattribute,
+                              lstintervalattribute = lstintervalattribute,
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -180,9 +192,9 @@ namespace onescreenDAL.ProductManagement
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
                     }
-                    if (ds.Tables[flag == "Details" ? 8 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 9 : 1].Rows.Count > 0)
                     {
-                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 8 : 1].Rows[0]["RESPONSE"].ToString());
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 9 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     response.data = lstproducts;
                 }
@@ -1450,6 +1462,8 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@order_id", objuserorderMaster.order_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_master_id", objuserorderMaster.cart_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@payment_type", objuserorderMaster.payment_type, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@payment_order_id", objuserorderMaster.payment_order_id, DbType.String);
@@ -1497,10 +1511,10 @@ namespace onescreenDAL.ProductManagement
                                 objuserorderMaster.lst_orderdetail.ForEach(item =>
                                 {
                                     item.order_id = objuserorderMaster.order_id;
+                                    item.cart_master_id = objuserorderMaster.cart_master_id;
                                     item.product_id = item.product_id;
                                     item.optionvalues = JsonConvert.SerializeObject(item.optionvalues);
-                                    item.base_amount = item.base_amount;
-                                    item.attribute_amount = item.attribute_amount;
+                                    item.user_id = objuserorderMaster.user_id;
                                     item.client_id = client_id;
                                     item.project_id = project_id;
                                     item.createdby = objuserorderMaster.user_id;
@@ -1517,6 +1531,50 @@ namespace onescreenDAL.ProductManagement
                                 DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
                                 ObJParameterCOl2.Add(objDBParameter2);
                                 objDbHelperModule.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+                            if ((objuserorderMaster.lst_orderproduct != null && objuserorderMaster.lst_orderproduct.Count > 0))
+                            {
+                                objuserorderMaster.lst_orderproduct.ForEach(_item =>
+                                {
+                                    // Master level mappings
+                                    _item.order_id = objuserorderMaster.order_id;
+                                    _item.user_id = objuserorderMaster.user_id;
+                                    _item.client_id = client_id;
+                                    _item.project_id = project_id;
+                                    _item.createdby = objuserorderMaster.user_id;
+                                    _item.createdname = objuserorderMaster.createdname;
+                                    _item.isactive = true;
+                                    _item.isdeleted = false;
+
+                                    // Product details (coming from cart/frontend)
+                                    _item.cart_master_id = _item.cart_master_id;
+                                    _item.product_id = _item.product_id;
+                                    _item.time_slot_id = _item.time_slot_id;
+                                    _item.time_slot_value = _item.time_slot_value;
+                                    _item.time_slot_price = _item.time_slot_price;
+                                    _item.repetition_id = _item.repetition_id;
+                                    _item.repetition_value = _item.repetition_value;
+                                    _item.repetition_price = _item.repetition_price;
+                                    _item.interval_id = _item.interval_id;
+                                    _item.interval_value = _item.interval_value;
+                                    _item.interval_price = _item.interval_price;
+                                    _item.from_date = _item.from_date;
+                                    _item.to_date = _item.to_date;
+                                    _item.qty = _item.qty;
+                                    _item.base_price = _item.base_price;
+                                    _item.attribute_price = _item.attribute_price;
+                                    _item.sub_total_price = _item.sub_total_price;
+                                    _item.total_price = _item.total_price;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objuserorderMaster.lst_orderdetail);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_UserOrderProductMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
+                                DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl3.Add(objDBParameter3);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
                             }
                             ResponseMessage = Res[0].ToString();
                         }

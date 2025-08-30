@@ -47,6 +47,10 @@ export class AdminSidebarComponent implements OnInit {
         this.menuStructure = this.list_to_tree(this.userModule);
         // initialize expanded flag false for all nodes
         this.prepareNodes(this.menuStructure);
+        if (typeof feather?.replace === 'function') {
+          // run asynchronously to ensure DOM updated
+          setTimeout(() => feather.replace(), 0);
+        }
         this._cdr.detectChanges();
       }).catch(err => {
         console.error('getauthoritymodule error', err);
@@ -104,11 +108,11 @@ export class AdminSidebarComponent implements OnInit {
     }
     menu.expanded = !menu.expanded;
     // rerun CD to update classes and feather icons if needed
-    this._cdr.detectChanges();
     if (typeof feather?.replace === 'function') {
       // run asynchronously to ensure DOM updated
       setTimeout(() => feather.replace(), 0);
     }
+    this._cdr.detectChanges();
   }
 
   // Called when clicking a leaf item (no children)

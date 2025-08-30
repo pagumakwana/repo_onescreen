@@ -33,6 +33,7 @@ import { UserregistrationComponent } from './userregistration/userregistration.c
 import { VendormoduleComponent } from './adminmodeules/vendormodule/vendormodule.component';
 import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodifyvendor/addmodifyvendor.component';
 import { SignupmoduleComponent } from './authmodule/signupmodule/signupmodule.component';
+import { ManageordersComponent } from './adminmodeules/manageorders/manageorders.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -201,6 +202,11 @@ export const routes: Routes = [
                 path: 'managevendor/:vendor_id',
                 component: AddmodifyvendorComponent,
                 title: 'Add Modify Vendor',
+            },
+            {
+                path: 'uploadmedia',
+                component: ManageordersComponent,
+                title: 'Media Uplaod',
             },
         ]
     },

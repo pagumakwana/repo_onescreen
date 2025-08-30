@@ -3,12 +3,13 @@ import { Router, RouterModule } from '@angular/router';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { CommonModule } from '@angular/common';
 import { enAppSession } from '../../_appmodel/sessionstorage';
+import { AuthService } from '../../authmodule/_authservice/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterModule, CommonModule],
-  providers: [BaseServiceHelper],
+  providers: [BaseServiceHelper,AuthService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -21,13 +22,14 @@ export class HeaderComponent {
 
   constructor(
     public _base: BaseServiceHelper,
-    private _cdr:ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _auth: AuthService
   ) { }
 
   ngOnInit() {
-    this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin:boolean) => {
-      this.isLoggedIn = haslogin ? haslogin:false;
-      console.log("islogin",this.isLoggedIn);
+    this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin: boolean) => {
+      this.isLoggedIn = haslogin ? haslogin : false;
+      console.log("islogin", this.isLoggedIn);
       this._cdr.detectChanges();
     });
   }
@@ -41,19 +43,24 @@ export class HeaderComponent {
   }
 
   logout() {
-    this._base._appSessionService.clearUserSession();
-    setTimeout(() => {
-      this.isLoggedIn=false;
-      this._cdr.detectChanges();
-      this._base._router.navigate(['/home']);
-    }, 1000);
+    this.isLoggedIn=false;
+    this._auth.logout();
+    document.location.reload();
+    this._cdr.detectChanges();
   }
 
   goToProduct() {
     if (this.isLoggedIn) {
       this._base._router.navigate(['/product']);
     } else {
-       this._base._router.navigate(['auth'], { queryParams: { q: ['/product'] } });
+      this._base._router.navigate(['auth'], { queryParams: { q: ['product'] } });
+    }
+  }
+  goToCart() {
+    if (this.isLoggedIn) {
+      this._base._router.navigate(['/cart']);
+    } else {
+      this._base._router.navigate(['auth'], { queryParams: { q: ['cart'] } });
     }
   }
 }

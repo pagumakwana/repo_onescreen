@@ -202,6 +202,7 @@ namespace onescreenModel.Common
         public const string managevendor = "[dbo].[managevendor]";
         public const string manageordermaster = "[dbo].[manageordermaster]";
         public const string mapuserorder = "[dbo].[mapuserorder]";
+        public const string mapuserorderproduct = "[dbo].[mapuserorderproduct]";
         public const string getcoupon_cart = "[dbo].[getcoupon_cart]";
         public const string user_coupon_mapping = "[dbo].[user_coupon_mapping]";
         //END :: PRODUCT
