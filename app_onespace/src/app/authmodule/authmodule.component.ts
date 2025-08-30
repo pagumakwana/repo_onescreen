@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Validators } from 'ngx-editor';
 import { Observable, Subscription, first } from 'rxjs';
 import { userModel } from '../_appmodel/_model';
@@ -29,8 +29,10 @@ export class AuthmoduleComponent implements OnInit{
     private _fbSignIn: FormBuilder,
     private authService: AuthService,
     private _webDService: WebDService,
+    private _cdr:ChangeDetectorRef
   ) {
     this.isLoading$ = this.authService.isLoading$;
+    debugger
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
       this._base._router.navigate(['/']);
@@ -42,6 +44,7 @@ export class AuthmoduleComponent implements OnInit{
   returnUrl!: string;
 
   ngOnInit(): void {
+    debugger
     this.initForm();
   }
 
@@ -78,7 +81,8 @@ export class AuthmoduleComponent implements OnInit{
                 this.loginsuccess = true;
                 setTimeout(() => {
                   this._base._router.navigate(['/home']);
-                  this.loginsuccess = true;
+                  this.loginsuccess = false;
+                  this._cdr.detectChanges();
                 }, 500);
                 // this._base._commonService.getauthoritymodule(user.user_id).then((resUserModule: any) => {
                 //   let UserModule: any[] = [];

@@ -3,18 +3,19 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, first, Subscription } from 'rxjs';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
-import { ActivatedRoute } from '@angular/router';
-import { userRegistration } from '../../_appmodel/_model';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { userModel, userRegistration } from '../../_appmodel/_model';
 import { enAppSession } from '../../_appmodel/sessionstorage';
 import { SweetAlertOptions } from 'sweetalert2';
+import { AuthService } from '../_authservice/auth.service';
 
 @Component({
   selector: 'app-signupmodule',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgbModule, SweetAlert2Module, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, NgbModule, SweetAlert2Module, CommonModule, RouterModule],
   templateUrl: './signupmodule.component.html',
   styleUrl: './signupmodule.component.scss'
 })
@@ -35,11 +36,13 @@ export class SignupmoduleComponent {
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
   private unsubscribe: Subscription[] = [];
+  public error_message = 'Something went wrong. Please try again later. If the issue persists, kindly contact support.'
 
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbUser: FormBuilder,
     private _cdr: ChangeDetectorRef,
+    private authService: AuthService,
     private _activatedRouter: ActivatedRoute) {
 
   }
@@ -105,22 +108,58 @@ export class SignupmoduleComponent {
           let isRedirect: boolean = true
           if (response === 'userexists') {
             isRedirect = false;
+            this.hasError = true;
+            this.error_message = 'A user already exists with the provided email ID or mobile number.';
+          } else if (response.includes('newsuccess')) {
+            this.hasError = false;
+            this.SignInCustomer(this._userregister.mobilenumber, this._userregister.password);
           }
-
           setTimeout(() => {
             this.isLoading$.next(false);
             this._cdr.detectChanges();
           }, 1500);
-
-          if (isRedirect && flag) {
-            setTimeout(() => {
-              // this.successSwal.fire()
-              // setTimeout(() => {
-              this._base._router.navigate(['/auth']);
-              // }, 1500);
-            }, 1000);
-          }
         });
+      });
+    });
+  }
+  hasError: boolean | undefined;
+  loginsuccess: boolean = false;
+  SignInCustomer(_username: string = '', _passsword: string = '') {
+    this.hasError = false;
+    const loginSubscr = this.authService
+      .login(_username, _passsword)
+      .pipe(first())
+      .subscribe((user: userModel | undefined) => {
+        if (user) {
+          this.getUserConfig(user.user_id).then(resUserConfig => {
+            this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
+              if (res) {
+                this.loginsuccess = true;
+                setTimeout(() => {
+                  this._base._router.navigate(['/home']);
+                  this.loginsuccess = true;
+                }, 500);
+              }
+            })
+          }, error => {
+            this.hasError = true;
+            this.error_message = 'Something went wrong. Please try again later. If the issue persists, kindly contact support.';
+          });
+        } else {
+          this.hasError = true;
+        }
+      });
+    this.unsubscribe.push(loginSubscr);
+  }
+
+  getUserConfig(user_id: any) {
+    return new Promise((resolve, reject) => {
+      this._webDService.getuserconfig(user_id).subscribe((resUserModule: any) => {
+        let UserModule = [];
+        UserModule = Array.isArray(resUserModule) ? resUserModule : [];
+        resolve(UserModule)
+      }, error => {
+        resolve(false);
       });
     });
   }

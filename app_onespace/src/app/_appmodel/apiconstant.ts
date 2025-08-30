@@ -50,6 +50,8 @@ export class ApiConstant {
         manage_delete_record: "usermanagement/manage_delete_record",
         create_order: "product/create_order",
         verify_order: "product/verify_order",
+        getcontactdetails: "usermanagement/getcontactdetails",
+        managecontactdetails: "usermanagement/managecontactdetails",
 
 
     }

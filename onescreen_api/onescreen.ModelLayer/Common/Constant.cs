@@ -107,8 +107,8 @@ namespace onescreenModel.Common
         public const string RequestOTP = "[dbo].[RequestOTP]";
         public const string managesubscribe = "[dbo].[managesubscribe]";
         public const string getsubscriber = "[dbo].[getsubscriber]";
-        public const string managecontactus = "[dbo].[managecontactus]";
-        public const string getcontactus = "[dbo].[getcontactus]";
+        //public const string managecontactus = "[dbo].[managecontactus]";
+        //public const string getcontactus = "[dbo].[getcontactus]";
         public const string manageuser = "[dbo].[manageuser]";
         public const string getuserdetail = "[dbo].[getuserdetail]";
         public const string getuserconfig = "[dbo].[getuserconfig]";
@@ -120,6 +120,9 @@ namespace onescreenModel.Common
         public const string getusertoken = "[dbo].[getusertoken]";
         public const string manage_delete_record = "[dbo].[manage_delete_record]";
         public const string user_approved_reject = "[dbo].[user_approved_reject]";
+
+        public const string getcontactdetails = "[dbo].[getcontactdetails]";
+        public const string managecontactdetails = "[dbo].[managecontactdetails]";
 
         //END :: UserManagement
 

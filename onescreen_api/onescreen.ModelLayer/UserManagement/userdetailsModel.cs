@@ -57,14 +57,14 @@ namespace onescreenModel.UserManagement
         public bool IsValidate { get; set; }
     }
 
-    public class contactUsModel : commonModel
+    public class contact_details : commonModel
     {
         public Int64 contact_id { get; set; }
         public string fullname { get; set; }
         public string email_id { get; set; }
-        public string mobile { get; set; }
-        public string subject { get; set; }
-        public string message { get; set; }
+        public string? mobile_no { get; set; }
+        public string? subject_line { get; set; }
+        public string? description { get; set; }
     }
 
     public class subscriberModel : commonModel
