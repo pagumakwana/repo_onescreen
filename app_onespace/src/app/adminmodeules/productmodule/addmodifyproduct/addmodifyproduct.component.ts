@@ -54,6 +54,7 @@ export class AddmodifyproductComponent {
   BrandMaster: any = [];
   TimeSlotAttr: any = [];
   RepeAttr: any = [];
+  IntervalAttr: any = [];
   private isProductModify: boolean = false;
 
   fileChoosenData: { [key: string]: Array<fileChoosenDataModel> } = {
@@ -133,6 +134,15 @@ export class AddmodifyproductComponent {
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
+  public _configInterval: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'option_value_id',
+    textField: 'option_value',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
 
   initForm() {
     this.fgproductmaster = this._fbproductMaster.group({
@@ -147,6 +157,7 @@ export class AddmodifyproductComponent {
       lstrepeattribute: [''],
       lsttimeattr: this._fbproductMaster.array([]),
       lstrepeattr: this._fbproductMaster.array([]),
+      lstintervalattribute: this._fbproductMaster.array([]),
       lstcategoryroute: ['', [Validators.required]],
       lstpropertycategoryroute: ['', [Validators.required]],
       textarea: this._fbproductMaster.group({
@@ -163,8 +174,11 @@ export class AddmodifyproductComponent {
     this.getoptionvalues('Time Slot').then((res: any) => {
       this.TimeSlotAttr = res;
     });
-    this.getoptionvalues('Screen Interval').then((res: any) => {
+    this.getoptionvalues('Repetition').then((res: any) => {
       this.RepeAttr = res;
+    });
+    this.getoptionvalues('Interval').then((res: any) => {
+      this.IntervalAttr = res;
     });
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
@@ -233,6 +247,7 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['lstpropertycategoryroute'].setValue(this._productMaster.lstpropertycategoryroute);
         this.fgproductmaster.controls['lsttimeattribute'].setValue(this._productMaster.lsttimeattribute);
         this.fgproductmaster.controls['lstrepeattribute'].setValue(this._productMaster.lstrepeattribute);
+        this.fgproductmaster.controls['lstintervalattribute'].setValue(this._productMaster.lstintervalattribute);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['base_price'].setValue(this._productMaster.base_price);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
@@ -242,6 +257,9 @@ export class AddmodifyproductComponent {
         })
         this._productMaster.lstrepeattribute?.filter((_res:any)=>{
           this.onSelectRepe(_res);
+        })
+        this._productMaster.lstintervalattribute?.filter((_res:any)=>{
+          this.onSelectInterval(_res);
         })
         this.initFilesUrl(this._productMaster.filemanager)
         resolve(true)
@@ -267,8 +285,9 @@ export class AddmodifyproductComponent {
           this._productMaster.lstpropertycategoryroute = this.fgproductmaster.value.lstpropertycategoryroute;
           this._productMaster.lsttimeattribute = this.fgproductmaster.value.lsttimeattr;
           this._productMaster.lstrepeattribute = this.fgproductmaster.value.lstrepeattr;
+          this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstintervalattribute;
           this._productMaster.base_price = this.fgproductmaster.value.base_price;
-          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute)
+          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
@@ -416,6 +435,10 @@ export class AddmodifyproductComponent {
     return this.fgproductmaster.get("lstrepeattr") as FormArray
   }
 
+  get intervalArray(): FormArray {
+    return this.fgproductmaster.get("lstintervalattr") as FormArray
+  }
+
   onSelectTime($event: any) {
     if ($event && $event != null && $event != '') {
       debugger
@@ -460,6 +483,30 @@ export class AddmodifyproductComponent {
         return ctrl.value.option_value_id === $event?.option_value_id;
       });
       this.repetitionArray.removeAt(_indexTime);
+    }
+  }
+
+  onSelectInterval($event: any) {
+    if ($event && $event != null && $event != '') {
+      debugger
+      const _intrvl = this.IntervalAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
+      let control: FormGroup = this._fbproductMaster.group({
+        product_option_adj_id: [0],
+        product_id: [0],
+        option_value_id: [$event ? $event.option_value_id : 0],
+        option_value: [$event ? $event.option_value : ''],
+        price_delta: [$event ? $event?.price_delta : 0],
+      });
+      this.repetitionArray.push(control);
+    }
+  }
+  onDeSelectInterval($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("Deselect : ", $event);
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.option_value_id === $event?.option_value_id;
+      });
+      this.intervalArray.removeAt(_indexTime);
     }
   }
 

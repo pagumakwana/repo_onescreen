@@ -40,9 +40,11 @@ export class ProductComponent implements OnInit {
   _categoryTypeMaster: categoryMaster = {};
   _categoryPropertyMaster: categoryMaster = {};
   _categoryrepetition: any = {};
+  _categoryinterval: any = {};
   fgcategorymaster!: FormGroup;
   ScreenMaster: any = [];
   ScreenRepeMaster: any = [];
+  ScreenIntervalMaster: any = [];
   RouteMaster: any = [];
   TypeMaster: any = [];
   PropertyMaster: any = [];
@@ -119,6 +121,16 @@ export class ProductComponent implements OnInit {
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
     allowSearchFilter: true
+  };
+  public _screenInterval: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'option_value_id',
+    textField: 'option_value',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
 
   ngOnInit(): void {
@@ -219,6 +231,12 @@ export class ProductComponent implements OnInit {
         this._cdr.detectChanges();
         console.log(" this.Screen Interval", this.ScreenRepeMaster)
       });
+      this.getoptionvalues('Interval', this._categoryScreenMaster.product_id).then((res: any) => {
+        this.ScreenIntervalMaster = [];
+        this.ScreenIntervalMaster = res;
+        this._cdr.detectChanges();
+        console.log(" this.Screen Interval", this.ScreenIntervalMaster)
+      });
     }
   }
 
@@ -240,6 +258,7 @@ export class ProductComponent implements OnInit {
 
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
       const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
 
       console.log("select : ", _itemTime, this._categoryRouteMaster);
       let control: FormGroup = this._fbCategoryMaster.group({
@@ -253,11 +272,15 @@ export class ProductComponent implements OnInit {
         to_date: ['', [Validators.required]],
         total_amount: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
         repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
+        interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
         base_price: [this._categoryScreenMaster.base_price],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
         repetition_category_id: [],
         repetition_category: [],
+        interval_category_id: [],
+        interval_category: [],
         attribute_amount: 0.00,
+        quantity: ['', [Validators.required]]
       });
 
       console.log("control : ", control);
@@ -320,6 +343,26 @@ export class ProductComponent implements OnInit {
       obj.controls['total_amount'].updateValueAndValidity();
       obj.controls["attribute_amount"].setValue((obj.controls["repetition_price"].value) + (obj.controls["timeslot_price"].value))
       obj.controls["attribute_amount"].updateValueAndValidity()
+      
+      console.log("obj", obj)
+      this._cdr.detectChanges();
+    }
+
+  }
+
+  onIntervalChange($event: any, _index: number) {
+    const selectedValue = $event.target.value;
+    if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
+      const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
+      let obj = this.timeArray.at(_index) as FormGroup;
+      obj.controls["interval_category"].setValue(selectedItem ? selectedItem?.option_value : '');
+      obj.controls["interval_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
+      obj.controls["interval_price"].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
+      obj.controls['interval_price'].updateValueAndValidity()
+      obj.controls["total_amount"].setValue((obj.controls["total_amount"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["interval_price"].value));
+      obj.controls['total_amount'].updateValueAndValidity();
+      obj.controls["attribute_amount"].setValue((obj.controls["interval_price"].value) + (obj.controls["timeslot_price"].value))
+      obj.controls["attribute_amount"].updateValueAndValidity()
       console.log("obj", obj)
       this._cdr.detectChanges();
     }
@@ -359,8 +402,12 @@ export class ProductComponent implements OnInit {
             repetition_category_id: _item.repetition_category_id,
             repetition_category: _item.repetition_category,
             repetition_price: _item.repetition_price,
+            interval_category_id: _item.interval_category_id,
+            interval_category: _item.interval_category,
+            interval_price: _item.interval_price,
             attribute_amount: _item.attribute_amount,
             total_amount: _item.total_amount,
+            quantity: _item.quantity,
           });
           _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
         })

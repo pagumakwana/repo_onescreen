@@ -68,7 +68,7 @@
           </div>
           <div class="col-lg-2 mb-2">
             <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen Repetition :</label>
-            <select class="form-control form-control-sm" id="screen_repetition" (change)="onRepetitionChange($event,i)">
+            <select class="form-control form-control-sm" id="screen_interval" (change)="onRepetitionChange($event,i)">
               <option id="repet_value_id_" value="">Select Repetition</option>
               <option *ngFor="let _item of this.ScreenRepeMaster; let _ind=index" id="repet_value_id_{{_ind}}"
                 [value]="_item.option_value_id">
@@ -134,6 +134,25 @@
             <input type="text" id="total_amount_{{i+1}}" class="form-control form-control-sm disabled"
               placeholder="Total" formControlName="total_amount">
           </div>
+          <div class="col-lg-2   mb-2">
+            <label for="quantity_{{i+1}}" class="form-label">Quantity :</label>
+            <input type="text" id="quantity_{{i+1}}" class="form-control form-control-sm disabled"
+              placeholder="Quantity" formControlName="quantity">
+          </div>
+          <div class="col-lg-2 mb-2">
+            <label for="interval_id_{{i+1}}" class="form-label">Screen Interval :</label>
+            <select class="form-control form-control-sm" id="screen_interval" (change)="onIntervalChange($event,i)">
+              <option id="interval_value_id_" value="">Select Interval</option>
+              <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index" id="interval_value_id_{{_ind}}"
+                [value]="_item.option_value_id">
+                {{_item.option_value}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2   mb-2">
+            <label for="interval_price_{{i+1}}" class="form-label">Interval Price :</label>
+            <input type="text" id="interval_price_{{i+1}}" class="form-control form-control-sm disabled"
+              placeholder="Screen interval" formControlName="interval_price">
+          </div>
         </div>
       </div>
     </div>
@@ -151,5 +170,5 @@
 
 
 <swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
-    [showConfirmButton]="false">
+  [showConfirmButton]="false">
 </swal>

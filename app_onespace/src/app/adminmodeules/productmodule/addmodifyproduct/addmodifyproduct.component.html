@@ -160,6 +160,16 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Screen Interval Attribute</label>
+                                <webd-multiselect [data]="IntervalAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lstintervalattribute"
+                                    placeholder="Select Interval" [config]="_configInterval"
+                                    (onSelectEvent)="onSelectInterval($event)" (onDeSelectEvent)="onDeSelectInterval($event)">
+                                </webd-multiselect>
+                            </div>
+                            
                             <hr>
                             <div class="row mb-6">
                                 <div class="col-lg-12 mb-3">
