@@ -172,7 +172,8 @@
                 </button>
                 <div class="input-group my-2">
                   <input type="text" class="form-control" placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
-                  <button class="btn btn-outline-secondary" type="button" (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
+                  <button class="btn btn-outline-secondary" type="button"
+                    (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
                 </div>
               </div>
               <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
@@ -251,4 +252,10 @@
 <!-- <ng-template #formModal let-modal> -->
 <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
   (pay_order)="proceeds_payment($event)"></app-checkout>
+<swal #paysuccessSwal [swalOptions]="swalOptions" title="Payment Success!" text="" icon="success"
+  [showConfirmButton]="false">
+</swal>
+<swal #failureSwal [swalOptions]="swalOptions" title="Payment Failure!" text="" icon="warning"
+  [showConfirmButton]="false">
+</swal>
 <!-- </ng-template> -->

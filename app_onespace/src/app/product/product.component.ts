@@ -213,7 +213,7 @@ export class ProductComponent implements OnInit {
         this._cdr.detectChanges();
         console.log(" this.TimeMaster", this.TimeMaster)
       });
-      this.getoptionvalues('Screen Interval', this._categoryScreenMaster.product_id).then((res: any) => {
+      this.getoptionvalues('Repetition', this._categoryScreenMaster.product_id).then((res: any) => {
         this.ScreenRepeMaster = [];
         this.ScreenRepeMaster = res;
         this._cdr.detectChanges();

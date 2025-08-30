@@ -277,5 +277,6 @@ export class ApiConstant {
         managevendor: "product/managevendor",
         getcouponcart: "product/getcouponcart",
         apply_coupon: "product/apply_coupon",
+        move_to_order: "product/move_to_order",
     }
 }

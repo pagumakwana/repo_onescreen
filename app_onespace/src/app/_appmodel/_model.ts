@@ -1964,6 +1964,7 @@ export interface productMaster {
     lstpropertycategoryroute?: any,
     lstattribute?: any,
     lstrepeattribute?: any,
+    lstintervalattribute?: any,
     lsttimeattribute?: any,
     lstbrand?: any,
     thumbnail?: any,
@@ -2077,11 +2078,20 @@ export interface orderDetails {
     payment_type?: any,
     payment_order_id?: any,
     payment_response?: any,
+    coupon_id?: any,
+    order_total?: any,
+    order_subtotal?: any,
+    order_discount?: any,
+    order_tax?: any,
+    order_status?: any,
+    payment_status?: any,
+    lst_orderdetail?: any,
     isdisable?: any,
     isactive?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,
+    createdby?: number,
     createdname?: string
 }
 
