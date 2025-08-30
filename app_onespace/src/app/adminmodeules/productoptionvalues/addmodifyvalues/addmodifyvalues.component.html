@@ -49,7 +49,7 @@
                             <button type="submit" class="btn btn-primary mb-4"
                                 (click)="setoptionValue(true)">Submit</button>
                             &nbsp;
-                            <a type="submit" class="btn btn-secondary mb-4" routerLink="/app/managevalues">Back</a>
+                            <a type="submit" class="btn btn-secondary mb-4" [routerLink]="['/app/managevalues']">Back</a>
 
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">

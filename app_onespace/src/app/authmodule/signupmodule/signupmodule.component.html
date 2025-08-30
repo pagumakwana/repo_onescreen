@@ -17,13 +17,21 @@
         <div class="auth-form">
             <div class="card my-5 mx-3">
                 <div class="card-body">
+                    <ng-container *ngIf="hasError">
+                        <div class="mb-lg-15 alert alert-danger">
+                            <div class="alert-text font-weight-bold">
+                                {{this.error_message}}
+                            </div>
+                        </div>
+                    </ng-container>
                     <h4 class="f-w-500 mb-1">Register with your email</h4>
-                    <p class="mb-3">Already have an Account? <a href="" class="link-primary" (click)="auth()">Log in</a></p>
+                    <p class="mb-3">Already have an Account? <a class="link-primary" [routerLink]="['/auth']">Log in</a>
+                    </p>
                     <form [formGroup]="fgUser">
                         <div class="mb-3">
                             <input type="text" class="form-control" placeholder="FullName" id="fullname"
                                 formControlName="fullname" name="fullname">
-                            <span class="form_error_msg"
+                            <span class="text-danger"
                                 *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)">
                                 Full Name is required.
                             </span>
@@ -32,11 +40,15 @@
                         <div class="mb-3">
                             <input type="email" class="form-control" placeholder="Email Address" id="email_id"
                                 formControlName="email_id" name="email_id">
+                            <span class="text-danger"
+                                *ngIf="fgUser.controls['email_id'].invalid && (fgUser.controls['email_id'].dirty || fgUser.controls['email_id'].touched)">
+                                Email ID is required.
+                            </span>
                         </div>
                         <div class="mb-3">
                             <input type="tel" class="form-control" placeholder="Mobile number" id="mobilenumber"
                                 formControlName="mobilenumber" name="mobilenumber">
-                            <span class="form_error_msg"
+                            <span class="text-danger"
                                 *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched)">
                                 Mobile Number is required.
                             </span>
@@ -44,7 +56,7 @@
                         <div class="mb-3">
                             <input type="password" class="form-control" placeholder="Password" id="password"
                                 formControlName="password" name="password">
-                            <span class="form_error_msg"
+                            <span class="text-danger"
                                 *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched)">
                                 Password is required.
                             </span>
@@ -61,7 +73,8 @@
                             </div>
                         </div>
                         <div class="d-grid mt-4">
-                            <button type="button" class="btn btn-primary" (click)="setUserModel(true)">Create Account</button>
+                            <button type="button" class="btn btn-primary" (click)="setUserModel(true)">Create
+                                Account</button>
                         </div>
 
                     </form>

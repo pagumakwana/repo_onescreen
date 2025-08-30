@@ -26,9 +26,16 @@ export class CommonService {
     public cdnURL = configData.cdnURL;
     public cdnAPPURL = configData.cdnAPPURL;
     public authoritycontrolList: any = [];
-    public navigation(url: any = []) {
-        this._router.navigate(url);
+    public isLoggedIn:boolean=false;
+
+    public navigation(url: any = [], isLoginRequired: boolean = false) {
+        if (isLoginRequired) {
+            this._router.navigate(['auth'], { queryParams: { q: url } });
+        } else {
+            this._router.navigate(url);
+        }
     }
+
 
     guid() {
         return this._p8(null) + this._p8(true) + this._p8(true) + this._p8(null);
@@ -297,36 +304,36 @@ export class CommonService {
         })
         return index > -1 ? object[index] : null
     }
-    
+
     list_to_tree(list: any[], idField = 'id', parentField = 'parent_id') {
         const map: Record<string, any> = {};
         const roots: any[] = [];
-      
+
         for (const item of list) {
-          const id = item[idField];
-          const parentId = item[parentField];
-      
-          // Ensure entry exists in map
-          if (!map[id]) {
-            map[id] = { ...item, children: [] };
-          } else {
-            map[id] = { ...map[id], ...item };
-          }
-      
-          if (parentId == null || parentId == 0) {
-            roots.push(map[id]); // root node
-          } else {
-            // Ensure parent exists
-            if (!map[parentId]) {
-              map[parentId] = { children: [] };
+            const id = item[idField];
+            const parentId = item[parentField];
+
+            // Ensure entry exists in map
+            if (!map[id]) {
+                map[id] = { ...item, children: [] };
+            } else {
+                map[id] = { ...map[id], ...item };
             }
-            map[parentId].children.push(map[id]); // safe push
-          }
+
+            if (parentId == null || parentId == 0) {
+                roots.push(map[id]); // root node
+            } else {
+                // Ensure parent exists
+                if (!map[parentId]) {
+                    map[parentId] = { children: [] };
+                }
+                map[parentId].children.push(map[id]); // safe push
+            }
         }
-      
+
         return roots;
-      }
-      
+    }
+
     readonly DELIMITER = '-';
 
     fromModeltoDate(value: string | null): NgbDateStruct | null {
@@ -341,11 +348,11 @@ export class CommonService {
         return null
     }
 
-    get_portal_config(sessiona_key_name:any) {
+    get_portal_config(sessiona_key_name: any) {
         return new Promise((resolve, rej) => {
             this._encryptedStorage.get(enAppSession.portal_config).then((res_portalconfig: any) => {
                 let _obj_portalConfig = JSON.parse(res_portalconfig);
-                resolve(_obj_portalConfig?.find((pc:any) => pc.config_name === sessiona_key_name)?.config_value);
+                resolve(_obj_portalConfig?.find((pc: any) => pc.config_name === sessiona_key_name)?.config_value);
             });
         });
     }
