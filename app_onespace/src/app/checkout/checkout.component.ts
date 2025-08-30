@@ -72,7 +72,11 @@ export class CheckoutComponent implements OnInit {
   verifyPayment(response: any) {
     this._webDService.verifyorder(response).subscribe((status: any) => {
       console.log('Payment success:', status);
-
+      if(status=='success'){
+    this.pay_order.emit(status);
+      }else{
+      this.pay_order.emit(status);
+      }
     });
   }
 }

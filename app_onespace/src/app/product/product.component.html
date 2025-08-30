@@ -68,7 +68,7 @@
           </div>
           <div class="col-lg-2 mb-2">
             <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen Repetition :</label>
-            <select class="form-control form-control-sm" id="screen_interval" (change)="onRepetitionChange($event,i)">
+            <select class="form-control form-control-sm" id="screen_repetition" (change)="onRepetitionChange($event,i)">
               <option id="repet_value_id_" value="">Select Repetition</option>
               <option *ngFor="let _item of this.ScreenRepeMaster; let _ind=index" id="repet_value_id_{{_ind}}"
                 [value]="_item.option_value_id">

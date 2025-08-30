@@ -1487,7 +1487,7 @@ namespace onescreenDAL.ProductManagement
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                        if (objuserorderMaster.flag.Contains("NEWCART") || objuserorderMaster.flag.Contains("MODIFYCART"))
+                        if (objuserorderMaster.flag.Contains("NEWORDER") || objuserorderMaster.flag.Contains("MODIFYORDER"))
                         {
                             ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
                             var Res = ResponseMessage.Split('~');
@@ -1516,7 +1516,7 @@ namespace onescreenDAL.ProductManagement
                                 DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
                                 DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
                                 ObJParameterCOl2.Add(objDBParameter2);
-                                objDbHelperModule.ExecuteNonQuery(Constant.mapusercart, ObJParameterCOl2, CommandType.StoredProcedure);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
                             ResponseMessage = Res[0].ToString();
                         }

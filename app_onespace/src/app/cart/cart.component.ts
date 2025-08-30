@@ -5,7 +5,7 @@ import { FormBuilder, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { CheckoutComponent } from '../checkout/checkout.component';
-import { razorpay_OrderAttribute, user_coupon_model, usercartMaster } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -29,6 +29,11 @@ export class CartComponent implements OnInit {
 
   @ViewChild('invalidcodeSwal')
   public readonly invalidcodeSwal!: SwalComponent;
+
+  @ViewChild('failureSwal')
+  public readonly failureSwal!: SwalComponent;
+   @ViewChild('paysuccessSwal')
+  public readonly paysuccessSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   UserCart: any;
@@ -78,10 +83,50 @@ export class CartComponent implements OnInit {
     });
   }
 
+
+  _order_details: orderDetails = {};
   is_payment: boolean = false;
   proceeds_payment($event: any) {
-    console.log("pay", $event)
+    console.log("pay", $event);
 
+    if ($event && $event.status === 'failure') {
+      this.paysuccessSwal.fire();
+      setTimeout(() => {
+        this.paysuccessSwal.close();
+        this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+          this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+            this._order_details = {
+              flag: 'NEWORDER',
+              order_id: 0,
+              coupon_id: this.couponMaster?.[0]?.coupon_id || 0,
+              payment_type: 'razorpay',
+              payment_order_id: $event?.data?.order_id || '',
+              payment_response: JSON.stringify($event.data) || '',
+              order_total: this.cart_total,
+              order_subtotal: this.cart_subtotal,
+              order_discount: this.cart_discount,
+              order_tax: this.cart_tax,
+              order_status: 'success',
+              payment_status: 'success',
+              user_id: user_id,
+              createdname: full_name,
+              createdby: user_id,
+              lst_orderdetail:this.UserCart[0]?.lst_cart_product
+            };
+
+            console.log('array' ,this._order_details , this.UserCart[0]?.lst_cart_product)
+
+            this._webDService.move_to_order(this._order_details).subscribe((resorder: any) =>{
+               if (resorder != null && resorder.includes('newsuccess')) {
+                 console.log("Order stored successfully:");
+                } else{
+                  console.log("Error");
+                }
+            });
+          });
+        });
+      }, 1000);
+    }
   }
 
   cart_total: any = 0.00;
@@ -155,7 +200,7 @@ export class CartComponent implements OnInit {
 
             if (this.couponMaster.length > 0) {
               let coupon_id: any = this.couponMaster[0]?.coupon_id;
-               this.cart_discount = this.couponMaster[0]?.discount_value;
+              this.cart_discount = this.couponMaster[0]?.discount_value;
               this.coupon_code = this.Coupon_code_text;
               // this.Coupon_code_text = '';
               this.Coupon_code_btn = 'Remove';
