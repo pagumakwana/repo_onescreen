@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { CommonModule } from '@angular/common';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterModule, CommonModule],
-  providers: [BaseServiceHelper, Router],
+  providers: [BaseServiceHelper],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -20,12 +21,15 @@ export class HeaderComponent {
 
   constructor(
     public _base: BaseServiceHelper,
-    private router: Router
+    private _cdr:ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    // check login status from localStorage
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin:boolean) => {
+      this.isLoggedIn = haslogin ? haslogin:false;
+      console.log("islogin",this.isLoggedIn);
+      this._cdr.detectChanges();
+    });
   }
 
   navigate() {
@@ -33,25 +37,23 @@ export class HeaderComponent {
   }
 
   login() {
-    localStorage.setItem('isLoggedIn', 'true');
-    this.isLoggedIn = true;
-    this.router.navigate(['/auth']);
+    this._base._router.navigate(['auth']);
   }
 
   logout() {
     this._base._appSessionService.clearUserSession();
     setTimeout(() => {
-    this.isLoggedIn = false;
-      localStorage.removeItem('isLoggedIn');
-      this._base._router.navigate(['/']);
+      this.isLoggedIn=false;
+      this._cdr.detectChanges();
+      this._base._router.navigate(['/home']);
     }, 1000);
   }
 
   goToProduct() {
     if (this.isLoggedIn) {
-      this.router.navigate(['/product']); 
+      this._base._router.navigate(['/product']);
     } else {
-      this.router.navigate(['/userregistration']); 
+       this._base._router.navigate(['auth'], { queryParams: { q: ['/product'] } });
     }
   }
 }

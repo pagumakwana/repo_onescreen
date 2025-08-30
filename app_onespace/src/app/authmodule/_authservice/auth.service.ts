@@ -33,7 +33,6 @@ export class AuthService implements OnDestroy {
   constructor(
     private _webDService: WebDService,
     private _base: BaseServiceHelper,
-    private router: Router
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<userModel | null>(null);
@@ -64,7 +63,7 @@ export class AuthService implements OnDestroy {
   logout() {
     localStorage.removeItem(this.authLocalStorageToken);
     this._base._appSessionService.clearUserSession();
-    this.router.navigate(['/home'], {
+    this._base._router.navigate(['/home'], {
       queryParams: {},
     });
   }

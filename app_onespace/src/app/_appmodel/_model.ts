@@ -2188,3 +2188,16 @@ export interface user_coupon_model{
     createdby?: number,
     createdname?: string
 }
+
+export interface contactDetails {
+    contact_id?: any,
+    fullname?: any,
+    description?: any,
+    email_id?:any,
+    mobile_no?:any,
+    subject_line?:any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+}

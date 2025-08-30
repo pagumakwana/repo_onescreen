@@ -85,19 +85,19 @@ namespace onescreenBAL.UserManagement
             }
         }
 
-        public string managecontactus(contactUsModel objcontactus)
+        public string managecontactdetails(contact_details objcontactdetails)
         {
             using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
             {
-                return objUserManagement_DAL.managecontactus(objcontactus);
+                return objUserManagement_DAL.managecontactdetails(objcontactdetails);
             }
         }
 
-        public responseModel getcontactus()
+        public responseModel getcontactdetails(Int64 contact_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
             {
-                return objUserManagement_DAL.getcontactus();
+                return objUserManagement_DAL.getcontactdetails(contact_id, start_count, end_count);
             }
         }
         public string profilepicture(userManagementModel objclsUserManagement)

@@ -54,8 +54,8 @@
                 <p class="contactus_note">Fill in the form and let us know what you need.</p>
             </div>
             <div class='form'>
-                <form>
-                    <!-- <form [formGroup]="fgcontactdetails"> -->
+                <form [formGroup]="fgcontactdetails">
+                    <!-- <form> -->
                     <div class="form_container">
                         <label>Full Name</label>
                         <input type="text" id="fullname" name="fullname" placeholder="Full Name"
@@ -112,7 +112,7 @@
                     </div> -->
                         <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
                             (click)="setcontactdetail(true)"> -->
-                        <button type="button" class="btn btn ternary_btn">
+                        <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
                             <ng-container *ngIf="!isLoading">Submit</ng-container>
                             <ng-container *ngIf="isLoading">
                                 <span clas="indicator-progress" [style.display]="'block'">
@@ -121,20 +121,20 @@
                                 </span>
                             </ng-container>
                         </button>
-                    <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
+                    <!-- <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
                         <div class="modal_container">
                             <div class="modal_header">
                                 <h2 class="modal_heading">Camera to Sell!</h2>
-                                <!-- <span class="modal_close" (click)="isSuccessModal_Open = false;">
+                                <span class="modal_close" (click)="isSuccessModal_Open = false;">
                                     <img src="./assets/img/close.svg" alt="Close Icon" />
-                                </span> -->
+                                </span>
                             </div>
                             <div class="modal_body">
                                 <h3 class="section_head">Thank you for your inquiry. One of our executives will reach
                                     out to you for the next steps.</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

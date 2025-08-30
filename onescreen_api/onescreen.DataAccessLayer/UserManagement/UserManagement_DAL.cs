@@ -532,29 +532,35 @@ namespace onescreenDAL.UserManagement
             }
         }
 
-        public string managecontactus(contactUsModel objcontactus)
+        public string managecontactdetails(contact_details objcontactdetails)
         {
             try
             {
                 string Response = "";
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@fullname", objcontactus.fullname, DbType.String);
+                DBParameter objDBParameter = new DBParameter("@contact_id", objcontactdetails.contact_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@email_id", objcontactus.email_id, DbType.String);
+                objDBParameter = new DBParameter("@fullname", objcontactdetails.fullname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@message", objcontactus.message, DbType.String);
+                objDBParameter = new DBParameter("@email_id", objcontactdetails.email_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@subject", objcontactus.subject, DbType.String);
+                objDBParameter = new DBParameter("@mobile_no", objcontactdetails.mobile_no, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@mobile", objcontactus.mobile, DbType.String);
+                objDBParameter = new DBParameter("@subject_line", objcontactdetails.subject_line, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@description", objcontactdetails.description, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objcontactdetails.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objcontactdetails.createdname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();
-                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managecontactus, ObJParameterCOl, CommandType.StoredProcedure);
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managecontactdetails, ObJParameterCOl, CommandType.StoredProcedure);
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -570,40 +576,46 @@ namespace onescreenDAL.UserManagement
             }
         }
 
-        public responseModel getcontactus()
+        public responseModel getcontactdetails(Int64 contact_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             try
             {
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@contact_id", contact_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();
-                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getcontactus, ObJParameterCOl, CommandType.StoredProcedure);
-                List<contactUsModel> lstcontactus = new List<contactUsModel>();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getcontactdetails, ObJParameterCOl, CommandType.StoredProcedure);
+                List<contact_details> lstcontact = new List<contact_details>();
                 responseModel lstresponse = new responseModel();
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                        lstcontactus = ds.Tables[0].AsEnumerable().Select(Row =>
-                          new contactUsModel
+                        lstcontact = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new contact_details
                           {
                               contact_id = Row.Field<Int64>("contact_id"),
                               fullname = Row.Field<string>("fullname"),
                               email_id = Row.Field<string>("email_id"),
-                              mobile = Row.Field<string>("mobile"),
-                              subject = Row.Field<string>("subject"),
-                              message = Row.Field<string>("message"),
-                              createdby = Row.Field<Int64?>("createdby"),
+                              mobile_no = Row.Field<string>("mobile_no"),
+                              subject_line = Row.Field<string>("subject_line"),
+                              description = Row.Field<string>("description"),
+                              createdby = Row.Field<Int64>("createdby"),
                               createdname = Row.Field<string>("createdname"),
-                              createddatetime = Row.Field<DateTime?>("createddatetime")
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
                           }).ToList();
                     }
                     lstresponse.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
-                    lstresponse.data = lstcontactus;
+                    lstresponse.data = lstcontact;
                 }
                 return lstresponse;
             }

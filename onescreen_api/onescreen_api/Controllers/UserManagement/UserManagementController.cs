@@ -167,34 +167,37 @@ namespace onescreen_api.Controllers.UserManagement
         //    }
         //}
 
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="contact_id"></param>
+       /// <param name="start_count"></param>
+       /// <param name="end_count"></param>
+       /// <returns></returns>
+        [Route("getcontactdetails")]
+        [HttpGet]
+        public responseModel getcontactdetails(Int64 contact_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return objUserManagement_BAL.getcontactdetails(contact_id, start_count, end_count);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="objcontactus"></param>
+        /// <param name="objcontactdetails"></param>
         /// <returns></returns>
-        //[Route("managecontactus")]
-        //[HttpPost]
-        //public string managecontactus(contactUsModel objcontactus)
-        //{
-        //    using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
-        //    {
-        //        return objUserManagement_BAL.managecontactus(objcontactus);
-        //    }
-        //}
-
-        /// <summary>
-        /// Get Contact List
-        /// </summary>
-        /// <returns></returns>
-        //[Route("getcontactus")]
-        //[HttpGet]
-        //public responseModel getcontactus()
-        //{
-        //    using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
-        //    {
-        //        return objUserManagement_BAL.getcontactus();
-        //    }
-        //}
+        [Route("managecontactdetails")]
+        [HttpPost]
+        public string managecontactdetails(contact_details objcontactdetails)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return objUserManagement_BAL.managecontactdetails(objcontactdetails);
+            }
+        }
 
         /// <summary>
         /// 
