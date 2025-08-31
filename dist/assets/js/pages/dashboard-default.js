@@ -31,7 +31,7 @@ function floatchart() {
                 fill: '#3f4d67',
             },
             hover: {
-                fill: '#04A9F5',
+                fill: '#054089',
             },
         },
         markerLabelStyle: {

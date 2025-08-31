@@ -91,7 +91,7 @@ function floatchart() {
           show: false
         }
       },
-      colors: ['#04A9F5', '#04A9F5', '#04A9F5', '#7C57C1'],
+      colors: ['#054089', '#054089', '#054089', '#7C57C1'],
       fill: {
         opacity: [0.6, 1,  0.6, 1]
       },
@@ -342,7 +342,7 @@ function floatchart() {
     // overview bar chart
     var options_overview_bar = {
       chart: { type: 'bar', height: 150, sparkline: { enabled: true } },
-      colors: ['#F44236', '#04A9F5', '#673ab7', '#1DE9B6', '#F4C22B', '#3EBFEA'],
+      colors: ['#F44236', '#054089', '#673ab7', '#1DE9B6', '#F4C22B', '#3EBFEA'],
       plotOptions: { bar: { borderRadius: 2, columnWidth: '80%', distributed: true} },
       series: [
         {
@@ -373,7 +373,7 @@ function floatchart() {
         type: 'donut'
       },
       series: [27, 23, 20, 17],
-      colors: ['#04A9F5', '#F4C22B', '#1DE9B6', '#04A9F5'],
+      colors: ['#054089', '#F4C22B', '#1DE9B6', '#054089'],
       labels: ['Total income', 'Total rent', 'Download', 'Views'],
       fill: {
         opacity: [1, 1, 1, 0.3]
@@ -462,7 +462,7 @@ function floatchart() {
     // transactions chart
     var options_transactions = {
       chart: { type: 'bar', height: 60, sparkline: { enabled: true } },
-      colors: ['#04A9F5'],
+      colors: ['#054089'],
       plotOptions: { bar: { borderRadius: 2, columnWidth: '80%' } },
       series: [
         {
@@ -714,7 +714,7 @@ function floatchart() {
         stacked: true,
         sparkline: { enabled: true }
       },
-      colors: ['#04A9F5'],
+      colors: ['#054089'],
       stroke: { curve: 'smooth', width: 2 },
       series: [{ data: [5, 25, 3, 10, 4, 50, 0] }],
       tooltip: {
