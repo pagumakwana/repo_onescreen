@@ -348,11 +348,11 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <returns></returns>
         [Route("move_to_order")]
         [HttpPost]
-        public string move_to_order(userorderMaster objuserorderMaster)
+        public string move_to_order(ordermaster objordermaster)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.move_to_order(objuserorderMaster);
+                return objProductManagement_BAL.move_to_order(objordermaster);
             }
         }
 

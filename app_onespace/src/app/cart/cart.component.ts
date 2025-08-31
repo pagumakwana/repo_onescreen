@@ -4,8 +4,7 @@ import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
-import { CheckoutComponent } from '../checkout/checkout.component';
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -16,7 +15,7 @@ declare var Razorpay: any;
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, CheckoutComponent, SweetAlert2Module, FormsModule],
+  imports: [CommonModule, RouterModule, SweetAlert2Module, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -85,26 +84,25 @@ export class CartComponent implements OnInit {
 
 
   _order_details: orderDetails = {};
+  _ordermaster: ordermaster = {};
   is_payment: boolean = false;
-  proceeds_payment($event: any) {
-    console.log("pay", $event);
+  proceeds_payment(rzr_response: any) {
     const result = this.UserCart[0]?.lst_cart_product
-    ?.filter((p: any) => p.product_id > 0)
-    .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
-
-    if ($event && $event.status === 'failure') {
-      this.paysuccessSwal.fire();
+      ?.filter((p: any) => p.product_id > 0)
+      .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
+    console.log("rzr_response", rzr_response)
+    if (rzr_response && rzr_response.status === 'failure') {
       setTimeout(() => {
-        this.paysuccessSwal.close();
         this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
           this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
             this._order_details = {
               flag: 'NEWORDER',
               order_id: 0,
+              cart_master_id: this.UserCart[0]?.cart_master_id,
               coupon_id: this.couponMaster?.[0]?.coupon_id || 0,
               payment_type: 'razorpay',
-              payment_order_id: $event?.data?.order_id || '',
-              payment_response: JSON.stringify($event.data) || '',
+              payment_order_id: rzr_response?.razorpay_order_id || '',
+              payment_response: JSON.stringify(rzr_response) || '',
               order_total: this.cart_total,
               order_subtotal: this.cart_subtotal,
               order_discount: this.cart_discount,
@@ -115,15 +113,28 @@ export class CartComponent implements OnInit {
               createdname: full_name,
               createdby: user_id,
               lst_orderdetail: this.UserCart[0]?.lst_cart_product,
-              lst_orderproduct:Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
+              lst_orderproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
             };
-            
-            console.log('array', this._order_details, this.UserCart[0]?.lst_cart_product)
-            this._webDService.move_to_order(this._order_details).subscribe((resorder: any) => {
+            this._ordermaster = {
+              lst_ordermaster: this._order_details,
+              lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+              lst_orderproduct: this._order_details?.lst_orderproduct
+            }
+            console.log('array', this._ordermaster)
+            this._webDService.move_to_order(this._ordermaster).subscribe((resorder: any) => {
               if (resorder != null && resorder.includes('newsuccess')) {
                 console.log("Order stored successfully:");
+                this.paysuccessSwal.fire();
+                setTimeout(() => {
+                  this.paysuccessSwal.close();
+                  this._base._router.navigate(['app', 'uploadmedia']);
+                  this._cdr.detectChanges();
+                }, 1000);
               } else {
-                console.log("Error");
+                this.failureSwal.fire();
+                setTimeout(() => {
+                  this.failureSwal.close();
+                }, 1000);
               }
             });
           });
@@ -146,12 +157,9 @@ export class CartComponent implements OnInit {
     }
     this._webDService.createOrder(this.razorpay_OrderAttribute)
       .subscribe((res: any) => {
-        console.log("👉 API responded", res); // track response
-
         if (res) {
           this.razorpay_OrderAttribute = res;
           this.is_payment = true;
-
           this.pay(this.razorpay_OrderAttribute);
         }
       });

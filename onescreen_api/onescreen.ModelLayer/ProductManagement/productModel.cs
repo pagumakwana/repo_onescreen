@@ -20,7 +20,7 @@ namespace onescreenModel.ProductManagement
         public string? route_category { get; set; }
         public string? property_category { get; set; }
         public string? brand_name { get; set; }
-        public decimal? base_price { get; set; }
+        public decimal? base_amount { get; set; }
         public List<productCategoryModel> lstcategory { get; set; }
         public List<productrouteCategoryModel> lstcategoryroute { get; set; }
         public List<productpropertyCategoryModel> lstpropertycategoryroute { get; set; }
@@ -216,7 +216,6 @@ namespace onescreenModel.ProductManagement
     {
         public long order_id { get; set; }
         public long order_history_id { get; set; }
-        public long user_id { get; set; }
         public long product_id { get; set; }
         public long cart_master_id { get; set; }
         public string? optionvalues { get; set; }
@@ -226,27 +225,32 @@ namespace onescreenModel.ProductManagement
     public class userorderproductModel : commonModel
     {
         public long order_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
-        public long? user_id { get; set; }             // [user_id]
         public long? order_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
-        public long? time_slot_id { get; set; }         // [time_slot_id]
-        public string? time_slot_value { get; set; }    // [time_slot_value] NVARCHAR(500)
-        public decimal? time_slot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
-        public long? repetition_id { get; set; }       // [repetition_id]
-        public string? repetition_value { get; set; }  // [repetition_value] NVARCHAR(150)
+        public long? timeslot_category_id { get; set; }         // [time_slot_id]
+        public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
+        public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
+        public long? repetition_category_id { get; set; }       // [repetition_id]
+        public string? repetition_category { get; set; }  // [repetition_value] NVARCHAR(150)
         public decimal? repetition_price { get; set; } // [repetition_price] DECIMAL(7,2)
-        public long? interval_id { get; set; }         // [interval_id]
-        public string? interval_value { get; set; }    // [interval_value] NVARCHAR(150)
+        public long? interval_category_id { get; set; }         // [interval_id]
+        public string? interval_category { get; set; }    // [interval_value] NVARCHAR(150)
         public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
         public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
         public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
-        public long? qty { get; set; }                // [qty]
-        public decimal? base_price { get; set; }       // [base_price] DECIMAL(7,2)
-        public decimal? attribute_price { get; set; }  // [attribute_price] DECIMAL(7,2)
-        public decimal? sub_total_price { get; set; }   // [sub_total_price] DECIMAL(7,2)
-        public decimal? total_price { get; set; }
+        public long? quantity { get; set; }                // [qty]
+        public decimal? base_amount { get; set; }       // [base_amount] DECIMAL(7,2)
+        public decimal? attribute_amount { get; set; }  // [attribute_price] DECIMAL(7,2)
+        public decimal? total_amount { get; set; }
 
+    }
+
+    public class ordermaster
+    {
+        public userorderMaster lst_ordermaster { get; set; }
+        public List<userorderhistoryModel> lst_orderdetail { get; set; }
+        public List<userorderproductModel> lst_orderproduct { get; set; }
     }
 
     public class user_coupon_model : commonModel

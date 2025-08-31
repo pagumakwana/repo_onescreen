@@ -1952,7 +1952,7 @@ export interface productMaster {
     isactive?: boolean,
     category_id?: any,
     category?: any,
-    base_price?: any,
+    base_amount?: any,
     route_category_id?: any,
     route_category?: any,
     property_category_id?: any,
@@ -2070,10 +2070,15 @@ export interface couponModel {
     user_id?: number,
     createdname?: string
 }
-
+export interface ordermaster {
+    lst_ordermaster?: any,
+    lst_orderdetail?: any,
+    lst_orderproduct?: any
+}
 export interface orderDetails {
     flag?: any,
     order_id?: any,
+    cart_master_id?: any,
     order_number?: any,
     payment_type?: any,
     payment_order_id?: any,
@@ -2113,12 +2118,12 @@ export interface usercartMaster {
     flag?: any,
     cart_master_id?: any,
     user_id?: any,
-    coupon_id?:number,
-    coupon_code?:string,
-    cart_total?:any,
-    cart_subtotal?:any,
-    cart_discount?:any,
-    cart_tax?:any,
+    coupon_id?: number,
+    coupon_code?: string,
+    cart_total?: any,
+    cart_subtotal?: any,
+    cart_discount?: any,
+    cart_tax?: any,
     lst_cart_product?: usercartmappingModel[];
     client_id?: number,
     project_id?: number,
@@ -2176,13 +2181,13 @@ export interface razorpayPaymentResponse {
     status: string
 }
 
-export interface user_coupon_model{
-    flag?:any,
+export interface user_coupon_model {
+    flag?: any,
     coupon_cart_mapid?: any,
-    coupon_id? :any
-    cart_id? :any
-    user_id? :any
-    product_ids? :any,
+    coupon_id?: any
+    cart_id?: any
+    user_id?: any
+    product_ids?: any,
     createdby?: number,
     createdname?: string
 }
@@ -2191,9 +2196,9 @@ export interface contactDetails {
     contact_id?: any,
     fullname?: any,
     description?: any,
-    email_id?:any,
-    mobile_no?:any,
-    subject_line?:any,
+    email_id?: any,
+    mobile_no?: any,
+    subject_line?: any,
     client_id?: number,
     project_id?: number,
     user_id?: number,

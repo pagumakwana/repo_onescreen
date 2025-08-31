@@ -179,11 +179,11 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.verify_order(objRazorpay_OrderAttribute);
             }
         }
-        public string move_to_order(userorderMaster objuserorderMaster)
+        public string move_to_order(ordermaster objordermaster)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.move_to_order(objuserorderMaster);
+                return objProductManagement_DAL.move_to_order(objordermaster);
             }
         }
 

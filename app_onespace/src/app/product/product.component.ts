@@ -217,8 +217,8 @@ export class ProductComponent implements OnInit {
       console.log("$event", _item)
       this._categoryScreenMaster.product_id = ($event[0]?.product_id);
       this._categoryScreenMaster.product_name = ($event[0]?.product_name);
-      this._categoryScreenMaster.base_price = (_item ? _item[0]?.base_price : 0.00);
-      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_price)
+      this._categoryScreenMaster.base_amount = (_item ? _item[0]?.base_amount : 0.00);
+      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_amount)
       this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
         this.TimeMaster = [];
         this.TimeMaster = res;
@@ -264,8 +264,8 @@ export class ProductComponent implements OnInit {
         timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
         from_date: ['', [Validators.required]],
         to_date: ['', [Validators.required]],
-        total_amount: [(this._categoryScreenMaster.base_price + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
-        base_price: [this._categoryScreenMaster.base_price],
+        total_amount: [(this._categoryScreenMaster.base_amount + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
+        base_amount: [this._categoryScreenMaster.base_amount],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
         repetition_category_id: [0],
         repetition_category: [''],
@@ -401,12 +401,13 @@ export class ProductComponent implements OnInit {
             interval_price: _item.interval_price,
             attribute_amount: _item.attribute_amount,
             total_amount: _item.total_amount,
+            base_amount: _item.base_amount,
             quantity: _item.quantity,
           });
           _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
         })
         this._usercartmappingModel = {
-          base_amount: this._categoryScreenMaster.base_price,
+          base_amount: this._categoryScreenMaster.base_amount,
           product_id: this._categoryScreenMaster.product_id,
           total_amount: this._totalAmount,
           attribute_amount: _attriAmount,

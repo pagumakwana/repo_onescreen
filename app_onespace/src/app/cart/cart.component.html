@@ -75,14 +75,14 @@
               <div class="card-body border-bottom">
                 <h5 class="mb-0">
                   Cart Item
-                  <span class="ms-2 f-14 px-2 badge bg-light-secondary rounded-pill">
+                  <!-- <span class="ms-2 f-14 px-2 badge bg-light-secondary rounded-pill">
                     {{ UserCart[0]?.length || 0 }}
-                  </span>
+                  </span> -->
                 </h5>
               </div>
 
               <!-- Table -->
-              <div class="card-body p-0 table-body">
+              <div class="card-body p-0 table-body" *ngIf="UserCart && UserCart.length > 0">
                 <div class="table-responsive">
                   <table class="table mb-0" id="pc-dt-simple">
                     <thead>
@@ -252,10 +252,10 @@
 <!-- <ng-template #formModal let-modal> -->
 <!-- <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
   (pay_order)="proceeds_payment($event)"></app-checkout> -->
-<swal #paysuccessSwal [swalOptions]="swalOptions" title="Payment Success!" text="" icon="success"
+<swal #paysuccessSwal [swalOptions]="swalOptions" title="Order place successfully!" text="" icon="success"
   [showConfirmButton]="false">
 </swal>
-<swal #failureSwal [swalOptions]="swalOptions" title="Payment Failure!" text="" icon="warning"
+<swal #failureSwal [swalOptions]="swalOptions" title="Something went wrong. Please try again later. If the issue persists, kindly contact support." text="" icon="warning"
   [showConfirmButton]="false">
 </swal>
 <!-- </ng-template> -->

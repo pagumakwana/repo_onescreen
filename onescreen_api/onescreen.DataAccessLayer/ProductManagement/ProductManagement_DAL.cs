@@ -171,7 +171,7 @@ namespace onescreenDAL.ProductManagement
                               thumbnail = Row.Field<string>("thumbnail"),
                               category_id = Row.Field<Int64>("category_id"),
                               category = Row.Field<string>("category"),
-                              base_price = Row.Field<decimal>("base_price"),
+                              base_amount = Row.Field<decimal>("base_amount"),
                               route_category_id = Row.Field<Int64>("route_category_id"),
                               route_category = Row.Field<string>("route_category"),
                               lstcategory = lstcategory,
@@ -224,7 +224,7 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@category_id", objproductModel.category_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@base_price", objproductModel.base_price, DbType.Decimal);
+                objDBParameter = new DBParameter("@base_amount", objproductModel.base_amount, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@property_category_id", objproductModel.property_category_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1451,10 +1451,11 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public string move_to_order(userorderMaster objuserorderMaster)
+        public string move_to_order(ordermaster objordermaster)
         {
             try
             {
+                userorderMaster objuserorderMaster = objordermaster.lst_ordermaster;
                 string ResponseMessage = "";
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@flag", objuserorderMaster.flag, DbType.String);
@@ -1505,9 +1506,9 @@ namespace onescreenDAL.ProductManagement
                             ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
                             var Res = ResponseMessage.Split('~');
                             objuserorderMaster.order_id = Convert.ToInt64(Res[1].ToString());
-                            if ((objuserorderMaster.lst_orderdetail != null && objuserorderMaster.lst_orderdetail.Count > 0))
+                            if ((objordermaster.lst_orderdetail != null && objordermaster.lst_orderdetail.Count > 0))
                             {
-                                objuserorderMaster.lst_orderdetail.ForEach(item =>
+                                objordermaster.lst_orderdetail.ForEach(item =>
                                 {
                                     item.order_id = objuserorderMaster.order_id;
                                     item.cart_master_id = objuserorderMaster.cart_master_id;
@@ -1522,18 +1523,17 @@ namespace onescreenDAL.ProductManagement
                                     item.isdeleted = false;
                                 });
                                 Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objuserorderMaster.lst_orderdetail);
-                                DBHelper objDbHelperModule = new DBHelper();
-                                string tablename = objDbHelperModule.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
-                                objDbHelperModule = new DBHelper();
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderdetail);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
                                 DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
                                 DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
                                 ObJParameterCOl2.Add(objDBParameter2);
-                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
-                            if ((objuserorderMaster.lst_orderproduct != null && objuserorderMaster.lst_orderproduct.Count > 0))
+                            if ((objordermaster.lst_orderproduct != null && objordermaster.lst_orderproduct.Count > 0))
                             {
-                                objuserorderMaster.lst_orderproduct.ForEach(_item =>
+                                objordermaster.lst_orderproduct.ForEach(_item =>
                                 {
                                     // Master level mappings
                                     _item.order_id = objuserorderMaster.order_id;
@@ -1546,34 +1546,32 @@ namespace onescreenDAL.ProductManagement
                                     _item.isdeleted = false;
 
                                     // Product details (coming from cart/frontend)
-                                    _item.cart_master_id = _item.cart_master_id;
+                                    _item.cart_master_id = objuserorderMaster.cart_master_id;
                                     _item.product_id = _item.product_id;
-                                    _item.time_slot_id = _item.time_slot_id;
-                                    _item.time_slot_value = _item.time_slot_value;
-                                    _item.time_slot_price = _item.time_slot_price;
-                                    _item.repetition_id = _item.repetition_id;
-                                    _item.repetition_value = _item.repetition_value;
+                                    _item.timeslot_category_id = _item.timeslot_category_id;
+                                    _item.timeslot_category = _item.timeslot_category;
+                                    _item.timeslot_price = _item.timeslot_price;
+                                    _item.repetition_category_id = _item.repetition_category_id;
+                                    _item.repetition_category = _item.repetition_category;
                                     _item.repetition_price = _item.repetition_price;
-                                    _item.interval_id = _item.interval_id;
-                                    _item.interval_value = _item.interval_value;
+                                    _item.interval_category_id = _item.interval_category_id;
+                                    _item.interval_category = _item.interval_category;
                                     _item.interval_price = _item.interval_price;
                                     _item.from_date = _item.from_date;
                                     _item.to_date = _item.to_date;
-                                    _item.qty = _item.qty;
-                                    _item.base_price = _item.base_price;
-                                    _item.attribute_price = _item.attribute_price;
-                                    _item.sub_total_price = _item.sub_total_price;
-                                    _item.total_price = _item.total_price;
+                                    _item.quantity = _item.quantity;
+                                    _item.base_amount = _item.base_amount;
+                                    _item.attribute_amount = _item.attribute_amount;
+                                    _item.total_amount = _item.total_amount;
                                 });
                                 Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objuserorderMaster.lst_orderdetail);
-                                DBHelper objDbHelperModule = new DBHelper();
-                                string tablename = objDbHelperModule.BulkImport("WebD_UserOrderProductMapping", dtfilemanagercategory);
-                                objDbHelperModule = new DBHelper();
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderproduct);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderProductMapping", dtfilemanagercategory);
                                 DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
                                 DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
                                 ObJParameterCOl3.Add(objDBParameter3);
-                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
                             }
                             ResponseMessage = Res[0].ToString();
                         }

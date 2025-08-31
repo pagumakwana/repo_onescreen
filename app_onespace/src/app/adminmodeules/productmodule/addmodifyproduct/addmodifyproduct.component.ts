@@ -152,7 +152,7 @@ export class AddmodifyproductComponent {
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
       lstbrand: [''],
-      base_price:[''],
+      base_amount:[''],
       lsttimeattribute: [''],
       lstrepeattribute: [''],
       lstintervalattribute: [''],
@@ -250,7 +250,7 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['lstrepeattribute'].setValue(this._productMaster.lstrepeattribute);
         this.fgproductmaster.controls['lstintervalattribute'].setValue(this._productMaster.lstintervalattribute);
         this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
-        this.fgproductmaster.controls['base_price'].setValue(this._productMaster.base_price);
+        this.fgproductmaster.controls['base_amount'].setValue(this._productMaster.base_amount);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
         this._productMaster.lsttimeattribute?.filter((_res:any)=>{
@@ -287,7 +287,7 @@ export class AddmodifyproductComponent {
           this._productMaster.lsttimeattribute = this.fgproductmaster.value.lsttimeattr;
           this._productMaster.lstrepeattribute = this.fgproductmaster.value.lstrepeattr;
           this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstinterattr;
-          this._productMaster.base_price = this.fgproductmaster.value.base_price;
+          this._productMaster.base_amount = this.fgproductmaster.value.base_amount;
           this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
           this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
