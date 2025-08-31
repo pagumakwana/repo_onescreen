@@ -234,9 +234,9 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objproductModel.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", objproductModel.client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", objproductModel.project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", objproductModel.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1079,9 +1079,9 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objusercartmaster.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", objusercartmaster.client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", objusercartmaster.project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", objusercartmaster.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1411,7 +1411,6 @@ namespace onescreenDAL.ProductManagement
                 }
             }
 
-
             Order order = client.Order.Create(_obj_dictionay);
 
             string json = JsonConvert.SerializeObject(order.Attributes);
@@ -1486,9 +1485,9 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objuserorderMaster.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", objuserorderMaster.client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", objuserorderMaster.project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", objuserorderMaster.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1513,7 +1512,7 @@ namespace onescreenDAL.ProductManagement
                                     item.order_id = objuserorderMaster.order_id;
                                     item.cart_master_id = objuserorderMaster.cart_master_id;
                                     item.product_id = item.product_id;
-                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvalues);
+                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
                                     item.user_id = objuserorderMaster.user_id;
                                     item.client_id = client_id;
                                     item.project_id = project_id;

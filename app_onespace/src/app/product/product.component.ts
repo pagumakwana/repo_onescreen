@@ -372,6 +372,7 @@ export class ProductComponent implements OnInit {
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
       let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
+      console.log("_objFormData",_objFormData)
       this.proceed_to_cart(_objFormData);
     }
   }
@@ -379,7 +380,6 @@ export class ProductComponent implements OnInit {
   proceed_to_cart(_form_data: any = null) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        debugger
         let _value_object: any = [];
         let _attriAmount = 0.00;
         _form_data?.filter((_item: any) => {
@@ -432,6 +432,7 @@ export class ProductComponent implements OnInit {
           cart_discount: 0.00,
           cart_tax: _cart_tax
         }
+        console.log("this._usercartMaster",this._usercartMaster)
         this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
           this.successSwal.fire();
           setTimeout(() => {

@@ -28,18 +28,18 @@ export class ApiService implements OnDestroy {
     getprojectData() {
         // this._encrypt.get(enAppSession.client_id).then(client_id => {
         //     this._encrypt.get(enAppSession.project_id).then(project_id => {
-                this.objProjectData = {
-                    client_id: '1',
-                    project_id: '1'
-                }
-                let httpOptions = {
-                    headers: this.setHeaders()
-                }
-                let httpFileOption = {
-                    headers: this.setHeadersFile()
-                }
-                this.httpOptions = httpOptions;
-                this.httpFileOptions = httpFileOption;
+        this.objProjectData = {
+            client_id: '1',
+            project_id: '1'
+        }
+        let httpOptions = {
+            headers: this.setHeaders()
+        }
+        let httpFileOption = {
+            headers: this.setHeadersFile()
+        }
+        this.httpOptions = httpOptions;
+        this.httpFileOptions = httpFileOption;
         //     })
         // })
     }
@@ -49,15 +49,15 @@ export class ApiService implements OnDestroy {
             'Content-Type': 'application/json',
             'X-Content-Type-Options': 'nosniff',
             'Access-Control-Allow-Origin': '*',
-            'client_id': this.objProjectData?.client_id ? this.objProjectData?.client_id : "1",
-            'project_id': this.objProjectData?.project_id ? this.objProjectData?.project_id : "1",
+            'client_id': "1",
+            'project_id': "1",
         })
     }
 
     setHeadersFile() {
         return new HttpHeaders({
-            'client_id': this.objProjectData?.client_id ? this.objProjectData?.client_id : "0",
-            'project_id': this.objProjectData?.project_id ? this.objProjectData?.project_id : "0"
+            'client_id': "1",
+            'project_id': "1"
         })
     }
 

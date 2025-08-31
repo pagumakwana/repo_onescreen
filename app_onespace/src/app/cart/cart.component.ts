@@ -9,6 +9,9 @@ import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaste
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
+import { take } from 'rxjs';
+declare var Razorpay: any;
+
 
 @Component({
   selector: 'app-cart',
@@ -32,7 +35,7 @@ export class CartComponent implements OnInit {
 
   @ViewChild('failureSwal')
   public readonly failureSwal!: SwalComponent;
-   @ViewChild('paysuccessSwal')
+  @ViewChild('paysuccessSwal')
   public readonly paysuccessSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
@@ -49,7 +52,7 @@ export class CartComponent implements OnInit {
     private _webDService: WebDService,
     public _fbcoupon: FormBuilder,
     private _cdr: ChangeDetectorRef) {
-
+    this._base._scriptLoaderService.load('script', 'https://checkout.razorpay.com/v1/checkout.js');
   }
   ngOnInit(): void {
     this.get_cart();
@@ -59,6 +62,7 @@ export class CartComponent implements OnInit {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._webDService.getusercartdetail(0, user_id, 0, 0, 0).subscribe((resUserCart: any) => {
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
+        console.log("UserCartUserCart", this.UserCart)
         this.calculatecart();
         this.UserCart[0]?.lst_cart_product?.forEach((res: any) => {
           if (res.optionvalues && typeof res.optionvalues === 'string') {
@@ -73,7 +77,7 @@ export class CartComponent implements OnInit {
             res.optionvaluesParsed = [];
           }
         });
-        console.log("UserCart", this.UserCart)
+
         this._cdr.detectChanges();
       });
     });
@@ -84,6 +88,10 @@ export class CartComponent implements OnInit {
   is_payment: boolean = false;
   proceeds_payment($event: any) {
     console.log("pay", $event);
+    const result = this.UserCart[0]?.lst_cart_product
+    ?.filter((p: any) => p.product_id > 0)
+    .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
+
     if ($event && $event.status === 'failure') {
       this.paysuccessSwal.fire();
       setTimeout(() => {
@@ -106,17 +114,17 @@ export class CartComponent implements OnInit {
               user_id: user_id,
               createdname: full_name,
               createdby: user_id,
-              lst_orderdetail:this.UserCart[0]?.lst_cart_product
+              lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+              lst_orderproduct:Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
             };
-
-            console.log('array' ,this._order_details , this.UserCart[0]?.lst_cart_product)
-
-            this._webDService.move_to_order(this._order_details).subscribe((resorder: any) =>{
-               if (resorder != null && resorder.includes('newsuccess')) {
-                 console.log("Order stored successfully:");
-                } else{
-                  console.log("Error");
-                }
+            
+            console.log('array', this._order_details, this.UserCart[0]?.lst_cart_product)
+            this._webDService.move_to_order(this._order_details).subscribe((resorder: any) => {
+              if (resorder != null && resorder.includes('newsuccess')) {
+                console.log("Order stored successfully:");
+              } else {
+                console.log("Error");
+              }
             });
           });
         });
@@ -136,13 +144,17 @@ export class CartComponent implements OnInit {
       currency: "INR",
       payment_capture: true
     }
-    this._webDService.createOrder(this.razorpay_OrderAttribute).subscribe((res: any) => {
-      if (res) {
-        this.razorpay_OrderAttribute = res;
-        this.is_payment = true;
-        this._cdr.detectChanges();
-      }
-    })
+    this._webDService.createOrder(this.razorpay_OrderAttribute)
+      .subscribe((res: any) => {
+        console.log("👉 API responded", res); // track response
+
+        if (res) {
+          this.razorpay_OrderAttribute = res;
+          this.is_payment = true;
+
+          this.pay(this.razorpay_OrderAttribute);
+        }
+      });
 
   }
 
@@ -235,13 +247,60 @@ export class CartComponent implements OnInit {
     });
   }
 
-  calculatecart(){
+  calculatecart() {
     this.UserCart?.filter((res: any) => {
       this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
       this.cart_total = (this.cart_total + res?.cart_total);
       this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
       this.cart_tax = (this.cart_tax + res?.cart_tax);
       this.cart_discount = (this.cart_discount + res?.cart_discount);
+    });
+  }
+
+
+  pay(_payment_attributes: razorpay_OrderAttribute) {
+    // Step 1: Create order from backend
+    this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+      this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
+        this._base._encryptedStorage.get(enAppSession.mobilenumber).then(mobilenumber => {
+          const options = {
+            key: 'rzp_test_RAp1XhaN6GAi6K', // Replace with your Razorpay Key Id
+            amount: _payment_attributes.amount,     // Amount in paise (e.g., ₹100 = 10000 paise)
+            currency: 'INR',
+            name: 'One Screen',
+            description: 'Test Transaction',
+            order_id: _payment_attributes.id,      // Razorpay order id from backend
+            handler: (response: any) => {
+              // Step 3: On successful payment
+              this.verifyPayment(response);
+            },
+            prefill: {
+              name: fullname,
+              email: email_id,
+              contact: mobilenumber
+            },
+            theme: {
+              color: '#3399cc'
+            }
+          };
+
+          const rzp1 = new Razorpay(options);
+          rzp1.open();
+        }, error => {
+
+        });
+      });
+    });
+  }
+
+  verifyPayment(response: any) {
+    this._webDService.verifyorder(response).subscribe((response: any) => {
+      console.log('Payment success:', response);
+      if (response ?? (response?.status == 'success' || response?.status == 'failure')) {
+        this.proceeds_payment(response);
+      } else {
+        console.log(response);
+      }
     });
   }
 }

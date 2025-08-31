@@ -220,6 +220,7 @@ namespace onescreenModel.ProductManagement
         public long product_id { get; set; }
         public long cart_master_id { get; set; }
         public string? optionvalues { get; set; }
+        public List<userorderproductModel> optionvaluesParsed { get; set; }
 
     }
     public class userorderproductModel : commonModel

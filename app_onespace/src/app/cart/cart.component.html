@@ -237,7 +237,7 @@
               </div>
             </div>
             <div class="d-grid mb-3">
-              <button class="btn btn-primary" (click)="place_order()">Place an Order</button>
+              <button class="btn btn-primary" (click)="place_order()" type="button">Place an Order</button>
             </div>
           </div>
         </div>
@@ -250,8 +250,8 @@
 </div>
 <!-- [ Main Content ] end -->
 <!-- <ng-template #formModal let-modal> -->
-<app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
-  (pay_order)="proceeds_payment($event)"></app-checkout>
+<!-- <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
+  (pay_order)="proceeds_payment($event)"></app-checkout> -->
 <swal #paysuccessSwal [swalOptions]="swalOptions" title="Payment Success!" text="" icon="success"
   [showConfirmButton]="false">
 </swal>

@@ -2086,6 +2086,7 @@ export interface orderDetails {
     order_status?: any,
     payment_status?: any,
     lst_orderdetail?: any,
+    lst_orderproduct?: any,
     isdisable?: any,
     isactive?: any,
     client_id?: number,
@@ -2135,20 +2136,7 @@ export interface usercartmappingModel {
     optionvalues?: any,
     total_amount?: any,
     attribute_amount?: any,
-    base_amount?: any,
-    lstvalues?: Array<{
-        timeslot_category_id: number,
-        timeslot_category: string,
-        timeslot_price: any,
-        from_date: string,
-        to_date: string,
-        route_category_id: number,
-        route_category: string,
-        product_id: number,
-        product_name: string,
-        repetition_category_id: number,
-        repetition_category: string,
-    }>,
+    base_amount?: any
 
 }
 export interface vendorModel {
