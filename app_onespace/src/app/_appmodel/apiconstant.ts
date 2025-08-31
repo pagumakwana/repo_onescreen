@@ -278,5 +278,7 @@ export class ApiConstant {
         getcouponcart: "product/getcouponcart",
         apply_coupon: "product/apply_coupon",
         move_to_order: "product/move_to_order",
+        get_pendingmediaupload: "product/get_pendingmediaupload",
+        media_status_update: "product/media_status_update",
     }
 }

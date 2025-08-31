@@ -806,7 +806,6 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-
         public string manageproductoptions(productOptionsModel objproductOptionsModel)
         {
             try
@@ -1296,7 +1295,6 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-
         public string managevendor(vendorModel objvendorModel)
         {
             try
@@ -1589,6 +1587,7 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
         public string apply_coupon(user_coupon_model objusercoupon)
         {
             try
@@ -1634,6 +1633,109 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
+        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@order_product_map_id", order_product_map_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.get_pendingmediaupload, ObJParameterCOl, CommandType.StoredProcedure);
+                List<pending_media_upload> lst_pending_media = new List<pending_media_upload>();
+                if (ds != null)
+                {
+
+                    lst_pending_media = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new pending_media_upload
+                          {
+                              order_product_map_id = Row.Field<long>("order_product_map_id"),
+                              order_number = Row.Field<string>("order_number"),
+                              product_name = Row.Field<string>("product_name"),
+                              time_slot_value = Row.Field<string>("time_slot_value"),
+                              repetition_value = Row.Field<string>("repetition_value"),
+                              interval_value = Row.Field<string>("interval_value"),
+                              from_date = Row.Field<string>("from_date"),
+                              to_date = Row.Field<string>("to_date"),
+                              is_media_approved = Row.Field<long?>("is_media_approved"),
+                              is_media_upload = Row.Field<long?>("is_media_upload"),
+                              media_comments = Row.Field<string>("media_comments"),
+                              createdby = Row.Field<long?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<long?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lst_pending_media;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string media_status_update(media_status _objmedia_status)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@order_product_map_id", _objmedia_status.order_product_map_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@is_media_approved", _objmedia_status.is_media_approved, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@media_comments", _objmedia_status.media_comments, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _objmedia_status.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _objmedia_status.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.media_status_approved, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public void Dispose() 
         { 

@@ -205,6 +205,8 @@ namespace onescreenModel.Common
         public const string mapuserorderproduct = "[dbo].[mapuserorderproduct]";
         public const string getcoupon_cart = "[dbo].[getcoupon_cart]";
         public const string user_coupon_mapping = "[dbo].[user_coupon_mapping]";
+        public const string get_pendingmediaupload = "[dbo].[get_pendingmediaupload]";
+        public const string media_status_approved = "[dbo].[media_status_approved]";
         //END :: PRODUCT
     }
 }

@@ -195,6 +195,22 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.get_pendingmediaupload(user_id, order_product_map_id, start_count, end_count);
+            }
+        }
+
+        public string media_status_update(media_status _objmedia_status)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.media_status_update(_objmedia_status);
+            }
+        }
+
         public void Dispose() 
         { 
         }

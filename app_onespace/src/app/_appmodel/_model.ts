@@ -2204,3 +2204,9 @@ export interface contactDetails {
     user_id?: number,
     createdname?: string,
 }
+
+export interface media_status {
+    order_product_map_id?: any,
+    is_media_approved?: any,
+    media_comments?: any
+}

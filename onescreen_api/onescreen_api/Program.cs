@@ -25,7 +25,7 @@ builder.Services.AddControllers(options =>
     options.RespectBrowserAcceptHeader = true; // false by default
 }).AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.IgnoreNullValues = true;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
 });
 builder.Services.Configure<FormOptions>(options =>

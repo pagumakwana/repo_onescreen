@@ -261,4 +261,27 @@ namespace onescreenModel.ProductManagement
         public Int64 user_id { get; set; }
         public string? product_ids { get; set; }
     }
+
+    public class pending_media_upload : commonModel
+    {
+        public long? order_product_map_id { get; set; }
+        public string? product_name { get; set; }
+        public string? order_number { get; set; }
+        public string? time_slot_value { get; set; }
+        public string? repetition_value { get; set; }
+        public string? interval_value { get; set; }
+        public string? from_date { get; set; }
+        public string? to_date { get; set; }
+        public long? quantity { get; set; }
+        public long? is_media_upload { get; set; }
+        public long? is_media_approved { get; set; }
+        public string? media_comments { get; set; }
+    }
+
+    public class media_status : commonModel
+    {
+        public long? order_product_map_id { get; set; }
+        public long? is_media_approved { get; set; }
+        public string? media_comments { get; set; }
+    }
 }
