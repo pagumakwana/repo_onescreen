@@ -16,7 +16,7 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule,SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule],
+  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -50,14 +50,13 @@ export class ProductComponent implements OnInit {
   PropertyMaster: any = [];
   TimeMaster: any = [];
   minDate: NgbDateStruct;
-  maxDate: NgbDateStruct;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbCategoryMaster: FormBuilder,
     private _cdr: ChangeDetectorRef) {
     const current = new Date();
     this.minDate = { year: current.getFullYear(), month: current.getMonth(), day: current.getDate() };
-    this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
+    // this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
   }
 
   public _screentype: IDropdownSettings = {
@@ -264,7 +263,7 @@ export class ProductComponent implements OnInit {
         timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
         from_date: ['', [Validators.required]],
         to_date: ['', [Validators.required]],
-        total_amount: [(this._categoryScreenMaster.base_amount + (_itemTime ? _itemTime[0]?.price_delta : 0.00))],
+        total_amount: [this._categoryScreenMaster.base_amount],
         base_amount: [this._categoryScreenMaster.base_amount],
         timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
         repetition_category_id: [0],
@@ -274,7 +273,7 @@ export class ProductComponent implements OnInit {
         interval_category: [''],
         interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
         attribute_amount: 0.00,
-        quantity: [0, [Validators.required]]
+        quantity: [1, [Validators.required]]
       });
 
       console.log("control : ", control);
@@ -292,6 +291,10 @@ export class ProductComponent implements OnInit {
       // } else {
       //   this._indexTimearray.push(this._index_time + 1);
       this.timeArray.push(control);
+      setTimeout(() => {
+        
+        this.calculate_final_amount((this.timeArray.length - 1))
+      }, 500);
       //   this._index_time++
       // }
     }
@@ -324,6 +327,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
+
   onRepetitionChange($event: any, _index: number) {
     const selectedValue = $event.target.value;
     if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
@@ -331,14 +335,7 @@ export class ProductComponent implements OnInit {
       let obj = this.timeArray.at(_index) as FormGroup;
       obj.controls["repetition_category"].setValue(selectedItem ? selectedItem?.option_value : '');
       obj.controls["repetition_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
-      obj.controls["repetition_price"].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
-      obj.controls['repetition_price'].updateValueAndValidity()
-      obj.controls["total_amount"].setValue((obj.controls["total_amount"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["repetition_price"].value));
-      obj.controls['total_amount'].updateValueAndValidity();
-      obj.controls["attribute_amount"].setValue((obj.controls["repetition_price"].value) + (obj.controls["timeslot_price"].value))
-      obj.controls["attribute_amount"].updateValueAndValidity()
-      
-      console.log("obj", obj)
+      this.calculate_final_amount(_index, 'repetition', selectedItem ? selectedItem?.price_delta : 0.00);
       this._cdr.detectChanges();
     }
 
@@ -346,33 +343,90 @@ export class ProductComponent implements OnInit {
 
   onIntervalChange($event: any, _index: number) {
     const selectedValue = $event.target.value;
+    let obj = this.timeArray.at(_index) as FormGroup;
     if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
-      let obj = this.timeArray.at(_index) as FormGroup;
       obj.controls["interval_category"].setValue(selectedItem ? selectedItem?.option_value : '');
       obj.controls["interval_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
-      obj.controls["interval_price"].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
-      obj.controls['interval_price'].updateValueAndValidity()
-      obj.controls["total_amount"].setValue((obj.controls["total_amount"].value) + (selectedItem[0] ? selectedItem[0]?.price_delta : 0.00) + (obj.controls["interval_price"].value));
-      obj.controls['total_amount'].updateValueAndValidity();
-      obj.controls["attribute_amount"].setValue((obj.controls["interval_price"].value) + (obj.controls["timeslot_price"].value))
-      obj.controls["attribute_amount"].updateValueAndValidity()
-      console.log("obj", obj)
+      this.calculate_final_amount(_index, 'interval', selectedItem ? selectedItem?.price_delta : 0.00);
       this._cdr.detectChanges();
     }
 
   }
 
+  quantity: number = 1;
+  calculate_final_amount(_index: number, _param: string = '', _price_delta: any = 0.00) {
+    let obj = this.timeArray.at(_index) as FormGroup;
+    if (_param == 'repetition') {
+      obj.controls['repetition_price'].setValue(_price_delta);
+    } else if (_param == 'interval') {
+      obj.controls['interval_price'].setValue(_price_delta);
+    }
+    debugger
+    let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+    let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+    let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+
+    let attribute_amount = (repetition_price + interval_price + timeslot_price)
+    obj.controls['attribute_amount'].setValue(attribute_amount);
+
+    let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+    let total_amount = (base_amount + attribute_amount)
+    obj.controls['total_amount'].setValue(total_amount);
+    this._cdr.detectChanges();
+  }
+
+  calculate_final_amount_backup(_index: number, _param: string, _price_delta: any) {
+    debugger
+    let obj = this.timeArray.at(_index) as FormGroup;
+    let current_price_delta = _price_delta;
+
+    let prev_repetition_price = obj.controls['repetition_price'].value;
+    let prev_interval_price = obj.controls['interval_price'].value;
+
+    let prev_total_amount = obj.controls['total_amount'].value;
+    let prev_attribute_amount = obj.controls['attribute_amount'].value;
+    let curr_total_amount = 0.00;
+    let curr_attribute_amount = 0.00;
+
+    if (_param == 'repetition') {
+
+      obj.controls["repetition_price"].setValue(current_price_delta);
+      obj.controls["repetition_price"].updateValueAndValidity();
+      let attribute_amount = (prev_attribute_amount - (prev_repetition_price ? prev_repetition_price : 0.00));
+      curr_attribute_amount = (attribute_amount + current_price_delta);
+      obj.controls["attribute_amount"].setValue(curr_attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+
+      let total_amount = (prev_total_amount - (prev_repetition_price ? prev_repetition_price : 0.00));
+      curr_total_amount = (total_amount + current_price_delta);
+      obj.controls["total_amount"].setValue(curr_total_amount);
+      obj.controls["total_amount"].updateValueAndValidity();
+    } else if (_param == 'interval') {
+
+      obj.controls["interval_price"].setValue(current_price_delta);
+      obj.controls["interval_price"].updateValueAndValidity();
+      let attribute_amount = (prev_attribute_amount - (prev_interval_price ? prev_interval_price : 0.00));
+      curr_attribute_amount = (attribute_amount + current_price_delta);
+      obj.controls["attribute_amount"].setValue(curr_attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+
+      let total_amount = (prev_total_amount - (prev_interval_price ? prev_interval_price : 0.00));
+      curr_total_amount = (total_amount + current_price_delta);
+      obj.controls["total_amount"].setValue(curr_total_amount);
+      obj.controls["total_amount"].updateValueAndValidity();
+    }
+  }
+
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
   add_to_cart() {
-    debugger
     this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
     if (this.fgcategorymaster.valid) {
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
       this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
       let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
-      console.log("_objFormData",_objFormData)
+      console.log("_objFormData", _objFormData)
       this.proceed_to_cart(_objFormData);
     }
   }
@@ -433,7 +487,7 @@ export class ProductComponent implements OnInit {
           cart_discount: 0.00,
           cart_tax: _cart_tax
         }
-        console.log("this._usercartMaster",this._usercartMaster)
+        console.log("this._usercartMaster", this._usercartMaster)
         this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
           this.successSwal.fire();
           setTimeout(() => {
@@ -442,7 +496,7 @@ export class ProductComponent implements OnInit {
             this._cdr.detectChanges();
           }, 500);
 
-        },error=>{
+        }, error => {
 
         });
       });
@@ -450,6 +504,27 @@ export class ProductComponent implements OnInit {
 
 
     console.log("cartModel", this.fgcategorymaster.value.lst_cart_product);
+  }
+
+  update_qty(flag: string = 'add', _index: number) {
+    let obj = this.timeArray.at(_index) as FormGroup;
+    let value = parseInt(obj.controls['quantity'].value, 10);
+
+    if (flag == 'minus') {
+      value = isNaN(value) ? 1 : value; // default to 1 if invalid
+      if (value > 1) {
+        value--; // decrease only if > 1
+      }
+    } else {
+      value = isNaN(value) ? 0 : value;
+      value++;
+    }
+    obj.controls['quantity'].setValue(value);
+    obj.controls['quantity'].updateValueAndValidity();
+
+    this.quantity = value;
+    this.calculate_final_amount(_index)
+    this._cdr.detectChanges();
   }
 
 }
