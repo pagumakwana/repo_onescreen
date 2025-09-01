@@ -279,30 +279,30 @@ namespace onescreenDAL.Configuration
                                 ObJParameterCOl2.Add(objDBParameter2);
                                 objDbHelperModule.ExecuteNonQuery(Constant.mapauthoritymodule, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
-                            if ((objclsAuthority.lstcontrol != null && objclsAuthority.lstcontrol.Count > 0))
-                            {
-                                objclsAuthority.lstcontrol.ForEach(control =>
-                                {
-                                    control.authority_id = objclsAuthority.authority_id;
-                                    control.project_id = project_id;
-                                    control.client_id = client_id;
-                                    control.createdby = objclsAuthority.user_id;
-                                    control.createdname = objclsAuthority.createdname;
-                                    //control.createddatetime = DateTime.Now;
-                                    control.isactive = true;
-                                    control.isdeleted = false;
-                                });
+                            //if ((objclsAuthority.lstcontrol != null && objclsAuthority.lstcontrol.Count > 0))
+                            //{
+                            //    objclsAuthority.lstcontrol.ForEach(control =>
+                            //    {
+                            //        control.authority_id = objclsAuthority.authority_id;
+                            //        control.project_id = project_id;
+                            //        control.client_id = client_id;
+                            //        control.createdby = objclsAuthority.user_id;
+                            //        control.createdname = objclsAuthority.createdname;
+                            //        //control.createddatetime = DateTime.Now;
+                            //        control.isactive = true;
+                            //        control.isdeleted = false;
+                            //    });
 
-                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                                DataTable dtcontroldata = objCommon_DAL.GetDataTableFromList(objclsAuthority.lstcontrol);
-                                DBHelper objDbHelperControl = new DBHelper();
-                                string tablename = objDbHelperControl.BulkImport("WebD_AuthorityControl", dtcontroldata);
-                                objDbHelperControl = new DBHelper();
-                                DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
-                                DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
-                                ObJParameterCOl3.Add(objDBParameter3);
-                                objDbHelperControl.ExecuteNonQuery(Constant.mapauthoritycontrol, ObJParameterCOl3, CommandType.StoredProcedure);
-                            }
+                            //    Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                            //    DataTable dtcontroldata = objCommon_DAL.GetDataTableFromList(objclsAuthority.lstcontrol);
+                            //    DBHelper objDbHelperControl = new DBHelper();
+                            //    string tablename = objDbHelperControl.BulkImport("WebD_AuthorityControl", dtcontroldata);
+                            //    objDbHelperControl = new DBHelper();
+                            //    DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
+                            //    DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
+                            //    ObJParameterCOl3.Add(objDBParameter3);
+                            //    objDbHelperControl.ExecuteNonQuery(Constant.mapauthoritycontrol, ObJParameterCOl3, CommandType.StoredProcedure);
+                            //}
                             ResponseMessage = Res[0].ToString();
                         }
                         else
@@ -335,7 +335,7 @@ namespace onescreenDAL.Configuration
 
                 List<authorityModel> lstauthority = new List<authorityModel>();
                 List<userModuleModel> lstmodule = new List<userModuleModel>();
-                List<controlsModel> lstcontrols = new List<controlsModel>();
+                //List<controlsModel> lstcontrols = new List<controlsModel>();
                 responseModel lstresponse = new responseModel();
                 if (ds != null)
                 {
@@ -345,26 +345,28 @@ namespace onescreenDAL.Configuration
                         if (ds.Tables[0].Rows.Count > 0)
                         {
                             lstmodule = ds.Tables[0].AsEnumerable().Select(Row =>
-                      new userModuleModel
-                      {
-                          module_id = Row.Field<Int64>("module_id"),
-                          module_parent_id = Row.Field<Int64>("module_parent_id"),
-                      }).ToList();
+                              new userModuleModel
+                              {
+                                  module_id = Row.Field<Int64>("module_id"),
+                                  module_parent_id = Row.Field<Int64>("module_parent_id"),
+                                  modulename = Row.Field<string>("modulename"),
+
+                              }).ToList();
                         }
-                        if (ds.Tables[1].Rows.Count > 0)
-                        {
-                            lstcontrols = ds.Tables[1].AsEnumerable().Select(Row =>
-                          new controlsModel
-                          {
-                              authority_id = Row.Field<Int64>("authority_id"),
-                              control_id = Row.Field<Int64>("control_id"),
-                              module_id = Row.Field<Int64>("module_id")
-                          }).ToList();
-                        }
+                        //if (ds.Tables[1].Rows.Count > 0)
+                        //{
+                        //    lstcontrols = ds.Tables[1].AsEnumerable().Select(Row =>
+                        //  new controlsModel
+                        //  {
+                        //      authority_id = Row.Field<Int64>("authority_id"),
+                        //      control_id = Row.Field<Int64>("control_id"),
+                        //      module_id = Row.Field<Int64>("module_id")
+                        //  }).ToList();
+                        //}
                     }
-                    if (ds.Tables[flag == "DETAILS" ? 2 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "DETAILS" ? 1 : 0].Rows.Count > 0)
                     {
-                        lstauthority = ds.Tables[flag == "DETAILS" ? 2 : 0].AsEnumerable().Select(Row =>
+                        lstauthority = ds.Tables[flag == "DETAILS" ? 1 : 0].AsEnumerable().Select(Row =>
                               new authorityModel
                               {
                                   authority_id = Row.Field<Int64>("authority_id"),
@@ -379,14 +381,14 @@ namespace onescreenDAL.Configuration
                                   isactive = Row.Field<bool>("isactive"),
                                   isdeleted = Row.Field<bool>("isdeleted"),
                                   lstmodule = lstmodule,
-                                  lstcontrol = lstcontrols
+                                  //lstcontrol = lstcontrols
 
 
                               }).ToList();
                     }
-                    if (ds.Tables[flag == "DETAILS" ? 3 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "DETAILS" ? 2 : 1].Rows.Count > 0)
                     {
-                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "DETAILS" ? 3 : 1].Rows[0]["RESPONSE"].ToString());
+                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "DETAILS" ? 2 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     lstresponse.data = lstauthority;
                 }
