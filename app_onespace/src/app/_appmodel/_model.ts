@@ -434,6 +434,7 @@ export class SaveModuleFileModel {
     ModuleID?: number;
     ModuleType?: string;
     fileidentifier?: string;
+    fileextension?: string;
     indexidentifier?: number;
     displayorder?: number;
     subidentifier?: string;
@@ -2208,5 +2209,19 @@ export interface contactDetails {
 export interface media_status {
     order_product_map_id?: any,
     is_media_approved?: any,
-    media_comments?: any
+    media_comments?: any,
+    createdby?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id?: number,
+        file_id?: number,
+        filename?: string,
+        filepath: string,
+        filetype?: string,
+        fileextension?: string,
+        filesize?: number,
+        fileidentifier?: string,
+        displayorder?: string,
+        module?: string
+    }>
 }

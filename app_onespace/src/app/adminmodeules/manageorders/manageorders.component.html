@@ -17,6 +17,7 @@
                                 <th>Repetition</th>
                                 <th class="text-center">Media Upload</th>
                                 <th class="text-center">Media Approved</th>
+                                <th class="text-center">Media Comment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,12 +53,14 @@
                                     <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
                                         data-bs-title="success" *ngIf="_obj.is_media_approved == 1"></i>
                                     <i class="ph-duotone ph-clock-countdown text-warning f-24" data-bs-toggle="tooltip"
-                                        data-bs-title="warning" *ngIf="_obj.is_media_approved == 0 && _obj.is_media_upload == 1"></i>
+                                        data-bs-title="warning"
+                                        *ngIf="_obj.is_media_approved == 0 && _obj.is_media_upload == 1"></i>
                                     <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
                                         data-bs-title="danger" *ngIf="_obj.is_media_approved == 2"></i>
-                                        <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
+                                    <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
                                         data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
                                 </td>
+                                <td>{{_obj.media_comments}}</td>
                                 <td class="text-center">
                                     <img src="../assets/images/application/img-prod-brand-1.png" alt="user-image"
                                         class="wid-40">
@@ -65,22 +68,22 @@
                                         <ul class="list-inline me-auto mb-0">
                                             <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
                                                 title="View">
-                                                <a href="#" class="avtar avtar-xs btn-link-secondary btn-pc-default"
+                                                <a class="avtar avtar-xs btn-link-secondary btn-pc-default"
                                                     data-bs-toggle="offcanvas" data-bs-target="#productOffcanvas">
                                                     <i class="ti ti-eye f-18"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                title="Edit">
-                                                <a href="../application/ecom_product-add.html"
+                                                title="Approve">
+                                                <a (click)="media_approved(_obj.order_product_map_id,1)"
                                                     class="avtar avtar-xs btn-link-success btn-pc-default">
-                                                    <i class="ti ti-edit-circle f-18"></i>
+                                                    <i class="ph-duotone ph-check-circle text-success f-24"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                title="Delete">
-                                                <a href="#" class="avtar avtar-xs btn-link-danger btn-pc-default">
-                                                    <i class="ti ti-trash f-18"></i>
+                                                title="Reject">
+                                                <a (click)="openModal(_obj.order_product_map_id)" class="avtar avtar-xs btn-link-danger btn-pc-default">
+                                                    <i class="ph-duotone ph-x-circle text-danger f-24"></i>
                                                 </a>
                                             </li>
                                         </ul>
@@ -99,7 +102,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="productOffcanvas" aria-labelledby="productOffcanvasLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="productOffcanvasLabel">Product Details</h5>
-        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-bs-dismiss="offcanvas">
+        <a class="avtar avtar-s btn-link-danger btn-pc-default" data-bs-dismiss="offcanvas">
             <i class="ti ti-x f-20"></i>
         </a>
     </div>
@@ -160,3 +163,36 @@
         </ul>
     </div>
 </div>
+
+<ng-template #formModal let-modal>
+    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
+        <!-- <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+
+            <div class="row mb-6">
+                <div class="col-lg-4 fv-row">
+                    <label class="col-lg-6 col-form-label fw-bold fs-8">Comment</label>
+                    <input type="text" class="form-control form-control-sm" id="invoice_period" name="invoice_period"
+                        placeholder="Comment" [(ngModel)]="rejectComment">
+                </div>
+
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary btn-sm" (click)="media_approved(selectedOrderId, 2, rejectComment)">
+                    Submit
+                </button>
+            </div>
+            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                [showConfirmButton]="false">
+            </swal>
+        </div>
+    </form>
+</ng-template>
