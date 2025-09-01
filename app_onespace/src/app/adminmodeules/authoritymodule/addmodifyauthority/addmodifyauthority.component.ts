@@ -173,7 +173,7 @@ export class AddmodifyauthorityComponent implements OnInit{
         // Set checked state in treeConfig
         this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
         this.fguserAuthority.controls['lstmodule']?.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
-        this.fguserAuthority.controls['lstcontrol'].setValue(this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(','));
+        // this.fguserAuthority.controls['lstcontrol'].setValue(this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(','));
         // // ** Update checkboxes based on the assigned controls **
         // const assignedControlIds = this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(',');
 
@@ -212,8 +212,6 @@ export class AddmodifyauthorityComponent implements OnInit{
         this._webDService.authority(this._userAuthority).subscribe((response: any) => {
           let isRedirect: boolean = true
           if (response === 'authorityexists') {
-            // Show warning if society already exists
-            // this._base._alertMessageService.warning("Society already exists!");
             isRedirect = false;
           }
 
