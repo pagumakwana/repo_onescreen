@@ -211,6 +211,14 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public string media_upload(media_upload _objmedia_upload)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.media_upload(_objmedia_upload);
+            }
+        }
+
         public void Dispose() 
         { 
         }

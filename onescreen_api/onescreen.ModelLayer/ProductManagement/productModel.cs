@@ -284,4 +284,10 @@ namespace onescreenModel.ProductManagement
         public long? is_media_approved { get; set; }
         public string? media_comments { get; set; }
     }
+
+    public class media_upload : commonModel
+    {
+        public long? order_product_map_id { get; set; }
+        public long? thumbnail { get; set; }
+    }
 }

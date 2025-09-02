@@ -46,8 +46,10 @@
                                         data-bs-title="warning" *ngIf="_obj.is_media_upload == 0"></i>
                                     <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
                                         data-bs-title="danger" *ngIf="_obj.is_media_upload == 2"></i>
-                                    <i class="ph-duotone ph-file-plus" data-bs-toggle="tooltip"
-                                        data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
+                                    <a (click)="open_upload_media(_obj.order_product_map_id)"> <i
+                                            class="ph-duotone ph-file-plus" data-bs-toggle="tooltip"
+                                            data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i></a>
+
                                 </td>
                                 <td class="text-center">
                                     <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
@@ -63,7 +65,7 @@
                                 <td>{{_obj.media_comments}}</td>
                                 <td class="text-center">
                                     <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
-                                    data-bs-title="Action"></i>
+                                        data-bs-title="Action"></i>
                                     <!-- <img src="../assets/images/application/img-prod-brand-1.png" alt="user-image"
                                         class="wid-40"> -->
                                     <div class="prod-action-links">
@@ -84,7 +86,8 @@
                                             </li>
                                             <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
                                                 title="Reject">
-                                                <a (click)="openModal(_obj.order_product_map_id)" class="avtar avtar-xs btn-link-danger btn-pc-default">
+                                                <a (click)="openModal(_obj.order_product_map_id)"
+                                                    class="avtar avtar-xs btn-link-danger btn-pc-default">
                                                     <i class="ph-duotone ph-x-circle text-danger f-24"></i>
                                                 </a>
                                             </li>
@@ -167,7 +170,7 @@
 </div>
 
 <ng-template #formModal let-modal>
-    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
+    <form #myForm="ngForm" >
         <!-- <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -195,6 +198,36 @@
             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
                 [showConfirmButton]="false">
             </swal>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #formMediaModal let-modal>
+    <form  [formGroup]="fgmedia" #mediaForm="ngForm">
+        <!-- <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+                <div class="row mb-6">
+                    <div class="col-lg-12 fv-row">
+                        <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                            [controlObject]="fgmedia.controls['thumbnail']" [fileConfig]="this.fileConfig['thumbnail']">
+                        </webd-mediauploader>
+                    </div>
+
+                </div>
+                <div class="col d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary btn-sm" (click)="upload_media()">
+                        Submit
+                    </button>
+                </div>
+
         </div>
     </form>
 </ng-template>

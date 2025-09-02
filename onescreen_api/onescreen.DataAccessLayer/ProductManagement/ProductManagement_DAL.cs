@@ -1736,6 +1736,75 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public string media_upload(media_upload _objmedia_upload)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@order_product_map_id", _objmedia_upload.order_product_map_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@thumbnail", _objmedia_upload.thumbnail, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _objmedia_upload.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _objmedia_upload.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.media_upload, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                    var Res = ResponseMessage.Split('~');
+
+                    if ((_objmedia_upload.filemanager != null && _objmedia_upload.filemanager.Count > 0))
+                    {
+                        _objmedia_upload.filemanager.ForEach(filemanager =>
+                        {
+                            filemanager.ref_id = _objmedia_upload.order_product_map_id;
+                            filemanager.file_id = filemanager.file_id;
+                            filemanager.filename = filemanager.filename;
+                            filemanager.filepath = filemanager.filepath;
+                            filemanager.filetype = filemanager.filetype;
+                            filemanager.fileextension = filemanager.fileextension;
+                            filemanager.filesize = filemanager.filesize;
+                            filemanager.fileidentifier = filemanager.fileidentifier;
+                            filemanager.displayorder = filemanager.displayorder;
+                            filemanager.module = filemanager.module;
+                            filemanager.project_id = project_id;
+                            filemanager.createdby = _objmedia_upload.user_id;
+                            filemanager.createdname = _objmedia_upload.createdname;
+                            filemanager.createddatetime = DateTime.Now;
+                            filemanager.isactive = true;
+                            filemanager.isdeleted = false;
+                        });
+                        Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                        DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(_objmedia_upload.filemanager);
+                        DBHelper objDbHelperModule = new DBHelper();
+                        string tablename = objDbHelperModule.BulkImport("WebD_MediaProductMapping", dtfilemanagercategory);
+                        objDbHelperModule = new DBHelper();
+                        DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                        DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                        ObJParameterCOl2.Add(objDBParameter2);
+                        objDbHelperModule.ExecuteNonQuery(Constant.mapfilemanager, ObJParameterCOl2, CommandType.StoredProcedure);
+                    }
+
+                    ResponseMessage = Res[0].ToString();
+                   
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public void Dispose() 
         { 

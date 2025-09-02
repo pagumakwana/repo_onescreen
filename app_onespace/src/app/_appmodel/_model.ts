@@ -2225,3 +2225,23 @@ export interface media_status {
         module?: string
     }>
 }
+
+
+export interface media_upload {
+    order_product_map_id?: any,
+    thumbnail?: any,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+    createdby?: number,
+    createdname?: string
+}

@@ -404,5 +404,20 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_objmedia_upload"></param>
+        /// <returns></returns>
+        [Route("media_upload")]
+        [HttpPost]
+        public string media_upload(media_upload _objmedia_upload)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.media_upload(_objmedia_upload);
+            }
+        }
+
     }
 }
