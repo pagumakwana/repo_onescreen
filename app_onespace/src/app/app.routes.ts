@@ -34,6 +34,7 @@ import { VendormoduleComponent } from './adminmodeules/vendormodule/vendormodule
 import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodifyvendor/addmodifyvendor.component';
 import { SignupmoduleComponent } from './authmodule/signupmodule/signupmodule.component';
 import { ManageordersComponent } from './adminmodeules/manageorders/manageorders.component';
+import { OrdermoduleComponent } from './adminmodeules/ordermodule/ordermodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -207,6 +208,11 @@ export const routes: Routes = [
                 path: 'uploadmedia',
                 component: ManageordersComponent,
                 title: 'Media Uplaod',
+            },
+            {
+                path: 'orders',
+                component: OrdermoduleComponent,
+                title: 'Orders',
             },
         ]
     },
