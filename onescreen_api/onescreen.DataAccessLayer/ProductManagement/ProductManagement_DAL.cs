@@ -1674,6 +1674,7 @@ namespace onescreenDAL.ProductManagement
                               is_media_approved = Row.Field<long?>("is_media_approved"),
                               is_media_upload = Row.Field<long?>("is_media_upload"),
                               media_comments = Row.Field<string>("media_comments"),
+                              thumbnail = Row.Field<string>("thumbnail"),
                               createdby = Row.Field<long?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -1744,7 +1745,7 @@ namespace onescreenDAL.ProductManagement
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@order_product_map_id", _objmedia_upload.order_product_map_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@thumbnail", _objmedia_upload.thumbnail, DbType.Int64);
+                objDBParameter = new DBParameter("@thumbnail", _objmedia_upload.thumbnail, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

@@ -8,15 +8,26 @@ import { NgbModal, NgbModalModule, NgbModalOptions, NgbModalRef } from '@ng-boot
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { fileChoosenDataModel, fileConfigModel, media_upload, SaveModuleFileModel } from '../../_appmodel/_model';
 import { WebdmediauploadComponent } from '../../layout_template/webdmediaupload/webdmediaupload.component';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'app-manageorders',
   standalone: true,
-  imports: [RouterModule, CommonModule, NgbModalModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent],
+  imports: [RouterModule, SweetAlert2Module, CommonModule, NgbModalModule, FormsModule, ReactiveFormsModule, WebdmediauploadComponent],
   templateUrl: './manageorders.component.html',
   styleUrl: './manageorders.component.scss'
 })
 export class ManageordersComponent implements OnInit {
+
+  @ViewChild('successSwal')
+  public readonly successSwal!: SwalComponent;
+  @ViewChild('uploadsuccessSwal')
+  public readonly uploadsuccessSwal!: SwalComponent;
+
+
+  swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
   public get modalService(): NgbModal {
     return this._modalService;
   }
@@ -26,6 +37,8 @@ export class ManageordersComponent implements OnInit {
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
   @ViewChild('formMediaModal', { static: true }) formMediaModal!: TemplateRef<any>;
+
+  @ViewChild('VideoModal', { static: true }) VideoModal!: TemplateRef<any>;
 
   public modalRef!: NgbModalRef;
   modalConfig: NgbModalOptions = {
@@ -46,7 +59,7 @@ export class ManageordersComponent implements OnInit {
   fileConfig: { [key: string]: fileConfigModel } = {
     thumbnail: {
       fileValidationInfo: {
-        fileType: ['image/svg', 'image/jpeg', 'image/jpg', 'image/png'],
+        fileType: ['image/svg', 'image/jpeg', 'image/jpg', 'image/png', 'video/mp4'],
         size: 3145728
       },
       isMulti: true,
@@ -70,6 +83,17 @@ export class ManageordersComponent implements OnInit {
     this.selectedOrderId = order_product_map_id;
     this.rejectComment = '';
     this.modalRef = this.modalService.open(this.formModal, {
+      size: 's',
+      backdrop: true,
+      centered: true
+    });
+  }
+
+
+  selectedVideoUrl: string | null = null;
+  openvideo(videoUrl: string) {
+    this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';
+    this.modalRef = this.modalService.open(this.VideoModal, {
       size: 's',
       backdrop: true,
       centered: true
@@ -100,7 +124,7 @@ export class ManageordersComponent implements OnInit {
           next: (res: any) => {
             console.log("Media status updated:", res);
             this.get_pendingmediaupload();
-            this.modalRef?.close();
+            this.successSwal.fire();
             if (this.modalRef) {
               this.modalRef.close();
             }
@@ -196,15 +220,17 @@ export class ManageordersComponent implements OnInit {
         this._webDService.media_upload(this._media_upload).subscribe((response: any) => {
           let isRedirect: boolean = true
           if (response === 'newsuccess') {
-            // Show warning if society already exists
-            // this._base._alertMessageService.warning("Society already exists!");
+            this.uploadsuccessSwal?.fire()
+            setTimeout(() => {
+              this.uploadsuccessSwal?.close();
+              if (this.modalRef) {
+                this.modalRef.close();
+              }
+              location.reload();
+            }, 500);
+            this._cdr.detectChanges();
             isRedirect = false;
           }
-
-          setTimeout(() => {
-            // this.isLoading$.next(false);
-            this._cdr.detectChanges();
-          }, 1500);
         });
       });
     });

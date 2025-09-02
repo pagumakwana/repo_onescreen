@@ -276,6 +276,8 @@ namespace onescreenModel.ProductManagement
         public long? is_media_upload { get; set; }
         public long? is_media_approved { get; set; }
         public string? media_comments { get; set; }
+        public string? thumbnail { get; set; }
+
     }
 
     public class media_status : commonModel
@@ -288,6 +290,6 @@ namespace onescreenModel.ProductManagement
     public class media_upload : commonModel
     {
         public long? order_product_map_id { get; set; }
-        public long? thumbnail { get; set; }
+        public string? thumbnail { get; set; }
     }
 }

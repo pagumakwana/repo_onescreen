@@ -2212,6 +2212,7 @@ export interface media_status {
     media_comments?: any,
     createdby?: number,
     createdname?: string,
+    thumbnail?:string,
     filemanager?: Array<{
         ref_id?: number,
         file_id?: number,
