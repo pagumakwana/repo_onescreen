@@ -141,7 +141,9 @@
                           <h5 class="mb-0">₹{{item.attribute_amount}}</h5>
                         </td>
                         <td class="text-end">
-                          <h5 class="mb-0">₹{{item.total_amount}}</h5>
+                          <h5 class="mb-0">₹ <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
+                            {{ opt.total_amount }}{{ last ? '' : ', ' }}
+                           </ng-container></h5>
                         </td>
                         <td class="text-end">
                           <a href="javascript:void(0)" (click)="removeFromCart(item)"

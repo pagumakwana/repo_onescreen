@@ -7,7 +7,7 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { categoryMaster, productMaster, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
 import { CommonModule } from '@angular/common';
 import { SweetAlertOptions } from 'sweetalert2';
-import { NgbDateParserFormatter, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule],
+  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule,NgbDatepickerModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -176,6 +176,10 @@ export class ProductComponent implements OnInit {
     this._webDService.getcategory('all', 0, 'vehicle_type', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
       this.TypeMaster = resCategory.data;
       this.TypeMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+      this.TypeMaster = this.TypeMaster.map((item: any) => ({
+        ...item,          // keep existing properties
+        isChecked: false  // add new key
+      }));
       this._cdr.detectChanges();
     });
   }
@@ -188,21 +192,46 @@ export class ProductComponent implements OnInit {
   }
 
 
-  onSelecttype($event: any) {
+  onSelecttype($event: any, _index: number = 0) {
+    if ($event && $event != null && $event != '') {
+      this.TypeMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
+      this._categoryTypeMaster.category_id = ($event?.category_id);
+      this._categoryTypeMaster.category = ($event?.category);
+      this.getpropertycategory(this._categoryTypeMaster.category_id);
+    }
+  }
+  onSelecttype_bk($event: any, _index: number = 0) {
+    debugger
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._categoryTypeMaster.category_id = ($event[0]?.category_id);
       this._categoryTypeMaster.category = ($event[0]?.category);
       this.getpropertycategory(this._categoryTypeMaster.category_id);
     }
   }
-  onSelectproperty($event: any) {
+  onSelectproperty($event: any, _index: number = 0) {
+    if ($event && $event != null && $event != '') {
+      this.PropertyMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
+      this._categoryPropertyMaster.category_id = ($event?.category_id);
+      this._categoryPropertyMaster.category = ($event?.category);
+      this.getroute(this._categoryPropertyMaster.category_id);
+    }
+  }
+  onSelectproperty_bk($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._categoryPropertyMaster.category_id = ($event[0]?.category_id);
       this._categoryPropertyMaster.category = ($event[0]?.category);
       this.getroute(this._categoryPropertyMaster.category_id);
     }
   }
-  onSelectroute($event: any) {
+  onSelectroute($event: any, _index: number = 0) {
+    if ($event && $event != null && $event != '') {
+      this.RouteMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
+      this._categoryRouteMaster.category_id = ($event?.category_id);
+      this._categoryRouteMaster.category = ($event?.category);
+      this.getscreen(this._categoryRouteMaster.category_id);
+    }
+  }
+  onSelectroute_bk($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._categoryRouteMaster.category_id = ($event[0]?.category_id);
       this._categoryRouteMaster.category = ($event[0]?.category);
@@ -211,6 +240,7 @@ export class ProductComponent implements OnInit {
   }
 
   onSelectscreen($event: any) {
+    debugger
     if ($event && $event != null && $event != '' && $event.length > 0) {
       const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event[0]?.product_id);
       console.log("$event", _item)
@@ -292,7 +322,7 @@ export class ProductComponent implements OnInit {
       //   this._indexTimearray.push(this._index_time + 1);
       this.timeArray.push(control);
       setTimeout(() => {
-        
+
         this.calculate_final_amount((this.timeArray.length - 1))
       }, 500);
       //   this._index_time++
@@ -371,8 +401,10 @@ export class ProductComponent implements OnInit {
     obj.controls['attribute_amount'].setValue(attribute_amount);
 
     let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+    debugger
     let total_amount = (base_amount + attribute_amount)
     obj.controls['total_amount'].setValue(total_amount);
+    this._totalAmount = total_amount;
     this._cdr.detectChanges();
   }
 
@@ -459,7 +491,8 @@ export class ProductComponent implements OnInit {
             quantity: _item.quantity,
           });
           _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
-        })
+        });
+        debugger
         this._usercartmappingModel = {
           base_amount: this._categoryScreenMaster.base_amount,
           product_id: this._categoryScreenMaster.product_id,
@@ -468,7 +501,7 @@ export class ProductComponent implements OnInit {
           user_id: user_id,
           optionvalues: JSON.stringify(_value_object)
         }
-        let _cart_subtotal = (this._totalAmount + _attriAmount);
+        let _cart_subtotal = (this._totalAmount);
         let _cart_discount = 0.00;
         let _cart_after_discount = (_cart_subtotal - _cart_discount);
         let _cart_tax = (_cart_after_discount * (18 / 100));
@@ -526,6 +559,10 @@ export class ProductComponent implements OnInit {
     this.calculate_final_amount(_index)
     this._cdr.detectChanges();
   }
-
+  reset_form(){
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
 }
 
