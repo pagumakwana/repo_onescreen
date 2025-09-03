@@ -64,7 +64,7 @@ export class ManageordersComponent implements OnInit {
       },
       isMulti: true,
       fileidentifier: 'thumbnail',
-      ModuleType: 'banner',
+      ModuleType: 'orders',
       ModuleID: 0,
       fileextension: '',
     }

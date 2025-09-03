@@ -13,11 +13,12 @@ import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { CommonModule } from '@angular/common';
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
+import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
 
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent, SweetAlert2Module, WebdtexteditorComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent, SweetAlert2Module, WebdtexteditorComponent, WebdmediauploadComponent],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })
@@ -138,36 +139,53 @@ export class AddmodifycategoryComponent {
     }, 250);
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
-  //   console.log("saveModuleFile_helper", fileData, this.fileChoosenData['thumbnail'])
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifycategoryMaster(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifycategoryMaster(this.flagType);
+    }
+  }
 
-  // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgcategorymaster.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
-  //     // resolve(uploadResponse)
-  //     // resolveData.push(uploadResponse)
-  //     if (Array.isArray(uploadResponse)) {
-  //       for (let uploadedFile of uploadResponse) {
-  //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
-  //       }
-  //     }
-  //     resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
-  //     if (counter > 1) {
-  //       counter--
-  //       this.saveModuleFile_multi_helper(arrayData, counter, resolveData)
-  //     } else {
-  //       this._categoryMaster.filemanager = resolveData
-  //       this.addmodifycategoryMaster(this.flagType);
-  //       // this.addServices()
-  //     }
-  //   })
-  // }
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
+
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgcategorymaster.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._categoryMaster.filemanager = resolveData;
+          this.addmodifycategoryMaster(this.flagType);
+        }
+      });
+  }
 
   getcategory(category_id: any) {
     return new Promise((resolve, reject) => {
@@ -238,8 +256,8 @@ export class AddmodifycategoryComponent {
             }
           });
           this._categoryMaster.filemanager = []
-          this.addmodifycategoryMaster(flag);
-          // this.saveModuleFile_helper()
+          // this.addmodifycategoryMaster(flag);
+          this.saveModuleFile_helper()
         });
       });
     }
