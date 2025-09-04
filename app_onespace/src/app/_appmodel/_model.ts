@@ -2263,7 +2263,7 @@ export interface removeusercartModel{
 export interface user_verification {
     flag?: any,
     otp_code?: any,
-    mobilenumber?: any,
+    mobile_number?: any,
     createdby?: number,
     createdname?: string
 

@@ -3,8 +3,8 @@ import { WebDService } from '../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { MultiselectComponent } from '../layout_template/multiselect/multiselect.component';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { categoryMaster, productMaster, user_verification, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { categoryMaster, productMaster, user_verification, usercartmappingModel, usercartMaster, userModel } from '../_appmodel/_model';
 import { CommonModule } from '@angular/common';
 import { SweetAlertOptions } from 'sweetalert2';
 import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModal, NgbModalOptions, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,8 @@ import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AuthService } from '../authmodule/_authservice/auth.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -20,7 +22,7 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }, AuthService
   ]
 })
 export class ProductComponent implements OnInit {
@@ -30,6 +32,7 @@ export class ProductComponent implements OnInit {
 
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+  // public formModal!: NgbModalRef;
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
@@ -69,7 +72,8 @@ export class ProductComponent implements OnInit {
     private _webDService: WebDService,
     public _fbCategoryMaster: FormBuilder,
     private _cdr: ChangeDetectorRef,
-    private _modalService: NgbModal,) {
+    private _modalService: NgbModal,
+    private authService: AuthService,) {
     const current = new Date();
     this.minDate = { year: current.getFullYear(), month: current.getMonth(), day: current.getDate() };
     // this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
@@ -167,8 +171,8 @@ export class ProductComponent implements OnInit {
     });
 
     this.fgverify = this._fbCategoryMaster.group({
-      mobilenumber: [''],
-      otp_code: [0]
+      mobile_number: ['', [Validators.required]],
+      otp_code: ['']
     })
   }
 
@@ -273,6 +277,10 @@ export class ProductComponent implements OnInit {
       this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
         this.TimeMaster = [];
         this.TimeMaster = res;
+        this.TimeMaster = this.TimeMaster.map((item: any) => ({
+          ...item,          // keep existing properties
+          isChecked: false  // add new key
+        }));
         this._cdr.detectChanges();
         console.log(" this.TimeMaster", this.TimeMaster)
       });
@@ -326,7 +334,61 @@ export class ProductComponent implements OnInit {
   _indexTimearray: any = [];
   _index_time: number = 0;
   _totalAmount = 0;
-  onSelectEvent($event: any) {
+  isRepetitionExists(repId: number): boolean {
+    return this.timeArray.controls.some((group: AbstractControl) => {
+      return (group as FormGroup).get('timeslot_category_id')?.value === repId;
+    });
+  }
+  removefromarray(repId: number) {
+    const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
+      (group as FormGroup).get('timeslot_category_id')?.value === repId
+    );
+
+    if (index !== -1) {
+      this.timeArray.removeAt(index);   // ✅ remove that FormGroup
+      console.log(`Removed repetition_category_id ${repId} from timeArray`);
+    }
+  }
+  onSelectEvent($event: any, _index: number = 0) {
+    if ($event && $event != null && $event != '') {
+      this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
+      const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      if (this.isRepetitionExists($event?.option_value_id)) {
+        this.removefromarray($event?.option_value_id);
+      } else {
+        let control: FormGroup = this._fbCategoryMaster.group({
+          route_category_id: [this._categoryRouteMaster.category_id],
+          route_category: [this._categoryRouteMaster.category],
+          product_id: [this._categoryScreenMaster.product_id],
+          product_name: [this._categoryScreenMaster.product_name],
+          timeslot_category_id: [$event ? $event?.option_value_id : '', [Validators.required]],
+          timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
+          from_date: ['', [Validators.required]],
+          to_date: ['', [Validators.required]],
+          total_amount: [this._categoryScreenMaster.base_amount],
+          base_amount: [this._categoryScreenMaster.base_amount],
+          timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
+          repetition_category_id: [0],
+          repetition_category: [''],
+          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : ''],
+          interval_category_id: [0],
+          interval_category: [''],
+          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
+          attribute_amount: 0.00,
+          quantity: [1]
+        });
+        this.timeArray.push(control);
+        setTimeout(() => {
+          this.calculate_final_amount((this.timeArray.length - 1))
+        }, 500);
+      }
+      //   this._index_time++
+      // }
+    }
+  }
+  onSelectEvent_bk($event: any) {
     if ($event && $event != null && $event != '') {
 
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
@@ -516,7 +578,6 @@ export class ProductComponent implements OnInit {
   proceed_to_cart(_form_data: any = null) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-
         if (!user_id || parseInt(user_id, 10) <= 0) {
           this.modalService.open(this.formModal, {
             size: 'm',
@@ -708,31 +769,36 @@ export class ProductComponent implements OnInit {
   verify_number() {
     this._base._commonService.markFormGroupTouched(this.fgverify);
     if (this.fgverify.valid) {
-      this._mobileverification.mobilenumber = this.fgverify.value.mobilenumber;
+      this._mobileverification.mobile_number = this.fgverify.value.mobile_number;
       this._mobileverification.otp_code = this.fgverify.value.otp_code;
       this.addverify();
     }
   }
 
+  isOTPsent: boolean = false;
+  isverifybutton: boolean = false;
+  OTPValue: string = '';
   addverify() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        this._mobileverification.flag = 'MOBILE_VERIFY';
+        this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
         this._mobileverification.createdname = fullname;
         this._mobileverification.createdby = parseInt(user_id);
-
         this._webDService.mobile_verification(this._mobileverification).subscribe({
           next: (response: any) => {
-            if (response === 'newsuccess') {
-              setTimeout(() => {
-                if (this.modalRef) {
-                  this.modalRef.close();
-                }
-                location.reload(); // keep your reload here
-              }, 500);
+            if (response.includes('otp_sent_success~')) {
+              const parts = response.split("~");
+              this.isOTPsent = true;
+              this.isverifybutton = true;
+              this.OTPValue = parts[1];
               this._cdr.detectChanges();
-            } else {
-              console.warn('Unexpected response:', response);
+            } else if (response.includes('otp_verify')) {
+              this.OTPValue = '';
+              this.modalService.dismissAll();
+              this.SignInCustomer(this._mobileverification.mobile_number,this._mobileverification.otp_code);
+              console.warn('otp_verify response:', response);
+            }else{
+
             }
           },
           error: (err) => {
@@ -740,6 +806,38 @@ export class ProductComponent implements OnInit {
             // optional: Swal error toast here
           }
         });
+      });
+    });
+  }
+
+  hasError: boolean = false;
+  SignInCustomer(_username: string = '', _passsword: string = '') {
+    this.hasError = false;
+    const loginSubscr = this.authService
+      .login(_username, _passsword)
+      .pipe(first())
+      .subscribe((user: userModel | undefined) => {
+        if (user) {
+          this.getUserConfig(user.user_id).then((resUserConfig: any) => {
+            this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
+              if (res) {
+                this.add_to_cart();
+              }
+            });
+          });
+        } else {
+          this.hasError = true;
+        }
+      });
+  }
+  getUserConfig(user_id: any) {
+    return new Promise((resolve, reject) => {
+      this._webDService.getuserconfig(user_id).subscribe((resUserModule: any) => {
+        let UserModule = [];
+        UserModule = Array.isArray(resUserModule) ? resUserModule : [];
+        resolve(UserModule)
+      }, error => {
+        resolve(false);
       });
     });
   }

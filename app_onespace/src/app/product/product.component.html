@@ -2,7 +2,8 @@
     <div class="card" id="accordionExample">
         <div class="card-body">
             <!-- card design :: start-->
-            <p class="info_notes" style="text-align: right;">Select Your screen and time slots and fill other informationto
+            <p class="info_notes" style="text-align: right;">Select Your screen and time slots and fill other
+                informationto
                 get best deal.</p>
             <h3 class="section_head" style="text-align: center;">Screen Type</h3>
             <div class="product_lists">
@@ -65,6 +66,30 @@
                     </ng-container>
                 </div>
             </ng-container>
+            <ng-container *ngIf="this.TimeMaster.length>0">
+                <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3>
+                <div class="product_lists">
+                    <!-- <ng-container *ngFor="let _obj of this.TimeMaster; let _ind = index">
+                        <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                            (click)="onSelectEvent(_obj,_ind)">
+                            <div class="product_img">
+                                <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                            </div>
+                            <div class="product_name">
+                                {{_obj.option_value}}
+                            </div>
+                        </div>
+                    </ng-container> -->
+
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
+                            <a class="nav-link" [ngClass]="{'active': _obj.isChecked}"
+                                (click)="onSelectEvent(_obj,_ind)"> {{_obj.option_value}}</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </ng-container>
             <!-- card design :: end -->
             <div class="row">
                 <div class="col-md-12">
@@ -99,7 +124,7 @@
                                 [config]="_screen" (onSelection)="onSelectscreen($event)">
                             </webd-multiselect>
                         </div>
-                        <div class="col-lg-2 mb-2">
+                        <div class="col-lg-2 mb-2" style="display: none;">
                             <label class="form-label">Time Slot</label>
                             <webd-multiselect [data]="TimeMaster" class="col-sm-3 col-form-label"
                                 textField='option_value' valueField='option_value_id'
@@ -247,7 +272,8 @@
             <div class="col-lg-2 mb-3">
                 <button type="submit" id="btn_cart" class="btn btn-primary btn-sm" (click)="add_to_cart()"> Proceed to
                     Cart</button>
-                <button type="submit" id="btn_cart" class="btn btn-danger btn-sm" (click)="reset_form()">Resert Form</button>
+                <button type="submit" id="btn_cart" class="btn btn-danger btn-sm" (click)="reset_form()">Resert
+                    Form</button>
             </div>
         </div>
     </div>
@@ -259,30 +285,54 @@
 </swal>
 
 <ng-template #formModal let-modal>
-  <form [formGroup]="fgverify">
-    <div class="modal-body p-5">
+    <form [formGroup]="fgverify">
+        <div class="modal-body p-5">
 
-      <!-- Title -->
-      <!-- <h4 class="fw-bold text-center mb-1">Login with your email</h4>
+            <!-- Title -->
+            <!-- <h4 class="fw-bold text-center mb-1">Login with your email</h4>
       <p class="text-center mb-4">
         Don't have an Account? 
         <a href="#" class="text-primary fw-semibold">Create Account</a>
       </p> -->
 
-      <div class="mb-3">
-        <label class="form-label fw-bold">Mobile Number</label>
-        <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Enter Mobile Number" formControlName="mobilenumber">
-      </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mobile Number</label>
+                <input type="text" class="form-control" id="mobile_number" name="mobile_number"
+                    [ngClass]="{'disabled':this.isOTPsen}" placeholder="Enter Mobile Number"
+                    formControlName="mobile_number" required>
+                <div *ngIf="fgverify.controls['mobile_number'].invalid && (fgverify.controls['mobile_number'].dirty || fgverify.controls['mobile_number'].touched)"
+                    class="text-danger">
+                    <ng-container *ngIf="fgverify.controls.mobile_number.errors?.['required']">
+                        mobile_number is required.
+                    </ng-container>
+                </div>
+            </div>
 
-      <div class="mb-3">
-        <label class="form-label fw-bold">OTP</label>
-        <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP" formControlName = "otp_code">
-      </div>
+            <div class="mb-3" *ngIf="this.isOTPsent">
+                <label class="form-label fw-bold">OTP</label>
+                <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
+                    formControlName="otp_code">
+                <!-- <div *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
+                    class="text-danger">
+                    <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
+                        otp_code is required.
+                    </ng-container>
+                </div> -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">{{this.OTPValue}}</label>
+            </div>
 
-      <div class="d-grid mb-3">
-        <button type="submit" class="btn btn-primary" (click)="verify_number()">Login</button>
-      </div>
-
-    </div>
-  </form>
+            <div class="d-grid mb-3">
+                <ng-container *ngIf="!this.isOTPsen && !this.isverifybutton">
+                    <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Send
+                        OTP</button>
+                </ng-container>
+                <ng-container *ngIf="this.isverifybutton">
+                    <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Verify
+                        OTP</button>
+                </ng-container>
+            </div>
+        </div>
+    </form>
 </ng-template>

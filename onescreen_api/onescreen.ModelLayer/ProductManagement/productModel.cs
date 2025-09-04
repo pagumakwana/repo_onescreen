@@ -319,7 +319,7 @@ namespace onescreenModel.ProductManagement
 
     public class user_verification : commonModel
     {
-        public long? otp_code { get; set; }
+        public string? otp_code { get; set; }
         public string? mobile_number { get; set; }
     }
 }

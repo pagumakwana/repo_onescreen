@@ -26,7 +26,7 @@ export class HeaderComponent {
     private _auth: AuthService
   ) { }
 
-  _profilepicture: string = './assets/media/avatars/blank.png'
+  _profilepicture: string = '/FileStorage/avatar-1.jpg'; 
 
   ngOnInit() {
     this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin: boolean) => {
@@ -57,11 +57,11 @@ export class HeaderComponent {
   }
 
   goToProduct() {
-    if (this.isLoggedIn) {
+    // if (this.isLoggedIn) {
       this._base._router.navigate(['/product']);
-    } else {
-      this._base._router.navigate(['auth'], { queryParams: { q: ['product'] } });
-    }
+    // } else {
+    //   this._base._router.navigate(['auth'], { queryParams: { q: ['product'] } });
+    // }
   }
   goToCart() {
     if (this.isLoggedIn) {

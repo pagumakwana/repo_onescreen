@@ -25,7 +25,7 @@ export class AdminHeaderComponent {
 
   
   userDetails: any;
-  _profilepicture: string = '../assets/images/user/avatar-2.jpg'; 
+  _profilepicture: string = '/FileStorage/avatar-1.jpg'; 
   constructor(
     public _base: BaseServiceHelper,
     private _cdr: ChangeDetectorRef

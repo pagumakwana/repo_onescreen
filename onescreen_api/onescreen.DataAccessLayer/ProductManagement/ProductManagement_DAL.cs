@@ -1876,7 +1876,7 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@mobile_number", objuser_verification.mobile_number, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@otp", objuser_verification.otp_code, DbType.Int64);
+                objDBParameter = new DBParameter("@otp", objuser_verification.otp_code, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
