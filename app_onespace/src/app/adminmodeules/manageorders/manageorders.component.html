@@ -47,9 +47,13 @@
                                         data-bs-title="warning" *ngIf="_obj.is_media_upload == 0"></i>
                                     <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
                                         data-bs-title="danger" *ngIf="_obj.is_media_upload == 2"></i>
-                                    <a (click)="open_upload_media(_obj.order_product_map_id)"> <i
+                                    <a (click)="open_upload_media(_obj.order_product_map_id)">
+                                        <i class="ti ti-upload text-primary f-24" data-bs-toggle="tooltip"
+                                            data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
+                                    </a>
+                                    <!-- <a (click)="open_upload_media(_obj.order_product_map_id)"> <i
                                             class="ph-duotone ph-file-plus" data-bs-toggle="tooltip"
-                                            data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i></a>
+                                            data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i></a> -->
 
                                 </td>
                                 <td class="text-center">

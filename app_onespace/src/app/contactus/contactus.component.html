@@ -110,17 +110,20 @@
                         <input type="checkbox" id="privacy-policy" name="privacy-policy" required aria-required="true">
                         <label for="privacy-policy">Click here to confirm you have read our privacy policy*</label>
                     </div> -->
-                        <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
+                    <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
                             (click)="setcontactdetail(true)"> -->
-                        <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
-                            <ng-container *ngIf="!isLoading">Submit</ng-container>
-                            <ng-container *ngIf="isLoading">
-                                <span clas="indicator-progress" [style.display]="'block'">
-                                    Please wait...{{ " " }}
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                </span>
-                            </ng-container>
-                        </button>
+                    <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
+                        <ng-container *ngIf="!isLoading">Submit</ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <span clas="indicator-progress" [style.display]="'block'">
+                                Please wait...{{ " " }}
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </ng-container>
+                    </button>
+                    <swal #successSwal [swalOptions]="swalOptions" title="Submitted!" text="" icon="success"
+                        [showConfirmButton]="false">
+                    </swal>
                     <!-- <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
                         <div class="modal_container">
                             <div class="modal_header">

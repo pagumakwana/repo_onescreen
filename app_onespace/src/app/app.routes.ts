@@ -209,6 +209,11 @@ export const routes: Routes = [
                 component: ManageordersComponent,
                 title: 'Media Uplaod',
             },
+              {
+                path: 'uploadmedia/:order_id',
+                component: ManageordersComponent,
+                title: 'Media Uplaod',
+            },
             {
                 path: 'orders',
                 component: OrdermoduleComponent,

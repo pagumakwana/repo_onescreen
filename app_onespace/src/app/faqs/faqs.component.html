@@ -46,7 +46,7 @@
                 <div class="form_sec">
                     <h2 class="faqs_form_heading">Ask your Question</h2>
                     <p class="faqs_form_note">Belongs to those who fail in their duty through weakness</p>
-                    <form>
+                    <form [formGroup]="fgcontactdetails">
                         <!-- <form [formGroup]="fgcontactdetails"> -->
                         <div class="form_container">
                             <input type="text" id="fullname" name="fullname" placeholder="Full Name"
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="form_container">
-                            <input type="text" id="subject_line" name="subject_line" placeholder="Full Name"
+                            <input type="text" id="subject_line" name="subject_line" placeholder="Subject"
                                 formControlName="subject_line" required>
                             <div *ngIf="fgcontactdetails.controls['subject_line'].invalid && (fgcontactdetails.controls['subject_line'].dirty || fgcontactdetails.controls['subject_line'].touched)"
                                 class="text-danger">
@@ -90,7 +90,7 @@
                                 formControlName="description"></textarea>
                         </div>
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <button type="button" class="btn primary_btn">
+                            <button type="button" class="btn primary_btn" (click)="setcontactdetail(true)">
                                 <ng-container *ngIf="!isLoading">Submit Request</ng-container>
                                 <ng-container *ngIf="isLoading">
                                     <span clas="indicator-progress" [style.display]="'block'">
@@ -101,20 +101,23 @@
                             </button>
                         </div>
 
-                        <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
+                        <swal #successSwal [swalOptions]="swalOptions" title="Submitted!" text="" icon="success"
+                            [showConfirmButton]="false">
+                        </swal>
+                        <!-- <div class="modal_backdrop" *ngIf="isSuccessModal_Open">
                             <div class="modal_container">
                                 <div class="modal_header">
                                     <h2 class="modal_heading">Camera to Sell!</h2>
-                                    <!-- <span class="modal_close" (click)="isSuccessModal_Open = false;">
+                                    <span class="modal_close" (click)="isSuccessModal_Open = false;">
                                         <img src="./assets/img/close.svg" alt="Close Icon" />
-                                    </span> -->
+                                    </span>
                                 </div>
                                 <div class="modal_body">
                                     <h3 class="section_head">Thank you for your inquiry. One of our executives will
                                         reach out to you for the next steps.</h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
                 <div class="faqs_thumbnail">
