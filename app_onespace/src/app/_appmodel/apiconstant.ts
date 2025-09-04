@@ -281,5 +281,6 @@ export class ApiConstant {
         get_pendingmediaupload: "product/get_pendingmediaupload",
         media_status_update: "product/media_status_update",
         media_upload: "product/media_upload",
+        remove_cart: "product/remove_cart",
     }
 }

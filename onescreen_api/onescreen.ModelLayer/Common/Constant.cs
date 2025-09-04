@@ -194,6 +194,7 @@ namespace onescreenModel.Common
         public const string getoptionvalue = "[dbo].[getoptionvalue]";
         public const string mapproductattribute = "[dbo].[mapproductattribute]";
         public const string managecartmaster = "[dbo].[managecartmaster]";
+        public const string removecart = "[dbo].[removecart]";
         public const string manageproductcart = "[dbo].[manageproductcart]";
         public const string getorderdertails = "[dbo].[getorderdertails]";
         public const string mapusercart = "[dbo].[mapusercart]";

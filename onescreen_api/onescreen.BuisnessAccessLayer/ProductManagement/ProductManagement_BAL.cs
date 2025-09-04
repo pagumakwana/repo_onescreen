@@ -141,6 +141,14 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public string remove_cart(removeusercartModel objremoveusercartModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.remove_cart(objremoveusercartModel);
+            }
+        }
+
         public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))

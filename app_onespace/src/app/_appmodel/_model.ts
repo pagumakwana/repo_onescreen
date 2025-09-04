@@ -2246,3 +2246,16 @@ export interface media_upload {
     createdby?: number,
     createdname?: string
 }
+
+export interface removeusercartModel{
+    user_cart_mapping_id?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    product_id?: any,
+    product_name?: any,
+    sub_amount?: any,
+    total_amount?: any,
+    attribute_amount?: any,
+    base_amount?: any,
+    tax_amount?: any
+}

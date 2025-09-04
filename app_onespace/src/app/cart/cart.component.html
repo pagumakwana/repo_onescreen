@@ -128,22 +128,22 @@
                           <h5 class="mb-0">₹{{item.base_amount}}</h5>
                         </td>
                         <td class="text-end">
-                          <h5 class="mb-0">  <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                           {{ opt.quantity }}{{ last ? '' : ', ' }}
-                          </ng-container></h5>
+                          <h5 class="mb-0"> <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
+                              {{ opt.quantity }}{{ last ? '' : ', ' }}
+                            </ng-container></h5>
                         </td>
                         <td class="text-end">
                           <h5 class="mb-0">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                            {{ (opt.quantity *  item.base_amount)}}{{ last ? '' : ', ' }}
-                           </ng-container></h5>
+                              {{ (opt.quantity * item.base_amount)}}{{ last ? '' : ', ' }}
+                            </ng-container></h5>
                         </td>
                         <td class="text-end">
                           <h5 class="mb-0">₹{{item.attribute_amount}}</h5>
                         </td>
                         <td class="text-end">
                           <h5 class="mb-0">₹ <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                            {{ opt.total_amount }}{{ last ? '' : ', ' }}
-                           </ng-container></h5>
+                              {{ opt.total_amount }}{{ last ? '' : ', ' }}
+                            </ng-container></h5>
                         </td>
                         <td class="text-end">
                           <a href="javascript:void(0)" (click)="removeFromCart(item)"
@@ -159,13 +159,13 @@
                       </tr>
                     </tbody>
                   </table>
-                  <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?"
+                  <swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?"
                     text="This cannot be undone" icon="warning" [showCancelButton]="true" [focusCancel]="true"
                     [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
                   </swal>
 
-                  <swal #delsuccessSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
-                    [showConfirmButton]="false">
+                  <swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!"
+                    text="" icon="success" [showConfirmButton]="false">
                   </swal>
                 </div>
 
@@ -251,7 +251,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-grid mb-3">
+            <div class="d-grid mb-3" [ngClass]="{'disabled':this.cart_total <= 0 || (this.cart_total==undefined || this.cart_total==null)}">
               <button class="btn btn-primary" (click)="place_order()" type="button">Place an Order</button>
             </div>
           </div>
@@ -270,7 +270,8 @@
 <swal #paysuccessSwal [swalOptions]="swalOptions" title="Order place successfully!" text="" icon="success"
   [showConfirmButton]="false">
 </swal>
-<swal #failureSwal [swalOptions]="swalOptions" title="Something went wrong. Please try again later. If the issue persists, kindly contact support." text="" icon="warning"
-  [showConfirmButton]="false">
+<swal #failureSwal [swalOptions]="swalOptions"
+  title="Something went wrong. Please try again later. If the issue persists, kindly contact support." text=""
+  icon="warning" [showConfirmButton]="false">
 </swal>
 <!-- </ng-template> -->

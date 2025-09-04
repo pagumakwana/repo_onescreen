@@ -4,7 +4,7 @@ import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -166,8 +166,48 @@ export class CartComponent implements OnInit {
 
   }
 
+
+  removeusercartModel: removeusercartModel = {};
+
   removeFromCart(item: any) {
-    this.modifyuser(item, 'DELETECART');
+    console.log('delete', item)
+    debugger
+    // this.modifyuser(item, 'DELETECART');
+    let sub_total = (item?.base_amount + item?.attribute_amount);
+    let tax_total = sub_total * 18 / 100;
+    let total_amount = (sub_total + tax_total);
+    this.removeusercartModel = {
+      user_cart_mapping_id: item?.user_cart_mapping_id,
+      cart_master_id: item?.cart_master_id,
+      product_id: item?.product_id,
+      product_name: item?.product_name,
+      user_id: item?.user_id,
+      attribute_amount: item?.attribute_amount,
+      total_amount: total_amount,
+      sub_amount: sub_total,
+      base_amount: item?.base_amount,
+      tax_amount: tax_total,
+    }
+    this.deleteSwal.fire().then((clicked) => {
+      if (clicked.isConfirmed) {
+        this._webDService.remove_cart(this.removeusercartModel).subscribe(
+          (response: any) => {
+            if (response === 'deletesuccess') {
+              this.delsuccessSwal.fire();
+            
+              setTimeout(() => {
+                this.delsuccessSwal.close();
+                location.reload();
+              }, 1500);
+              this._cdr.detectChanges();
+            }
+          },
+          (error) => {
+            console.error("Error deleting cart item:", error);
+          }
+        );
+      }
+    });
   }
 
   modifyuser(data: any, flag: any) {
@@ -236,6 +276,7 @@ export class CartComponent implements OnInit {
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
+                    location.reload()
                   }, 1000);
                 }
               });

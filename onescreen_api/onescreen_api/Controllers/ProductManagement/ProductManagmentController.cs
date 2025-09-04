@@ -262,6 +262,21 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="objremoveusercartModel"></param>
+        /// <returns></returns>
+        [Route("remove_cart")]
+        [HttpPost]
+        public string remove_cart(removeusercartModel objremoveusercartModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.remove_cart(objremoveusercartModel);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="user_cart_id"></param>
         /// <param name="user_id"></param>
         /// <param name="product_id"></param>

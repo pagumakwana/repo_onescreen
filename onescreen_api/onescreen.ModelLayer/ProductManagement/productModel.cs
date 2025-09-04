@@ -292,4 +292,20 @@ namespace onescreenModel.ProductManagement
         public long? order_product_map_id { get; set; }
         public string? thumbnail { get; set; }
     }
+
+    public class removeusercartModel : commonModel
+    {
+        public Int64 user_cart_mapping_id { get; set; }
+        public Int64? cart_master_id { get; set; }
+        public Int64? product_id { get; set; }
+        public string? product_name { get; set; }
+        public Int64? user_id { get; set; }
+        public decimal attribute_amount { get; set; }
+        public decimal total_amount { get; set; }
+        public decimal sub_amount { get; set; }
+        public decimal base_amount { get; set; }
+        public decimal tax_amount { get; set; }
+
+    }
 }
+
