@@ -653,8 +653,8 @@ export class WebDService {
     public media_status_update(_objmedia_status: media_status) {
         return this._base._apiService.post(`${ApiConstant.product.media_status_update}`, _objmedia_status);
     }
-    public getpendingmediaupload(user_id: number, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.get_pendingmediaupload}?user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getpendingmediaupload(user_id: number,order_id: number, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.get_pendingmediaupload}?user_id=${user_id}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public media_upload(_media_upload: media_upload) {
         return this._base._apiService.post(`${ApiConstant.product.media_upload}`, _media_upload);

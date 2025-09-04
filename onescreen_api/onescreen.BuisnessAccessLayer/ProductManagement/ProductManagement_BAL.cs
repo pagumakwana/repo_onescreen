@@ -203,11 +203,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.get_pendingmediaupload(user_id, order_product_map_id, start_count, end_count);
+                return objProductManagement_DAL.get_pendingmediaupload(user_id, order_id, order_product_map_id, start_count, end_count);
             }
         }
 

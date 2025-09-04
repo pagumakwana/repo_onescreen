@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { Validators } from 'ngx-editor';
 import { contactDetails } from '../_appmodel/_model';
@@ -8,16 +8,22 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { WebDService } from '../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { CommonModule } from '@angular/common';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'app-contactus',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SweetAlert2Module],
   templateUrl: './contactus.component.html',
   styleUrl: './contactus.component.scss'
 })
 export class ContactusComponent {
   private unsubscribe: Subscription[] = [];
+  swalOptions: SweetAlertOptions = { buttonsStyling: false };
+  @ViewChild('successSwal')
+  public readonly successSwal!: SwalComponent;
+
   fgcontactdetails!: FormGroup
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading!: boolean;
@@ -105,15 +111,18 @@ export class ContactusComponent {
           }
 
           setTimeout(() => {
-            this.isSuccessModal_Open = true;
             this.isLoading$.next(false);
             this._cdr.detectChanges();
-          }, 500);
+          }, 1500);
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.isSuccessModal_Open = false;
-            }, 2000);
+              this.successSwal.fire()
+              setTimeout(() => {
+                this.successSwal.close();
+                // this._base._router.navigate(['/app/managelabel']);
+              }, 1500);
+            }, 1000);
           }
         });
       });

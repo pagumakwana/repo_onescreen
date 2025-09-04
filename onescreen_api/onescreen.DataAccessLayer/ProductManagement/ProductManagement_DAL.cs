@@ -1026,10 +1026,18 @@ namespace onescreenDAL.ProductManagement
                           {
                               order_id = Row.Field<Int64>("order_id"),
                               user_id = Row.Field<Int64>("user_id"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
                               order_number = Row.Field<string>("order_number"),
                               payment_type = Row.Field<string>("payment_type"),
                               payment_order_id = Row.Field<string>("payment_order_id"),
                               payment_response = Row.Field<string>("payment_response"),
+                              coupon_id = Row.Field<Int64>("coupon_id"),
+                              order_total = Row.Field<Decimal>("order_total"),
+                              order_subtotal = Row.Field<Decimal>("order_subtotal"),
+                              order_discount = Row.Field<Decimal>("order_discount"),
+                              order_tax = Row.Field<Decimal>("order_tax"),
+                              order_status = Row.Field<string>("order_status"),
+                              payment_status = Row.Field<string>("payment_status"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -1683,7 +1691,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel get_pendingmediaupload(Int64 user_id = 0, Int64 order_id = 0, Int64 order_product_map_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -1693,6 +1701,8 @@ namespace onescreenDAL.ProductManagement
                 DBParameter objDBParameter = new DBParameter("@order_product_map_id", order_product_map_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@order_id", order_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1713,6 +1723,7 @@ namespace onescreenDAL.ProductManagement
                           new pending_media_upload
                           {
                               order_product_map_id = Row.Field<long>("order_product_map_id"),
+                              order_id = Row.Field<Int64>("order_id"),
                               order_number = Row.Field<string>("order_number"),
                               product_name = Row.Field<string>("product_name"),
                               time_slot_value = Row.Field<string>("time_slot_value"),

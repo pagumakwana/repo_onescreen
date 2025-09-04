@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { enAppSession } from '../../_appmodel/sessionstorage';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
@@ -48,6 +48,7 @@ export class ManageordersComponent implements OnInit {
     private _webDService: WebDService,
     private _cdr: ChangeDetectorRef,
     public _fbmedia: FormBuilder,
+    private _activatedRouter: ActivatedRoute,
     private _modalService: NgbModal,) {
   }
 
@@ -71,10 +72,11 @@ export class ManageordersComponent implements OnInit {
   }
 
   _media_upload: media_upload = {}
-
+  order_id: any = 0;
   public pendingMedia: any = [];
   ngOnInit(): void {
-    this.get_pendingmediaupload();
+    this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+    this.get_pendingmediaupload(this.order_id);
   }
 
   selectedOrderId: number = 0;
@@ -99,9 +101,9 @@ export class ManageordersComponent implements OnInit {
       centered: true
     });
   }
-  get_pendingmediaupload() {
+  get_pendingmediaupload(order_id:any=0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
-      this._webDService.getpendingmediaupload(user_id, 0, 0).subscribe((respendingMedia: any) => {
+      this._webDService.getpendingmediaupload(user_id,order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
         this.pendingMedia = respendingMedia.data;
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
         this._cdr.detectChanges();

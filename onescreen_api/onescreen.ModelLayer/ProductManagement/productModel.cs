@@ -150,10 +150,18 @@ namespace onescreenModel.ProductManagement
     {
         public Int64 order_id { get; set; }
         public Int64 user_id { get; set; }
+        public Int64 cart_master_id { get; set; }
         public string order_number { get; set; }
         public string payment_type { get; set; }
         public string payment_order_id { get; set; }
         public string payment_response { get; set; }
+        public Int64 coupon_id { get; set; }
+        public decimal order_total { get; set; }
+        public decimal order_subtotal { get; set; }
+        public decimal order_discount { get; set; }
+        public decimal order_tax { get; set; }
+        public string order_status { get; set; }
+        public string payment_status { get; set; }
 
     }
 
@@ -265,6 +273,7 @@ namespace onescreenModel.ProductManagement
     public class pending_media_upload : commonModel
     {
         public long? order_product_map_id { get; set; }
+        public Int64? order_id { get; set; }
         public string? product_name { get; set; }
         public string? order_number { get; set; }
         public string? time_slot_value { get; set; }
