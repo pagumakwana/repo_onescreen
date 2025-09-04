@@ -2259,3 +2259,12 @@ export interface removeusercartModel{
     base_amount?: any,
     tax_amount?: any
 }
+
+export interface user_verification {
+    flag?: any,
+    otp_code?: any,
+    mobilenumber?: any,
+    createdby?: number,
+    createdname?: string
+
+}

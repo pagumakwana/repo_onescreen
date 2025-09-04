@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { MultiselectComponent } from '../layout_template/multiselect/multiselect.component';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { categoryMaster, productMaster, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
+import { categoryMaster, productMaster, user_verification, usercartmappingModel, usercartMaster } from '../_appmodel/_model';
 import { CommonModule } from '@angular/common';
 import { SweetAlertOptions } from 'sweetalert2';
-import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModal, NgbModalOptions, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule,NgbDatepickerModule],
+  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -28,9 +28,17 @@ export class ProductComponent implements OnInit {
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
 
+
+  @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  public get modalService(): NgbModal {
+    return this._modalService;
+  }
+  public set modalService(value: NgbModal) {
+    this._modalService = value;
+  }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
 
@@ -50,10 +58,18 @@ export class ProductComponent implements OnInit {
   PropertyMaster: any = [];
   TimeMaster: any = [];
   minDate: NgbDateStruct;
+
+  fgverify!: FormGroup;
+
+  public modalRef!: NgbModalRef;
+  modalConfig: NgbModalOptions = {
+    modalDialogClass: 'modal-dialog modal-dialog-centered mw-650px',
+  };
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbCategoryMaster: FormBuilder,
-    private _cdr: ChangeDetectorRef) {
+    private _cdr: ChangeDetectorRef,
+    private _modalService: NgbModal,) {
     const current = new Date();
     this.minDate = { year: current.getFullYear(), month: current.getMonth(), day: current.getDate() };
     // this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
@@ -148,6 +164,11 @@ export class ProductComponent implements OnInit {
       lsttimeslot: [''],
       lst_cart_product: this._fbCategoryMaster.array([]),
       final_price: ['']
+    });
+
+    this.fgverify = this._fbCategoryMaster.group({
+      mobilenumber: [''],
+      otp_code: [0]
     })
   }
 
@@ -495,6 +516,92 @@ export class ProductComponent implements OnInit {
   proceed_to_cart(_form_data: any = null) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+
+        if (!user_id || parseInt(user_id, 10) <= 0) {
+          this.modalService.open(this.formModal, {
+            size: 'm',
+            backdrop: true,
+            centered: true
+          });
+          return;
+        }
+
+        let _value_object: any = [];
+        let _attriAmount = 0.00;
+        _form_data?.filter((_item: any) => {
+          _value_object?.push({
+            timeslot_category_id: _item.timeslot_category_id,
+            timeslot_category: _item.timeslot_category,
+            timeslot_price: _item.timeslot_price,
+            from_date: _item.from_date,
+            to_date: _item.to_date,
+            route_category_id: _item.route_category_id,
+            route_category: _item.route_category,
+            product_id: _item.product_id,
+            product_name: _item.product_name,
+            repetition_category_id: _item.repetition_category_id,
+            repetition_category: _item.repetition_category,
+            repetition_price: _item.repetition_price,
+            interval_category_id: _item.interval_category_id,
+            interval_category: _item.interval_category,
+            interval_price: _item.interval_price,
+            attribute_amount: _item.attribute_amount,
+            total_amount: _item.total_amount,
+            base_amount: _item.base_amount,
+            quantity: _item.quantity,
+          });
+          _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
+        });
+        debugger
+        this._usercartmappingModel = {
+          base_amount: this._categoryScreenMaster.base_amount,
+          product_id: this._categoryScreenMaster.product_id,
+          total_amount: this._totalAmount,
+          attribute_amount: _attriAmount,
+          user_id: user_id,
+          optionvalues: JSON.stringify(_value_object)
+        }
+        let _cart_subtotal = (this._totalAmount);
+        let _cart_discount = 0.00;
+        let _cart_after_discount = (_cart_subtotal - _cart_discount);
+        let _cart_tax = (_cart_after_discount * (18 / 100));
+        let _cart_after_tax = (_cart_after_discount + _cart_tax);
+        let _cart_total = (_cart_after_tax);
+
+        this._usercartMaster = {
+          flag: 'NEWCART',
+          createdname: fullname,
+          user_id: parseInt(user_id),
+          lst_cart_product: [this._usercartmappingModel],
+          coupon_id: 0,
+          coupon_code: '',
+          cart_total: _cart_total,
+          cart_subtotal: _cart_subtotal,
+          cart_discount: 0.00,
+          cart_tax: _cart_tax
+        }
+        console.log("this._usercartMaster", this._usercartMaster)
+        this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
+          this.successSwal.fire();
+          setTimeout(() => {
+            this.successSwal.close();
+            this._base._router.navigate(['cart']);
+            this._cdr.detectChanges();
+          }, 500);
+
+        }, error => {
+
+        });
+      });
+    });
+
+
+    console.log("cartModel", this.fgcategorymaster.value.lst_cart_product);
+  }
+
+  proceed_to_cart_bk(_form_data: any = null) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         let _value_object: any = [];
         let _attriAmount = 0.00;
         _form_data?.filter((_item: any) => {
@@ -588,10 +695,53 @@ export class ProductComponent implements OnInit {
     this.calculate_final_amount(_index)
     this._cdr.detectChanges();
   }
-  reset_form(){
+  reset_form() {
     setTimeout(() => {
       location.reload();
     }, 1000);
+  }
+
+
+
+  _mobileverification: user_verification = {}
+
+  verify_number() {
+    this._base._commonService.markFormGroupTouched(this.fgverify);
+    if (this.fgverify.valid) {
+      this._mobileverification.mobilenumber = this.fgverify.value.mobilenumber;
+      this._mobileverification.otp_code = this.fgverify.value.otp_code;
+      this.addverify();
+    }
+  }
+
+  addverify() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        this._mobileverification.flag = 'MOBILE_VERIFY';
+        this._mobileverification.createdname = fullname;
+        this._mobileverification.createdby = parseInt(user_id);
+
+        this._webDService.mobile_verification(this._mobileverification).subscribe({
+          next: (response: any) => {
+            if (response === 'newsuccess') {
+              setTimeout(() => {
+                if (this.modalRef) {
+                  this.modalRef.close();
+                }
+                location.reload(); // keep your reload here
+              }, 500);
+              this._cdr.detectChanges();
+            } else {
+              console.warn('Unexpected response:', response);
+            }
+          },
+          error: (err) => {
+            console.error('Mobile verification failed:', err);
+            // optional: Swal error toast here
+          }
+        });
+      });
+    });
   }
 }
 

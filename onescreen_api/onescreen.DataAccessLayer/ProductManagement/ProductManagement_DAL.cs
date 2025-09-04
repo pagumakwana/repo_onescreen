@@ -1872,11 +1872,11 @@ namespace onescreenDAL.ProductManagement
             {
                 string ResponseMessage = "";
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@flag", objuser_verification.flag, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@flag", objuser_verification.flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@mobile_number", objuser_verification.mobile_number, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@otp", objuser_verification.otp, DbType.Int64);
+                objDBParameter = new DBParameter("@otp", objuser_verification.otp_code, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

@@ -282,5 +282,6 @@ export class ApiConstant {
         media_status_update: "product/media_status_update",
         media_upload: "product/media_upload",
         remove_cart: "product/remove_cart",
+        mobile_verification: "product/mobile_verification"
     }
 }
