@@ -2,14 +2,14 @@
     <div class="card" id="accordionExample">
         <div class="card-body">
             <!-- card design :: start-->
-            <p class="info_notes" style="text-align: right;">Select Your brand and Model and fill other informationto
+            <p class="info_notes" style="text-align: right;">Select Your screen and time slots and fill other informationto
                 get best deal.</p>
             <h3 class="section_head" style="text-align: center;">Screen Type</h3>
             <div class="product_lists">
                 <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
                     <div class="products" [ngClass]="{'selected': _obj.isChecked}" (click)="onSelecttype(_obj,_ind)">
                         <div class="product_img">
-                            <img src="https://1000logos.net/wp-content/uploads/2017/06/Sony-Logo.jpg" />
+                            <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
                         </div>
                         <div class="product_name">
                             {{_obj.category}}
@@ -24,7 +24,7 @@
                         <div class="products" [ngClass]="{'selected': _obj.isChecked}"
                             (click)="onSelectproperty(_obj,_ind)">
                             <div class="product_img">
-                                <img src="https://1000logos.net/wp-content/uploads/2017/06/Sony-Logo.jpg" />
+                                <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
                             </div>
                             <div class="product_name">
                                 {{_obj.category}}
@@ -40,10 +40,26 @@
                         <div class="products" [ngClass]="{'selected': _obj.isChecked}"
                             (click)="onSelectroute(_obj,_ind)">
                             <div class="product_img">
-                                <img src="https://1000logos.net/wp-content/uploads/2017/06/Sony-Logo.jpg" />
+                                <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
                             </div>
                             <div class="product_name">
                                 {{_obj.category}}
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="this.ScreenMaster.length>0">
+                <h3 class="section_head" style="text-align: center;">Screen/ Product</h3>
+                <div class="product_lists">
+                    <ng-container *ngFor="let _obj of this.ScreenMaster; let _ind = index">
+                        <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                            (click)="onSelectscreen(_obj,_ind)">
+                            <div class="product_img">
+                                <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                            </div>
+                            <div class="product_name">
+                                {{_obj.product_name}}
                             </div>
                         </div>
                     </ng-container>
@@ -75,7 +91,7 @@
                                 placeholder="Select Route" [config]="_route" (onSelection)="onSelectroute($event)">
                             </webd-multiselect>
                         </div>
-                        <div class="col-lg-2 mb-2">
+                        <div class="col-lg-2 mb-2" style="display: none;">
                             <label class="form-label">Screen/ Product</label>
                             <webd-multiselect [data]="ScreenMaster" class="col-sm-3 col-form-label"
                                 textField='product_name' valueField='product_id'
@@ -187,7 +203,7 @@
                         <input type="text" id="total_amount_{{i+1}}" class="form-control form-control-sm disabled"
                             placeholder="Total" formControlName="total_amount">
                     </div>
-                    <div class="col-lg-2   mb-2">
+                    <div class="col-lg-2   mb-2" style="display: none;">
                         <label for="quantity_{{i+1}}" class="form-label">Quantity :</label>
                         <br>
                         <div class="btn-group btn-group-sm mb-2 border" role="group">

@@ -316,5 +316,11 @@ namespace onescreenModel.ProductManagement
         public decimal tax_amount { get; set; }
 
     }
+
+    public class user_verification : commonModel
+    {
+        public long? otp { get; set; }
+        public string? mobile_number { get; set; }
+    }
 }
 

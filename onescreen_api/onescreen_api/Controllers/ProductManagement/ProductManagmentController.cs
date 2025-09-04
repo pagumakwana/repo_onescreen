@@ -435,5 +435,19 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objuser_verification"></param>
+        /// <returns></returns>
+        [Route("mobile_verification")]
+        [HttpPost]
+        public string mobile_verification(user_verification objuser_verification)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.mobile_verification(objuser_verification);
+            }
+        }
     }
 }

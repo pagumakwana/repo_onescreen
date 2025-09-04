@@ -227,6 +227,14 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public string mobile_verification(user_verification objuser_verification)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.mobile_verification(objuser_verification);
+            }
+        }
+
         public void Dispose() 
         { 
         }

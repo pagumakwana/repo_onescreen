@@ -9,7 +9,7 @@ import { AuthService } from '../../authmodule/_authservice/auth.service';
   selector: 'app-header',
   standalone: true,
   imports: [RouterModule, CommonModule],
-  providers: [BaseServiceHelper,AuthService],
+  providers: [BaseServiceHelper, AuthService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -26,11 +26,18 @@ export class HeaderComponent {
     private _auth: AuthService
   ) { }
 
+  _profilepicture: string = './assets/media/avatars/blank.png'
+
   ngOnInit() {
     this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin: boolean) => {
-      this.isLoggedIn = haslogin ? haslogin : false;
-      console.log("islogin", this.isLoggedIn);
-      this._cdr.detectChanges();
+      this._base._encryptedStorage.get(enAppSession.profilepicture).then((resPicture) => {
+        this.isLoggedIn = haslogin ? haslogin : false;
+        console.log("islogin", this.isLoggedIn);
+        if (resPicture != null && resPicture != '' && resPicture != undefined) {
+          this._profilepicture = resPicture;
+        }
+        this._cdr.detectChanges();
+      });
     });
   }
 
@@ -43,7 +50,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.isLoggedIn=false;
+    this.isLoggedIn = false;
     this._auth.logout();
     document.location.reload();
     this._cdr.detectChanges();

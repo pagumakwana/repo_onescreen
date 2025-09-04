@@ -209,6 +209,7 @@ namespace onescreenModel.Common
         public const string get_pendingmediaupload = "[dbo].[get_pendingmediaupload]";
         public const string media_status_approved = "[dbo].[media_status_approved]";
         public const string media_upload = "[dbo].[media_upload]";
+        public const string mobile_verify = "[dbo].[mobile_verify]";
         //END :: PRODUCT
     }
 }

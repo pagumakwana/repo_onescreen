@@ -239,8 +239,37 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  onSelectscreen($event: any) {
-    debugger
+  onSelectscreen($event: any, _index: number = 0) {
+    if ($event && $event != null && $event != '') {
+      this.ScreenMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
+      const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event?.product_id);
+      console.log("$event", _item)
+      debugger
+      this._categoryScreenMaster.product_id = ($event?.product_id);
+      this._categoryScreenMaster.product_name = ($event?.product_name);
+      this._categoryScreenMaster.base_amount = (_item ? _item[0]?.base_amount : 0.00);
+      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_amount)
+      this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
+        this.TimeMaster = [];
+        this.TimeMaster = res;
+        this._cdr.detectChanges();
+        console.log(" this.TimeMaster", this.TimeMaster)
+      });
+      this.getoptionvalues('Repetition', this._categoryScreenMaster.product_id).then((res: any) => {
+        this.ScreenRepeMaster = [];
+        this.ScreenRepeMaster = res;
+        this._cdr.detectChanges();
+        console.log(" this.Screen Interval", this.ScreenRepeMaster)
+      });
+      this.getoptionvalues('Interval', this._categoryScreenMaster.product_id).then((res: any) => {
+        this.ScreenIntervalMaster = [];
+        this.ScreenIntervalMaster = res;
+        this._cdr.detectChanges();
+        console.log(" this.Screen Interval", this.ScreenIntervalMaster)
+      });
+    }
+  }
+  onSelectscreen_bk($event: any) {
     if ($event && $event != null && $event != '' && $event.length > 0) {
       const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event[0]?.product_id);
       console.log("$event", _item)

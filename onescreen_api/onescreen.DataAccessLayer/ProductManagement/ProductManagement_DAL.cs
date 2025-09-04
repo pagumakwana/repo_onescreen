@@ -1866,8 +1866,45 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public string mobile_verification(user_verification objuser_verification)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objuser_verification.flag, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@mobile_number", objuser_verification.mobile_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@otp", objuser_verification.otp, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", objuser_verification.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objuser_verification.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
 
-        public void Dispose() 
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.mobile_verify, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+            public void Dispose() 
         { 
         }
     }
