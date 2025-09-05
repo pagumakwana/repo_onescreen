@@ -123,6 +123,7 @@ namespace onescreenModel.Common
 
         public const string getcontactdetails = "[dbo].[getcontactdetails]";
         public const string managecontactdetails = "[dbo].[managecontactdetails]";
+        public const string Update_Userdetails = "[dbo].[Update_Userdetails]";
 
         //END :: UserManagement
 

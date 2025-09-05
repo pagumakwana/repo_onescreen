@@ -124,4 +124,13 @@ namespace onescreenModel.UserManagement
         public string password { get; set; }
 
     }
+
+    public class update_user :commonModel
+    {
+        public Int64 user_id { get; set; }
+        public string fullname { get; set; }
+        public string email_id { get; set; }
+        //public string mobilenumber { get; set; }
+        public string address { get; set; }
+    }
 }

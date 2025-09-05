@@ -52,6 +52,7 @@ export class ApiConstant {
         verify_order: "product/verify_order",
         getcontactdetails: "usermanagement/getcontactdetails",
         managecontactdetails: "usermanagement/managecontactdetails",
+        update_userdetails: "usermanagement/update_userdetails"
 
 
     }
@@ -282,6 +283,6 @@ export class ApiConstant {
         media_status_update: "product/media_status_update",
         media_upload: "product/media_upload",
         remove_cart: "product/remove_cart",
-        mobile_verification: "product/mobile_verification"
+        mobile_verification: "product/mobile_verification",
     }
 }

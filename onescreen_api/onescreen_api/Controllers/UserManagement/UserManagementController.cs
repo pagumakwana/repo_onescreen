@@ -214,6 +214,19 @@ namespace onescreen_api.Controllers.UserManagement
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objupdate_user"></param>
+        /// <returns></returns>
+        [Route("update_userdetails")]
+        [HttpPost]
+        public string update_userdetails(update_user objupdate_user)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return objUserManagement_BAL.update_userdetails(objupdate_user);
+            }
+        }
     }
 }

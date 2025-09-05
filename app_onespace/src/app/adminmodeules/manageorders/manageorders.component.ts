@@ -96,10 +96,11 @@ export class ManageordersComponent implements OnInit {
   openvideo(videoUrl: string) {
     this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';
     this.modalRef = this.modalService.open(this.VideoModal, {
-      size: 's',
+      size: 'l',
       backdrop: true,
       centered: true
     });
+    console.log("video", this.selectedVideoUrl);
   }
   get_pendingmediaupload(order_id:any=0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {

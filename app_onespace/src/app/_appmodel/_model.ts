@@ -2266,5 +2266,17 @@ export interface user_verification {
     mobile_number?: any,
     createdby?: number,
     createdname?: string
+}
+
+export interface update_user {
+    user_id?: any,
+    fullname?: any,
+    email_id?: any,
+    // mobilenumber?: any,
+    address?: any,
+    client_id?: any,
+    project_id?: any,
+    createdby?: number,
+    createdname?: string
 
 }

@@ -139,6 +139,14 @@ namespace onescreenBAL.UserManagement
             }
         }
 
+        public string update_userdetails(update_user objupdate_user)
+        {
+            using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
+            {
+                return objUserManagement_DAL.update_userdetails(objupdate_user);
+            }
+        }
+
         public void Dispose() 
         {
         }
