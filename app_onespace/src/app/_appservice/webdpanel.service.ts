@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable(
@@ -664,5 +664,8 @@ export class WebDService {
     }
     public mobile_verification(_mobileverification: user_verification) {
         return this._base._apiService.post(`${ApiConstant.product.mobile_verification}`, _mobileverification);
+    }
+    public update_userdetails(_updateuserdetail: update_user) {
+        return this._base._apiService.post(`${ApiConstant.customer.update_userdetails}`, _updateuserdetail);
     }
 }

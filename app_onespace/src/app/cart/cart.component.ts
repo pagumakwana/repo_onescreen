@@ -1,21 +1,22 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { take } from 'rxjs';
 declare var Razorpay: any;
+declare var bootstrap: any;
 
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, SweetAlert2Module, FormsModule],
+  imports: [CommonModule, RouterModule, SweetAlert2Module, FormsModule, ReactiveFormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -43,18 +44,30 @@ export class CartComponent implements OnInit {
   Coupon_code_text: string = ''
   Coupon_code_btn: string = 'Apply'
   _usercartMaster: usercartMaster = {};
+  _updateuserdetail: update_user = {};
 
+  fguser!: FormGroup
   usercartdata: any = [];
   cart_master_id: number = 0;
   razorpay_OrderAttribute!: razorpay_OrderAttribute;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
-    public _fbcoupon: FormBuilder,
+    public _fbuser: FormBuilder,
     private _cdr: ChangeDetectorRef) {
     this._base._scriptLoaderService.load('script', 'https://checkout.razorpay.com/v1/checkout.js');
   }
   ngOnInit(): void {
+    this.initform();
     this.get_cart();
+  }
+
+  initform() {
+    this.fguser = this._fbuser.group({
+      user_id: [0],
+      fullname: [''],
+      email_id: [''],
+      address: ['']
+    });
   }
 
   get_cart() {
@@ -194,7 +207,7 @@ export class CartComponent implements OnInit {
           (response: any) => {
             if (response === 'deletesuccess') {
               this.delsuccessSwal.fire();
-            
+
               setTimeout(() => {
                 this.delsuccessSwal.close();
                 location.reload();
@@ -352,4 +365,66 @@ export class CartComponent implements OnInit {
       }
     });
   }
+
+  detailupdated: boolean = false;
+  updateUser() {
+    this._base._commonService.markFormGroupTouched(this.fguser)
+    if (this.fguser.valid) {
+      this._updateuserdetail.fullname = this.fguser.value.fullname;
+      this._updateuserdetail.email_id = this.fguser.value.email_id;
+      this._updateuserdetail.address = this.fguser.value.address;
+      this.update();
+    }
+  }
+
+  update() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        this._updateuserdetail.createdname = fullname;
+        this._updateuserdetail.user_id = parseInt(user_id);
+        this._webDService.update_userdetails(this._updateuserdetail).subscribe((response: any) => {
+          let isRedirect: boolean = true
+          if (response === 'details added') {
+            this.detailupdated = true;
+            this.place_order();
+          }
+
+          setTimeout(() => {
+            this._cdr.detectChanges();
+          }, 1500);
+        });
+      });
+    });
+  }
+
+  loadShippingData() {
+    this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+      this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
+        this.fguser.patchValue({
+          fullname: fullname || '',
+          email_id: email_id || '',
+          // mobilenumber: mobilenumber || '',
+        });
+        this._cdr.detectChanges();
+      });
+    });
+  }
+
+
+  goToCartTab() {
+    const cartTab = document.querySelector('#ecomtab-tab-1');
+    if (cartTab) {
+      const tab = new bootstrap.Tab(cartTab);
+      tab.show();
+    }
+  }
+  goToShipping() {
+    const cartTab = document.querySelector('#ecomtab-tab-2');
+    if (cartTab) {
+      const tab = new bootstrap.Tab(cartTab);
+      tab.show();
+      this.loadShippingData();
+    }
+  }
+
 }

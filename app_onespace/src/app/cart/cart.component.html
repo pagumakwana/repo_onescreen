@@ -20,21 +20,22 @@
               </div>
             </a>
           </li>
-          <!-- <li class="nav-item">
-              <a class="nav-link" id="ecomtab-tab-2" data-bs-toggle="tab" href="#ecomtab-2" role="tab"
-                aria-controls="ecomtab-2" aria-selected="true">
-                <div class="d-flex align-items-center">
-                  <div class="flex-shrink-0">
-                    <div class="avtar avtar-s">
-                      <i class="ti ti-building-skyscraper"></i>
-                    </div>
-                  </div>
-                  <div class="flex-grow-1 ms-2">
-                    <h5 class="mb-0">Shipping Information</h5>
+          <li class="nav-item">
+            <a class="nav-link" id="ecomtab-tab-2" data-bs-toggle="tab" href="#ecomtab-2" role="tab"
+              aria-controls="ecomtab-2" aria-selected="false" (click)="loadShippingData()">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-s">
+                    <i class="ti ti-building-skyscraper"></i>
                   </div>
                 </div>
-              </a>
-            </li> -->
+                <div class="flex-grow-1 ms-2">
+                  <h5 class="mb-0">Shipping Information</h5>
+                </div>
+              </div>
+            </a>
+          </li>
+          <!--#ecomtab-2-->
           <!-- <li class="nav-item">
               <a class="nav-link" id="ecomtab-tab-3" data-bs-toggle="tab" href="#ecomtab-3" role="tab"
                 aria-controls="ecomtab-3" aria-selected="true">
@@ -157,8 +158,12 @@
                       <tr *ngIf="!UserCart[0] || UserCart[0].length === 0">
                         <td colspan="3" class="text-center text-muted">Your cart is empty</td>
                       </tr>
+
                     </tbody>
                   </table>
+                  <div class="d-flex justify-content-end mt-4">
+                    <button class="btn btn-primary" (click)="goToShipping()">Continue To Process</button>
+                  </div>
                   <swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?"
                     text="This cannot be undone" icon="warning" [showCancelButton]="true" [focusCancel]="true"
                     [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
@@ -251,16 +256,262 @@
                 </div>
               </div>
             </div>
-            <div class="d-grid mb-3" [ngClass]="{'disabled':this.cart_total <= 0 || (this.cart_total==undefined || this.cart_total==null)}">
+            <!-- <div class="d-grid mb-3"
+              [ngClass]="{'disabled':this.cart_total <= 0 || (this.cart_total==undefined || this.cart_total==null)}">
               <button class="btn btn-primary" (click)="place_order()" type="button">Place an Order</button>
-            </div>
+            </div> -->
           </div>
         </div>
 
       </div>
+
+      <!-- Personal Information-->
+      <div class="tab-pane" id="ecomtab-2" role="tabpanel" aria-labelledby="ecomtab-tab-2">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <!-- <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="progress" style="height: 6px">
+                  <div class="progress-bar bg-primary" style="width: 66%"></div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <p class="mb-0 h6">Step 2</p>
+              </div>
+            </div>
+          </div> -->
+              <!-- <div class="collapse multi-collapse show" id="multiCollapseExample1">
+            <div class="card-body border-bottom">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h5 class="mb-0">Shipping Information</h5>
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".multi-collapse" aria-expanded="false"
+                    aria-controls="multiCollapseExample1 multiCollapseExample2">Add new Address</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="address-check-block">
+                <div class="address-check border rounded p-3">
+                  <div class="form-check">
+                    <input type="radio" name="radio1" class="form-check-input input-primary" id="address-check-1"
+                      checked="">
+                    <label class="form-check-label d-block" for="address-check-1">
+                      <span class="h6 mb-0 d-block">Ian Carpenter <small class="text-muted">(Home)</small></span>
+                      <span class="text-muted address-details">1754 Ureate Path, 695 Newga View, Seporcus,
+                        Rhode Island, Belgium - SA5 5BO</span>
+                      <span class="row align-items-center justify-content-between">
+                        <span class="col-6">
+                          <span class="text-muted mb-0">+91 1234567890</span>
+                        </span>
+                        <span class="col-6 text-end">
+                          <span class="address-btns d-flex align-items-center justify-content-end gap-2">
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default">
+                              <i class="ti ti-trash f-20"></i>
+                            </a>
+                            <span class="btn btn-sm btn-outline-primary">Deliver to this address</span>
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="address-check border rounded p-3">
+                  <div class="form-check">
+                    <input type="radio" name="radio1" class="form-check-input input-primary" id="address-check-2">
+                    <label class="form-check-label d-block" for="address-check-2">
+                      <span class="h6 mb-0 d-block">Ian Carpenter <small class="text-muted">(Home)</small></span>
+                      <span class="text-muted address-details">1754 Ureate Path, 695 Newga View, Seporcus,
+                        Rhode Island, Belgium - SA5 5BO</span>
+                      <span class="row align-items-center justify-content-between">
+                        <span class="col-6">
+                          <span class="text-muted mb-0">+91 1234567890</span>
+                        </span>
+                        <span class="col-6 text-end">
+                          <span class="address-btns d-flex align-items-center justify-content-end gap-2">
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default">
+                              <i class="ti ti-trash f-20"></i>
+                            </a>
+                            <span class="btn btn-sm btn-outline-primary">Deliver to this address</span>
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="address-check border rounded p-3">
+                  <div class="form-check">
+                    <input type="radio" name="radio1" class="form-check-input input-primary" id="address-check-3">
+                    <label class="form-check-label d-block" for="address-check-3">
+                      <span class="h6 mb-0 d-block">Ian Carpenter <small class="text-muted">(Home)</small></span>
+                      <span class="text-muted address-details">1754 Ureate Path, 695 Newga View, Seporcus,
+                        Rhode Island, Belgium - SA5 5BO</span>
+                      <span class="row align-items-center justify-content-between">
+                        <span class="col-6">
+                          <span class="text-muted mb-0">+91 1234567890</span>
+                        </span>
+                        <span class="col-6 text-end">
+                          <span class="address-btns d-flex align-items-center justify-content-end gap-2">
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default">
+                              <i class="ti ti-trash f-20"></i>
+                            </a>
+                            <span class="btn btn-sm btn-outline-primary">Deliver to this address</span>
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="address-check border rounded p-3">
+                  <div class="form-check">
+                    <input type="radio" name="radio1" class="form-check-input input-primary" id="address-check-4">
+                    <label class="form-check-label d-block" for="address-check-4">
+                      <span class="h6 mb-0 d-block">Ian Carpenter <small class="text-muted">(Home)</small></span>
+                      <span class="text-muted address-details">1754 Ureate Path, 695 Newga View, Seporcus,
+                        Rhode Island, Belgium - SA5 5BO</span>
+                      <span class="row align-items-center justify-content-between">
+                        <span class="col-6">
+                          <span class="text-muted mb-0">+91 1234567890</span>
+                        </span>
+                        <span class="col-6 text-end">
+                          <span class="address-btns d-flex align-items-center justify-content-end gap-2">
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default">
+                              <i class="ti ti-trash f-20"></i>
+                            </a>
+                            <span class="btn btn-sm btn-outline-primary">Deliver to this address</span>
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+              <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
+              <div class="card-body border-bottom">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h5 class="mb-0">Add new address</h5>
+                  </div>
+                  <div class="col-auto">
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <ng-container *ngIf="this.detailupdated">
+                  <div class="mb-lg-15 alert alert-success">
+                    <div class="primary-text font-weight-bold">
+                      Details Saved.
+                    </div>
+                  </div>
+                </ng-container>
+                <form [formGroup]="fguser">
+                  <div class="row">
+                    <div class="col-12">
+                      <!-- <div class="mb-3 row align-items-center g-2">
+                    <label class="col-lg-4 col-form-label py-0">Address Type :<small class="text-muted d-block">Enter
+                        Add Type</small></label>
+                    <div class="col-lg-8">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="addtypecheck1" checked>
+                        <label class="form-check-label" for="addtypecheck1">
+                          Home (All day Delivery)
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="addtypecheck2">
+                        <label class="form-check-label" for="addtypecheck2">
+                          Work (Between 10 AM to 5 PM)
+                        </label>
+                      </div>
+                    </div>
+                  </div> -->
+                      <div class="mb-3 row align-items-center g-2">
+                        <label class="col-lg-4 col-form-label py-0">FullName :<small class="text-muted d-block">Enter
+                            your fullname</small></label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" id="fullname" name="fullname"
+                            formControlName="fullname">
+                        </div>
+                      </div>
+                      <!-- <div class="mb-3 row align-items-center g-2">
+                    <label class="col-lg-4 col-form-label py-0">Last Name :<small class="text-muted d-block">Enter
+                        your last name</small></label>
+                    <div class="col-lg-8">
+                      <input type="text" class="form-control">
+                    </div>
+                  </div> -->
+                      <div class="mb-3 row align-items-center g-2">
+                        <label class="col-lg-4 col-form-label py-0">Email Id :<small class="text-muted d-block">Enter
+                            Email id</small></label>
+                        <div class="col-lg-8">
+                          <input type="email" class="form-control" id="email_id" name="email_id"
+                            formControlName="email_id">
+                        </div>
+                      </div>
+                      <!-- <div class="mb-3 row align-items-center g-2">
+                    <label class="col-lg-4 col-form-label py-0">Date of Birth :<small class="text-muted d-block">Enter
+                        the date of birth</small></label>
+                    <div class="col-lg-8">
+                      <input type="date" class="form-control">
+                    </div>
+                  </div> -->
+                      <!-- <div class="mb-3 row align-items-center g-2">
+                      <label class="col-lg-4 col-form-label py-0">Mobile Number :<small class="text-muted d-block">Enter
+                          Mobile number</small></label>
+                      <div class="col-lg-8">
+                        <input type="text" class="form-control" id="mobilenumber" name="mobilenumber"
+                          formControlName="mobilenumber">
+                      </div>
+                    </div> -->
+                      <div class="mb-3 row align-items-center g-2">
+                        <label class="col-lg-4 col-form-label py-0">Address :<small class="text-muted d-block">Enter
+                            Address</small></label>
+                        <div class="col-lg-8">
+                          <textarea class="form-control" rows="3" placeholder="Enter Address" id="address"
+                            name="address" formControlName="address"></textarea>
+                        </div>
+                      </div>
+                      <!-- onClick="change_tab('#ecomtab-3')"  <div class="mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="checkaddres" checked>
+                      <label class="form-check-label" for="checkaddres">
+                        Save this new address for future shipping
+                      </label>
+                    </div>
+                  </div> -->
+                      <div class="text-end btn-page mb-0 mt-4">
+                        <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                          data-bs-target=".multi-collapse" aria-expanded="false"
+                          aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
+                        <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div class="d-flex justify-content-end mb-3">
+              <button class="btn btn-link-primary" type="button" (click)="goToCartTab()">
+                <i class="ti ti-arrow-narrow-left align-text-bottom me-2"></i>
+                Back to Cart
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
   </div>
+
   <!-- [ sample-page ] end -->
 </div>
 <!-- [ Main Content ] end -->
