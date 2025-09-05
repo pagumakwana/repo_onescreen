@@ -23,7 +23,7 @@ import { first } from 'rxjs';
   styleUrl: './product.component.scss',
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }, AuthService
-  ]
+  ],
 })
 export class ProductComponent implements OnInit {
 
@@ -153,6 +153,7 @@ export class ProductComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this._base._scriptLoaderService.load('widget', '../../assets/js/plugins/wizard.min.js');
     this.initform();
     this.gettypecategory();
     // this.gettimeslot();
@@ -223,6 +224,7 @@ export class ProductComponent implements OnInit {
       this._categoryTypeMaster.category_id = ($event?.category_id);
       this._categoryTypeMaster.category = ($event?.category);
       this.getpropertycategory(this._categoryTypeMaster.category_id);
+      this._wizard_index=1;
     }
   }
   onSelecttype_bk($event: any, _index: number = 0) {
@@ -239,6 +241,7 @@ export class ProductComponent implements OnInit {
       this._categoryPropertyMaster.category_id = ($event?.category_id);
       this._categoryPropertyMaster.category = ($event?.category);
       this.getroute(this._categoryPropertyMaster.category_id);
+      this._wizard_index=2;
     }
   }
   onSelectproperty_bk($event: any) {
@@ -246,6 +249,7 @@ export class ProductComponent implements OnInit {
       this._categoryPropertyMaster.category_id = ($event[0]?.category_id);
       this._categoryPropertyMaster.category = ($event[0]?.category);
       this.getroute(this._categoryPropertyMaster.category_id);
+      // this._wizard_index=3;
     }
   }
   onSelectroute($event: any, _index: number = 0) {
@@ -254,6 +258,7 @@ export class ProductComponent implements OnInit {
       this._categoryRouteMaster.category_id = ($event?.category_id);
       this._categoryRouteMaster.category = ($event?.category);
       this.getscreen(this._categoryRouteMaster.category_id);
+      this._wizard_index=3;
     }
   }
   onSelectroute_bk($event: any) {
@@ -296,6 +301,7 @@ export class ProductComponent implements OnInit {
         this._cdr.detectChanges();
         console.log(" this.Screen Interval", this.ScreenIntervalMaster)
       });
+      this._wizard_index=4;
     }
   }
   onSelectscreen_bk($event: any) {
@@ -795,9 +801,9 @@ export class ProductComponent implements OnInit {
             } else if (response.includes('otp_verify')) {
               this.OTPValue = '';
               this.modalService.dismissAll();
-              this.SignInCustomer(this._mobileverification.mobile_number,this._mobileverification.otp_code);
+              this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
               console.warn('otp_verify response:', response);
-            }else{
+            } else {
 
             }
           },
@@ -840,6 +846,22 @@ export class ProductComponent implements OnInit {
         resolve(false);
       });
     });
+  }
+
+  _wizard_index: number = 0;
+
+  change_wizard_index(flag: string = 'plus') {
+    if (flag == 'minus') {
+      this._wizard_index = isNaN(this._wizard_index) ? 0: this._wizard_index; // default to 1 if invalid
+      if (this._wizard_index > 0) {
+        this._wizard_index--; // decrease only if > 1
+      }
+    } else {
+      this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index;
+      if (this._wizard_index < 4  ) {
+      this._wizard_index++;
+      }
+    }
   }
 }
 
