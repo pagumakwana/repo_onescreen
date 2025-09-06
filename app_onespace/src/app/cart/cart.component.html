@@ -90,10 +90,10 @@
                       <tr>
                         <th>Product</th>
                         <th class="text-end">Base Price</th>
-                        <th class="text-end">x Qty</th>
+                        <!-- <th class="text-end">x Qty</th> -->
                         <th class="text-end">Sub Total</th>
-                        <th class="text-end">Attribute Price</th>
-                        <th class="text-end">Total</th>
+                        <!-- <th class="text-end">Attribute Price</th> -->
+                        <!-- <th class="text-end">Total</th> -->
                         <th class="text-end">Action</th>
                       </tr>
                     </thead>
@@ -128,26 +128,26 @@
                         <td class="text-end">
                           <h5 class="mb-0">₹{{item.base_amount}}</h5>
                         </td>
-                        <td class="text-end">
+                        <!-- <td class="text-end">
                           <h5 class="mb-0"> <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
                               {{ opt.quantity }}{{ last ? '' : ', ' }}
                             </ng-container></h5>
-                        </td>
+                        </td> -->
                         <td class="text-end">
                           <h5 class="mb-0">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
                               {{ (opt.quantity * item.base_amount)}}{{ last ? '' : ', ' }}
                             </ng-container></h5>
                         </td>
-                        <td class="text-end">
+                        <!-- <td class="text-end">
                           <h5 class="mb-0">₹{{item.attribute_amount}}</h5>
-                        </td>
-                        <td class="text-end">
+                        </td> -->
+                        <!-- <td class="text-end">
                           <h5 class="mb-0">₹ <ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
                               {{ opt.total_amount }}{{ last ? '' : ', ' }}
                             </ng-container></h5>
-                        </td>
+                        </td> -->
                         <td class="text-end">
-                          <a href="javascript:void(0)" (click)="removeFromCart(item)"
+                          <a (click)="removeFromCart(item)"
                             class="avtar avtar-s btn-link-danger btn-pc-default">
                             <i class="ti ti-trash f-18"></i>
                           </a>
