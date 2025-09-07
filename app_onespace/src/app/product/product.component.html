@@ -10,8 +10,7 @@
                     <div id="basicwizard" class="form-wizard row justify-content-center">
                         <ul class="nav nav-pills justify-content-center course-wizard">
                             <li class="nav-item" data-target-form="#screensectionForm">
-                                <a href="#screensection" data-bs-toggle="tab" data-toggle="tab" class="nav-link"
-                                    [ngClass]="{'active':_wizard_index == 0}" (click)="_wizard_index = 0">
+                                <a class="nav-link" [ngClass]="{'active':_wizard_index == 0}">
                                     <div class="course-wizard-num">
                                         <span>1</span>
                                     </div>
@@ -20,9 +19,7 @@
                             </li>
                             <!-- end nav item -->
                             <li class="nav-item" data-target-form="#vehiclesectionForm">
-                                <a href="#vehiclesection" data-bs-toggle="tab" data-toggle="tab"
-                                    class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 1}"
-                                    (click)="_wizard_index = 1">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 1}">
                                     <div class="course-wizard-num">
                                         <span>2</span>
                                     </div>
@@ -31,8 +28,7 @@
                             </li>
                             <!-- end nav item -->
                             <li class="nav-item" data-target-form="#routesectionForm">
-                                <a href="#routesection" data-bs-toggle="tab" data-toggle="tab" class="nav-link icon-btn"
-                                    [ngClass]="{'active':_wizard_index == 2}" (click)="_wizard_index = 2">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 2}">
                                     <div class="course-wizard-num">
                                         <span>3</span>
                                     </div>
@@ -40,9 +36,7 @@
                                 </a>
                             </li>
                             <li class="nav-item" data-target-form="#productsectionForm">
-                                <a href="#productsection" data-bs-toggle="tab" data-toggle="tab"
-                                    class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 3}"
-                                    (click)="_wizard_index = 3">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 3}">
                                     <div class="course-wizard-num">
                                         <span>4</span>
                                     </div>
@@ -51,9 +45,7 @@
                             </li>
                             <!-- end nav item -->
                             <li class="nav-item">
-                                <a href="#timeslotsection" data-bs-toggle="tab" data-toggle="tab"
-                                    class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 4}"
-                                    (click)="_wizard_index = 4">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 4}">
                                     <div class="course-wizard-num">
                                         <span>5</span>
                                     </div>
@@ -137,177 +129,180 @@
                                 <ng-container *ngIf="this.TimeMaster.length>0">
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
-
-
                                         <ul class="nav nav-pills">
                                             <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
-                                                <a class="nav-link" [ngClass]="{'active': _obj.isChecked}"
-                                                    (click)="onSelectEvent(_obj,_ind)"> {{_obj.option_value}}</a>
+                                                <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
+                                                    style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
+                                                    {{_obj.option_value}}</a>
                                             </li>
                                         </ul>
 
                                     </div>
                                 </ng-container>
                                 <br>
-                                <ng-container formArray="lst_cart_product">
-                                    <div class="card" [formGroup]='_objPass'
-                                        *ngFor="let _objPass of timeArray?.controls;let i =index">
-                                        <div class="card-body">
-                                            <div class="row mb-3">
-                                                <div class="col-lg-2 mb-3">
-                                                    <label for="timeslot_category_id_{{i+1}}" class="form-label">Time
-                                                        Slot :</label>
-                                                    <input type="text" id="timeslot_category_id_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Time Slot" formControlName="timeslot_category">
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="product_id_{{i+1}}" class="form-label">Screen Property
-                                                        :</label>
-                                                    <input type="text" id="product_id_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Screen interval" formControlName="product_name">
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="screen_base_amount_{{i+1}}" class="form-label">Base
-                                                        Price :</label>
-                                                    <input type="text" id="screen_base_amount_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Screen interval" formControlName="base_amount">
-                                                </div>
-                                                <div class="col-lg-2 mb-2">
-                                                    <label for="screen_repetition_id_{{i+1}}" class="form-label">Screen
-                                                        Repetition :</label>
-                                                    <select class="form-control form-control-sm" id="screen_interval"
-                                                        (change)="onRepetitionChange($event,i)">
-                                                        <option id="repet_value_id_" value="" class="disabled">Select
-                                                            Repetition</option>
-                                                        <option
-                                                            *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
-                                                            id="repet_value_id_{{_ind}}"
-                                                            [value]="_item.option_value_id">
-                                                            {{_item.option_value}}</option>
-                                                    </select>
-                                                    <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
-                                                        class="error_msg">
-                                                        <ng-container
-                                                            *ngIf="_objPass.controls.repetition_price.errors?.['required']">
-                                                            Repetition is required.
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="repetition_price_{{i+1}}" class="form-label">Repetition
-                                                        Price :</label>
-                                                    <input type="text" id="repetition_price_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Screen interval" formControlName="repetition_price"
-                                                        required>
+                                <div class="row">
+                                    <ng-container formArray="lst_cart_product">
 
-                                                </div>
-                                                <div class="col-lg-2 mb-2">
-                                                    <label for="from_date{{i+1}}" class="form-label">From Date :</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                            ngbDatepicker #from_date="ngbDatepicker"
-                                                            id="from_date{{i+1}}" from_date.displayMonths="true"
-                                                            formControlName="from_date" placeholder="dd-mm-yyyy"
-                                                            [minDate]="minDate" (click)="from_date.toggle()">
-                                                        <span class="input-group-text" (click)="from_date.toggle()"
-                                                            required>
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
+                                        <div class="col-md-6">
+                                            <div class="card" [formGroup]='_objPass'
+                                                *ngFor="let _objPass of timeArray?.controls;let i =index">
+                                                <div class="card-header">
+                                                    <div class="card-title">
+                                                        <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
+                                                        </h3>
+                                                        <p><a class="card-link">Screen Property</a>
+                                                            : {{_objPass.controls['product_name'].value}} | Base
+                                                            Price
+                                                            : {{_objPass.controls['base_amount'].value}} | Total
+                                                            Price
+                                                            : {{_objPass.controls['total_amount'].value}}</p>
+
                                                     </div>
-                                                    <div *ngIf="_objPass.controls.from_date.invalid && (_objPass.controls.from_date.dirty || _objPass.controls.from_date.touched)"
-                                                        class="error_msg">
-                                                        <ng-container
-                                                            *ngIf="_objPass.controls.from_date.errors?.['required']">
-                                                            From Date is required.
-                                                        </ng-container>
+                                                  
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row mb-3">
+                                                        <div class="col-lg-6">
+                                                            <label for="screen_repetition_id_{{i+1}}"
+                                                                class="form-label">Screen
+                                                                Repetition : INR
+                                                                {{_objPass.controls['repetition_price'].value}}</label>
+                                                            <select class="form-control" id="screen_interval"
+                                                                (change)="onRepetitionChange($event,i)">
+                                                                <option id="repet_value_id_" value="" class="disabled">
+                                                                    Select
+                                                                    Repetition</option>
+                                                                <option
+                                                                    *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
+                                                                    id="repet_value_id_{{_ind}}"
+                                                                    [value]="_item.option_value_id">
+                                                                    {{_item.option_value}}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.repetition_price.errors?.['required']">
+                                                                    Repetition is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="col-lg-6   mb-2">
+                                                            <label for="repetition_price_{{i+1}}"
+                                                                class="form-label">Repetition
+                                                                Price :</label>
+                                                            <input type="text" id="repetition_price_{{i+1}}"
+                                                                class="form-control form-control-sm disabled"
+                                                                placeholder="Screen interval"
+                                                                formControlName="repetition_price" required>
+                                                        </div> -->
+                                                        <div class="col-lg-2   mb-2" style="display: none;">
+                                                            <label for="quantity_{{i+1}}" class="form-label">Quantity
+                                                                :</label>
+                                                            <br>
+                                                            <div class="btn-group btn-group-sm mb-2 border"
+                                                                role="group">
+                                                                <button type="button" (click)="update_qty('minus',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-minus"></i></button>
+                                                                <input id="quantity_{{i+1}}"
+                                                                    class="wid-35 text-center border-0 m-0 form-control rounded-0 shadow-none"
+                                                                    type="text" formControlName="quantity" value="0">
+                                                                <button type="button" (click)="update_qty('add',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label for="interval_id_{{i+1}}" class="form-label">Screen
+                                                                Interval
+                                                                : INR
+                                                                {{_objPass.controls['interval_price'].value}}</label>
+                                                            <select class="form-control" id="screen_interval"
+                                                                (change)="onIntervalChange($event,i)">
+                                                                <option id="interval_value_id_" value=""
+                                                                    class="disabled">Select
+                                                                    Interval</option>
+                                                                <option
+                                                                    *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                                    id="interval_value_id_{{_ind}}"
+                                                                    [value]="_item.option_value_id">
+                                                                    {{_item.option_value}}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="_objPass.controls.interval_price.invalid && (_objPass.controls.interval_price.dirty || _objPass.controls.interval_price.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.interval_price.errors?.['required']">
+                                                                    Repetition is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="col-lg-6  mb-2">
+                                                            <label for="interval_price_{{i+1}}"
+                                                                class="form-label">Interval
+                                                                Price :</label>
+                                                            <input type="text" id="interval_price_{{i+1}}"
+                                                                class="form-control form-control-sm disabled"
+                                                                placeholder="Screen interval"
+                                                                formControlName="interval_price" required>
+                                                        </div> -->
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-2 mb-2">
-                                                    <label for="to_date{{i+1}}" class="form-label">To Date :</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                            ngbDatepicker #to_date="ngbDatepicker" id="to_date{{i+1}}"
-                                                            to_date.displayMonths="true" formControlName="to_date"
-                                                            placeholder="dd-mm-yyyy" [minDate]="minDate"
-                                                            (click)="to_date.toggle()">
-                                                        <span class="input-group-text" (click)="to_date.toggle()">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
+                                                    <div class="row mb-3">
+                                                        <div class="col-lg-6">
+                                                            <label for="from_date{{i+1}}" class="form-label">From Date
+                                                                :</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                    ngbDatepicker #from_date="ngbDatepicker"
+                                                                    id="from_date{{i+1}}" from_date.displayMonths="true"
+                                                                    formControlName="from_date" placeholder="dd-mm-yyyy"
+                                                                    [minDate]="minDate" (click)="from_date.toggle();"
+                                                                    (dateSelect)="date_select(i)">
+                                                                <span class="input-group-text" required>
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div *ngIf="_objPass.controls.from_date.invalid && (_objPass.controls.from_date.dirty || _objPass.controls.from_date.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.from_date.errors?.['required']">
+                                                                    From Date is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label for="to_date{{i+1}}" class="form-label">To Date
+                                                                :</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                    ngbDatepicker #to_date="ngbDatepicker"
+                                                                    id="to_date{{i+1}}" to_date.displayMonths="true"
+                                                                    formControlName="to_date" placeholder="dd-mm-yyyy"
+                                                                    [minDate]="minDate" (click)="to_date.toggle();"
+                                                                    (dateSelect)="date_select(i)">
+                                                                <span class="input-group-text">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div *ngIf="_objPass.controls.to_date.invalid && (_objPass.controls.to_date.dirty || _objPass.controls.to_date.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.to_date.errors?.['required']">
+                                                                    To Date is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div *ngIf="_objPass.controls.to_date.invalid && (_objPass.controls.to_date.dirty || _objPass.controls.to_date.touched)"
-                                                        class="error_msg">
-                                                        <ng-container
-                                                            *ngIf="_objPass.controls.to_date.errors?.['required']">
-                                                            To Date is required.
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="time_price_{{i+1}}" class="form-label">Time Slot Price
-                                                        :</label>
-                                                    <input type="text" id="time_price_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Screen interval" formControlName="timeslot_price">
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="total_amount_{{i+1}}" class="form-label">Total Price
-                                                        :</label>
-                                                    <input type="text" id="total_amount_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Total" formControlName="total_amount">
-                                                </div>
-                                                <div class="col-lg-2   mb-2" style="display: none;">
-                                                    <label for="quantity_{{i+1}}" class="form-label">Quantity :</label>
-                                                    <br>
-                                                    <div class="btn-group btn-group-sm mb-2 border" role="group">
-                                                        <button type="button" (click)="update_qty('minus',i)"
-                                                            class="btn btn-link-secondary"><i
-                                                                class="ti ti-minus"></i></button>
-                                                        <input id="quantity_{{i+1}}"
-                                                            class="wid-35 text-center border-0 m-0 form-control rounded-0 shadow-none"
-                                                            type="text" formControlName="quantity" value="0">
-                                                        <button type="button" (click)="update_qty('add',i)"
-                                                            class="btn btn-link-secondary"><i
-                                                                class="ti ti-plus"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2 mb-2">
-                                                    <label for="interval_id_{{i+1}}" class="form-label">Screen Interval
-                                                        :</label>
-                                                    <select class="form-control form-control-sm" id="screen_interval"
-                                                        (change)="onIntervalChange($event,i)">
-                                                        <option id="interval_value_id_" value="" class="disabled">Select
-                                                            Interval</option>
-                                                        <option
-                                                            *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
-                                                            id="interval_value_id_{{_ind}}"
-                                                            [value]="_item.option_value_id">
-                                                            {{_item.option_value}}</option>
-                                                    </select>
-                                                    <div *ngIf="_objPass.controls.interval_price.invalid && (_objPass.controls.interval_price.dirty || _objPass.controls.interval_price.touched)"
-                                                        class="error_msg">
-                                                        <ng-container
-                                                            *ngIf="_objPass.controls.interval_price.errors?.['required']">
-                                                            Repetition is required.
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2   mb-2">
-                                                    <label for="interval_price_{{i+1}}" class="form-label">Interval
-                                                        Price :</label>
-                                                    <input type="text" id="interval_price_{{i+1}}"
-                                                        class="form-control form-control-sm disabled"
-                                                        placeholder="Screen interval" formControlName="interval_price"
-                                                        required>
+                                                    <!-- <div class="text-end p-sm-4 pb-sm-2">
+                                                        <a (click)="removefromarray(_objPass.controls.timeslot_category_id)" class="btn btn-danger"> <i class="ti ti-plus f-18"></i> Remove Slot </a>
+                                                      </div> -->
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </ng-container>
+
+                                    </ng-container>
+                                </div>
                             </div>
                             <div class="d-sm-flex wizard justify-content-between mt-3">
                                 <div class="first">
@@ -316,21 +311,22 @@
                                         Reset Journey
                                     </a>
                                 </div>
-                                <div class="d-sm-flex ">
-                                    <div class="previous me-2">
+                                <div class="d-sm-flex">
+                                    <div class="previous me-2" [ngClass]="{'disabled':_wizard_index == 0}">
                                         <a style="text-decoration: none; color: white;"
                                             (click)="change_wizard_index('minus')"
                                             class="btn btn-secondary mt-3 mt-md-0">
                                             Back To Previous
                                         </a>
                                     </div>
-                                    <div class="next">
+                                    <div class="next" [ngClass]="{'disabled':_wizard_index == 4}">
                                         <a style="text-decoration: none; color: white;"
                                             (click)="change_wizard_index('plus')"
                                             class="btn btn-secondary mt-3 mt-md-0">
                                             Next Step
                                         </a>
                                     </div>
+
                                 </div>
                                 <div class="last">
                                     <a style="text-decoration: none; color: white;"

@@ -142,6 +142,7 @@ namespace onescreenModel.ProductManagement
         public decimal attribute_amount { get; set; }
         public decimal total_amount { get; set; }
         public decimal base_amount { get; set; }
+        public decimal date_total { get; set; }
         public List<productOptionValuesModel>? lstvalues { get; set; }
 
     }

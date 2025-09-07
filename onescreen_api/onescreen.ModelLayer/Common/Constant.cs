@@ -211,6 +211,7 @@ namespace onescreenModel.Common
         public const string media_status_approved = "[dbo].[media_status_approved]";
         public const string media_upload = "[dbo].[media_upload]";
         public const string mobile_verify = "[dbo].[mobile_verify]";
+        public const string getconfig = "[dbo].[getconfig]";
         //END :: PRODUCT
     }
 }

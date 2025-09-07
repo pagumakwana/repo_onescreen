@@ -61,6 +61,7 @@ export class ProductComponent implements OnInit {
   PropertyMaster: any = [];
   TimeMaster: any = [];
   minDate: NgbDateStruct;
+  ConfigMaster: any = [];
 
   fgverify!: FormGroup;
 
@@ -75,7 +76,7 @@ export class ProductComponent implements OnInit {
     private _modalService: NgbModal,
     private authService: AuthService,) {
     const current = new Date();
-    this.minDate = { year: current.getFullYear(), month: current.getMonth(), day: current.getDate() };
+    this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
     // this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
   }
 
@@ -152,8 +153,19 @@ export class ProductComponent implements OnInit {
     closeDropDownOnSelection: true
   };
 
+  ConfigDetailsMaster: any = [
+    { config_name: 'Sunday' },
+    { config_name: 'Monday' },
+    { config_name: 'Tuesday' },
+    { config_name: 'Wednesday' },
+    { config_name: 'Thursday' },
+    { config_name: 'Friday' },
+    { config_name: 'Saturday' }
+  ];
+
   ngOnInit(): void {
     this._base._scriptLoaderService.load('widget', '../../assets/js/plugins/wizard.min.js');
+    this.get_config();
     this.initform();
     this.gettypecategory();
     // this.gettimeslot();
@@ -176,6 +188,16 @@ export class ProductComponent implements OnInit {
       otp_code: ['']
     })
   }
+  get_config() {
+    this._webDService.getportalconfig('all', 0, 'null', 'day').subscribe((resCategory: any) => {
+      this.ConfigMaster = resCategory.data;
+      this.ConfigMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+      console.log("ConfigMaster", this.ConfigMaster);
+      this._cdr.detectChanges();
+    });
+  }
+
+
 
   getroute(parent_category_id: number = 0) {
     this._webDService.getcategory('all', 0, 'selected_area', 0, 'null', false, parent_category_id, 'null', 0, 0).subscribe((resCategory: any) => {
@@ -224,7 +246,7 @@ export class ProductComponent implements OnInit {
       this._categoryTypeMaster.category_id = ($event?.category_id);
       this._categoryTypeMaster.category = ($event?.category);
       this.getpropertycategory(this._categoryTypeMaster.category_id);
-      this._wizard_index=1;
+      this._wizard_index = 1;
     }
   }
   onSelecttype_bk($event: any, _index: number = 0) {
@@ -241,7 +263,7 @@ export class ProductComponent implements OnInit {
       this._categoryPropertyMaster.category_id = ($event?.category_id);
       this._categoryPropertyMaster.category = ($event?.category);
       this.getroute(this._categoryPropertyMaster.category_id);
-      this._wizard_index=2;
+      this._wizard_index = 2;
     }
   }
   onSelectproperty_bk($event: any) {
@@ -258,7 +280,7 @@ export class ProductComponent implements OnInit {
       this._categoryRouteMaster.category_id = ($event?.category_id);
       this._categoryRouteMaster.category = ($event?.category);
       this.getscreen(this._categoryRouteMaster.category_id);
-      this._wizard_index=3;
+      this._wizard_index = 3;
     }
   }
   onSelectroute_bk($event: any) {
@@ -301,7 +323,7 @@ export class ProductComponent implements OnInit {
         this._cdr.detectChanges();
         console.log(" this.Screen Interval", this.ScreenIntervalMaster)
       });
-      this._wizard_index=4;
+      this._wizard_index = 4;
     }
   }
   onSelectscreen_bk($event: any) {
@@ -383,7 +405,8 @@ export class ProductComponent implements OnInit {
           interval_category: [''],
           interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
           attribute_amount: 0.00,
-          quantity: [1]
+          quantity: [1],
+          date_total: 0.00
         });
         this.timeArray.push(control);
         setTimeout(() => {
@@ -478,7 +501,7 @@ export class ProductComponent implements OnInit {
 
   onRepetitionChange($event: any, _index: number) {
     const selectedValue = $event.target.value;
-    if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
+    if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenRepeMaster.find((x: any) => x.option_value_id == selectedValue);
       let obj = this.timeArray.at(_index) as FormGroup;
       obj.controls["repetition_category"].setValue(selectedItem ? selectedItem?.option_value : '');
@@ -492,7 +515,7 @@ export class ProductComponent implements OnInit {
   onIntervalChange($event: any, _index: number) {
     const selectedValue = $event.target.value;
     let obj = this.timeArray.at(_index) as FormGroup;
-    if (selectedValue != '' && selectedValue != undefined && selectedValue != null) {
+    if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
       obj.controls["interval_category"].setValue(selectedItem ? selectedItem?.option_value : '');
       obj.controls["interval_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
@@ -514,13 +537,46 @@ export class ProductComponent implements OnInit {
     let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
     let interval_price = (obj.controls['interval_price'].value) * this.quantity;
     let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+    let date_total: any = obj.controls['date_total'].value;
 
-    let attribute_amount = (repetition_price + interval_price + timeslot_price)
+    let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
     obj.controls['attribute_amount'].setValue(attribute_amount);
 
     let base_amount = (obj.controls['base_amount'].value) * this.quantity;
     debugger
-    let total_amount = (base_amount + attribute_amount)
+    let total_amount = (base_amount + attribute_amount);
+
+    // total_amount = total_amount + (_days_total ? _days_total : 0.00)
+    obj.controls['total_amount'].setValue(total_amount);
+    this._totalAmount = total_amount;
+    this._cdr.detectChanges();
+  }
+
+  readonly DELIMITER = '-';
+  toDateModel(date: NgbDateStruct | null): string | null {
+    return date ? date.month + this.DELIMITER + date.day + this.DELIMITER + date.year : null;
+  }
+  date_select(_index: any) {
+    debugger
+    let obj = this.timeArray.at(_index) as FormGroup;
+    let _from_date: any = this.toDateModel(obj.controls['from_date'].value);
+    let _to_date: any = this.toDateModel(obj.controls['to_date'].value);
+    let date_total: any = obj.controls['date_total'].value;
+    let _attribute_amount: any = obj.controls['attribute_amount'].value;
+
+    let total_amount: any = 0.00;
+    let _total_amount = (obj.controls['total_amount'].value) * this.quantity;
+
+    if (date_total != null && date_total != undefined && date_total != '') {
+      _total_amount = (_total_amount - date_total);
+      _attribute_amount = (_attribute_amount - date_total);
+      obj.controls['attribute_amount'].setValue(_attribute_amount);
+    }
+    let _date_total = 0.00;
+    _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
+    obj.controls['date_total'].setValue(_date_total);
+    total_amount = (_total_amount + _date_total);
+
     obj.controls['total_amount'].setValue(total_amount);
     this._totalAmount = total_amount;
     this._cdr.detectChanges();
@@ -615,6 +671,7 @@ export class ProductComponent implements OnInit {
             attribute_amount: _item.attribute_amount,
             total_amount: _item.total_amount,
             base_amount: _item.base_amount,
+            date_total: _item.date_total,
             quantity: _item.quantity,
           });
           _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
@@ -852,16 +909,42 @@ export class ProductComponent implements OnInit {
 
   change_wizard_index(flag: string = 'plus') {
     if (flag == 'minus') {
-      this._wizard_index = isNaN(this._wizard_index) ? 0: this._wizard_index; // default to 1 if invalid
+      this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index; // default to 1 if invalid
       if (this._wizard_index > 0) {
         this._wizard_index--; // decrease only if > 1
       }
     } else {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index;
-      if (this._wizard_index < 4  ) {
-      this._wizard_index++;
+      if (this._wizard_index < 4) {
+        this._wizard_index++;
       }
     }
   }
+
+  setPriceFromConfigMaster(fromDate: string, toDate: string): number {
+    if (!fromDate || !toDate) return 0;
+
+    const start = new Date(fromDate);
+    const end = new Date(toDate);
+
+    // Build map { dayName: price }
+    const configMap: { [key: string]: number } = {};
+    this.ConfigMaster.forEach((item: any) => {
+      configMap[item.config_name.toLowerCase()] = Number(item.config_value);
+    });
+
+    let totalPrice = 0;
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const dayName = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+      const price = configMap[dayName] ?? 0;
+      console.log(`Date: ${d.toISOString().split('T')[0]} → Day: ${dayName} → Price: ${price}`);
+      totalPrice += price;
+    }
+
+    return totalPrice;
+  }
+
+
 }
 

@@ -521,8 +521,8 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.common.update_moduledata}`, _moduledataModel);
     }
 
-    public getportalconfig(flag = 'all', config_id = 0, config_name = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.config.getportalconfig}?flag=${flag}&config_id=${config_id}&config_name=${config_name}&start_count=${start_count}&end_count=${end_count}`);
+    public getportalconfig(flag = 'all', config_id = 0, config_name = "null",search = "null", start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.config.getportalconfig}?flag=${flag}&config_id=${config_id}&config_name=${config_name}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageportalconfig(_portalconfigModel: portalconfigModel) {
         return this._base._apiService.post(`${ApiConstant.config.manageportalconfig}`, _portalconfigModel);
