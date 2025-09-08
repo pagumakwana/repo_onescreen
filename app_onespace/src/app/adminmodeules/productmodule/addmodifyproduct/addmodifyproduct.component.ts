@@ -151,7 +151,7 @@ export class AddmodifyproductComponent {
       isactive: [true],
       thumbnail: [''],
       lstcategory: ['', [Validators.required]],
-      lstbrand: [''],
+      // lstbrand: [''],
       base_amount:[''],
       lsttimeattribute: [''],
       lstrepeattribute: [''],
@@ -249,7 +249,7 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['lsttimeattribute'].setValue(this._productMaster.lsttimeattribute);
         this.fgproductmaster.controls['lstrepeattribute'].setValue(this._productMaster.lstrepeattribute);
         this.fgproductmaster.controls['lstintervalattribute'].setValue(this._productMaster.lstintervalattribute);
-        this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
+        // this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['base_amount'].setValue(this._productMaster.base_amount);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
@@ -289,7 +289,7 @@ export class AddmodifyproductComponent {
           this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstinterattr;
           this._productMaster.base_amount = this.fgproductmaster.value.base_amount;
           this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
-          this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
+          // this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
           this._productMaster.project_id = parseInt(project_id);

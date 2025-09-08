@@ -80,7 +80,7 @@ export class ProductmoduleComponent {
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "100px" } },
       { identifer: "product_name", title: "Product Name", type: "text" },
       { identifer: "category", title: "Category", type: "text" },
-      { identifer: "brand_name", title: "Brand", type: "text" },
+      // { identifer: "brand_name", title: "Brand", type: "text" },
       { identifer: "product_description", title: "Description", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
     isCustom: {
