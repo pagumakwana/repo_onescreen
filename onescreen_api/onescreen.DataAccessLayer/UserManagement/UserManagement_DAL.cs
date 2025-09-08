@@ -269,25 +269,7 @@ namespace onescreenDAL.UserManagement
                                     objDbHelper1.ExecuteScalar(Constant.mapauthorityuser, ObJParameterCOl2, CommandType.StoredProcedure);
                                 });
                             }
-                            if ((objclsUserManagement.lstproject != null && objclsUserManagement.lstproject.Count > 0))
-                            {
-                                objclsUserManagement.lstproject.ForEach(project =>
-                                {
-                                    DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
-                                    DBParameter objDBParameter3 = new DBParameter("@project_id", project.project_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@user_id", objclsUserManagement.user_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@createdname", objclsUserManagement.createdname, DbType.String);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@createdby", objclsUserManagement.createdby, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    DBHelper objDbHelper2 = new DBHelper();
-                                    objDbHelper2.ExecuteScalar(Constant.mapprojectuser, ObJParameterCOl3, CommandType.StoredProcedure);
-                                });
-                            }
+                            
                             if ((objclsUserManagement.filemanager != null && objclsUserManagement.filemanager.Count > 0))
                             {
                                 objclsUserManagement.filemanager.ForEach(filemanager =>
@@ -360,7 +342,6 @@ namespace onescreenDAL.UserManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getuserdetail, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstuser = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
-                List<projectuserModel> lstproject = new List<projectuserModel>();
                 List<vendoruserModel> lstvendor = new List<vendoruserModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 responseModel lstresponse = new responseModel();
@@ -378,28 +359,19 @@ namespace onescreenDAL.UserManagement
                                     authority = Row.Field<string>("authority")
                                 }).ToList();
                         }
+                        
                         if (ds.Tables[1].Rows.Count > 0)
                         {
-                            lstproject = ds.Tables[1].AsEnumerable().Select(Row =>
-                                new projectuserModel
-                                {
-                                    project_id = Row.Field<Int64>("project_id"),
-                                    user_id = Row.Field<Int64>("user_id"),
-                                    projectname = Row.Field<string>("projectname")
-                                }).ToList();
-                        }
-                        if (ds.Tables[2].Rows.Count > 0)
-                        {
-                            lstvendor = ds.Tables[2].AsEnumerable().Select(Row =>
+                            lstvendor = ds.Tables[1].AsEnumerable().Select(Row =>
                                 new vendoruserModel
                                 {
                                     vendor_id = Row.Field<Int64>("vendor_id"),
                                     contact_person_name = Row.Field<string>("contact_person_name")
                                 }).ToList();
                         }
-                        if (ds.Tables[3].Rows.Count > 0)
+                        if (ds.Tables[2].Rows.Count > 0)
                         {
-                            lstFileinfo = ds.Tables[3].AsEnumerable().Select(Row =>
+                            lstFileinfo = ds.Tables[2].AsEnumerable().Select(Row =>
                                 new fileInfoModel
                                 {
                                     ref_id = Row.Field<Int64>("ref_id"),
@@ -415,9 +387,9 @@ namespace onescreenDAL.UserManagement
                                 }).ToList();
                         }
                     }
-                    if (ds.Tables[flag == "Detail" ? 4 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 3 : 0].Rows.Count > 0)
                     {
-                        lstuser = ds.Tables[flag == "Detail" ? 4 : 0].AsEnumerable().Select(Row =>
+                        lstuser = ds.Tables[flag == "Detail" ? 3 : 0].AsEnumerable().Select(Row =>
                       new userManagementModel
                       {
                           user_id = Row.Field<Int64>("user_id"),
@@ -439,13 +411,12 @@ namespace onescreenDAL.UserManagement
                           updatedname = Row.Field<string>("updatedname"),
                           updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                           lstauthority = lstauthority,
-                          lstproject = lstproject,
                           lstvendor = lstvendor,
                       }).ToList();
                     }
-                    if (ds.Tables[flag == "Detail" ? 5 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 4 : 1].Rows.Count > 0)
                     {
-                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 5 : 1].Rows[0]["RESPONSE"].ToString());
+                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 4 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     lstresponse.data = lstuser;
                 }
