@@ -162,7 +162,7 @@ export class CartComponent implements OnInit {
   cart_tax: any = 0.00;
   cart_discount: any = 0.00;
   coupon_code: string = '-';
-  coupon_code_id: number= 0;
+  coupon_code_id: number = 0;
 
   place_order() {
     this.razorpay_OrderAttribute = {
@@ -303,7 +303,8 @@ export class CartComponent implements OnInit {
 
             if (this.couponMaster.length > 0) {
               let coupon_id: any = this.couponMaster[0]?.coupon_id;
-              this.cart_discount = this.couponMaster[0]?.discount_value;
+              // this.cart_discount = this.couponMaster[0]?.discount_value;
+              this.cart_discount = (this.cart_subtotal * this.couponMaster[0]?.discount_value / 100)
               this.coupon_code = this.Coupon_code_text;
               // this.Coupon_code_text = '';
               this.Coupon_code_btn = 'Remove';
@@ -324,6 +325,7 @@ export class CartComponent implements OnInit {
                   setTimeout(() => {
                     this._cdr.detectChanges();
                     this.successSwal.close();
+                    location.reload();
                   }, 1000);
                 }
               });
@@ -439,12 +441,15 @@ export class CartComponent implements OnInit {
   loadShippingData() {
     this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
       this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
-        this.fguser.patchValue({
-          fullname: fullname || '',
-          email_id: email_id || '',
-          // mobilenumber: mobilenumber || '',
+        this._base._encryptedStorage.get(enAppSession.address).then(address => {
+          this.fguser.patchValue({
+            fullname: fullname || '',
+            email_id: email_id || '',
+            address: address || '',
+            // mobilenumber: mobilenumber || '',
+          });
+          this._cdr.detectChanges();
         });
-        this._cdr.detectChanges();
       });
     });
   }

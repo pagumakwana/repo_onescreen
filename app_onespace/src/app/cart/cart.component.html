@@ -136,8 +136,7 @@
                   Have a coupon code?
                 </button>
                 <div class="input-group my-2">
-                  <input type="text" class="form-control"
-                    [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
+                  <input type="text" class="form-control" [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
                     placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
                   <button class="btn btn-outline-secondary" type="button"
                     (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">{{this.Coupon_code_btn}}</button>
@@ -291,7 +290,8 @@
                   Have a coupon code?
                 </button>
                 <div class="input-group my-2">
-                  <input type="text" class="form-control" placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
+                  <input type="text" class="form-control" [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
+                    placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
                   <button class="btn btn-outline-secondary" type="button"
                     (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
                 </div>

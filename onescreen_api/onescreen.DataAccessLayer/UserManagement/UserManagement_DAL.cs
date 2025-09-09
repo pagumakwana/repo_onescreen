@@ -97,6 +97,7 @@ namespace onescreenDAL.UserManagement
                               email_id = Row.Field<string>("email_id"),
                               mobilenumber = Row.Field<string>("mobilenumber"),
                               password = Row.Field<string>("password"),
+                              address = Row.Field<string>("address"),
                               profilepicture = Row.Field<string>("profilepicture"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
