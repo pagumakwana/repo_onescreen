@@ -73,7 +73,8 @@
                                     {{_item?.route_category}} <br />
                                     {{_item?.repetition_category}} - ₹{{ _item?.repetition_price }} <br />
                                     {{_item?.interval_category}} - ₹{{ _item?.interval_price }} <br />
-                                    {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -  ₹{{ _item?.date_total }}
+                                    {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -
+                                    ₹{{ _item?.date_total }}
                                   </p>
                                   <!-- <hr> -->
                                 </ng-container>
@@ -94,8 +95,7 @@
                             </ng-container></h5>
                         </td> -->
                         <td class="text-end">
-                          <a (click)="removeFromCart(item)"
-                            class="avtar avtar-s btn-link-danger btn-pc-default">
+                          <a (click)="removeFromCart(item)" class="avtar avtar-s btn-link-danger btn-pc-default">
                             <i class="ti ti-trash f-18"></i>
                           </a>
                         </td>
@@ -106,21 +106,21 @@
 
                     </tbody>
                   </table>
-                 
+
                 </div>
                 <div class="row">
                   <div class="col-12">
-                <div class="text-end btn-page mb-0 mt-4">
-                  <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                    <div class="text-end btn-page mb-0 mt-4">
+                      <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                     data-bs-target=".multi-collapse" aria-expanded="false"
                     aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
-                  <button class="btn btn-primary" (click)="goToShipping()" type="button">Save & Deliver to this
-                    Address</button>
-                </div>
-                </div>
+                      <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
+                        checkout</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-             
+
             </div>
             <!-- <div class="text-end">
               <a [routerLink]="['/product']" class="btn btn-link-secondary d-inline-flex align-items-center"><i
@@ -136,9 +136,14 @@
                   Have a coupon code?
                 </button>
                 <div class="input-group my-2">
-                  <input type="text" class="form-control" placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
+                  <input type="text" class="form-control"
+                    [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
+                    placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
                   <button class="btn btn-outline-secondary" type="button"
-                    (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
+                    (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">{{this.Coupon_code_btn}}</button>
+                </div>
+                <div *ngIf="is_valid" class="text-warning mt-1">
+                  Please enter valid coupon code.
                 </div>
               </div>
               <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
@@ -261,7 +266,8 @@
                         </div>
                       </div>
                       <div class="text-end btn-page mb-0 mt-4">
-                        <button class="btn btn-outline-secondary" type="button" (click)="goToCartTab()">Previous</button>
+                        <button class="btn btn-outline-secondary" type="button"
+                          (click)="goToCartTab()">Previous</button>
                         <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
                       </div>
                     </div>
@@ -376,11 +382,11 @@
 </swal>
 <!-- </ng-template> -->
 
-<swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?"
-text="This cannot be undone" icon="warning" [showCancelButton]="true" [focusCancel]="true"
-[customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+<swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?" text="This cannot be undone"
+  icon="warning" [showCancelButton]="true" [focusCancel]="true"
+  [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
 </swal>
 
-<swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!"
-text="" icon="success" [showConfirmButton]="false">
+<swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"
+  [showConfirmButton]="false">
 </swal>

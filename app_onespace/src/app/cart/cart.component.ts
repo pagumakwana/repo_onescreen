@@ -75,6 +75,7 @@ export class CartComponent implements OnInit {
       this._webDService.getusercartdetail(0, user_id, 0, 0, 0).subscribe((resUserCart: any) => {
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
         console.log("UserCartUserCart", this.UserCart)
+        debugger
         this.calculatecart();
         this.UserCart[0]?.lst_cart_product?.forEach((res: any) => {
           if (res.optionvalues && typeof res.optionvalues === 'string') {
@@ -161,6 +162,7 @@ export class CartComponent implements OnInit {
   cart_tax: any = 0.00;
   cart_discount: any = 0.00;
   coupon_code: string = '-';
+  coupon_code_id: number= 0;
 
   place_order() {
     this.razorpay_OrderAttribute = {
@@ -183,8 +185,6 @@ export class CartComponent implements OnInit {
   removeusercartModel: removeusercartModel = {};
 
   removeFromCart(item: any) {
-    console.log('delete', item)
-    debugger
     // this.modifyuser(item, 'DELETECART');
     let sub_total = (item?.base_amount + item?.attribute_amount);
     let tax_total = sub_total * 18 / 100;
@@ -251,10 +251,44 @@ export class CartComponent implements OnInit {
       });
     }
   }
+
+  removecouponcode() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        this._user_coupon_model = {
+          flag: 'REMOVECOUPON',
+          coupon_id: this.coupon_code_id,
+          coupon_cart_mapid: 0,
+          product_ids: '',
+          user_id: user_id,
+          cart_id: this.cart_master_id,
+          createdname: full_name,
+          createdby: user_id
+        }
+        this._webDService.apply_coupon(this._user_coupon_model).subscribe((rescoupon: any) => {
+          if (rescoupon != null && rescoupon.includes('removesuccess')) {
+            this.coupon_code = '';
+            this.Coupon_code_btn = 'Apply';
+            this.Coupon_code_text = '';
+            this.coupon_code_id = 0;
+            this.successSwal.fire();
+            setTimeout(() => {
+              this._cdr.detectChanges();
+              this.successSwal.close();
+            }, 1000);
+          }
+        });
+      });
+    });
+  }
+
+  is_valid: boolean = false;
   _user_coupon_model: user_coupon_model = {};
   applycoupon() {
+    this.is_valid = false;
     if (!this.Coupon_code_text || this.Coupon_code_text.trim() === '') {
       console.warn("Please enter a coupon code");
+      this.is_valid = true;
       return;
     }
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
@@ -288,8 +322,8 @@ export class CartComponent implements OnInit {
 
                   this.successSwal.fire();
                   setTimeout(() => {
+                    this._cdr.detectChanges();
                     this.successSwal.close();
-                    location.reload()
                   }, 1000);
                 }
               });
@@ -310,12 +344,17 @@ export class CartComponent implements OnInit {
   }
 
   calculatecart() {
+    debugger
     this.UserCart?.filter((res: any) => {
       this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
       this.cart_total = (this.cart_total + res?.cart_total);
       this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
       this.cart_tax = (this.cart_tax + res?.cart_tax);
       this.cart_discount = (this.cart_discount + res?.cart_discount);
+      this.Coupon_code_text = res?.coupon_code;
+      this.coupon_code = res?.coupon_code;
+      this.coupon_code_id = res?.coupon_id;
+      this.Coupon_code_btn = (res?.coupon_code != '' && res?.coupon_code != undefined && res?.coupon_code != null) ? 'Remove' : 'Apply';
     });
   }
 
