@@ -94,13 +94,13 @@ export class AddmodifyuserComponent {
       password: ['', [Validators.required]],
       website: [''],
       dob: [''],
-      lstproject: [''],
+      // lstproject: [''],
       lstauthority: [''],
       lstvendor:[''],
       bio: [''],
       is_approved: [''],
-      project_id: [''],
-      projectname: [''],
+      // project_id: [''],
+      // projectname: [''],
       authority_id: [''],
       authority: [''],
       isactive:[true],
@@ -132,7 +132,7 @@ export class AddmodifyuserComponent {
     this.initform();
     this.userid = this._activatedRouter.snapshot.paramMap.get('user_id');
     this.getAuthority();
-    this.getProject();
+    // this.getProject();
     this.getVendor();
     debugger
     if (this.userid != '0')
@@ -157,7 +157,7 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['website'].setValue(this._userModel.website);
         this.fgUser.controls['user_id'].setValue(this._userModel.user_id);
         this.fgUser.controls['lstauthority'].setValue(this._userModel.lstauthority);
-        this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
+        // this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
         this.fgUser.controls['lstvendor'].setValue(this._userModel.lstvendor);
         this.fgUser.controls['isactive'].setValue(this._userModel.isactive);
         resolve(true)
@@ -184,7 +184,7 @@ export class AddmodifyuserComponent {
           this._userModel.dob = `${travelldate.year}-${travelldate.month}-${travelldate.day}`;
           this._userModel.bio = this.fgUser.value.bio;
           this._userModel.website = this.fgUser.value.website;
-          this._userModel.lstproject = this.fgUser.value.lstproject;
+          // this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
           this._userModel.lstvendor = this.fgUser.value.lstvendor;
           this._userModel.client_id = client_id;
