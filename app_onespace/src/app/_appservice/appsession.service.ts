@@ -16,6 +16,7 @@ export class AppSessionService {
             this._encryptedStorage.set(enAppSession.profilepicture, responseData.profilepicture);
             this._encryptedStorage.set(enAppSession.haslogin, true);
             this._encryptedStorage.set(enAppSession.password, responseData.password);
+            this._encryptedStorage.set(enAppSession.address, responseData.address);
             this._encryptedStorage.set(enAppSession.clientlist, JSON.stringify(userConfig.clientlist));
             this._encryptedStorage.set(enAppSession.projectlist, JSON.stringify(userConfig.projectlist));
             this._encryptedStorage.set(enAppSession.usermodulelist, JSON.stringify(userConfig.usermodulelist));
@@ -39,6 +40,7 @@ export class AppSessionService {
         this._encryptedStorage.set(enAppSession.email_id, '');
         this._encryptedStorage.set(enAppSession.haslogin, false);
         this._encryptedStorage.set(enAppSession.password, '');
+        this._encryptedStorage.set(enAppSession.address, '');
         this._encryptedStorage.set(enAppSession.clientlist, '');
         this._encryptedStorage.set(enAppSession.projectlist, '');
         this._encryptedStorage.set(enAppSession.society_id, '');
