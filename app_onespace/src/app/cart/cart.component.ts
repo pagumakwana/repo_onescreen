@@ -59,6 +59,7 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.initform();
     this.get_cart();
+    this.getcoupon();
   }
 
   initform() {
@@ -469,6 +470,69 @@ export class CartComponent implements OnInit {
       tab.show();
       this.loadShippingData();
     }
+  }
+
+  Coupon_text: string = '';
+  Coupon_btn: string = 'Apply';
+  isvalid: boolean = false;
+
+  apply() {
+    if (this.Coupon_text.trim() === '') {
+      this.isvalid = true;
+      return;
+    }
+    this.isvalid = false;
+    console.log('Applying coupon:', this.Coupon_text);
+    // your logic here
+  }
+
+  removecoupon() {
+    this.Coupon_text = '';
+    this.Coupon_btn = 'Apply';
+    this.isvalid = false;
+  }
+
+  couponList: any[] = [];  // this will be used directly in template
+
+  // Random color palettes for coupon cards
+  couponColors: any[] = [
+    { bg: '#f0faff', border: '#36c', btn: 'btn-primary' },
+    { bg: '#fffdf5', border: '#f5b400', btn: 'btn-warning' },
+    { bg: '#f5faff', border: '#00b894', btn: 'btn-success' },
+    { bg: '#fff5f8', border: '#d63031', btn: 'btn-danger' },
+    { bg: '#fef9f5', border: '#fd7e14', btn: 'btn-orange' }
+  ];
+
+  getcoupon() {
+    this._webDService.getcoupon(0, '', 0, 0).subscribe(
+      (res: any) => {
+        console.log("API Response:", res);
+
+        if (res && Array.isArray(res.data)) {
+          this.couponList = res.data.map((c: any, index: number) => {
+            const colorSet = this.couponColors[index % this.couponColors.length];
+            return { ...c, colorSet };
+          });
+        } else {
+          this.couponList = [];
+        }
+
+        this._cdr.detectChanges();
+      },
+      (err) => {
+        console.error("Coupon API Error:", err);
+        this.couponList = [];
+      }
+    );
+  }
+
+  // Coupon_code_text: string = '';
+  // Coupon_code_btn: string = 'Apply';
+
+  applySuggestedCoupon(code: string) {
+    this.Coupon_code_text = code; 
+    // this.Coupon_code_btn = "Remove"; 
+    console.log("Coupon applied:", code);
   }
 
 }
