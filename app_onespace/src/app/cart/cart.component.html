@@ -130,7 +130,7 @@
           </div>
           <div class="col-xl-4">
             <div class="card">
-              <div class="card-body">
+              <!-- <div class="card-body">
                 <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal"
                   data-bs-target="#couponModal">
                   Have a coupon code?
@@ -143,6 +143,68 @@
                 </div>
                 <div *ngIf="is_valid" class="text-warning mt-1">
                   Please enter valid coupon code.
+                </div>
+              </div> -->
+
+              <div class="card-body">
+                <!-- Open side panel instead of inline -->
+                <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="offcanvas"
+                  data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas">
+                  Have a coupon code?
+                </button>
+
+                <!-- Coupon Input (outside) -->
+                <div class="input-group my-2">
+                  <!-- <input type="text" class="form-control" [ngClass]="{'disabled': (this.Coupon_code_btn=='Remove')}"
+                    placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel"> -->
+
+                  <input type="text" class="form-control" [ngClass]="{'disabled': (Coupon_code_btn == 'Remove')}"
+                    placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
+
+                  <button class="btn btn-outline-secondary" type="button"
+                    (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">
+                    {{this.Coupon_code_btn}}
+                  </button>
+                </div>
+
+                <div *ngIf="is_valid" class="text-warning mt-1">
+                  Please enter valid coupon code.
+                </div>
+              </div>
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas"
+                aria-labelledby="couponOffcanvasLabel">
+
+                <div class="offcanvas-header">
+                  <h5 id="couponOffcanvasLabel">Coupons</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                  <div *ngFor="let coupon of couponList"
+                    class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
+                    [ngStyle]="{'background': coupon.colorSet.bg, 'border':'1px dashed ' + coupon.colorSet.border}">
+
+                    <!-- Left: Coupon details -->
+                    <div>
+                      <h6 class="fw-bold mb-1">{{coupon.coupon_code}}</h6>
+                      <small>
+                        <!-- Code: <b></b><br> -->
+                        Discount: {{coupon.discount_value}}
+                      </small>
+                    </div>
+
+                    <!-- Right: Apply Button -->
+                    <div class="text-end">
+                      <button class="btn btn-sm mt-2" [ngClass]="coupon.colorSet.btn"
+                        (click)="applySuggestedCoupon(coupon.coupon_code)">Apply</button>
+                    </div>
+                  </div>
+
+                  <!-- No coupon fallback -->
+                  <div *ngIf="couponList.length === 0" class="text-muted text-center">
+                    No coupons available
+                  </div>
                 </div>
               </div>
               <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
