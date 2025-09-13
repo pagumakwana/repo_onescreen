@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-body">
+      <div class="checkmark">✓</div>
+      <h1>Thank You!</h1>
+      <p>Your order has been received successfully. please upload your media.</p>
+      <a href="/" class="btn-home">Download Invoice</a>
+      <br/>
+      <div class="table-responsive">
+        <table class="table table-hover tbl-product" id="pc-dt-simple">
+            <thead>
+                <tr>
+                    <th class="text-end">Order#</th>
+                    <th>Product Detail</th>
+                    <th>Screen</th>
+                    <th>Interval</th>
+                    <th>Repetition</th>
+                    <th class="text-center">Media Upload</th>
+                    <th class="text-center">Media Approved</th>
+                    <th class="text-center">Media Comment</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let _obj of this.pendingMedia">
+                    <td class="text-end">{{_obj.order_number}}</td>
+                    <td>
+                        <div class="row">
+                            <!-- <div class="col-auto pe-0">
+                                <img src="../assets/images/application/img-prod-1.jpg" alt="user-image"
+                                    class="wid-40 rounded">
+                            </div> -->
+                            <div class="col">
+                                <h6 class="mb-1">{{_obj.time_slot_value}}</h6>
+                                <p class="text-muted f-12 mb-0">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
+                                    {{_obj.to_date| date: 'dd-MMM-yyyy' }} </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{_obj.product_name}}</td>
+                    <td>{{_obj.interval_value}}</td>
+                    <td>{{_obj.repetition_value}}</td>
+                    <td class="text-center">
+                        <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
+                            data-bs-title="success" *ngIf="_obj.is_media_upload == 1"></i>
+                        <i class="ph-duotone ph-clock-countdown text-warning f-24" data-bs-toggle="tooltip"
+                            data-bs-title="warning" *ngIf="_obj.is_media_upload == 0"></i>
+                        <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
+                            data-bs-title="danger" *ngIf="_obj.is_media_upload == 2"></i>
+                        <a (click)="open_upload_media(_obj.order_product_map_id)">
+                            <i class="ti ti-upload text-primary f-24" data-bs-toggle="tooltip"
+                                data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
+                        </a>
+
+                    </td>
+                    <td class="text-center">
+                        <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
+                            data-bs-title="success" *ngIf="_obj.is_media_approved == 1"></i>
+                        <i class="ph-duotone ph-clock-countdown text-warning f-24" data-bs-toggle="tooltip"
+                            data-bs-title="warning"
+                            *ngIf="_obj.is_media_approved == 0 && _obj.is_media_upload == 1"></i>
+                        <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
+                            data-bs-title="danger" *ngIf="_obj.is_media_approved == 2"></i>
+                        <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
+                            data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
+                    </td>
+                    <td>{{_obj.media_comments}}</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <a (click)="openvideo(_obj.thumbnail)"
+                                class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
+                                <i class="ti ti-eye f-18"></i>
+                            </a>
+                           
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+     
+    </div>
+  </div>
+  

@@ -54,8 +54,8 @@
                     <thead>
                       <tr>
                         <th>Product</th>
-                        <th class="text-end">Base Price</th>
-                        <!-- <th class="text-end">Sub Total</th> -->
+                        <!-- <th class="text-end">Base Price</th> -->
+                        <th class="text-end">Sub Total</th>
                         <th class="text-end">Action</th>
                       </tr>
                     </thead>
@@ -68,6 +68,8 @@
                               <div *ngFor="let _item of item?.optionvaluesParsed">
                                 <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
                                   <p class="text-sm text-muted mb-0">
+                                    Base Price - {{_item?.base_amount}}
+                                    <br />
                                     {{ _item?.timeslot_category }} - ₹{{ _item?.timeslot_price }}
                                     <br />
                                     {{_item?.route_category}} <br />
@@ -86,14 +88,14 @@
                             </div>
                           </div>
                         </td>
-                        <td class="text-end">
-                          <h5 class="mb-0">₹{{item.base_amount}}</h5>
-                        </td>
                         <!-- <td class="text-end">
-                          <h5 class="mb-0">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                              {{ (opt.quantity * item.base_amount)}}{{ last ? '' : ', ' }}
-                            </ng-container></h5>
+                          <h5 class="mb-0">₹{{item.base_amount}}</h5>
                         </td> -->
+                        <td class="text-end">
+                          <h5 class="mb-0">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
+                              {{ (opt.total_amount)}}{{ last ? '' : ', ' }}
+                            </ng-container></h5>
+                        </td>
                         <td class="text-end">
                           <a (click)="removeFromCart(item)" class="avtar avtar-s btn-link-danger btn-pc-default">
                             <i class="ti ti-trash f-18"></i>
@@ -171,48 +173,16 @@
                   Please enter valid coupon code.
                 </div>
               </div>
-              <div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas"
-                aria-labelledby="couponOffcanvasLabel">
 
-                <div class="offcanvas-header">
-                  <h5 id="couponOffcanvasLabel">Coupons</h5>
-                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
-                </div>
-
-                <div class="offcanvas-body">
-                  <div *ngFor="let coupon of couponList"
-                    class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
-                    [ngStyle]="{'background': coupon.colorSet.bg, 'border':'1px dashed ' + coupon.colorSet.border}">
-
-                    <!-- Left: Coupon details -->
-                    <div>
-                      <h6 class="fw-bold mb-1">{{coupon.coupon_code}}</h6>
-                      <small>
-                        <!-- Code: <b></b><br> -->
-                        Discount: {{coupon.discount_value}}
-                      </small>
-                    </div>
-
-                    <!-- Right: Apply Button -->
-                    <div class="text-end">
-                      <button class="btn btn-sm mt-2" [ngClass]="coupon.colorSet.btn"
-                        (click)="applySuggestedCoupon(coupon.coupon_code)">Apply</button>
-                    </div>
-                  </div>
-
-                  <!-- No coupon fallback -->
-                  <div *ngIf="couponList.length === 0" class="text-muted text-center">
-                    No coupons available
-                  </div>
-                </div>
-              </div>
               <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
                 [showConfirmButton]="false">
               </swal>
               <swal #invalidcodeSwal [swalOptions]="swalOptions" title="Invalid Coupon!" text="" icon="warning"
                 [showConfirmButton]="false">
               </swal>
+              <swal #removecouponSwal [swalOptions]="swalOptions" title="Coupon removed!" text="" icon="success"
+              [showConfirmButton]="false">
+            </swal>
             </div>
             <div class="card">
               <div class="card-body py-2">
@@ -347,8 +317,8 @@
           <div class="col-xl-4">
             <div class="card">
               <div class="card-body">
-                <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal"
-                  data-bs-target="#couponModal">
+                <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="offcanvas"
+                  data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas">
                   Have a coupon code?
                 </button>
                 <div class="input-group my-2">
@@ -452,3 +422,37 @@
 <swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"
   [showConfirmButton]="false">
 </swal>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas" aria-labelledby="couponOffcanvasLabel">
+
+  <div class="offcanvas-header">
+    <h5 id="couponOffcanvasLabel">Coupons</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <div *ngFor="let coupon of couponList"
+      class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
+      [ngStyle]="{'background': coupon.colorSet.bg, 'border':'1px dashed ' + coupon.colorSet.border}">
+
+      <!-- Left: Coupon details -->
+      <div>
+        <h6 class="fw-bold mb-1">{{coupon.coupon_code}}</h6>
+        <small>
+          <!-- Code: <b></b><br> -->
+          Discount: {{coupon.discount_value}}
+        </small>
+      </div>
+
+      <!-- Right: Apply Button -->
+      <div class="text-end">
+        <button class="btn btn-sm mt-2" [ngClass]="coupon.colorSet.btn" data-bs-dismiss="offcanvas" aria-label="Close"
+          (click)="applySuggestedCoupon(coupon.coupon_code)">Apply</button>
+      </div>
+    </div>
+
+    <!-- No coupon fallback -->
+    <div *ngIf="couponList.length === 0" class="text-muted text-center">
+      No coupons available
+    </div>
+  </div>
+</div>

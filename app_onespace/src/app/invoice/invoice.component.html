@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice </title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 40px;
+      color: #000;
+    }
+
+    .invoice-header,
+    .invoice-footer {
+      margin-bottom: 20px;
+    }
+
+    .invoice-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .invoice-section {
+      margin: 20px 0;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      border: 1px solid #b1b1b7;
+    }
+
+    .invoice-table th {
+      border-bottom: 1px solid #b1b1b7;
+      background: #e8e9ea;
+    }
+
+    .invoice-table th:first-child {
+      text-align: left;
+    }
+
+    .invoice-table th,
+    .invoice-table td {
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    .invoice-bold {
+      font-weight: bold;
+    }
+
+    .invoice-table-right {
+      text-align: right;
+    }
+
+    .invoice-in-words {
+      text-align: right;
+      border: 1px solid #b1b1b7;
+      margin: 10px 0 20px 0;
+      float: left;
+      width: 100%;
+    }
+
+    .invoice-line {
+      border-top: 2px solid #000;
+      margin: 20px 0;
+    }
+
+    .invoice-info-box {
+      border: 1px solid #999;
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    .invoice-info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .invoice-left-col,
+    .invoice-right-col {
+      width: 48%;
+    }
+
+    .invoice-info-item {
+      display: flex;
+    }
+
+    .invoice-info-item label {
+      width: 140px;
+    }
+
+    .invoice-info-item span {
+      font-weight: bold;
+    }
+
+    .invoice-main-headr-tb {
+      background: #25254A;
+      color: #fff;
+      padding: 5px 0;
+      text-align: center;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+    }
+
+    .invoice-gradient-border {
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(to right, #ca993c, #2f5b7e, #000);
+      border: none;
+      margin: 20px 0;
+    }
+
+    .invoice-grand-total-tb {
+      background: #25254A;
+      color: #fff;
+      padding: 5px 0;
+      font-weight: bold;
+      float: left;
+      width: 100%;
+    }
+
+    .invoice-grand-total-tb span {
+      text-align: left;
+      float: left;
+      padding: 0 10px;
+    }
+
+    .invoice-grand-total-tb span:last-child {
+      text-align: right;
+      float: right;
+    }
+
+    .invoice-in-words-total {
+      float: left;
+      width: 100%;
+      text-align: left;
+      padding: 5px 10px;
+    }
+
+    .invoice-notes {
+      font-size: 13px;
+      border: 1px solid #b1b1b7;
+      padding: 0;
+      float: left;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .invoice-notes p {
+      padding-left: 10px;
+    }
+
+    .invoice-notes ol {
+      padding: 0 25px;
+    }
+
+    .invoice-act-box {
+      border: 1px solid #999;
+      padding: 0;
+      width: 100%;
+      float: left;
+      margin: 0 0 0 0;
+    }
+
+    .invoice-act-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+      padding: 10px;
+      background: #e8e9ea;
+      flex-wrap: wrap;
+    }
+
+    .invoice-act-item {
+      width: 100%;
+      margin: 5px 0;
+    }
+
+    .invoice-act-item label {
+      width: 200px;
+      float: left;
+    }
+
+    .invoice-act-item span {
+      font-weight: bold;
+    }
+
+    .compgenerate {
+      float: left;
+      width: 100%;
+      text-align: right;
+      margin: 10px 0 20px 0;
+      font-style: italic;
+    }
+
+    .invoice-logo {
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="invoiceSection">
+    <div class="invoice-header">
+      <div class="text-end invoice-logo">
+        <img alt="Logo" class="h-40px h-lg-80px w-220px"
+          [src]="this._base._commonService.cdnAPPURL + this.invoice_logo">
+      </div>
+      <div class="invoice-title">{{this.orderdetailsmaster?.society_name}}</div>
+      <div>TNA/(TNA)/HSG/(TC)/33442/2021</div>
+      <div [innerHTML]="this.orderdetailsmaster?.society_address"></div>
+      <div>Email ID : {{this.orderdetailsmaster?.email_id}}</div>
+    </div>
+    <div class="invoice-gradient-border"></div>
+    <div class="invoice-info-box">
+      <div class="invoice-info-row">
+        <div class="invoice-left-col">
+          <div class="invoice-info-item">
+            <label>Owner</label> : <span>&nbsp;{{this.orderdetailsmaster?.party_name}}</span>
+          </div>
+        </div>
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Receipt Number</label> : <span>&nbsp;8188</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="invoice-info-row">
+        <div class="invoice-left-col">
+          <div class="invoice-info-item">
+            <label>House</label> :
+            <span>&nbsp;{{this.orderdetailsmaster?.wing_name}}-{{this.orderdetailsmaster?.flat_name}}</span>
+          </div>
+        </div>
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Receipt Date</label> : <span>&nbsp;{{this.orderdetailsmaster?.createddate}}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="invoice-info-row">
+
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Payment Mode</label> : <span>EFT</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="invoice-section">
+      <div class="invoice-main-headr-tb">Receipt</div>
+      <table class="invoice-table">
+        <tr>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Invoice No.</th>
+          <th style="text-align: left">Invoice Date</th>
+          <th style="text-align: center">Due Date</th>
+          <th style="text-align: right">Amount(₹)</th>
+        </tr>
+
+        <tr>
+          <td style="text-align: left">Maintenance Charges</td>
+          <td style="text-align: left">{{this.orderdetailsmaster?.invoice_number}}</td>
+          <td style="text-align: left">{{this.orderdetailsmaster?.invoice_date | date: 'dd/MM/yyyy'}}</td>
+          <td style="text-align: Center">{{this.orderdetailsmaster?.invoice_duedate | date: 'dd/MM/yyyy'}}</td>
+          <td style="text-align: right">{{this.orderdetailsmaster?.amount}}</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="invoice-in-words">
+      <div class="invoice-grand-total-tb">
+        <span>GRAND TOTAL</span>
+        <span>₹ {{this.orderdetailsmaster?.amount}}</span>
+      </div>
+      <div class="invoice-in-words-total">In Words: <span class="invoice-bold">: {{grandTotalInWords}}</span></div>
+    </div>
+
+    <div class="invoice-act-box">
+      <div class="invoice-act-row">
+        <div class="invoice-act-item">
+          <label>Account</label> : <span>THANE JANATA SAHAKARI BANK 0094</span>
+        </div>
+        <div class="invoice-act-item">
+          <label>Reference</label> : <span>RATN0000999</span>
+        </div>
+        <div class="invoice-act-item">
+          <label>Description</label> : <span>NEFT/SUN SONS/409000657225/RATN0000999/000441282457</span>
+        </div>
+      </div>
+    </div>
+    <div class="compgenerate">This is a computer generated receipt and requires no authentication.</div>
+  </div>
+
+
+</body>
+
+<div class="col d-flex justify-content-center align-items-center print-button">
+  <button class="btn btn-success btn-sm" (click)="print()">
+    Print Invoice
+  </button>
+  &nbsp;
+  <button class="btn btn-primary btn-sm" [disabled]="isDownloading" [ngClass]="{'btn-secondary': isDownloading}"
+    (click)="downloadPDF()">
+    <ng-container *ngIf="!isDownloading">
+      Download PDF
+    </ng-container>
+    <ng-container *ngIf="isDownloading">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Downloading...
+    </ng-container>
+  </button>
+  <!-- <button class="btn btn-primary btn-sm" (click)="downloadPDF()">Download PDF</button> -->
+
+
+  <!-- <button class="btn btn-danger btn-sm" (click)="downloadPDF()">Download PDF</button> -->
+</div>
+
+</html>

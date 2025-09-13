@@ -24,6 +24,9 @@ export class CartComponent implements OnInit {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
+  @ViewChild('removecouponSwal')
+  public readonly removecouponSwal!: SwalComponent;
+
   @ViewChild('deleteSwal')
   public readonly deleteSwal!: SwalComponent;
 
@@ -74,6 +77,7 @@ export class CartComponent implements OnInit {
   get_cart() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._webDService.getusercartdetail(0, user_id, 0, 0, 0).subscribe((resUserCart: any) => {
+        this.UserCart = [];
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
         console.log("UserCartUserCart", this.UserCart)
         debugger
@@ -138,11 +142,12 @@ export class CartComponent implements OnInit {
             console.log('array', this._ordermaster)
             this._webDService.move_to_order(this._ordermaster).subscribe((resorder: any) => {
               if (resorder != null && resorder.includes('newsuccess')) {
-                console.log("Order stored successfully:");
+                console.log("Order stored successfully:", resorder);
+                let order_id = resorder.split('~')[1];
                 this.paysuccessSwal.fire();
                 setTimeout(() => {
                   this.paysuccessSwal.close();
-                  this._base._router.navigate(['app', 'uploadmedia']);
+                  this._base._router.navigate(['thankyou', order_id]);
                   this._cdr.detectChanges();
                 }, 1000);
               } else {
@@ -272,10 +277,11 @@ export class CartComponent implements OnInit {
             this.Coupon_code_btn = 'Apply';
             this.Coupon_code_text = '';
             this.coupon_code_id = 0;
-            this.successSwal.fire();
+            this.cart_discount = '';
+            this.removecouponSwal.fire();
             setTimeout(() => {
-              this._cdr.detectChanges();
-              this.successSwal.close();
+              this.removecouponSwal.close();
+              location.reload();
             }, 1000);
           }
         });
@@ -324,7 +330,6 @@ export class CartComponent implements OnInit {
 
                   this.successSwal.fire();
                   setTimeout(() => {
-                    this._cdr.detectChanges();
                     this.successSwal.close();
                     location.reload();
                   }, 1000);
@@ -507,7 +512,7 @@ export class CartComponent implements OnInit {
     this._webDService.getcoupon(0, '', 0, 0).subscribe(
       (res: any) => {
         console.log("API Response:", res);
-
+        this.couponList = [];
         if (res && Array.isArray(res.data)) {
           this.couponList = res.data.map((c: any, index: number) => {
             const colorSet = this.couponColors[index % this.couponColors.length];
@@ -530,9 +535,8 @@ export class CartComponent implements OnInit {
   // Coupon_code_btn: string = 'Apply';
 
   applySuggestedCoupon(code: string) {
-    this.Coupon_code_text = code; 
-    // this.Coupon_code_btn = "Remove"; 
-    console.log("Coupon applied:", code);
+    this.Coupon_code_text = code;
+    // this.applycoupon();
   }
 
 }

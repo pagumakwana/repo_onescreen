@@ -1628,7 +1628,7 @@ namespace onescreenDAL.ProductManagement
                                 ObJParameterCOl3.Add(objDBParameter3);
                                 objDbHelper.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
                             }
-                            ResponseMessage = Res[0].ToString();
+                            //ResponseMessage = Res[0].ToString();
                         }
                         else
                         {
@@ -1900,7 +1900,7 @@ namespace onescreenDAL.ProductManagement
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ex.Message.ToString();
             }
         }
 

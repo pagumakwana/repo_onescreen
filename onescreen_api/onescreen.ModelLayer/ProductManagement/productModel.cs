@@ -322,6 +322,9 @@ namespace onescreenModel.ProductManagement
     {
         public string? otp_code { get; set; }
         public string? mobile_number { get; set; }
+        public string? flag { get; set; }
+        public string? createdname { get; set; }
+        public Int64? createdby { get; set; }
     }
 }
 

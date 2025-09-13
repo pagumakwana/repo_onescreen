@@ -60,7 +60,10 @@ export class ProductComponent implements OnInit {
   TypeMaster: any = [];
   PropertyMaster: any = [];
   TimeMaster: any = [];
-  minDate: NgbDateStruct;
+  minfromDate: NgbDateStruct | null = null;
+  maxfromDate: NgbDateStruct | null = null;
+  mintoDate: NgbDateStruct | null = null;
+  maxtoDate: NgbDateStruct | null = null;
   ConfigMaster: any = [];
 
   fgverify!: FormGroup;
@@ -76,8 +79,11 @@ export class ProductComponent implements OnInit {
     private _modalService: NgbModal,
     private authService: AuthService,) {
     const current = new Date();
-    this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
-    // this.maxDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
+    this.minfromDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
+    this.maxfromDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
+    this.mintoDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
+    this.maxtoDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
+    console.log('from_date', this.minfromDate, this.maxfromDate)
   }
 
   public _screentype: IDropdownSettings = {
@@ -551,34 +557,67 @@ export class ProductComponent implements OnInit {
     this._totalAmount = total_amount;
     this._cdr.detectChanges();
   }
-
   readonly DELIMITER = '-';
   toDateModel(date: NgbDateStruct | null): string | null {
     return date ? date.month + this.DELIMITER + date.day + this.DELIMITER + date.year : null;
   }
-  date_select(_index: any) {
+
+  toJSDate(d: NgbDateStruct): Date {
+    return new Date(d.year, d.month - 1, d.day);
+  }
+  from_date_alert: string = '';
+  to_date_alert: string = '';
+  date_select(_index: any, flag: string = 'fromdate') {
     debugger
     let obj = this.timeArray.at(_index) as FormGroup;
-    let _from_date: any = this.toDateModel(obj.controls['from_date'].value);
-    let _to_date: any = this.toDateModel(obj.controls['to_date'].value);
-    let date_total: any = obj.controls['date_total'].value;
-    let _attribute_amount: any = obj.controls['attribute_amount'].value;
+    let fmdate = (obj.controls['from_date'].value);
+    let todate = (obj.controls['to_date'].value);
 
-    let total_amount: any = 0.00;
-    let _total_amount = (obj.controls['total_amount'].value) * this.quantity;
+    if (!fmdate && todate) {
+      this.from_date_alert = 'please select from date.';
+      obj.controls['to_date'].setValue('');
+      obj.controls['to_date'].updateValueAndValidity();
+      return;
+    } else if (fmdate && todate && flag === 'todate' && this.toJSDate(todate) < this.toJSDate(fmdate)) {
+      this.to_date_alert = 'To date cannot be earlier than From date';
+      obj.controls['to_date'].setValue('');
+      obj.controls['to_date'].updateValueAndValidity();
+      return;
+    } else if (fmdate && todate && flag === 'fromdate' && this.toJSDate(fmdate) > this.toJSDate(todate)) {
+      this.from_date_alert = 'from date not greater then to date';
+      obj.controls['from_date'].setValue('');
+      obj.controls['from_date'].updateValueAndValidity();
+      return;
+    } else {
+      this.from_date_alert = ''
+      this.to_date_alert = ''
+      if (flag == 'fromdate') {
+        this.mintoDate = fmdate;
+      } else {
+        this.maxfromDate = todate;
+      }
 
-    if (date_total != null && date_total != undefined && date_total != '') {
-      _total_amount = (_total_amount - date_total);
-      _attribute_amount = (_attribute_amount - date_total);
-      obj.controls['attribute_amount'].setValue(_attribute_amount);
+      let _from_date: any = this.toDateModel(fmdate);
+      let _to_date: any = this.toDateModel(todate);
+      let date_total: any = obj.controls['date_total'].value;
+      let _attribute_amount: any = obj.controls['attribute_amount'].value;
+
+      let total_amount: any = 0.00;
+      let _total_amount = (obj.controls['total_amount'].value) * this.quantity;
+
+      if (date_total != null && date_total != undefined && date_total != '') {
+        _total_amount = (_total_amount - date_total);
+        _attribute_amount = (_attribute_amount - date_total);
+        obj.controls['attribute_amount'].setValue(_attribute_amount);
+      }
+      let _date_total = 0.00;
+      _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
+      obj.controls['date_total'].setValue(_date_total);
+      total_amount = (_total_amount + _date_total);
+
+      obj.controls['total_amount'].setValue(total_amount);
+      this._totalAmount = total_amount;
     }
-    let _date_total = 0.00;
-    _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
-    obj.controls['date_total'].setValue(_date_total);
-    total_amount = (_total_amount + _date_total);
-
-    obj.controls['total_amount'].setValue(total_amount);
-    this._totalAmount = total_amount;
     this._cdr.detectChanges();
   }
 
@@ -829,7 +868,7 @@ export class ProductComponent implements OnInit {
 
   _mobileverification: user_verification = {}
 
-  verify_number() {
+  verify_number(flag: string = 'MOBILE_VERIFY') {
     this._base._commonService.markFormGroupTouched(this.fgverify);
     if (this.fgverify.valid) {
       this._mobileverification.mobile_number = this.fgverify.value.mobile_number;
@@ -841,36 +880,39 @@ export class ProductComponent implements OnInit {
   isOTPsent: boolean = false;
   isverifybutton: boolean = false;
   OTPValue: string = '';
+  invalidOTP: boolean = false;
   addverify() {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
-        this._mobileverification.createdname = fullname;
-        this._mobileverification.createdby = parseInt(user_id);
-        this._webDService.mobile_verification(this._mobileverification).subscribe({
-          next: (response: any) => {
-            if (response.includes('otp_sent_success~')) {
-              const parts = response.split("~");
-              this.isOTPsent = true;
-              this.isverifybutton = true;
-              this.OTPValue = parts[1];
-              this._cdr.detectChanges();
-            } else if (response.includes('otp_verify')) {
-              this.OTPValue = '';
-              this.modalService.dismissAll();
-              this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
-              console.warn('otp_verify response:', response);
-            } else {
-
-            }
-          },
-          error: (err) => {
-            console.error('Mobile verification failed:', err);
-            // optional: Swal error toast here
-          }
-        });
-      });
+    this.invalidOTP = false;
+    // this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+    //   this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+    this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
+    this._mobileverification.createdname = 'system';
+    this._mobileverification.createdby = 0;
+    this._webDService.mobile_verification(this._mobileverification).subscribe({
+      next: (response: any) => {
+        if (response.includes('otp_sent_success~')) {
+          const parts = response.split("~");
+          this.isOTPsent = true;
+          this.isverifybutton = true;
+          this.OTPValue = parts[1];
+          this._cdr.detectChanges();
+        } else if (response.includes('otp_verify')) {
+          this.OTPValue = '';
+          this.modalService.dismissAll();
+          this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
+          console.warn('otp_verify response:', response);
+        } else {
+          this.invalidOTP = true;
+        }
+      },
+      complete: () => { },
+      error: (err) => {
+        console.error('Mobile verification failed:', err);
+        // optional: Swal error toast here
+      }
     });
+    //   });
+    // });
   }
 
   hasError: boolean = false;
@@ -912,6 +954,23 @@ export class ProductComponent implements OnInit {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index; // default to 1 if invalid
       if (this._wizard_index > 0) {
         this._wizard_index--; // decrease only if > 1
+        if (this._wizard_index == 3) {
+          this.ScreenMaster.forEach((item: any, i: number) => item.isChecked = false);
+          this.timeArray?.clear();
+          this.TimeMaster = [];
+        } else if (this._wizard_index == 2) {
+          this.RouteMaster.forEach((item: any, i: number) => item.isChecked = false);
+          this.ScreenMaster = [];
+        }
+        else if (this._wizard_index == 1) {
+          this.PropertyMaster.forEach((item: any, i: number) => item.isChecked = false);
+          this.RouteMaster = [];
+        }
+        else if (this._wizard_index == 0) {
+          this.TypeMaster.forEach((item: any, i: number) => item.isChecked = false);
+          this.PropertyMaster = [];
+        }
+        this._cdr.detectChanges();
       }
     } else {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index;

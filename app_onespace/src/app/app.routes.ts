@@ -35,6 +35,8 @@ import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodify
 import { SignupmoduleComponent } from './authmodule/signupmodule/signupmodule.component';
 import { ManageordersComponent } from './adminmodeules/manageorders/manageorders.component';
 import { OrdermoduleComponent } from './adminmodeules/ordermodule/ordermodule.component';
+import { ThankyoumoduleComponent } from './thankyoumodule/thankyoumodule.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -86,6 +88,16 @@ export const routes: Routes = [
                 path: 'userregistration',
                 component: UserregistrationComponent,
                 title: 'User Registration',
+            },
+            {
+                path: 'thankyou/:order_id',
+                component: ThankyoumoduleComponent,
+                title: 'Thanks You',
+            },
+            {
+                path: 'invoice/:order_id',
+                component: InvoiceComponent,
+                title: 'Thanks You',
             },]
     },
     {
