@@ -37,6 +37,7 @@ import { ManageordersComponent } from './adminmodeules/manageorders/manageorders
 import { OrdermoduleComponent } from './adminmodeules/ordermodule/ordermodule.component';
 import { ThankyoumoduleComponent } from './thankyoumodule/thankyoumodule.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { WallettransactionComponent } from './adminmodeules/wallettransaction/wallettransaction.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -230,6 +231,11 @@ export const routes: Routes = [
                 path: 'orders',
                 component: OrdermoduleComponent,
                 title: 'Orders',
+            },
+            {
+                path: 'wallettransaction',
+                component: WallettransactionComponent,
+                title: 'wallet',
             },
         ]
     },

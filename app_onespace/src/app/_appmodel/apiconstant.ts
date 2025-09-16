@@ -284,5 +284,8 @@ export class ApiConstant {
         media_upload: "product/media_upload",
         remove_cart: "product/remove_cart",
         mobile_verification: "product/mobile_verification",
+        getwithdrawal_request: "product/getwithdrawal_request",
+        getwallet_transaction: "product/getwallet_transaction",
+        wallet_withdrawal_req: "product/wallet_withdrawal_req",
     }
 }

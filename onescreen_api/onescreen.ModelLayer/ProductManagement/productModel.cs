@@ -326,5 +326,26 @@ namespace onescreenModel.ProductManagement
         public string? createdname { get; set; }
         public Int64? createdby { get; set; }
     }
+
+    public class wallet_withdrawal : commonModel
+    {
+        public Int64? withdrawal_request_id { get; set; }
+        public Int64? vendor_id { get; set; }
+        public string? contact_person_name { get; set; }
+        public decimal? amount { get; set; }
+        public bool? is_approved { get; set; }
+        public string? comment { get; set; }
+    }
+
+    public class wallet_transaction : commonModel
+    {
+        public Int64? wallet_transaction_id { get; set; }
+        public decimal? previous_balance { get; set; }
+        public decimal? transaction_amount { get; set; }
+        public decimal? wallet_balance_amt { get; set; }
+        public Int64? credit_debit { get; set; }
+        public Int64? order_id { get; set; }
+        public Int64? vendor_id { get; set; }
+    }
 }
 

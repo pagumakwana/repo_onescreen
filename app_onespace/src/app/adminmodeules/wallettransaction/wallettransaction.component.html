@@ -1,0 +1,234 @@
+<!-- [ Main Content ] start -->
+<div class="row">
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">Wallet Balance</h4>
+                        <h4 class="mb-1 text-mutedx">5</h4>
+                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
+                    </div>
+                    <!-- <div class="flex-shrink-0">
+                        <div class="avtar avtar-l bg-light-primary rounded-circle">
+                            <i class="ph-duotone ph-book-bookmark f-28"></i>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h5 class="mb-1 fw-medium">Requested Amount</h5>
+                        <h4 class="mb-1 text-muted">6</h4>
+                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
+                    </div>
+                    <!-- <div class="flex-shrink-0">
+                        <div class="avtar avtar-l bg-light-success rounded-circle">
+                            <i class="ph-duotone ph-rocket f-28"></i>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">Total Transaction</h4>
+                        <h4 class="mb-1 text-muted">0</h4>
+                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
+                    </div>
+                    <!-- <div class="flex-shrink-0">
+                        <div class="avtar avtar-l bg-light-warning rounded-circle">
+                            <i class="ph-duotone ph-credit-card f-28"></i>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">0</h4>
+                        <h4 class="mb-1 text-muted">0</h4>
+                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
+                    </div>
+                    <!-- <div class="flex-shrink-0">
+                        <div class="avtar avtar-l bg-light-danger rounded-circle">
+                            <i class="ph-duotone ph-user-minus f-28"></i>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- [ sample-page ] start -->
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <ul class="nav nav-tabs checkout-tabs mb-0" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="ecomtab-tab-1" data-bs-toggle="tab" href="#ecomtab-1" role="tab"
+                            aria-controls="ecomtab-1" aria-selected="true">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s">
+                                        <i class="ph-duotone ph-subtitles"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="mb-0">Transaction Details</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="ecomtab-tab-2" data-bs-toggle="tab" href="#ecomtab-2" role="tab"
+                            aria-controls="ecomtab-2" aria-selected="false">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s">
+                                        <i class="ph-duotone ph-cardholder"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="mb-0">Withdrawal Transaction</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
+                <div class="row gy-4">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-bottom">
+                                <h5 class="mb-0">
+                                    Wallet Transaction Amount
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <webd-table #dataTableCom [config]='tableConfig'></webd-table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Personal Information-->
+            <div class="tab-pane" id="ecomtab-2" role="tabpanel" aria-labelledby="ecomtab-tab-2">
+                <div class="row gy-4">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
+                            <div class="card-body border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h5 class="mb-0">Wallet</h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-primary btn-sm" (click)="openModal()">Withdraw
+                                            Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <webd-table #walletdataTableCom [config]='wallettableConfig'></webd-table>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- [ sample-page ] end -->
+</div>
+<!-- [ Main Content ] end -->
+<!-- <ng-template #formModal let-modal> -->
+<!-- <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
+  (pay_order)="proceeds_payment($event)"></app-checkout> -->
+<swal #paysuccessSwal [swalOptions]="swalOptions" title="Order place successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
+<swal #failureSwal [swalOptions]="swalOptions"
+    title="Something went wrong. Please try again later. If the issue persists, kindly contact support." text=""
+    icon="warning" [showConfirmButton]="false">
+</swal>
+<!-- </ng-template> -->
+
+<swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+</swal>
+
+<swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas" aria-labelledby="couponOffcanvasLabel">
+
+    <div class="offcanvas-header">
+        <h5 id="couponOffcanvasLabel">Coupons</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+</div>
+
+<ng-template #formModal let-modal>
+    <form #myForm="ngForm">
+        <div class="modal-header">
+            <!-- <h4 class="modal-title" id="modal-basic-title">Coupon</h4> -->
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+            <form [formGroup] = "fgwallet">
+
+                <div class="row mb-6 justify-content-center">
+                    <div class="col-lg-6 fv-row">
+                        <label for="invoice_period" class="col-form-label fw-bold fs-8 text-center d-block">Enter
+                            Amount</label>
+                        <input type="text" class="form-control form-control-sm" id="invoice_period"
+                            name="invoice_period" placeholder="Amount" formControlName="amount">
+                    </div>
+                </div>
+                &nbsp;
+                <div class="col d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary btn-sm">
+                        Request
+                    </button>
+                </div>
+            </form>
+            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                [showConfirmButton]="false">
+            </swal>
+        </div>
+    </form>
+</ng-template>
