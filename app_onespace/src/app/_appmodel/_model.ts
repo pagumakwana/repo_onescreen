@@ -2280,3 +2280,28 @@ export interface update_user {
     createdname?: string
 
 }
+
+export interface wallet_withdrawal {
+    flag?: any,
+    withdrawal_request_id?: any,
+    vendor_id?: any,
+    contact_person_name?: any,
+    amount?: any,
+    is_approved?: any,
+    comment?: any,
+    createdby?: any,
+    createdname?: any,
+    updatedname?: any,
+    client_id?: any,
+    project_id?: any,
+}
+
+export interface wallet_transaction {
+    wallet_transaction_id?: any,
+    previous_balance?: any,
+    transaction_amount?: any,
+    wallet_balance_amt?: any,
+    credit_debit?: any,
+    order_id?: any,
+    vendor_id?: any
+}

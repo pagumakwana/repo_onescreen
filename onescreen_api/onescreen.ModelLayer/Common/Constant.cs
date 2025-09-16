@@ -212,6 +212,9 @@ namespace onescreenModel.Common
         public const string media_upload = "[dbo].[media_upload]";
         public const string mobile_verify = "[dbo].[mobile_verify]";
         public const string getconfig = "[dbo].[getconfig]";
+        public const string getwallet_withdrawal_req = "[dbo].[getwallet_withdrawal_req]";
+        public const string getwallettransaction = "[dbo].[getwallettransaction]";
+        public const string wallet_withdrawal_req = "[dbo].[wallet_withdrawal_req]";
         //END :: PRODUCT
     }
 }

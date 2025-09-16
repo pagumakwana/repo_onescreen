@@ -449,5 +449,56 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.mobile_verification(objuser_verification);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="withdrawal_request_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getwithdrawal_request")]
+        [HttpGet]
+        public responseModel getwithdrawal_request(string flag, Int64 withdrawal_request_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getwithdrawal_request(flag, withdrawal_request_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="wallet_transaction_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getwallet_transaction")]
+        [HttpGet]
+        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getwallet_transaction(flag, wallet_transaction_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objwallet_withdrawal"></param>
+        /// <returns></returns>
+        [Route("wallet_withdrawal_req")]
+        [HttpPost]
+        public string wallet_withdrawal_req(wallet_withdrawal objwallet_withdrawal)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.wallet_withdrawal_req(objwallet_withdrawal);
+            }
+        }
     }
 }
