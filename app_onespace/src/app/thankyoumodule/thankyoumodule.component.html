@@ -81,3 +81,35 @@
     </div>
   </div>
   
+<ng-template #formMediaModal let-modal>
+  <form [formGroup]="fgmedia" #mediaForm="ngForm">
+      <!-- <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div> -->
+      <div class="modal-body">
+          <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+              data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+              data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+              data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+          </div>
+          <div class="row mb-6">
+              <div class="col-lg-12 fv-row">
+                  <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                      [controlObject]="fgmedia.controls['thumbnail']" [fileConfig]="this.fileConfig['thumbnail']">
+                  </webd-mediauploader>
+              </div>
+
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+              <button class="btn btn-primary btn-sm" (click)="upload_media()">
+                  Submit
+              </button>
+          </div>
+          <swal #uploadsuccessSwal [swalOptions]="swalOptions" title="Upload successfully!" text="" icon="success"
+              [showConfirmButton]="false">
+          </swal>
+
+      </div>
+  </form>
+</ng-template>

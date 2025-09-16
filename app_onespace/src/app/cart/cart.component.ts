@@ -63,6 +63,7 @@ export class CartComponent implements OnInit {
     this.initform();
     this.get_cart();
     this.getcoupon();
+    this.loadShippingData();
   }
 
   initform() {
@@ -432,6 +433,9 @@ export class CartComponent implements OnInit {
         this._webDService.update_userdetails(this._updateuserdetail).subscribe((response: any) => {
           let isRedirect: boolean = true
           if (response === 'details added') {
+            this._base._encryptedStorage.set(enAppSession.address, this._updateuserdetail.address);
+            this._base._encryptedStorage.set(enAppSession.fullname, this._updateuserdetail.fullname);
+            this._base._encryptedStorage.set(enAppSession.email_id, this._updateuserdetail.email_id);
             this.detailupdated = true;
             this.place_order();
           }
@@ -448,6 +452,9 @@ export class CartComponent implements OnInit {
     this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
       this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
         this._base._encryptedStorage.get(enAppSession.address).then(address => {
+          console.log("fullname", fullname)
+          console.log("email_id", email_id)
+          console.log("address", address)
           this.fguser.patchValue({
             fullname: fullname || '',
             email_id: email_id || '',
