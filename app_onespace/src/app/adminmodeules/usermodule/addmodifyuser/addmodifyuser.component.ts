@@ -88,16 +88,17 @@ export class AddmodifyuserComponent {
     this.fgUser = this._fbUser.group({
       user_id: [0],
       fullname: ['', [Validators.required]],
-      username: [''],
+      // username: [''],
       email_id: ['', [Validators.required]],
       mobilenumber: ['', [Validators.required]],
       password: ['', [Validators.required]],
       website: [''],
-      dob: [''],
+      dob: [null],
       // lstproject: [''],
       lstauthority: [''],
       lstvendor:[''],
       bio: [''],
+      commission: [''],
       is_approved: [''],
       // project_id: [''],
       // projectname: [''],
@@ -147,7 +148,7 @@ export class AddmodifyuserComponent {
         this._userModel = userListData[0];
         this.isUserModify = true;
         this.fgUser.controls['fullname'].setValue(this._userModel.fullname);
-        this.fgUser.controls['username'].setValue(this._userModel.username);
+        // this.fgUser.controls['username'].setValue(this._userModel.username);
         this.fgUser.controls['email_id'].setValue(this._userModel.email_id);
         this.fgUser.controls['mobilenumber'].setValue(this._userModel.mobilenumber);
         this.fgUser.controls['password'].setValue(this._userModel.password);
@@ -155,6 +156,7 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['dob'].setValue(this._base._commonService.fromModeltoDate(this._userModel.dob));
         this.fgUser.controls['bio'].setValue(this._userModel.bio);
         this.fgUser.controls['website'].setValue(this._userModel.website);
+        this.fgUser.controls['commission'].setValue(this._userModel.commission);
         this.fgUser.controls['user_id'].setValue(this._userModel.user_id);
         this.fgUser.controls['lstauthority'].setValue(this._userModel.lstauthority);
         // this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
@@ -182,8 +184,9 @@ export class AddmodifyuserComponent {
           this._userModel.mobilenumber = this.fgUser.value.mobilenumber;
           this._userModel.password = this.fgUser.value.password;
           this._userModel.dob = `${travelldate.year}-${travelldate.month}-${travelldate.day}`;
-          this._userModel.bio = this.fgUser.value.bio;
-          this._userModel.website = this.fgUser.value.website;
+          this._userModel.bio = this.fgUser.value.bio || null;
+          this._userModel.website = this.fgUser.value.website || null;
+          this._userModel.commission = this.fgUser.value.commission;
           // this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
           this._userModel.lstvendor = this.fgUser.value.lstvendor;

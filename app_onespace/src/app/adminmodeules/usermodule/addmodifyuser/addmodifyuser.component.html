@@ -96,6 +96,18 @@
                                     </ng-container>
                                 </div> -->
                 </div>
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Vendor Commission</label>
+                  <input type="text" class="form-control  form-control-solid" id="commission" name="commission"
+                    placeholder="commission" formControlName="commission">
+                  <div
+                    *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['commission'].errors?.['required']">
+                      Bio is required.
+                    </ng-container>
+                  </div>
+                </div>
                 <!-- <div class="col-lg-3 mb-3">
                   <label class="form-label">Project</label>
                   <webd-multiselect [data]="lstProject" class="col-sm-3 col-form-label" textField='projectname'
@@ -117,9 +129,8 @@
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Vendor</label>
                   <webd-multiselect [data]="lstVendor" class="col-sm-3 col-form-label" textField='contact_person_name'
-                    valueField='vendor_id' [formControl]="fgUser?.controls?.lstvendor"
-                    placeholder="Select vendor" [config]="_configVendor"
-                    (onSelection)="onVendorSelect($event)">
+                    valueField='vendor_id' [formControl]="fgUser?.controls?.lstvendor" placeholder="Select vendor"
+                    [config]="_configVendor" (onSelection)="onVendorSelect($event)">
                   </webd-multiselect>
                 </div>
                 <div class="col-lg-4 mb-3 form-check">

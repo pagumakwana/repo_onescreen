@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
-import { wallet_transaction, wallet_withdrawal } from '../../_appmodel/_model';
-import { dataTableConfig } from '../../_appmodel/_componentModel';
+import { wallet_master, wallet_transaction, wallet_withdrawal } from '../../_appmodel/_model';
+import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { NgbModal, NgbModalModule, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { enAppSession } from '../../_appmodel/sessionstorage';
+import settlements from 'razorpay/dist/types/settlements';
 
 @Component({
   selector: 'app-wallettransaction',
@@ -22,20 +23,18 @@ import { enAppSession } from '../../_appmodel/sessionstorage';
 export class WallettransactionComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   @ViewChild('walletdataTableCom', { static: false }) wallettableObj!: WebdtableComponent;
+
+  @ViewChild('approveSwal')
+  public readonly approveSwal!: SwalComponent;
+
+  @ViewChild('rejectSwal')
+  public readonly rejectSwal!: SwalComponent;
+
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  @ViewChild('removecouponSwal')
-  public readonly removecouponSwal!: SwalComponent;
-
-  @ViewChild('deleteSwal')
-  public readonly deleteSwal!: SwalComponent;
-
-  @ViewChild('delsuccessSwal')
-  public readonly delsuccessSwal!: SwalComponent;
-
-  @ViewChild('invalidcodeSwal')
-  public readonly invalidcodeSwal!: SwalComponent;
+  @ViewChild('requestsuccSwal')
+  public readonly requestsuccSwal!: SwalComponent;
 
   @ViewChild('failureSwal')
   public readonly failureSwal!: SwalComponent;
@@ -57,9 +56,11 @@ export class WallettransactionComponent {
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   _wallettransaction: wallet_transaction = {};
   _walletwithdrawal: wallet_withdrawal = {};
+  _walletmaster: wallet_master = {};
 
   transactionMaster: any = [];
   withdrawalMaster: any = [];
+  walletMaster: any = [];
   fgwallet!: FormGroup;
 
   constructor(public _base: BaseServiceHelper,
@@ -72,6 +73,7 @@ export class WallettransactionComponent {
     this.initform();
     this.getwallettransaction();
     this.getwalletwithdrawal();
+    this.getwalletmaster();
   }
 
   initform() {
@@ -105,30 +107,20 @@ export class WallettransactionComponent {
     }
   }
 
-  // wallettableConfig: dataTableConfig = {
-  //   tableData: [],
-  //   tableConfig: [
-  //     { identifer: "createddatetime", title: "Date", type: "date" },
-  //     { identifer: "contact_person_name", title: "Vendor Name", type: "text" },
-  //     { identifer: "is_approved", title: "Status", type: "text" },
-  //     { identifer: "createdname", title: "Requested Name", type: "text" },
-  //     { identifer: "updatedname", title: "Updated Name", type: "text" },
-  //     { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Apporve', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Reject', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
-
-  //   isCustom: {
-  //     current: 0,
-  //     steps: 10,
-  //     total: 0,
-  //     callbackfn: this.getwalletwithdrawal.bind(this)
-  //   }
-  // }
-
+  tableClick(dataItem: tableEvent) {
+    if (dataItem.action?.type == 'link' || (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Approve")) {
+      console.log(dataItem.tableItem)
+      this.approveRequest(dataItem.tableItem, 'approved');
+    } else if (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Reject") {
+      this.approveRequest(dataItem.tableItem, 'rejected');
+    }
+  }
   wallettableConfig: dataTableConfig = {
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "contact_person_name", title: "Vendor Name", type: "text" },
-      { identifer: "is_approved", title: "Status", type: "statusIcon" }, // 👈 custom type
+      // { identifer: "is_approved", title: "Status", type: "text" }, // 👈 custom type
       { identifer: "createdname", title: "Requested Name", type: "text" },
       { identifer: "updatedname", title: "Updated Name", type: "text" },
       {
@@ -136,8 +128,8 @@ export class WallettransactionComponent {
         title: "Action",
         type: "buttonIcons",
         buttonIconList: [
-          { title: 'Approve', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' },
-          { title: 'Reject', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }
+          { title: 'Approve', class: 'avtar avtar-s btn btn-primary', iconClass: 'fa fa-check' },
+          { title: 'Reject', class: 'avtar avtar-s btn btn-danger', iconClass: 'fa fa-times' }
         ]
       }
     ],
@@ -172,11 +164,19 @@ export class WallettransactionComponent {
     this._webDService.getwithdrawal_request('all', 0, parseInt(start), parseInt(end)).subscribe((reswithdrawalMaster: any) => {
       this.withdrawalMaster = reswithdrawalMaster.data;
       this.withdrawalMaster = Array.isArray(reswithdrawalMaster.data) ? reswithdrawalMaster.data : [];
-      if (this.wallettableConfig?.isCustom) {
-        this.wallettableConfig.isCustom.total = reswithdrawalMaster.count;
-      }
-      this.wallettableConfig.tableData = this.withdrawalMaster;
-      this.wallettableObj.initializeTable();
+      // if (this.wallettableConfig?.isCustom) {
+      //   this.wallettableConfig.isCustom.total = reswithdrawalMaster.count;
+      // }
+      // this.wallettableConfig.tableData = this.withdrawalMaster;
+      // this.wallettableObj.initializeTable();
+      this._cdr.detectChanges();
+    });
+  }
+
+  getwalletmaster() {
+    this._webDService.getwalletmaster('all', 0,0,0).subscribe((reswalletMaster: any) => {
+      this.walletMaster = reswalletMaster.data;
+      this.walletMaster = Array.isArray(reswalletMaster.data) ? reswalletMaster.data : [];
       this._cdr.detectChanges();
     });
   }
@@ -199,24 +199,82 @@ export class WallettransactionComponent {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._walletwithdrawal.flag = 'request'
+        this._walletwithdrawal.wallet_master_id = this.walletMaster[0]?.wallet_master_id;
+        this._walletwithdrawal.vendor_id = parseInt(user_id);
         this._walletwithdrawal.createdname = fullname;
         this._walletwithdrawal.createdby = parseInt(user_id);
-        this._webDService.wallet_withdrawal_req(this._walletwithdrawal).subscribe((response: any) => {
-          let isRedirect: boolean = true
-          if (response === 'Request accepted') {
-            isRedirect = false;
-          }
-
-          if (isRedirect && flag) {
-            setTimeout(() => {
-              // this.saveSwal.fire()
+        this._webDService.wallet_withdrawal_req(this._walletwithdrawal).subscribe({
+          next: (response: any) => {
+            if (response === 'Request accepted') {
               setTimeout(() => {
-                this._base._router.navigate(['/app/manageproduct']);
-                location.reload();
-              }, 1500);
+                this.requestsuccSwal.fire();
+                setTimeout(() => {
+                  this.requestsuccSwal.close()
+                  location.reload();
+                }, 1500);
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                this.failureSwal.fire();
+                setTimeout(() => {
+                  this.failureSwal.close();
+                  location.reload();
+                }, 1500);
+              }, 1000);
+            }
+          },
+          error: () => {
+            setTimeout(() => {
+              this.failureSwal.fire();
+              setTimeout(() => this.failureSwal.close(), 1500);
             }, 1000);
           }
         });
+      });
+    });
+  }
+
+  approveRequest(data: any, flag: string) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+
+        this._walletwithdrawal = {};
+        this._walletwithdrawal.withdrawal_request_id = parseInt(data);
+        this._walletwithdrawal.wallet_master_id = this.walletMaster[0]?.wallet_master_id;
+        this._walletwithdrawal.createdby = user_id;
+        this._walletwithdrawal.createdname = fullname;
+        this._walletwithdrawal.flag = flag;
+        if (flag === 'approved') {
+          this.approveSwal.fire().then((clicked) => {
+            if (clicked.isConfirmed) {
+              this._webDService.wallet_withdrawal_req(this._walletwithdrawal).subscribe((resStatus: any) => {
+                if (resStatus === 'Approved') {
+                  this.successSwal.fire();
+                  setTimeout(() => {
+                    this.successSwal.close();
+                    location.reload();
+                    this._cdr.detectChanges();
+                  }, 500);
+                }
+              });
+            }
+          });
+        } else if (flag === 'rejected') {
+          this.rejectSwal.fire().then((clicked) => {
+            if (clicked.isConfirmed) {
+              this._webDService.wallet_withdrawal_req(this._walletwithdrawal).subscribe((response: any) => {
+                if (response === 'Rejected') {
+                  this.successSwal.fire();
+                  setTimeout(() => {
+                    this.successSwal.close();
+                    location.reload();
+                    this._cdr.detectChanges();
+                  }, 500);
+                }
+              });
+            }
+          });
+        }
       });
     });
   }

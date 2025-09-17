@@ -287,5 +287,6 @@ export class ApiConstant {
         getwithdrawal_request: "product/getwithdrawal_request",
         getwallet_transaction: "product/getwallet_transaction",
         wallet_withdrawal_req: "product/wallet_withdrawal_req",
+        getwalletmaster: "product/getwalletmaster"
     }
 }

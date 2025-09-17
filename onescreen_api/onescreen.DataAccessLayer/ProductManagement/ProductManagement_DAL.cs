@@ -1936,8 +1936,9 @@ namespace onescreenDAL.ProductManagement
                               withdrawal_request_id = Row.Field<Int64>("withdrawal_request_id"),
                               vendor_id = Row.Field<Int64>("vendor_id"),
                               contact_person_name = Row.Field<string>("contact_person_name"),
-                              is_approved = Row.Field<bool>("is_approved"),
-                              comment = Row.Field<string>("from_date"),
+                              is_approved = Row.Field<Int64>("is_approved"),
+                              wallet_master_id = Row.Field<Int64>("wallet_master_id"),
+                              comment = Row.Field<string>("comment"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -2032,6 +2033,8 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@withdrawal_request_id", objwallet_withdrawal.withdrawal_request_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@wallet_master_id", objwallet_withdrawal.wallet_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@amount", objwallet_withdrawal.amount, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@vendor_id", objwallet_withdrawal.vendor_id, DbType.Int64);
@@ -2062,6 +2065,61 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@wallet_master_id", wallet_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getwalletmaster, ObJParameterCOl, CommandType.StoredProcedure);
+                List<wallet_master> lstwalletmaster = new List<wallet_master>();
+                if (ds != null)
+                {
+
+                    lstwalletmaster = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new wallet_master
+                          {
+                              wallet_master_id = Row.Field<Int64>("wallet_master_id"),
+                              vendor_id = Row.Field<Int64>("vendor_id"),
+                              balance_amount = Row.Field<decimal>("balance_amount"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstwalletmaster;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void Dispose() 
         { 
         }
