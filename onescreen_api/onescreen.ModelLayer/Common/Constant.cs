@@ -215,6 +215,7 @@ namespace onescreenModel.Common
         public const string getwallet_withdrawal_req = "[dbo].[getwallet_withdrawal_req]";
         public const string getwallettransaction = "[dbo].[getwallettransaction]";
         public const string wallet_withdrawal_req = "[dbo].[wallet_withdrawal_req]";
+        public const string getwalletmaster = "[dbo].[getwalletmaster]";
         //END :: PRODUCT
     }
 }

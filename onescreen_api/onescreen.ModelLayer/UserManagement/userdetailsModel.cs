@@ -24,6 +24,7 @@ namespace onescreenModel.UserManagement
         public Nullable<bool> is_approved { get; set; }
         public Int64 vendor_id { get; set; }
         public string? contact_person_name { get; set; }
+        public string? commission { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
         public List<vendoruserModel> lstvendor { get; set; }
         public string password { get; set; }

@@ -333,7 +333,8 @@ namespace onescreenModel.ProductManagement
         public Int64? vendor_id { get; set; }
         public string? contact_person_name { get; set; }
         public decimal? amount { get; set; }
-        public bool? is_approved { get; set; }
+        public Int64? wallet_master_id { get; set; }
+        public Int64? is_approved { get; set; }
         public string? comment { get; set; }
     }
 
@@ -346,6 +347,13 @@ namespace onescreenModel.ProductManagement
         public Int64? credit_debit { get; set; }
         public Int64? order_id { get; set; }
         public Int64? vendor_id { get; set; }
+    }
+
+    public class wallet_master : commonModel
+    {
+        public Int64? wallet_master_id { get; set; }
+        public Int64? vendor_id { get; set; }
+        public decimal? balance_amount { get; set; }
     }
 }
 
