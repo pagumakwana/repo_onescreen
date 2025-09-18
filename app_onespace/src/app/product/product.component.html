@@ -134,6 +134,11 @@
                                                 <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
+                                                <i class="ph-duotone ph-info" role="button"
+                                                    data-bs-toggle="popover" data-bs-trigger="focus"
+                                                    data-bs-title="Popover title"
+                                                    data-bs-content="This is the popover content.">
+                                                </i>
                                             </li>
                                         </ul>
 
@@ -165,7 +170,7 @@
                                                         <div class="col-lg-6">
                                                             <label for="screen_repetition_id_{{i+1}}"
                                                                 class="form-label">Screen
-                                                                Repetition : INR
+                                                                Repetition : INR <i class="ph-duotone ph-info ms-2"></i>
                                                                 {{_objPass.controls['repetition_price'].value}}</label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onRepetitionChange($event,i)">
@@ -216,7 +221,7 @@
                                                         <div class="col-lg-6">
                                                             <label for="interval_id_{{i+1}}" class="form-label">Screen
                                                                 Interval
-                                                                : INR
+                                                                : INR <i class="ph-duotone ph-info ms-2"></i>
                                                                 {{_objPass.controls['interval_price'].value}}</label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onIntervalChange($event,i)">
@@ -251,7 +256,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-lg-6">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
-                                                                :</label>
+                                                                :</label> <i class="ph-duotone ph-info ms-2"></i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #from_date="ngbDatepicker"
@@ -277,7 +282,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
-                                                                :</label>
+                                                                :</label> <i class="ph-duotone ph-info ms-2"></i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #to_date="ngbDatepicker"
@@ -389,7 +394,7 @@
             <div class="mb-3" *ngIf="this.isOTPsent">
                 <label class="form-label fw-bold">OTP</label>
                 <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
-                onkeypress="return /[0-9]/i.test(event.key)"  maxlength="6" formControlName="otp_code" required>
+                    onkeypress="return /[0-9]/i.test(event.key)" maxlength="6" formControlName="otp_code" required>
                 <div *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
                     class="text-danger">
                     <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
