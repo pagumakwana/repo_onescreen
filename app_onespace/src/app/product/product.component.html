@@ -134,10 +134,9 @@
                                                 <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
-                                                <i class="ph-duotone ph-info" role="button"
-                                                    data-bs-toggle="popover" data-bs-trigger="focus"
-                                                    data-bs-title="Popover title"
-                                                    data-bs-content="This is the popover content.">
+                                                
+                                                <i class="ph-duotone ph-info" ngbPopover="This is the popover content"
+                                                     triggers="click" placement="right" popoverClass="custom-popover">
                                                 </i>
                                             </li>
                                         </ul>

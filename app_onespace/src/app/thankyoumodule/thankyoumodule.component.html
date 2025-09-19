@@ -3,7 +3,7 @@
       <div class="checkmark">✓</div>
       <h1>Thank You!</h1>
       <p>Your order has been received successfully. please upload your media.</p>
-      <a href="/" class="btn-home">Download Invoice</a>
+      <button class="btn-home">Download Invoice</button>
       <br/>
       <div class="table-responsive">
         <table class="table table-hover tbl-product" id="pc-dt-simple">
@@ -66,7 +66,7 @@
                     <td>{{_obj.media_comments}}</td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center align-items-center gap-2">
-                            <a (click)="openvideo(_obj.thumbnail)"
+                            <a (click)="viewinvoice()"
                                 class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
                                 <i class="ti ti-eye f-18"></i>
                             </a>

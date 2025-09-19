@@ -10,6 +10,8 @@ import { fileChoosenDataModel, fileConfigModel, media_upload, SaveModuleFileMode
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { SweetAlertOptions } from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-thankyoumodule',
@@ -25,7 +27,8 @@ export class ThankyoumoduleComponent implements OnInit {
     private _cdr: ChangeDetectorRef,
     public _fbmedia: FormBuilder,
     private _activatedRouter: ActivatedRoute,
-    private _modalService: NgbModal) {
+    private _modalService: NgbModal,
+    private http: HttpClient) {
   }
 
   @ViewChild('successSwal')
@@ -66,12 +69,12 @@ export class ThankyoumoduleComponent implements OnInit {
       fileextension: '',
     }
   }
-  
+
   public modalRef!: NgbModalRef;
   modalConfig: NgbModalOptions = {
     modalDialogClass: 'modal-dialog modal-dialog-centered mw-650px',
   };
-  
+
   _media_upload: media_upload = {}
   order_id: any = 0;
   public pendingMedia: any = [];
@@ -92,9 +95,9 @@ export class ThankyoumoduleComponent implements OnInit {
     });
   }
 
-  get_pendingmediaupload(order_id:any=0) {
+  get_pendingmediaupload(order_id: any = 0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
-      this._webDService.getpendingmediaupload(user_id,order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
+      this._webDService.getpendingmediaupload(user_id, order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
         this.pendingMedia = respendingMedia.data;
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
         this._cdr.detectChanges();
@@ -240,6 +243,42 @@ export class ThankyoumoduleComponent implements OnInit {
       }
     }
     return arrayReturn
+  }
+
+  viewinvoice() {
+    this._base._router.navigate(['invoice/12']);
+  }
+
+  isDownloading: boolean = false;
+  downloadPDF() {
+    const element = document.getElementById('invoiceSection');
+    if (!element) {
+      console.error('Invoice section not found!');
+      return;
+    }
+
+    this.isDownloading = true;
+
+    const options = {
+      margin: [0.5, 0.5, 0.5, 0.5], // top, left, bottom, right (inches)
+      filename: `Invoice_${this.order_id}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true }, // ensures better quality
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf()
+      .set(options)
+      .from(element)
+      .save()
+      .then(() => {
+        this.isDownloading = false;
+        this._cdr.detectChanges();
+      })
+      .catch(err => {
+        console.error('PDF Download Error:', err);
+        this.isDownloading = false;
+      });
   }
 
 }
