@@ -17,3 +17,8 @@
     color: #fff;
   }
   
+  ::ng-deep .custom-popover {
+  max-width: 300px;   /* Adjust width */
+  font-size: 14px;    /* Adjust text size */
+  padding: 10px;      /* Adjust padding */
+}

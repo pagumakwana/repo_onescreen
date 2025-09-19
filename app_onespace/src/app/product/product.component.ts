@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AuthService } from '../authmodule/_authservice/auth.service';
 import { first } from 'rxjs';
+// import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-product',
@@ -29,6 +30,13 @@ export class ProductComponent implements OnInit {
 
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
+
+  // ngAfterViewInit(): void {
+  //   const popoverTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="popover"]'));
+  //   popoverTriggerList.forEach(el => {
+  //     new bootstrap.Popover(el);
+  //   });
+  // }
 
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
