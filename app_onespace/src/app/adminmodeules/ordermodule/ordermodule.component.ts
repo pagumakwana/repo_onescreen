@@ -41,9 +41,9 @@ export class OrdermoduleComponent {
   }
 
   orderdetail: any = [];
- 
+
   ngOnInit(): void {
-    
+
     this.getOderDetails();
   }
 
@@ -51,7 +51,7 @@ export class OrdermoduleComponent {
     tableData: [],
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "order_number", title: "Order Number", type: "text" },
+      { identifer: "order_number", title: "Order Number", type: "link"},
       { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
       { identifer: "order_total", title: "Total Amount", type: "text" },
@@ -66,12 +66,20 @@ export class OrdermoduleComponent {
     }
   }
 
+  // tableClick(dataItem: tableEvent) {
+  //   if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "View")) {
+  //      this._router.navigate(['/app/uploadmedia',dataItem?.tableItem?.order_id]);
+  //   }
+  // }
+
   tableClick(dataItem: tableEvent) {
-    if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "View")) {
-       this._router.navigate(['/app/uploadmedia',dataItem?.tableItem?.order_id]);
+    if (dataItem?.action?.type === 'link' && dataItem?.tableItem?.order_id) {
+      this._router.navigate(['/app/invoice', dataItem.tableItem.order_id]); 
+    } else if (dataItem?.action?.type === 'buttonIcons' && dataItem.actionInfo.title === "View") {
+      this._router.navigate(['/app/uploadmedia', dataItem?.tableItem?.order_id]);
     }
   }
-  
+
   selectedVideoUrl: string | null = null;
   openvideo(videoUrl: string) {
     this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';

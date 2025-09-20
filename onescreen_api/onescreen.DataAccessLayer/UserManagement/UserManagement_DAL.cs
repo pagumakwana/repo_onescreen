@@ -228,7 +228,7 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@vendor_id", objclsUserManagement.vendor_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.String);
+                objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -272,7 +272,32 @@ namespace onescreenDAL.UserManagement
                                     objDbHelper1.ExecuteScalar(Constant.mapauthorityuser, ObJParameterCOl2, CommandType.StoredProcedure);
                                 });
                             }
-                            
+
+                            if ((objclsUserManagement.lstproduct != null && objclsUserManagement.lstproduct.Count > 0))
+                            {
+                                objclsUserManagement.lstproduct.ForEach(userproduct =>
+                                {
+                                    userproduct.user_id = objclsUserManagement.user_id;
+                                    userproduct.product_id = userproduct.product_id;
+                                    userproduct.project_id = project_id;
+                                    userproduct.client_id = client_id;
+                                    userproduct.createdby = objclsUserManagement.user_id;
+                                    userproduct.createdname = objclsUserManagement.createdname;
+                                    userproduct.createddatetime = DateTime.Now;
+                                    userproduct.isactive = true;
+                                    userproduct.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objclsUserManagement.lstproduct);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_UserProductMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserproduct, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+
                             if ((objclsUserManagement.filemanager != null && objclsUserManagement.filemanager.Count > 0))
                             {
                                 objclsUserManagement.filemanager.ForEach(filemanager =>
@@ -345,6 +370,7 @@ namespace onescreenDAL.UserManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getuserdetail, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstuser = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
+                List<productuserModel> lstproduct = new List<productuserModel>();
                 List<vendoruserModel> lstvendor = new List<vendoruserModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 responseModel lstresponse = new responseModel();
@@ -372,9 +398,19 @@ namespace onescreenDAL.UserManagement
                                     contact_person_name = Row.Field<string>("contact_person_name")
                                 }).ToList();
                         }
+
                         if (ds.Tables[2].Rows.Count > 0)
                         {
-                            lstFileinfo = ds.Tables[2].AsEnumerable().Select(Row =>
+                            lstproduct = ds.Tables[2].AsEnumerable().Select(Row =>
+                                new productuserModel
+                                {
+                                    product_id = Row.Field<Int64>("product_id"),
+                                    product_name = Row.Field<string>("product_name")
+                                }).ToList();
+                        }
+                        if (ds.Tables[3].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[3].AsEnumerable().Select(Row =>
                                 new fileInfoModel
                                 {
                                     ref_id = Row.Field<Int64>("ref_id"),
@@ -390,9 +426,9 @@ namespace onescreenDAL.UserManagement
                                 }).ToList();
                         }
                     }
-                    if (ds.Tables[flag == "Detail" ? 3 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 4 : 0].Rows.Count > 0)
                     {
-                        lstuser = ds.Tables[flag == "Detail" ? 3 : 0].AsEnumerable().Select(Row =>
+                        lstuser = ds.Tables[flag == "Detail" ? 4 : 0].AsEnumerable().Select(Row =>
                       new userManagementModel
                       {
                           user_id = Row.Field<Int64>("user_id"),
@@ -407,7 +443,7 @@ namespace onescreenDAL.UserManagement
                           is_approved = Row.Field<bool>("is_approved"),
                           password = Row.Field<string>("password"),
                           profilepicture = Row.Field<string>("profilepicture"),
-                          commission = Row.Field<string>("commission"),
+                          commission = Row.Field<Int64>("commission"),
                           isactive = Row.Field<bool>("isactive"),
                           createdby = Row.Field<Int64?>("createdby"),
                           createdname = Row.Field<string>("createdname"),
@@ -417,11 +453,12 @@ namespace onescreenDAL.UserManagement
                           updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                           lstauthority = lstauthority,
                           lstvendor = lstvendor,
+                          lstproduct = lstproduct
                       }).ToList();
                     }
-                    if (ds.Tables[flag == "Detail" ? 4 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 5 : 1].Rows.Count > 0)
                     {
-                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 4 : 1].Rows[0]["RESPONSE"].ToString());
+                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 5 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     lstresponse.data = lstuser;
                 }

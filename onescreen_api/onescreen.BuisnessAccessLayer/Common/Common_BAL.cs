@@ -48,6 +48,14 @@ namespace onescreen.BuisnessAccessLayer.Common
                 return _objCommon_DAL.getdashboardwidget(flag, user_id);
             }
         }
+
+        public responseModel getwalletwidget(Int64 user_id)
+        {
+            using (Common_DAL _objCommon_DAL = new Common_DAL(_httpContextAccessor, _hostingEnvironment))
+            {
+                return _objCommon_DAL.getwalletwidget(user_id);
+            }
+        }
         public void Dispose()
         {
             //throw new NotImplementedException();

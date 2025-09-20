@@ -680,5 +680,12 @@ export class WebDService {
      public getwalletmaster(flag = 'all', wallet_master_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getwalletmaster}?flag=${flag}&wallet_master_id=${wallet_master_id}&start_count=${start_count}&end_count=${end_count}`);
     }
+
+     public getinvoicedetails(order_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getinvoicedetails}?order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getwalletwidget(user_id = 0) {
+        return this._base._apiService.get(`${ApiConstant.common.getwalletwidget}?user_id=${user_id}`);
+    }
     
 }

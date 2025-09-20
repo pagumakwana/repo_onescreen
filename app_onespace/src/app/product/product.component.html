@@ -134,10 +134,6 @@
                                                 <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
-                                                
-                                                <i class="ph-duotone ph-info" ngbPopover="This is the popover content"
-                                                     triggers="click" placement="right" popoverClass="custom-popover">
-                                                </i>
                                             </li>
                                         </ul>
 
@@ -169,7 +165,11 @@
                                                         <div class="col-lg-6">
                                                             <label for="screen_repetition_id_{{i+1}}"
                                                                 class="form-label">Screen
-                                                                Repetition : INR <i class="ph-duotone ph-info ms-2"></i>
+                                                                Repetition : INR <i class="ph-duotone ph-info"
+                                                                    ngbPopover="This is the popover content"
+                                                                    triggers="click" placement="right"
+                                                                    popoverClass="custom-popover">
+                                                                </i>
                                                                 {{_objPass.controls['repetition_price'].value}}</label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onRepetitionChange($event,i)">
@@ -220,7 +220,11 @@
                                                         <div class="col-lg-6">
                                                             <label for="interval_id_{{i+1}}" class="form-label">Screen
                                                                 Interval
-                                                                : INR <i class="ph-duotone ph-info ms-2"></i>
+                                                                : INR <i class="ph-duotone ph-info"
+                                                                    ngbPopover="This is the popover content"
+                                                                    triggers="click" placement="right"
+                                                                    popoverClass="custom-popover">
+                                                                </i>
                                                                 {{_objPass.controls['interval_price'].value}}</label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onIntervalChange($event,i)">
@@ -255,7 +259,11 @@
                                                     <div class="row mb-3">
                                                         <div class="col-lg-6">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
-                                                                :</label> <i class="ph-duotone ph-info ms-2"></i>
+                                                                :</label> <i class="ph-duotone ph-info"
+                                                                ngbPopover="This is the popover content"
+                                                                triggers="click" placement="right"
+                                                                popoverClass="custom-popover">
+                                                            </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #from_date="ngbDatepicker"
@@ -281,7 +289,11 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
-                                                                :</label> <i class="ph-duotone ph-info ms-2"></i>
+                                                                :</label> <i class="ph-duotone ph-info"
+                                                                ngbPopover="This is the popover content"
+                                                                triggers="click" placement="right"
+                                                                popoverClass="custom-popover">
+                                                            </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #to_date="ngbDatepicker"

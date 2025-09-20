@@ -1,24 +1,25 @@
-<div class="card shadow-none bg-body mb-0">
-  <div class="card-body">
-    <div class="card">
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-12">
-            <div class="row align-items-center g-3">
-              <div class="col-sm-6">
-                <div class="d-flex align-items-center mb-2">
-                  <img src="../../../assets/images/onescreen_logo.png" class="img-fluid" alt="images">
-                  <span class="badge bg-primary rounded-pill ms-2">Paid</span>
-                </div>
-                <p class="mb-0">INV - 000457</p>
-              </div>
-              <div class="col-sm-6 text-sm-end">
-                <h6>Date <span class="text-muted f-w-400">03/8/2023</span></h6>
-                <h6>Due Date <span class="text-muted f-w-400">10/8/2023</span></h6>
-              </div>
+<!-- <div class="card shadow-none bg-body mb-0">
+  <div class="card-body"> -->
+<div class="card">
+  <div class="card-body" id="invoiceSection">
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="row align-items-center g-3">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center mb-2">
+              <img src="../../../assets/images/onescreen_logo.png" class="img-fluid" alt="images">
+              <!-- <span class="badge bg-primary rounded-pill ms-2">Paid</span> -->
             </div>
+            <!-- <p class="mb-0">INV - 000457</p> -->
           </div>
-          <!-- <div class="col-sm-6">
+          <div class="col-sm-6 text-sm-end">
+            <h6>Date : <span class="text-muted f-w-400">{{invoicedetailsmaster?.createddatetime |
+                date:'dd/MM/yyyy'}}</span></h6>
+            <h6>Invoice# : <span class="text-muted f-w-400">INV-000457</span></h6>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-sm-6">
             <div class="border rounded p-3">
               <h6 class="mb-0">From:</h6>
               <h5>Garcia-Cameron and Sons</h5>
@@ -27,119 +28,112 @@
               <p class="mb-0">brandon07</p>
             </div>
           </div> -->
-          <div class="col-sm-6">
-            <div class="border rounded p-3">
-              <h6 class="mb-0">To:</h6>
-              <h5>Dickinson-Cummerata</h5>
-              <p class="mb-0">55D Leatha Way Ernaburgh, NT 2146</p>
-              <p class="mb-0">75-9079921</p>
-              <p class="mb-0">kasandra</p>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="table-responsive">
-              <table class="table table-hover mb-0">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Total Amount</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mauris</td>
-                    <td>Malesuada adipiscing</td>
-                    <td>$80.00</td>
-                    <td>2</td>
-                    <td>$160.00</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Vitae</td>
-                    <td>Hac egestas</td>
-                    <td>$40.00</td>
-                    <td>3</td>
-                    <td>$120.00</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Mauris</td>
-                    <td>Malesuada adipiscing</td>
-                    <td>$80.00</td>
-                    <td>4</td>
-                    <td>$320.00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="text-start">
-              <hr class="mb-2 mt-1">
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="invoice-total ms-auto">
-              <div class="row">
-                <div class="col-6">
+      <div class="col-sm-6">
+        <div class="border rounded p-3">
+          <h6 class="mb-0">To:</h6>
+          <h5>{{invoicedetailsmaster?.fullname}}</h5>
+          <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
+          <!-- <p class="mb-0">75-9079921</p>
+              <p class="mb-0">kasandra</p> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <!-- <th>Description</th> -->
+                <!-- <th>Total Amount</th> -->
+                <!-- <th>Qty</th> -->
+                <th>SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of invoicedetailsmaster?.optionvalues; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  {{ invoicedetailsmaster?.product_name }}
+                  <p class="text-sm text-muted mb-0">
+                    Base Price - {{ item?.base_amount }} <br />
+                    {{ item?.timeslot_category }} - ₹{{ item?.timeslot_price }} <br />
+                    {{ item?.repetition_category }} - ₹{{ item?.repetition_price }} <br />
+                    {{ item?.interval_category }} - ₹{{ item?.interval_price }} <br />
+                    {{ item?.from_date | date:'dd/MM/yyyy' }} to {{ item?.to_date | date:'dd/MM/yyyy' }}
+                  </p>
+                </td>
+                <!-- <td>{{ item.description }}</td> -->
+                <!-- <td>₹{{ item.base_amount }}</td> -->
+                <!-- <td>{{ item.quantity }}</td> -->
+                <td>₹{{ item.total_amount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-start">
+          <hr class="mb-2 mt-1">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="invoice-total ms-auto">
+          <div class="row">
+            <!-- <div class="col-6">
                   <div class="mb-3">
                     <label class="form-label">Discount</label>
-                    <h5>10</h5>
+                    <h5>{{invoicedetailsmaster?.order_discount}}</h5>
                   </div>
                 </div>
                 <div class="col-6 text-end">
                   <div class="mb-3">
                     <label class="form-label">Taxes</label>
-                    <h5>5</h5>
+                    <h5>{{invoicedetailsmaster?.order_tax}}</h5>
                   </div>
-                </div>
-                <div class="col-6">
-                  <p class="text-muted mb-1 text-start">Sub Total :</p>
-                </div>
-                <div class="col-6">
-                  <p class="f-w-600 mb-1 text-end">₹20.00</p>
-                </div>
-                <div class="col-6">
-                  <p class="text-muted mb-1 text-start">Discount :</p>
-                </div>
-                <div class="col-6">
-                  <p class="f-w-600 mb-1 text-end text-success">₹10.00</p>
-                </div>
-                <div class="col-6">
-                  <p class="text-muted mb-1 text-start">Taxes :</p>
-                </div>
-                <div class="col-6">
-                  <p class="f-w-600 mb-1 text-end">₹5.000</p>
-                </div>
-                <div class="col-6">
-                  <p class="f-w-600 mb-1 text-start">Grand Total :</p>
-                </div>
-                <div class="col-6">
-                  <p class="f-w-600 mb-1 text-end">₹25.00</p>
-                </div>
-              </div>
+                </div> -->
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Sub Total :</p>
             </div>
-          </div>
-          <div class="col-12">
-            <label class="form-label">Note</label>
-            <p class="mb-0">It was a pleasure working with you and your team. We hope you will keep us in mind for
-              future freelance
-              projects. Thank You!</p>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.order_subtotal}}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Discount :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end text-success">₹{{invoicedetailsmaster?.order_discount}}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Taxes :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.order_tax}}</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-start">Grand Total :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.order_total}}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row d-print-none align-items-center justify-content-end">
-      <div class="col-auto btn-page">
-        <button class="btn btn-primary btn-print-invoice">Print</button>
-        <button class="btn btn-outline-secondary btn-print-invoice">Download</button>
+      <div class="col-12">
+        <label class="form-label">Note</label>
+        <p class="mb-0">It was a pleasure working with you and your team. We hope you will keep us in mind for
+          future freelance
+          projects. Thank You!</p>
       </div>
     </div>
   </div>
 </div>
+<div class="row d-print-none align-items-center justify-content-end">
+  <div class="col-auto btn-page">
+    <button class="btn btn-primary btn-print-invoice" (click)="print()">Print</button>
+    <button class="btn btn-outline-secondary btn-print-invoice" (click)="downloadPDF()">Download</button>
+  </div>
+</div>
+<!-- </div>
+</div> -->
 
 
 
@@ -475,4 +469,3 @@
 </div>
 
 </html> -->
-

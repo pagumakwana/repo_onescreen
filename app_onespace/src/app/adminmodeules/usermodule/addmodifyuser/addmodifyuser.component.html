@@ -98,8 +98,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Vendor Commission</label>
-                  <input type="text" class="form-control  form-control-solid" id="commission" name="commission"
-                    placeholder="commission" formControlName="commission">
+                  <input type="number" class="form-control  form-control-solid" id="commission" name="commission"
+                    placeholder="commission" formControlName="commission" min="0" max="100">
                   <div
                     *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
                     class="text-danger">
@@ -133,7 +133,14 @@
                     [config]="_configVendor" (onSelection)="onVendorSelect($event)">
                   </webd-multiselect>
                 </div>
-                <div class="col-lg-4 mb-3 form-check">
+                <div class="col-lg-3 mb-3">
+                  <label class="form-label">Products</label>
+                  <webd-multiselect [data]="lstProduct" class="col-sm-3 col-form-label" textField='product_name'
+                    valueField='product_id' [formControl]="fgUser?.controls?.lstproduct" placeholder="Select Product"
+                    [config]="_configProduct" (onSelection)="onProductSelect($event)">
+                  </webd-multiselect>
+                </div>
+                <div class="col-lg-3 mb-3 form-check">
                   <label class="form-label"></label>
                   <label>Published</label>
                   <input type="checkbox" class="form-check-input" id="isPublished" formControlName="isactive">
@@ -142,15 +149,16 @@
               </div>
             </form>
 
-              <div class="col-lg-3 mb-3">
-                <div class="mt-4">
-                  <button style="cursor: pointer;" class="btn btn-outline-secondary" (click)="navigateBack()">Back</button>&nbsp;
-                  <button style="cursor: pointer;" class="btn btn-primary" (click)="setUserModel(true)">Submit</button>
-                </div>
+            <div class="col-lg-3 mb-3">
+              <div class="mt-4">
+                <button style="cursor: pointer;" class="btn btn-outline-secondary"
+                  (click)="navigateBack()">Back</button>&nbsp;
+                <button style="cursor: pointer;" class="btn btn-primary" (click)="setUserModel(true)">Submit</button>
               </div>
-              <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
-                [showConfirmButton]="false">
-              </swal>
+            </div>
+            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+              [showConfirmButton]="false">
+            </swal>
           </div>
         </div>
       </div>

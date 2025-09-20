@@ -65,6 +65,7 @@ namespace onescreenModel.Common
         public const string managenotification = "[dbo].[managenotification]";
         public const string update_moduledata = "[dbo].[update_moduledata]";
         public const string getdashboardwidget = "[dbo].[getdashboardwidget]";
+        public const string getwalletwidget = "[dbo].[getwalletwidget]";
         //END :: COMMON
 
         //START :: BannerManagemet
@@ -124,6 +125,7 @@ namespace onescreenModel.Common
         public const string getcontactdetails = "[dbo].[getcontactdetails]";
         public const string managecontactdetails = "[dbo].[managecontactdetails]";
         public const string Update_Userdetails = "[dbo].[Update_Userdetails]";
+        public const string mapuserproduct = "[dbo].[mapuserproduct]";
 
         //END :: UserManagement
 
@@ -216,6 +218,7 @@ namespace onescreenModel.Common
         public const string getwallettransaction = "[dbo].[getwallettransaction]";
         public const string wallet_withdrawal_req = "[dbo].[wallet_withdrawal_req]";
         public const string getwalletmaster = "[dbo].[getwalletmaster]";
+        public const string getinvoicedetails = "[dbo].[getinvoicedetails]";
         //END :: PRODUCT
     }
 }

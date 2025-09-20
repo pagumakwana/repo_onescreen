@@ -246,39 +246,9 @@ export class ThankyoumoduleComponent implements OnInit {
   }
 
   viewinvoice() {
-    this._base._router.navigate(['invoice/12']);
+    this._base._router.navigate([`/app/invoice/${this.order_id}`]);
   }
 
-  isDownloading: boolean = false;
-  downloadPDF() {
-    const element = document.getElementById('invoiceSection');
-    if (!element) {
-      console.error('Invoice section not found!');
-      return;
-    }
-
-    this.isDownloading = true;
-
-    const options = {
-      margin: [0.5, 0.5, 0.5, 0.5], // top, left, bottom, right (inches)
-      filename: `Invoice_${this.order_id}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true }, // ensures better quality
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf()
-      .set(options)
-      .from(element)
-      .save()
-      .then(() => {
-        this.isDownloading = false;
-        this._cdr.detectChanges();
-      })
-      .catch(err => {
-        console.error('PDF Download Error:', err);
-        this.isDownloading = false;
-      });
-  }
+  
 
 }
