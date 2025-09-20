@@ -64,7 +64,7 @@ export class AddmodifyoptionComponent implements OnInit {
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
     allowSearchFilter: true,
-    closeDropDownOnSelection:true
+    closeDropDownOnSelection: true
   };
 
   public _configType: IDropdownSettings = {
@@ -75,7 +75,7 @@ export class AddmodifyoptionComponent implements OnInit {
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
     allowSearchFilter: true,
-    closeDropDownOnSelection:true
+    closeDropDownOnSelection: true
   };
 
   // tableConfigoptiontype: dataTableConfig = {
@@ -84,7 +84,7 @@ export class AddmodifyoptionComponent implements OnInit {
   //     { identifer: "createddatetime", title: "Date", type: "date" },
   //     { identifer: "title", title: "Option Type", type: "text" },
   //     { identifer: "display_order", title: "Display Order", type: "text" },
-  //     { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+  //      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],],
   //   isCustom: {
   //     current: 0,
   //     steps: 10,
@@ -98,7 +98,7 @@ export class AddmodifyoptionComponent implements OnInit {
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "product_name", title: "Product Name", type: "text" },
       { identifer: "option_type", title: "Option Type", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -168,7 +168,7 @@ export class AddmodifyoptionComponent implements OnInit {
   }
   onSelect($event: any) {
     if ($event && $event != null && $event.length > 0) {
-     
+
     }
   }
 

@@ -1,112 +1,97 @@
-
-
 <div id="datatable_wrapper" class="card">
-  <div class="widget-header">
-      <h4>{{config?.tableTitle}}</h4>
-  </div>
-  <div class="card-body">
-      <div class="btn-toolbar p-3" role="toolbar">
-          <ng-container *ngFor="let btnObj of config?.buttonList">
-              <a class="btn btn-success btn-sm" (click)="buttonClick(btnObj)"><span>{{btnObj.name}}</span></a>&nbsp;
-          </ng-container>
-      </div>
-      <div class="dt-responsive table-responsive">
-        <div id="button-select_wrapper" class="dt-container dt-bootstrap5">
-          <table #dataTable [hidden]="ishide" class="table table-sm table-bordered nowrap">
-              <thead>
-                  <tr>
-                      <th>Sr#</th>
-                      <th *ngFor="let title of config?.tableConfig">{{title.title}}</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let tableItem of tableRecords;let i = index">
-                      <td>{{i+1}}</td>
-                      <td *ngIf="config?.showCheckBox">
-                          <div class="form-check font-size-16">
-                              <input type="checkbox" class="form-check-input" id="contacusercheck1" name="checkALL"
-                                  type="checkbox" [(ngModel)]='tableItem.isChecked_DataTable'
-                                  (click)="tableClick(tableItem,'checkedBox')">
-                              <label class="form-check-label" for="contacusercheck1"></label>
-                          </div>
-                      </td>
-                      <td *ngFor="let key of config?.tableConfig">
-                          <ng-container *ngIf="key?.type == 'text'">
-                              <p [innerHtml]="tableItem[key.identifer]"></p>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'html'">
-                              <p [innerHtml]="tableItem[key.identifer]"></p>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'link'">
-                              <a (click)="tableClick(tableItem,key)">
-                                  {{tableItem[key.identifer]}}
-                              </a>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'image'">
-                              <div class="play_upper_layer">
-                                  <img class="tbl_img"
-                                      [src]="this._base._commonService.cdnURL + (key?.dataType?.type == 'array' ? getNestedObject(tableItem[key.identifer],key.dataType.path) : tableItem[key.identifer])"
-                                      [style.height]="key?.size?.height" [style.width]="key?.size?.width">
-                                  <div class="play_audio">
-                                      <span class="play" title="Play"></span>
-                                  </div>
-                              </div>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'date'">
-                              {{tableItem[key.identifer] | date:'dd/MM/yyyy'}}
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'flag'">
-                              <div class="center_align tick_mark">
-                                  <i [ngClass]="tableItem[key.identifer] ? 'right_tick' : 'cancel_tick'"></i>
-                              </div>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'button'">
-                              <div class="table_btn">
-                                  <a *ngFor="let button of key?.buttonList" (click)="tableClick(tableItem,key,button)"
-                                      class="global_btn {{button.class}}">
-                                      <span>{{button.name}}</span>
-                                      <span *ngIf="button?.iconClass" class="delete_icon {{button.iconClass}}"></span>
-                                  </a>
-                              </div>
-                          </ng-container>
-                          <ng-container *ngIf="key?.type == 'buttonIcons'">
-                              <!-- <a *ngFor="let buttonIcon of key?.buttonIconList" [title]="buttonIcon.title"
-                                  (click)="tableClick(tableItem,key,buttonIcon)" class="{{buttonIcon.class}}"
-                                  style="margin-left: 5px;" [data-toggle]="buttonIcon.title == 'Delete' ? 'modal':''"
-                                  [data-target]="buttonIcon.title == 'Delete' ? '#modal-remove':''">
-                                  {{buttonIcon.title}}
-                              </a> -->
-
-                              <button *ngFor="let buttonIcon of key?.buttonIconList" class="{{buttonIcon.class}}"
-                                  (click)="tableClick(tableItem,key,buttonIcon)" style="margin-left: 5px;"
-                                  [data-toggle]="buttonIcon.title == 'Delete' ? 'modal':''"
-                                  [data-target]="buttonIcon.title == 'Delete' ? '#modal-remove':''">
-                                  <i
-                                      class="{{buttonIcon.iconClass}}">
-                                    
-                                  </i>
-                                 
-                              </button>
-                          </ng-container>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+    <div class="card-title">
+        <h4>{{config?.tableTitle}}</h4>
+    </div>
+    <div class="card-body">
+        <div class="btn-toolbar p-3" role="toolbar">
+            <ng-container *ngFor="let btnObj of config?.buttonList">
+                <a class="btn btn-success btn-sm" (click)="buttonClick(btnObj)"><span>{{btnObj.name}}</span></a>&nbsp;
+            </ng-container>
         </div>
-      </div>
-      <div class="paginating-container pagination-solid">
-          <ul class="pagination">
-              <li class="page-item" [ngClass]="{ 'disabled' : this.config.isCustom?.current == 0}"><a
-                      (click)="previous()">Prev</a></li>
-              <li *ngFor="let page of pageArray;let i = index"
-                  [ngClass]="{ 'active' : this.config.isCustom?.current == page , 'disabled' : page == '...'}"><a
-                      (click)="page == '...' ? '' : jumpDirect(page)">{{showPageNo(page)}}</a></li>
-              <li class="next"
-                  [ngClass]="{ 'disabled' : this.config.isCustom?.current == pageArray[pageArray.length-1]}"><a
-                      (click)="next()">Next</a></li>
-          </ul>
-      </div>
-  </div>
+        <table #dataTable [hidden]="ishide" class="table table-sm table-bordered nowrap">
+            <thead>
+                <tr>
+                    <th>Sr#</th>
+                    <th *ngFor="let title of config?.tableConfig">{{title.title}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tableItem of tableRecords;let i = index">
+                    <td>{{i+1}}</td>
+                    <td *ngIf="config?.showCheckBox">
+                        <div class="form-check font-size-16">
+                            <input type="checkbox" class="form-check-input" id="contacusercheck1" name="checkALL"
+                                type="checkbox" [(ngModel)]='tableItem.isChecked_DataTable'
+                                (click)="tableClick(tableItem,'checkedBox')">
+                            <label class="form-check-label" for="contacusercheck1"></label>
+                        </div>
+                    </td>
+                    <td *ngFor="let key of config?.tableConfig">
+                        <ng-container *ngIf="key?.type == 'text'">
+                            <p [innerHtml]="tableItem[key.identifer]"></p>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'html'">
+                            <p [innerHtml]="tableItem[key.identifer]"></p>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'link'">
+                            <a (click)="tableClick(tableItem,key)">
+                                {{tableItem[key.identifer]}}
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'image'">
+                            <div class="play_upper_layer">
+                                <img class="tbl_img"
+                                    [src]="this._base._commonService.cdnURL + (key?.dataType?.type == 'array' ? getNestedObject(tableItem[key.identifer],key.dataType.path) : tableItem[key.identifer])"
+                                    [style.height]="key?.size?.height" [style.width]="key?.size?.width">
+                                <div class="play_audio">
+                                    <span class="play" title="Play"></span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'date'">
+                            {{tableItem[key.identifer] | date:'dd/MM/yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'flag'">
+                            <div class="center_align tick_mark">
+                                <i [ngClass]="tableItem[key.identifer] ? 'right_tick' : 'cancel_tick'"></i>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'button'">
+                            <div class="table_btn">
+                                <a *ngFor="let button of key?.buttonList" (click)="tableClick(tableItem,key,button)"
+                                    class="global_btn {{button.class}}">
+                                    <span>{{button.name}}</span>
+                                    <span *ngIf="button?.iconClass" class="delete_icon {{button.iconClass}}"></span>
+                                </a>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="key?.type == 'buttonIcons'">
+
+                            <button *ngFor="let buttonIcon of key?.buttonIconList" class="{{buttonIcon.class}}"
+                                (click)="tableClick(tableItem,key,buttonIcon)" style="margin-left: 5px;"
+                                [data-toggle]="buttonIcon.title == 'Delete' ? 'modal':''"
+                                [data-target]="buttonIcon.title == 'Delete' ? '#modal-remove':''">
+                                <i class="{{buttonIcon.iconClass}}">
+
+                                </i>
+
+                            </button>
+                        </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="paginating-container pagination-solid">
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="{ 'disabled' : this.config.isCustom?.current == 0}"><a
+                        (click)="previous()">Prev</a></li>
+                <li *ngFor="let page of pageArray;let i = index"
+                    [ngClass]="{ 'active' : this.config.isCustom?.current == page , 'disabled' : page == '...'}"><a
+                        (click)="page == '...' ? '' : jumpDirect(page)">{{showPageNo(page)}}</a></li>
+                <li class="next"
+                    [ngClass]="{ 'disabled' : this.config.isCustom?.current == pageArray[pageArray.length-1]}"><a
+                        (click)="next()">Next</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
-
-

@@ -33,7 +33,7 @@ export class DashboardmoduleComponent {
       { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
       { identifer: "payment_response", title: "Response", type: "text" },
-      // { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+      //  { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],],
     ],
     isCustom: {
       current: 0,

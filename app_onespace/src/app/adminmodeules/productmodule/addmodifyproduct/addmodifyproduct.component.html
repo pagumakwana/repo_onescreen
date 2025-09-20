@@ -93,8 +93,8 @@
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">Product Base Price</label>
                                     <input type="text" class="form-control form-control-sm" id="base_amount"
-                                        name="base_amount" placeholder="Product Base Price" formControlName="base_amount"
-                                        required>
+                                        name="base_amount" placeholder="Product Base Price"
+                                        formControlName="base_amount" required>
                                     <div *ngIf="fgproductmaster.controls['base_amount'].invalid && (fgproductmaster.controls['base_amount'].dirty || fgproductmaster.controls['base_amount'].touched)"
                                         class="text-danger">
                                         <ng-container *ngIf="fgproductmaster.controls.base_amount.errors?.['required']">
@@ -207,16 +207,19 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary mb-4"
-                                (click)="setproductMaster(true)">Submit</button>
-                            &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
-
-                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
-                                icon="success" [showConfirmButton]="false">
-                            </swal>
                         </form>
+                        <div class="col-lg-3 mb-3">
+                            <div class="mt-4">
+                                <button style="cursor: pointer;" class="btn btn-outline-secondary"
+                                    (click)="navigateBack()">Back</button>&nbsp;
+                                <button style="cursor: pointer;" class="btn btn-primary"
+                                    (click)="setproductMaster(true)">Submit</button>
+                            </div>
+                        </div>
+
+                        <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                            [showConfirmButton]="false">
+                        </swal>
                     </div>
                 </div>
             </div>

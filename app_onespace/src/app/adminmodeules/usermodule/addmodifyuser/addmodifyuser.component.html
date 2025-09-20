@@ -104,7 +104,7 @@
                     *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
                     class="text-danger">
                     <ng-container *ngIf="fgUser.controls['commission'].errors?.['required']">
-                      Bio is required.
+                      Commission is required.
                     </ng-container>
                   </div>
                 </div>
@@ -140,14 +140,17 @@
                   <span class="new-control-indicator"></span>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary mb-4" (click)="setUserModel(true)">Submit</button>
-              &nbsp;
-              <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
+            </form>
 
+              <div class="col-lg-3 mb-3">
+                <div class="mt-4">
+                  <button style="cursor: pointer;" class="btn btn-outline-secondary" (click)="navigateBack()">Back</button>&nbsp;
+                  <button style="cursor: pointer;" class="btn btn-primary" (click)="setUserModel(true)">Submit</button>
+                </div>
+              </div>
               <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
                 [showConfirmButton]="false">
               </swal>
-            </form>
           </div>
         </div>
       </div>

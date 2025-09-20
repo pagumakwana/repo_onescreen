@@ -52,6 +52,7 @@ export class AddmodifyuserComponent {
   userid: any;
   public dataSubscribe!: Subscription;
   private isUserModify: boolean = false;
+  private isFormModify: boolean = false;
   fgUser!: FormGroup;
 
   public _configProject: IDropdownSettings = {
