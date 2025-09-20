@@ -69,4 +69,12 @@ namespace onescreenModel.Common
 
     }
 
+    public class walletwidgetModel : commonModel
+    {
+        public decimal? balance_amount { get; set; }
+        public decimal? requested_amount { get; set; }
+        public decimal? transaction_amount { get; set; }
+
+    }
+
 }

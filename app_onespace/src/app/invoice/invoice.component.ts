@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
@@ -13,20 +13,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './invoice.component.scss'
 })
 export class InvoiceComponent implements OnInit {
-
+  // @Input() order_id!: number;
   invoice_logo: String = '';
-  public orderdetailsmaster: any;
-  order_id : any;
-  grandTotalInWords: string='';
+  public invoicedetailsmaster: any;
+  order_id: any;
+  grandTotalInWords: string = '';
   constructor(
     public _base: BaseServiceHelper,
     private _webDService: WebDService,
     private _cdr: ChangeDetectorRef,
-     private _activatedRouter: ActivatedRoute
+    private _activatedRouter: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+    // this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
     this.get_invoice(this.order_id);
     this._base._commonService.get_portal_config('invoice_logo').then((invoice_logo: any) => {
       this.invoice_logo = invoice_logo;
@@ -35,12 +35,20 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  get_invoice(order_id:any) {
-    this._webDService.getorderdetails('Details',order_id).subscribe((resreceipt: any) => {
-      let orderdetails = Array.isArray(resreceipt.data) ? resreceipt.data : [];
-      this.orderdetailsmaster = orderdetails[0];
+  get_invoice(order_id: any) {
+    this._webDService.getinvoicedetails(order_id).subscribe((resreceipt: any) => {
+      let invoicedetails = Array.isArray(resreceipt.data) ? resreceipt.data : [];
+      this.invoicedetailsmaster = invoicedetails[0];
 
-      const grandTotal = parseFloat(this.orderdetailsmaster?.amount) || 0;
+      try {
+        this.invoicedetailsmaster.optionvalues = this.invoicedetailsmaster?.optionvalues
+          ? JSON.parse(this.invoicedetailsmaster.optionvalues)
+          : [];
+      } catch (e) {
+        console.error("Invalid optionvalues JSON", e);
+        this.invoicedetailsmaster.optionvalues = [];
+      }
+      const grandTotal = parseFloat(this.invoicedetailsmaster?.amount) || 0;
       this.grandTotalInWords = `Rupees ${this.numberToWords(grandTotal)} Only`;
       this._cdr.detectChanges();
     });
@@ -78,35 +86,35 @@ export class InvoiceComponent implements OnInit {
     location.reload(); // Reload to restore page
 
   }
-  
-  public isDownloading: boolean = false;
+
+  isDownloading: boolean = false;
   downloadPDF() {
-  this.isDownloading = true; 
+    this.isDownloading = true;
     const element = document.getElementById('invoiceSection');
     if (!element) return;
 
     const options = {
       margin: 0.5,
-      filename: `Receipt_${this.order_id}.pdf`,
+      filename: `Invoice_${this.order_id}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };  
+    };
 
     html2pdf()
-    .set(options)
-    .from(element)
-    .save()
-    .then(() => {
-      
-      setTimeout(() => {
-        this.isDownloading = false;
-        this._cdr.detectChanges();
-      }, 200);
-    })
-    .catch(() => {
-      this.isDownloading = false; 
-    });
+      .set(options)
+      .from(element)
+      .save()
+      .then(() => {
+
+        setTimeout(() => {
+          this.isDownloading = false;
+          this._cdr.detectChanges();
+        }, 200); 
+      })
+      .catch(() => {
+        this.isDownloading = false; 
+      });
     // html2pdf().set(options).from(element).save();
   }
 

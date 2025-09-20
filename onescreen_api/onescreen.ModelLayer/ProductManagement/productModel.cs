@@ -355,5 +355,19 @@ namespace onescreenModel.ProductManagement
         public Int64? vendor_id { get; set; }
         public decimal? balance_amount { get; set; }
     }
+
+    public class invoicedetails : commonModel
+    {
+        public Int64 order_id { get; set; }
+        public decimal? order_total { get;set; }
+        public decimal? order_subtotal { get;set; }
+        public decimal? order_discount { get;set; }
+        public decimal? order_tax { get;set; }
+        public string? optionvalues { get;set; }
+        public Int64? product_id { get;set; }
+        public string? product_name { get;set; }
+        public string? fullname { get;set; }
+        public string? address { get;set; }
+    }
 }
 

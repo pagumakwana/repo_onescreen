@@ -48,6 +48,7 @@ export class AddmodifyuserComponent {
   public lstProject: any = [];
   public lstAuthority: any = [];
   public lstVendor: any=[];
+  public lstProduct: any=[];
   _userModel: userModel = {};
   userid: any;
   public dataSubscribe!: Subscription;
@@ -85,6 +86,16 @@ export class AddmodifyuserComponent {
     allowSearchFilter: true
   };
 
+  public _configProduct: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'product_id',
+    textField: 'product_name',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+
   initform() {
     this.fgUser = this._fbUser.group({
       user_id: [0],
@@ -98,6 +109,7 @@ export class AddmodifyuserComponent {
       // lstproject: [''],
       lstauthority: [''],
       lstvendor:[''],
+      lstproduct:[''],
       bio: [''],
       commission: [''],
       is_approved: [''],
@@ -124,7 +136,11 @@ export class AddmodifyuserComponent {
   onVendorSelect($event:any) {
     if ($event && $event != null) {
       this._userModel.vendor_id = $event[0]?.vendor_id;
-      // this.fgUser.controls.authority.setValue($event[0]?.authority);
+    }
+  }
+  onProductSelect($event:any) {
+    if ($event && $event != null) {
+      this._userModel.product_id = $event[0]?.product_id;
     }
   }
   ngAfterViewInit(): void {
@@ -136,6 +152,7 @@ export class AddmodifyuserComponent {
     this.getAuthority();
     // this.getProject();
     this.getVendor();
+    this.getProduct();
     debugger
     if (this.userid != '0')
       this.getUserList(this.userid);
@@ -162,6 +179,7 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['lstauthority'].setValue(this._userModel.lstauthority);
         // this.fgUser.controls['lstproject'].setValue(this._userModel.lstproject);
         this.fgUser.controls['lstvendor'].setValue(this._userModel.lstvendor);
+        this.fgUser.controls['lstproduct'].setValue(this._userModel.lstproduct);
         this.fgUser.controls['isactive'].setValue(this._userModel.isactive);
         resolve(true)
       }, error => {
@@ -191,6 +209,7 @@ export class AddmodifyuserComponent {
           // this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
           this._userModel.lstvendor = this.fgUser.value.lstvendor;
+          this._userModel.lstproduct = this.fgUser.value.lstproduct;
           this._userModel.client_id = client_id;
           this._userModel.project_id = project_id;
           this.addmodifyuser(flag);
@@ -257,6 +276,15 @@ export class AddmodifyuserComponent {
       this.lstVendor = [];
       let resvendordata = Array.isArray(resVendor.data) ? resVendor.data : [];
       this.lstVendor = resvendordata;
+    }, error => {
+    });
+  }
+
+  getProduct() {
+    this._webDService.getproduct().subscribe((resProduct: any) => {
+      this.lstProduct = [];
+      let resproductdata = Array.isArray(resProduct.data) ? resProduct.data : [];
+      this.lstProduct = resproductdata;
     }, error => {
     });
   }

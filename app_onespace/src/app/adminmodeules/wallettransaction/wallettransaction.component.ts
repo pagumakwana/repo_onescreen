@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { wallet_master, wallet_transaction, wallet_withdrawal } from '../../_appmodel/_model';
@@ -12,6 +12,7 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { NgbModal, NgbModalModule, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { enAppSession } from '../../_appmodel/sessionstorage';
 import settlements from 'razorpay/dist/types/settlements';
+import { orderBy } from 'lodash';
 
 @Component({
   selector: 'app-wallettransaction',
@@ -57,6 +58,8 @@ export class WallettransactionComponent {
   _wallettransaction: wallet_transaction = {};
   _walletwithdrawal: wallet_withdrawal = {};
   _walletmaster: wallet_master = {};
+  walletwidget: any = {};
+  user_id:any ;
 
   transactionMaster: any = [];
   withdrawalMaster: any = [];
@@ -67,13 +70,19 @@ export class WallettransactionComponent {
     private _webDService: WebDService,
     public _fbwallet: FormBuilder,
     private _cdr: ChangeDetectorRef,
-    private _modalService: NgbModal,) { }
+    private _modalService: NgbModal,
+  private _activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.initform();
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+    this.user_id = parseInt(user_id);
+    this.getwalletwidget(this.user_id);
+    });
     this.getwallettransaction();
     this.getwalletwithdrawal();
     this.getwalletmaster();
+    
   }
 
   initform() {
@@ -170,6 +179,20 @@ export class WallettransactionComponent {
       // this.wallettableConfig.tableData = this.withdrawalMaster;
       // this.wallettableObj.initializeTable();
       this._cdr.detectChanges();
+    });
+  }
+
+  getwalletwidget(user_id:any) {
+    this._webDService.getwalletwidget(user_id).subscribe({
+      next: (res: any) => {
+        this.walletwidget = res?.data || {};
+        console.log("walletwidget", this.walletwidget);
+        this._cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error("Error fetching dashboard data", err);
+        this.walletwidget = {}; 
+      }
     });
   }
 

@@ -6,7 +6,7 @@
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1 me-3">
                         <h4 class="mb-1 fw-medium">Wallet Balance</h4>
-                        <h4 class="mb-1 text-mutedx">{{walletMaster[0]?.balance_amount}}</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.balance_amount}}</h4>
                         <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
                     <!-- <div class="flex-shrink-0">
@@ -23,8 +23,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1 me-3">
-                        <h5 class="mb-1 fw-medium">Requested Amount</h5>
-                        <h4 class="mb-1 text-muted">6</h4>
+                        <h4 class="mb-1 fw-medium">Requested Amount</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.requested_amount}}</h4>
                         <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
                     <!-- <div class="flex-shrink-0">
@@ -42,30 +42,12 @@
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1 me-3">
                         <h4 class="mb-1 fw-medium">Total Transaction</h4>
-                        <h4 class="mb-1 text-muted">0</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.transaction_amount}}</h4>
                         <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
                     <!-- <div class="flex-shrink-0">
                         <div class="avtar avtar-l bg-light-warning rounded-circle">
                             <i class="ph-duotone ph-credit-card f-28"></i>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xxl-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <h4 class="mb-1 fw-medium">0</h4>
-                        <h4 class="mb-1 text-muted">0</h4>
-                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
-                    </div>
-                    <!-- <div class="flex-shrink-0">
-                        <div class="avtar avtar-l bg-light-danger rounded-circle">
-                            <i class="ph-duotone ph-user-minus f-28"></i>
                         </div>
                     </div> -->
                 </div>

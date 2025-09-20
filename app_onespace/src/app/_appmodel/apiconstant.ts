@@ -28,6 +28,7 @@ export class ApiConstant {
         managepost: "common/managepost",
         update_moduledata: "common/update_moduledata",
         getdashboardwidget: "common/getdashboardwidget",
+        getwalletwidget: "common/getwalletwidget"
     }
     public static customer = {
         signIn: "usermanagement/SignIn",
@@ -287,6 +288,7 @@ export class ApiConstant {
         getwithdrawal_request: "product/getwithdrawal_request",
         getwallet_transaction: "product/getwallet_transaction",
         wallet_withdrawal_req: "product/wallet_withdrawal_req",
-        getwalletmaster: "product/getwalletmaster"
+        getwalletmaster: "product/getwalletmaster",
+        getinvoicedetails: "product/getinvoicedetails"
     }
 }

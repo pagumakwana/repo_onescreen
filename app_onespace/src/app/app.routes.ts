@@ -94,11 +94,6 @@ export const routes: Routes = [
                 path: 'thankyou/:order_id',
                 component: ThankyoumoduleComponent,
                 title: 'Thanks You',
-            },
-            {
-                path: 'invoice/:order_id',
-                component: InvoiceComponent,
-                title: 'Thanks You',
             },]
     },
     {
@@ -236,6 +231,11 @@ export const routes: Routes = [
                 path: 'wallettransaction',
                 component: WallettransactionComponent,
                 title: 'wallet',
+            },
+            {
+                path: 'invoice/:order_id',
+                component: InvoiceComponent,
+                title: 'Thanks You',
             },
         ]
     },

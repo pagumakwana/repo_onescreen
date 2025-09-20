@@ -34,7 +34,7 @@
                             <p [innerHtml]="tableItem[key.identifer]"></p>
                         </ng-container>
                         <ng-container *ngIf="key?.type == 'link'">
-                            <a (click)="tableClick(tableItem,key)">
+                            <a (click)="tableClick(tableItem,key)" style="color: blue; text-decoration: underline; cursor: pointer;">
                                 {{tableItem[key.identifer]}}
                             </a>
                         </ng-container>

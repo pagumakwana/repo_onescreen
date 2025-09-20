@@ -2120,6 +2120,67 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
+        public responseModel getinvoicedetails(Int64 order_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@order_id", order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getinvoicedetails, ObJParameterCOl, CommandType.StoredProcedure);
+                List<invoicedetails> lstinvoice = new List<invoicedetails>();
+                if (ds != null)
+                {
+
+                    lstinvoice = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new invoicedetails
+                          {
+                              order_id = Row.Field<Int64>("order_id"),
+                              order_total = Row.Field<decimal>("order_total"),
+                              order_subtotal = Row.Field<decimal>("order_subtotal"),
+                              order_discount = Row.Field<decimal>("order_discount"),
+                              order_tax = Row.Field<decimal>("order_tax"),
+                              optionvalues = Row.Field<string>("optionvalues"),
+                              product_id = Row.Field<Int64>("product_id"),
+                              product_name = Row.Field<string>("product_name"),
+                              fullname = Row.Field<string>("fullname"),
+                              address = Row.Field<string>("address"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstinvoice;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void Dispose() 
         { 
         }

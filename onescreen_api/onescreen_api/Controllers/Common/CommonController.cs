@@ -75,5 +75,20 @@ namespace onescreen_api.Controllers.Common
                 return objCommon_BAL.getdashboardwidget(flag, user_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        [Route("getwalletwidget")]
+        [HttpGet]
+        public responseModel getwalletwidget(Int64 user_id)
+        {
+            using (Common_BAL objCommon_BAL = new Common_BAL(_httpContextAccessor, _hostingEnvironment))
+            {
+                return objCommon_BAL.getwalletwidget(user_id);
+            }
+        }
     }
 }
