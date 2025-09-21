@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, Renderer2 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -18,7 +18,7 @@ import { WebDService } from './_appservice/webdpanel.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers:[BaseServiceHelper, PageTitleService,
+  providers: [BaseServiceHelper, PageTitleService,
     ApiService,
     WebDService,
     CommonService,
@@ -31,15 +31,29 @@ export class AppComponent {
   private router = inject(Router);
   private renderer = inject(Renderer2);
 
+  @HostBinding('class') hostCssClass = '';
+
   constructor() {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event:any) => {
+      .subscribe((event: any) => {
         const body = document.body;
 
         if (event.url.includes('/app')) {
           this.renderer.removeAttribute(body, 'data-pc-layout');
-        } else {
+        } else if (event.url.includes('/aboutus')) {
+          this.hostCssClass = 'aboutus_module';
+          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+        } else if (event.url.includes('/contactus')) {
+          this.hostCssClass = 'contactus_module';
+          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+        }
+        else if (event.url.includes('/faqs')) {
+          this.hostCssClass = 'faq_module';
+          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+        }
+        else {
+          this.hostCssClass = '';
           this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
         }
       });

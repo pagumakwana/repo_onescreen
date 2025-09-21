@@ -414,10 +414,10 @@ export class ProductComponent implements OnInit {
           timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
           repetition_category_id: [0],
           repetition_category: [''],
-          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : ''],
+          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '',[Validators.required]],
           interval_category_id: [0],
           interval_category: [''],
-          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
+          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '',[Validators.required]],
           attribute_amount: 0.00,
           quantity: [1],
           date_total: 0.00
@@ -431,59 +431,7 @@ export class ProductComponent implements OnInit {
       // }
     }
   }
-  onSelectEvent_bk($event: any) {
-    if ($event && $event != null && $event != '') {
 
-      const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-      const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-
-      console.log("select : ", _itemTime, this._categoryRouteMaster);
-      let control: FormGroup = this._fbCategoryMaster.group({
-        route_category_id: [this._categoryRouteMaster.category_id],
-        route_category: [this._categoryRouteMaster.category],
-        product_id: [this._categoryScreenMaster.product_id],
-        product_name: [this._categoryScreenMaster.product_name],
-        timeslot_category_id: [$event ? $event?.option_value_id : '', [Validators.required]],
-        timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
-        from_date: ['', [Validators.required]],
-        to_date: ['', [Validators.required]],
-        total_amount: [this._categoryScreenMaster.base_amount],
-        base_amount: [this._categoryScreenMaster.base_amount],
-        timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
-        repetition_category_id: [0],
-        repetition_category: [''],
-        repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : ''],
-        interval_category_id: [0],
-        interval_category: [''],
-        interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : ''],
-        attribute_amount: 0.00,
-        quantity: [1, [Validators.required]]
-      });
-
-      console.log("control : ", control);
-      // let obj = this.timeArray.at(this._index_time - 1) as FormGroup;
-      // if (obj != undefined) {
-      //   this._base._commonService.markFormGroupTouched(obj);
-      //   if (obj.valid) {
-      //     this._indexTimearray.push(this._index_time + 1);
-      //     this.timeArray.push(control);
-      //   } else {
-      //     const selected = this.fgcategorymaster.get('lsttimeslot')?.value || [];
-      //     const updated = selected.filter((x: any) => x.option_value_id !== $event.option_value_id);
-      //     this.fgcategorymaster.get('lsttimeslot')?.setValue(updated);
-      //   }
-      // } else {
-      //   this._indexTimearray.push(this._index_time + 1);
-      this.timeArray.push(control);
-      setTimeout(() => {
-
-        this.calculate_final_amount((this.timeArray.length - 1))
-      }, 500);
-      //   this._index_time++
-      // }
-    }
-  }
   onDeSelectEvent($event: any) {
     if ($event && $event != null && $event != '') {
       console.log("Deselect : ", $event);
@@ -758,6 +706,9 @@ export class ProductComponent implements OnInit {
             this.successSwal.close();
             this._base._router.navigate(['cart']);
             this._cdr.detectChanges();
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
           }, 500);
 
         }, error => {

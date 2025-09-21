@@ -273,30 +273,30 @@ namespace onescreenDAL.UserManagement
                                 });
                             }
 
-                            if ((objclsUserManagement.lstproduct != null && objclsUserManagement.lstproduct.Count > 0))
-                            {
-                                objclsUserManagement.lstproduct.ForEach(userproduct =>
-                                {
-                                    userproduct.user_id = objclsUserManagement.user_id;
-                                    userproduct.product_id = userproduct.product_id;
-                                    userproduct.project_id = project_id;
-                                    userproduct.client_id = client_id;
-                                    userproduct.createdby = objclsUserManagement.user_id;
-                                    userproduct.createdname = objclsUserManagement.createdname;
-                                    userproduct.createddatetime = DateTime.Now;
-                                    userproduct.isactive = true;
-                                    userproduct.isdeleted = false;
-                                });
-                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objclsUserManagement.lstproduct);
-                                DBHelper objDbHelperModule = new DBHelper();
-                                string tablename = objDbHelperModule.BulkImport("WebD_UserProductMapping", dtfilemanagercategory);
-                                objDbHelperModule = new DBHelper();
-                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
-                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
-                                ObJParameterCOl2.Add(objDBParameter2);
-                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserproduct, ObJParameterCOl2, CommandType.StoredProcedure);
-                            }
+                            //if ((objclsUserManagement.lstproduct != null && objclsUserManagement.lstproduct.Count > 0))
+                            //{
+                            //    objclsUserManagement.lstproduct.ForEach(userproduct =>
+                            //    {
+                            //        userproduct.user_id = objclsUserManagement.user_id;
+                            //        userproduct.product_id = userproduct.product_id;
+                            //        userproduct.project_id = project_id;
+                            //        userproduct.client_id = client_id;
+                            //        userproduct.createdby = objclsUserManagement.user_id;
+                            //        userproduct.createdname = objclsUserManagement.createdname;
+                            //        userproduct.createddatetime = DateTime.Now;
+                            //        userproduct.isactive = true;
+                            //        userproduct.isdeleted = false;
+                            //    });
+                            //    Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                            //    DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objclsUserManagement.lstproduct);
+                            //    DBHelper objDbHelperModule = new DBHelper();
+                            //    string tablename = objDbHelperModule.BulkImport("WebD_UserProductMapping", dtfilemanagercategory);
+                            //    objDbHelperModule = new DBHelper();
+                            //    DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                            //    DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                            //    ObJParameterCOl2.Add(objDBParameter2);
+                            //    objDbHelperModule.ExecuteNonQuery(Constant.mapuserproduct, ObJParameterCOl2, CommandType.StoredProcedure);
+                            //}
 
                             if ((objclsUserManagement.filemanager != null && objclsUserManagement.filemanager.Count > 0))
                             {
@@ -370,7 +370,7 @@ namespace onescreenDAL.UserManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getuserdetail, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstuser = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
-                List<productuserModel> lstproduct = new List<productuserModel>();
+                //List<productuserModel> lstproduct = new List<productuserModel>();
                 List<vendoruserModel> lstvendor = new List<vendoruserModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 responseModel lstresponse = new responseModel();
@@ -399,15 +399,15 @@ namespace onescreenDAL.UserManagement
                                 }).ToList();
                         }
 
-                        if (ds.Tables[2].Rows.Count > 0)
-                        {
-                            lstproduct = ds.Tables[2].AsEnumerable().Select(Row =>
-                                new productuserModel
-                                {
-                                    product_id = Row.Field<Int64>("product_id"),
-                                    product_name = Row.Field<string>("product_name")
-                                }).ToList();
-                        }
+                        //if (ds.Tables[2].Rows.Count > 0)
+                        //{
+                        //    lstproduct = ds.Tables[2].AsEnumerable().Select(Row =>
+                        //        new productuserModel
+                        //        {
+                        //            product_id = Row.Field<Int64>("product_id"),
+                        //            product_name = Row.Field<string>("product_name")
+                        //        }).ToList();
+                        //}
                         if (ds.Tables[3].Rows.Count > 0)
                         {
                             lstFileinfo = ds.Tables[3].AsEnumerable().Select(Row =>
@@ -443,7 +443,7 @@ namespace onescreenDAL.UserManagement
                           is_approved = Row.Field<bool>("is_approved"),
                           password = Row.Field<string>("password"),
                           profilepicture = Row.Field<string>("profilepicture"),
-                          commission = Row.Field<Int64>("commission"),
+                          commission = Row.Field<string>("commission"),
                           isactive = Row.Field<bool>("isactive"),
                           createdby = Row.Field<Int64?>("createdby"),
                           createdname = Row.Field<string>("createdname"),
@@ -453,7 +453,7 @@ namespace onescreenDAL.UserManagement
                           updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                           lstauthority = lstauthority,
                           lstvendor = lstvendor,
-                          lstproduct = lstproduct
+                          //lstproduct = lstproduct
                       }).ToList();
                     }
                     if (ds.Tables[flag == "Detail" ? 5 : 1].Rows.Count > 0)

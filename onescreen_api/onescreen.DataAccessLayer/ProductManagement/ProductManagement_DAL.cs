@@ -1498,7 +1498,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 Utils.verifyPaymentSignature(attributes);
-                return new RazorpayPaymentResponse { razorpay_order_id= orderId, razorpay_payment_id= paymentId, razorpay_signature= signature, status = "failure" };
+                return new RazorpayPaymentResponse { razorpay_order_id= orderId, razorpay_payment_id= paymentId, razorpay_signature= signature, status = "success" };
             }
             catch (Exception)
             {

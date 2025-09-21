@@ -1,98 +1,114 @@
-<!-- <swiper-container direction="vertical" slides-per-view="1" pagination="true" mousewheel="true"
-    style="width: 100vw; height: 100vh; display: block;">
-    <swiper-slide class="banner-slide"
-        style="display:flex; align-items:center; justify-content:center; font-size:2rem; background:#f5a623;"></swiper-slide>
-    <swiper-slide class="banner-slide"
-        style="display:flex; align-items:center; justify-content:center; font-size:2rem; background:#8d2250;"></swiper-slide>
-    <swiper-slide class="banner-slide"
-        style="display:flex; align-items:center; justify-content:center; font-size:2rem; background:#6e0aac;"></swiper-slide>
-</swiper-container> -->
+<div class="home_page">
+    <section class="hero">
+        <swiper class="swiper-container" [config]="BannerSwiper">
+            <div *ngFor="let slide of bannerList" class="swiper-slide">
+                <img [src]="this._base._commonService.cdnURL+slide.thumbnail" [alt]="slide" />
+            </div>
+        </swiper>
 
-<section class="howitsworks">
-    <div class="inner_container">
-        <h2 class="primary_heading">How One Screeb works ?</h2>
-        <div class="steps">
-            <div class="step">
-                <img src="../../../assets/images/quote.png" alt="Get Quote Image" />
-                <span class="step_count">1</span>
-                <h3 class="secondary_heading">Get Your Instant Quote</h3>
-                <p class="step_description">Select your camera brand, model, and condition to see how much it’s
-                    worth.</p>
-            </div>
-            <div class="step">
-                <img src="../../../assets/images/pick_up.png" alt="Schedule Pick Up Image" />
-                <span class="step_count">2</span>
-                <h3 class="secondary_heading">We Pick It Up for Free</h3>
-                <p class="step_description">Choose a pickup date, and we’ll collect your camera right from your
-                    doorstep.</p>
-            </div>
-            <div class="step">
-                <img src="../../../assets/images/get_paid.png" alt="Get Paid Image" />
-                <span class="step_count">3</span>
-                <h3 class="secondary_heading">Receive Your Payment Fast</h3>
-                <p class="step_description">Once we verify your camera, we’ll send your payment securely and quickly
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="container_section whyus_section">
-    <div class="inner_container">
-        <div class="whyus_parent">
-            <h2 class="primary_heading">Why Choose Us?</h2>
-            <div class="whyus">
-                <div class="whyus_thumbnail">
-                    <img src="../../../assets/images/whychoose.svg" alt="Why Us Image" />
+        <section class="container_section categories">
+            <div class="inner_container">
+                <div class="category">
+                    <img src="../../../assets/images/moving.png" alt="Moving" />
+                    <!-- <span>Moving</span> -->
                 </div>
-                <div class="whyus_points">
-                    <div class="whyus_point">
-                        <img src="../../../assets/images/best_prices.svg" alt="Best Prices Image" />
-                        <h3 class="whyus_name">Best Price Guarantee</h3>
-                        <p class="whyus_description">Get the most competitive value for your DSLR.</p>
-                    </div>
-                    <div class="whyus_point">
-                        <img src="../../../assets/images/instant_payment.svg" alt="Instant Payment Image" />
-                        <h3 class="whyus_name">No Hidden Charges</h3>
-                        <p class="whyus_description">We have Transparent pricing with no surprises.</p>
-                    </div>
-                    <div class="whyus_point">
-                        <img src="../../../assets/images/simple_convenient.svg" alt="Simple &amp; Convenient Image" />
-                        <h3 class="whyus_name">Trusted by 15,000+ Users</h3>
-                        <p class="whyus_description">A platform trusted by thousands across India.</p>
-                    </div>
-                    <div class="whyus_point">
-                        <img src="../../../assets/images/free_pickup.svg" alt="Free Pickup Image" />
-                        <h3 class="whyus_name">Free Doorstep Pickup</h3>
-                        <p class="whyus_description">We collect your camera at no extra cost.</p>
-                    </div>
-                    <div class="whyus_point">
-                        <img src="../../../assets/images/invoice.svg" alt="Valid Purchase Invoice Image" />
-                        <h3 class="whyus_name">Expert Assistance</h3>
-                        <p class="whyus_description">Our team is always ready to help you.</p>
-                    </div>
+                <div class="category" >
+                    <img src="../../../assets/images/fixed.png" alt="Fixed" />
+                    <!-- <span>Fixed</span> -->
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+    <section class="howitsworks">
+        <div class="inner_container">
+            <h2 class="primary_heading">How One Screen works ?</h2>
+            <div class="steps">
+                <div class="step">
+                    <img src="../../../assets/images/quote.png" alt="Get Quote Image" />
+                    <span class="step_count">1</span>
+                    <h3 class="secondary_heading">Get Your Instant Quote</h3>
+                    <p class="step_description">Select your Screen brand, model, and condition to see how much it’s
+                        worth.</p>
+                </div>
+                <div class="step">
+                    <img src="../../../assets/images/pick_up.png" alt="Schedule Pick Up Image" />
+                    <span class="step_count">2</span>
+                    <h3 class="secondary_heading">We Pick It Up for Free</h3>
+                    <p class="step_description">Choose a pickup date, and we’ll collect your Screen right from your
+                        doorstep.</p>
+                </div>
+                <div class="step">
+                    <img src="../../../assets/images/get_paid.png" alt="Get Paid Image" />
+                    <span class="step_count">3</span>
+                    <h3 class="secondary_heading">Receive Your Payment Fast</h3>
+                    <p class="step_description">Once we verify your Screen, we’ll send your payment securely and quickly
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="grow_business">
-    <div class="inner_container">
-        <div class="grow_sections">
-            <div class="grow_business_left">
-                <!-- <div class="logo">
-                    <img src="../../../../assets/images/camera_to_sell_logo.svg" alt="Camera Logo" />
-                </div> -->
-                <h3>Join thousands who trust CameraToSell for the best deals!</h3>
-            </div>
-            <div class="grow_business_right">
-                <button class="btn primary_btn">
-                    <span>Sell your camera</span>
-                    <img src="../../../assets/images/user.svg" alt="User Icon" />
-                </button>
-                <p>Trusted by thousands across India!</p>
+    <section class="container_section whyus_section">
+        <div class="inner_container">
+            <div class="whyus_parent">
+                <h2 class="primary_heading">Why Choose Us?</h2>
+                <div class="whyus">
+                    <div class="whyus_thumbnail">
+                        <img src="../../../assets/images/whychoose.svg" alt="Why Us Image" />
+                    </div>
+                    <div class="whyus_points">
+                        <div class="whyus_point">
+                            <img src="../../../assets/images/best_prices.svg" alt="Best Prices Image" />
+                            <h3 class="whyus_name">Best Price Guarantee</h3>
+                            <p class="whyus_description">Get the most competitive value for your DSLR.</p>
+                        </div>
+                        <div class="whyus_point">
+                            <img src="../../../assets/images/instant_payment.svg" alt="Instant Payment Image" />
+                            <h3 class="whyus_name">No Hidden Charges</h3>
+                            <p class="whyus_description">We have Transparent pricing with no surprises.</p>
+                        </div>
+                        <div class="whyus_point">
+                            <img src="../../../assets/images/simple_convenient.svg"
+                                alt="Simple &amp; Convenient Image" />
+                            <h3 class="whyus_name">Trusted by 15,000+ Users</h3>
+                            <p class="whyus_description">A platform trusted by thousands across India.</p>
+                        </div>
+                        <div class="whyus_point">
+                            <img src="../../../assets/images/free_pickup.svg" alt="Free Pickup Image" />
+                            <h3 class="whyus_name">Free Doorstep Pickup</h3>
+                            <p class="whyus_description">We collect your Screen at no extra cost.</p>
+                        </div>
+                        <div class="whyus_point">
+                            <img src="../../../assets/images/invoice.svg" alt="Valid Purchase Invoice Image" />
+                            <h3 class="whyus_name">Expert Assistance</h3>
+                            <p class="whyus_description">Our team is always ready to help you.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section class="grow_business">
+        <div class="inner_container">
+            <div class="grow_sections">
+                <div class="grow_business_left">
+                    <div class="logo">
+                        <img src="../../assets/images/onescreen_logo.png" alt="Camera Logo" />
+                    </div>
+                    <h3>Join thousands who trust ScreenToSell for the best deals!</h3>
+                </div>
+                <div class="grow_business_right">
+                    <button class="btn primary_btn">
+                        <span>Find your screen</span>
+                        <img src="../../../assets/images/user.svg" alt="User Icon" />
+                    </button>
+                    <p>Trusted by thousands across India!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
