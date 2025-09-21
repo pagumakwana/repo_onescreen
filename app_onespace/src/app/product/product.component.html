@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-body">
                     <div id="basicwizard" class="form-wizard row justify-content-center">
-                        <ul class="nav nav-pills justify-content-center course-wizard">
+                        <ul class="nav nav-pills justify-content-center course-wizard" style="gap: 5px;">
                             <li class="nav-item" data-target-form="#screensectionForm">
                                 <a class="nav-link" [ngClass]="{'active':_wizard_index == 0}">
                                     <div class="course-wizard-num">
@@ -129,8 +129,8 @@
                                 <ng-container *ngIf="this.TimeMaster.length>0">
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
-                                        <ul class="nav nav-pills">
-                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
+                                        <ul class="nav nav-pills" style="gap: 5px;">
+                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index" style="margin: 0 auto;">
                                                 <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
@@ -143,9 +143,9 @@
                                 <div class="row">
                                     <ng-container formArray="lst_cart_product">
 
-                                        <div class="col-md-6">
-                                            <div class="card" [formGroup]='_objPass'
+                                        <div class="col-md-6" [formGroup]='_objPass'
                                                 *ngFor="let _objPass of timeArray?.controls;let i =index">
+                                            <div class="card">
                                                 <div class="card-header">
                                                     <div class="card-title">
                                                         <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
@@ -327,7 +327,7 @@
                                     </ng-container>
                                 </div>
                             </div>
-                            <div class="d-sm-flex wizard justify-content-between mt-3">
+                            <div class="d-sm-flex wizard justify-content-between mt-3" style="text-align: center;">
                                 <div class="first">
                                     <a style="text-decoration: none; color: white;" class="btn btn-secondary"
                                         (click)="reset_form()">
