@@ -24,9 +24,12 @@ namespace onescreenModel.UserManagement
         public Nullable<bool> is_approved { get; set; }
         public Int64 vendor_id { get; set; }
         public string? contact_person_name { get; set; }
-        public string? commission { get; set; }
+        public Int64 product_id { get; set; }
+        public string? product_name { get; set; }
+        public Int64? commission { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
         public List<vendoruserModel> lstvendor { get; set; }
+        public List<productuserModel>? lstproduct { get; set; }
         public string password { get; set; }
         public string? address { get; set; }
     }
@@ -38,6 +41,12 @@ namespace onescreenModel.UserManagement
         public string authority { get; set; }
     }
 
+    public class productuserModel : commonModel
+    {
+        public Int64 product_id { get; set; }
+        public Int64? user_id { get; set; }
+        public string? product_name { get; set; }
+    }
     public class projectuserModel
     {
         public Int64 project_id { get; set; }
