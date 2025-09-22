@@ -70,11 +70,14 @@
                                   <p class="text-sm text-muted mb-0">
                                     Base Price - <b style="color: black;font-size: 13px;">{{_item?.base_amount}}</b>
                                     <br />
-                                    {{ _item?.timeslot_category }} - <b style="color: black;font-size: 13px;">₹{{ _item?.timeslot_price }}</b>
+                                    {{ _item?.timeslot_category }} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.timeslot_price }}</b>
                                     <br />
                                     {{_item?.route_category}} <br />
-                                    {{_item?.repetition_category}} - <b style="color: black;font-size: 13px;">₹{{ _item?.repetition_price }}</b> <br />
-                                    {{_item?.interval_category}} - <b style="color: black;font-size: 13px;">₹{{ _item?.interval_price }}</b> <br />
+                                    {{_item?.repetition_category}} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.repetition_price }}</b> <br />
+                                    {{_item?.interval_category}} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.interval_price }}</b> <br />
                                     {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -
                                     <b style="color: black;font-size: 13px;">₹{{ _item?.date_total }}</b>
                                   </p>
@@ -181,8 +184,8 @@
                 [showConfirmButton]="false">
               </swal>
               <swal #removecouponSwal [swalOptions]="swalOptions" title="Coupon removed!" text="" icon="success"
-              [showConfirmButton]="false">
-            </swal>
+                [showConfirmButton]="false">
+              </swal>
             </div>
             <div class="card">
               <div class="card-body py-2">
@@ -273,27 +276,48 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0">FullName :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">FullName :<small class="text-muted d-block">Enter
                             your fullname</small></label>
                         <div class="col-lg-8">
                           <input type="text" class="form-control" id="fullname" name="fullname"
                             formControlName="fullname">
+                          <div
+                            *ngIf="fguser.controls['fullname'].invalid && (fguser.controls['fullname'].dirty || fguser.controls['fullname'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fguser.controls.fullname.errors?.['required']">
+                              Fullname is required.
+                            </ng-container>
+                          </div>
                         </div>
                       </div>
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0">Email Id :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">Email Id :<small class="text-muted d-block">Enter
                             Email id</small></label>
                         <div class="col-lg-8">
                           <input type="email" class="form-control" id="email_id" name="email_id"
                             formControlName="email_id">
+                          <div
+                            *ngIf="fguser.controls['email_id'].invalid && (fguser.controls['email_id'].dirty || fguser.controls['email_id'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fguser.controls.email_id.errors?.['required']">
+                              Email_id is required.
+                            </ng-container>
+                          </div>
                         </div>
                       </div>
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0">Address :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">Address :<small class="text-muted d-block">Enter
                             Address</small></label>
                         <div class="col-lg-8">
                           <textarea class="form-control" rows="3" placeholder="Enter Address" id="address"
                             name="address" formControlName="address"></textarea>
+                          <div
+                            *ngIf="fguser.controls['address'].invalid && (fguser.controls['address'].dirty || fguser.controls['address'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fguser.controls.address.errors?.['required']">
+                              Address is required.
+                            </ng-container>
+                          </div>
                         </div>
                       </div>
                       <div class="text-end btn-page mb-0 mt-4">

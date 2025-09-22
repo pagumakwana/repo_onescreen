@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using onescreen.DAL.Common;
 using onescreenModel.Common;
+using onescreenModel.Configuration;
 using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
@@ -83,12 +84,22 @@ namespace onescreenDAL.UserManagement
                 DBHelper objDbHelper = new DBHelper();
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.usersignin, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstUserDetails = new List<userManagementModel>();
+                List<authorityuserModel> lstauthority = new List<authorityuserModel>();
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
+                        lstauthority = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new authorityuserModel
+                          {
+                              authority_id = Row.Field<Int64>("authority_id"),
+                              authority = Row.Field<string>("authority"),
+                          }).ToList();
+                    }
+                    if (ds.Tables[1].Rows.Count > 0)
+                    {
                         //Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                        lstUserDetails = ds.Tables[0].AsEnumerable().Select(Row =>
+                        lstUserDetails = ds.Tables[1].AsEnumerable().Select(Row =>
                           new userManagementModel
                           {
                               user_id = Row.Field<Int64>("user_id"),
@@ -101,6 +112,7 @@ namespace onescreenDAL.UserManagement
                               profilepicture = Row.Field<string>("profilepicture"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              lstauthority = lstauthority,
                               response = Row.Field<string>("Response"),
                           }).ToList();
                     }

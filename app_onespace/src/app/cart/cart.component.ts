@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user } from '../_appmodel/_model';
@@ -69,9 +69,9 @@ export class CartComponent implements OnInit {
   initform() {
     this.fguser = this._fbuser.group({
       user_id: [0],
-      fullname: [''],
-      email_id: [''],
-      address: ['']
+      fullname: ['', [Validators.required]],
+      email_id: ['', [Validators.required]],
+      address: ['', [Validators.required]]
     });
   }
 
@@ -437,7 +437,10 @@ export class CartComponent implements OnInit {
             this._base._encryptedStorage.set(enAppSession.fullname, this._updateuserdetail.fullname);
             this._base._encryptedStorage.set(enAppSession.email_id, this._updateuserdetail.email_id);
             this.detailupdated = true;
-            this.place_order();
+            setTimeout(() => {
+              this.detailupdated = false;
+            }, 1500);
+              this.place_order();
           }
 
           setTimeout(() => {
