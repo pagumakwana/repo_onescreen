@@ -74,16 +74,17 @@
                                             class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
                                             <i class="ti ti-eye f-18"></i>
                                         </a>
-                                        <button (click)="media_approved(_obj.order_product_map_id,1)"
-                                            class="btn btn-sm btn-success" title="Approve">
-                                            <!-- <i class="ph-duotone ph-check-circle text-success f-18"></i> -->
-                                            <span class="ms-1">Approve</span>
-                                        </button>
-                                        <button (click)="openModal(_obj.order_product_map_id)"
-                                            class="btn btn-sm btn-danger" title="Reject">
-                                            <!-- <i class="ph-duotone ph-x-circle text-light f-18"></i> -->
-                                            <span class="ms-1">Reject</span>
-                                        </button>
+                                        <ng-container *ngIf="!isAppUser">
+                                            <button (click)="media_approved(_obj.order_product_map_id,1)"
+                                                class="btn btn-sm btn-success" title="Approve">
+                                                <span class="ms-1">Approve</span>
+                                            </button>
+
+                                            <button (click)="openModal(_obj.order_product_map_id)"
+                                                class="btn btn-sm btn-danger" title="Reject">
+                                                <span class="ms-1">Reject</span>
+                                            </button>
+                                        </ng-container>
                                     </div>
                                 </td>
                             </tr>
@@ -163,6 +164,9 @@
 </ng-template>
 
 <ng-template #VideoModal let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
     <div class="modal-body">
         <div class="row mb-6">
             <div class="col-lg-12 fv-row text-center">

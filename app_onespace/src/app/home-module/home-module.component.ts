@@ -5,16 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
+import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'app-home-module',
-  standalone: true,
-  imports: [CommonModule,FormsModule],
-  templateUrl: './home-module.component.html',
-  styleUrl: './home-module.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  schemas:[  CUSTOM_ELEMENTS_SCHEMA,
-    NO_ERRORS_SCHEMA]
+	selector: 'app-home-module',
+	standalone: true,
+	imports: [CommonModule, FormsModule, RouterLink],
+	templateUrl: './home-module.component.html',
+	styleUrl: './home-module.component.scss',
+	encapsulation: ViewEncapsulation.None,
+	schemas: [CUSTOM_ELEMENTS_SCHEMA,
+		NO_ERRORS_SCHEMA]
 })
 export class HomeModuleComponent implements OnInit {
 
@@ -25,7 +26,10 @@ export class HomeModuleComponent implements OnInit {
 
 	bannerList: any = [];
 
-  
+
+	goToProduct() {
+		this._base._router.navigate(['/product']);
+	}
 	public BannerSwiper: SwiperConfigInterface = {
 		autoplay: {
 			delay: 3000, // Slide every 3 seconds (3000ms)
@@ -35,7 +39,7 @@ export class HomeModuleComponent implements OnInit {
 		loop: true,
 	};
 
-  ngAfterViewInit() {
+	ngAfterViewInit() {
 		this.BannerSwiper = {
 			autoplay: {
 				delay: 3000, // Slide every 3 seconds (3000ms)
