@@ -39,8 +39,8 @@ export class WallettransactionComponent {
 
   @ViewChild('failureSwal')
   public readonly failureSwal!: SwalComponent;
-  @ViewChild('paysuccessSwal')
-  public readonly paysuccessSwal!: SwalComponent;
+  @ViewChild('pendingSwal')
+  public readonly pendingSwal!: SwalComponent;
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
 
   public get modalService(): NgbModal {
@@ -59,7 +59,7 @@ export class WallettransactionComponent {
   _walletwithdrawal: wallet_withdrawal = {};
   _walletmaster: wallet_master = {};
   walletwidget: any = {};
-  user_id:any ;
+  user_id: any;
 
   transactionMaster: any = [];
   withdrawalMaster: any = [];
@@ -71,18 +71,18 @@ export class WallettransactionComponent {
     public _fbwallet: FormBuilder,
     private _cdr: ChangeDetectorRef,
     private _modalService: NgbModal,
-  private _activatedRouter: ActivatedRoute) { }
+    private _activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.initform();
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-    this.user_id = parseInt(user_id);
-    this.getwalletwidget(this.user_id);
+      this.user_id = parseInt(user_id);
+      this.getwalletwidget(this.user_id);
     });
     this.getwallettransaction();
     this.getwalletwithdrawal();
     this.getwalletmaster();
-    
+
   }
 
   initform() {
@@ -182,7 +182,7 @@ export class WallettransactionComponent {
     });
   }
 
-  getwalletwidget(user_id:any) {
+  getwalletwidget(user_id: any) {
     this._webDService.getwalletwidget(user_id).subscribe({
       next: (res: any) => {
         this.walletwidget = res?.data || {};
@@ -191,13 +191,13 @@ export class WallettransactionComponent {
       },
       error: (err) => {
         console.error("Error fetching dashboard data", err);
-        this.walletwidget = {}; 
+        this.walletwidget = {};
       }
     });
   }
 
   getwalletmaster() {
-    this._webDService.getwalletmaster('all', 0,0,0).subscribe((reswalletMaster: any) => {
+    this._webDService.getwalletmaster('all', 0, 0, 0).subscribe((reswalletMaster: any) => {
       this.walletMaster = reswalletMaster.data;
       this.walletMaster = Array.isArray(reswalletMaster.data) ? reswalletMaster.data : [];
       this._cdr.detectChanges();
@@ -233,6 +233,14 @@ export class WallettransactionComponent {
                 this.requestsuccSwal.fire();
                 setTimeout(() => {
                   this.requestsuccSwal.close()
+                  location.reload();
+                }, 1500);
+              }, 1000);
+            } else if (response === 'requestpending') {
+              setTimeout(() => {
+                this.pendingSwal.fire();
+                setTimeout(() => {
+                  this.pendingSwal.close();
                   location.reload();
                 }, 1500);
               }, 1000);
