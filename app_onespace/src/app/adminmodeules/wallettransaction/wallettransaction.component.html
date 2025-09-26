@@ -258,6 +258,9 @@
             <swal #failureSwal [swalOptions]="swalOptions" title="Request failed!" text="Insufficient Balance"
                 icon="warning" [showConfirmButton]="false">
             </swal>
+            <swal #pendingSwal [swalOptions]="swalOptions" title="Request is Pending" text="" icon="warning"
+                [showConfirmButton]="false">
+            </swal>
         </div>
     </form>
 </ng-template>
