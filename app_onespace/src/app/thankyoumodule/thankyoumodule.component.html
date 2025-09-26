@@ -117,3 +117,20 @@
         </div>
     </form>
 </ng-template>
+
+
+<ng-template #VideoModal let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row mb-6">
+            <div class="col-lg-12 fv-row text-center">
+                <video width="100%" height="auto" controls *ngIf="selectedVideoUrl">
+                    <source [src]="selectedVideoUrl" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</ng-template>

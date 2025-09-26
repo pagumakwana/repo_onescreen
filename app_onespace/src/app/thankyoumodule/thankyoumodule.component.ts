@@ -249,6 +249,15 @@ export class ThankyoumoduleComponent implements OnInit {
     this._base._router.navigate([`/app/invoice/${this.order_id}`]);
   }
 
-  
+  selectedVideoUrl: string | null = null;
+  openvideo(videoUrl: string) {
+    this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';
+    this.modalRef = this.modalService.open(this.VideoModal, {
+      size: 'l',
+      backdrop: true,
+      centered: true
+    });
+    console.log("video", this.selectedVideoUrl);
+  }
 
 }

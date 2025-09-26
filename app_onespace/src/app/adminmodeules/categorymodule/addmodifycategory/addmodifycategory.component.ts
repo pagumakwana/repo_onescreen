@@ -140,6 +140,7 @@ export class AddmodifycategoryComponent {
   }
 
   saveModuleFile_helper() {
+    debugger
     let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
     if (fileData.length > 0)
       this.saveModuleFile_multi_helper(fileData, fileData.length, [])

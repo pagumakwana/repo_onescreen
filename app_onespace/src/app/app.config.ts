@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes,withRouterConfig({ onSameUrlNavigation: 'reload' })),importProvidersFrom (
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes, withHashLocation(),withRouterConfig({ onSameUrlNavigation: 'reload' })),importProvidersFrom (
     BrowserAnimationsModule, // required by Toastr
     BrowserModule,
     BrowserAnimationsModule,

@@ -57,7 +57,9 @@ export class ApiService implements OnDestroy {
     setHeadersFile() {
         return new HttpHeaders({
             'client_id': "1",
-            'project_id': "1"
+            'project_id': "1",
+            'X-Content-Type-Options': 'nosniff',
+            'Access-Control-Allow-Origin': '*',
         })
     }
 
