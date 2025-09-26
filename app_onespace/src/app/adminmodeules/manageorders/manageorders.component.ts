@@ -77,15 +77,19 @@ export class ManageordersComponent implements OnInit {
 
   lstauthority: string[] = [];
   isAppUser: boolean = false;
+  isVisibleApproved:boolean=false;
   ngOnInit(): void {
-    this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
-    this.get_pendingmediaupload(this.order_id);
-     this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
-    if (storedAuthorities) {
-      this.lstauthority = JSON.parse(storedAuthorities);
-      this.isAppUser = this.lstauthority.includes('App User');
-    }
-  });
+    this._base._encryptedStorage.get(enAppSession.lstauthority).then((lstauthority:any) => {
+
+      this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+      this.get_pendingmediaupload(this.order_id);
+      this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
+        if (storedAuthorities) {
+          this.lstauthority = JSON.parse(storedAuthorities);
+          this.isAppUser = this.lstauthority.includes('App User');
+        }
+      });
+    });
   }
 
   selectedOrderId: number = 0;
@@ -111,9 +115,9 @@ export class ManageordersComponent implements OnInit {
     });
     console.log("video", this.selectedVideoUrl);
   }
-  get_pendingmediaupload(order_id:any=0) {
+  get_pendingmediaupload(order_id: any = 0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
-      this._webDService.getpendingmediaupload(user_id,order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
+      this._webDService.getpendingmediaupload(user_id, order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
         this.pendingMedia = respendingMedia.data;
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
         this._cdr.detectChanges();

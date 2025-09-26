@@ -51,10 +51,6 @@
                                         <i class="ti ti-upload text-primary f-24" data-bs-toggle="tooltip"
                                             data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
                                     </a>
-                                    <!-- <a (click)="open_upload_media(_obj.order_product_map_id)"> <i
-                                            class="ph-duotone ph-file-plus" data-bs-toggle="tooltip"
-                                            data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i></a> -->
-
                                 </td>
                                 <td class="text-center">
                                     <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
@@ -99,10 +95,6 @@
 
 <ng-template #formModal let-modal>
     <form #myForm="ngForm">
-        <!-- <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div> -->
         <div class="modal-body">
             <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
                 data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
@@ -132,10 +124,6 @@
 
 <ng-template #formMediaModal let-modal>
     <form [formGroup]="fgmedia" #mediaForm="ngForm">
-        <!-- <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Invoice Details</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div> -->
         <div class="modal-body">
             <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
                 data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
@@ -174,10 +162,6 @@
                     <source [src]="selectedVideoUrl" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-                <!-- <video width="100%" height="auto" controls autoplay>
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video> -->
             </div>
         </div>
     </div>

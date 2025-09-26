@@ -20,7 +20,7 @@ export class AppSessionService {
             this._encryptedStorage.set(enAppSession.clientlist, JSON.stringify(userConfig.clientlist));
             this._encryptedStorage.set(enAppSession.projectlist, JSON.stringify(userConfig.projectlist));
             this._encryptedStorage.set(enAppSession.usermodulelist, JSON.stringify(userConfig.usermodulelist));
-            this._encryptedStorage.set(enAppSession.lstauthority, JSON.stringify(userConfig.lstauthority));
+            this._encryptedStorage.set(enAppSession.lstauthority, JSON.stringify(responseData.lstauthority));
             this._encryptedStorage.set(enAppSession.society_id, '');
             this._encryptedStorage.set(enAppSession.complex_id, '');
             this._encryptedStorage.set(enAppSession.wing_id, '');

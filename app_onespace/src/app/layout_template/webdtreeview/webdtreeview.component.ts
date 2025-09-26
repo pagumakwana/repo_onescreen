@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import _ from 'lodash';
 import { ITreeOptions, TreeComponent, TreeModule, TreeNode } from '@ali-hm/angular-tree-component';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
@@ -9,9 +9,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'webd-treeview',
   standalone: true,
-  imports: [TreeModule,CommonModule],
+  imports: [TreeModule,CommonModule, FormsModule,ReactiveFormsModule],
   templateUrl: './webdtreeview.component.html',
-  styleUrl: './webdtreeview.component.scss'
+  styleUrl: './webdtreeview.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class WebdtreeviewComponent implements OnInit {
 
@@ -24,23 +25,22 @@ export class WebdtreeviewComponent implements OnInit {
 
 
   nodes: Array<any> = [{}]
-  treeObject!: TreeComponent;
-
-  checkBoxData = {
-    checked: [] as (string | number)[],
-    checkedObj: [] as TreeNode[]
-  };
+  treeObject!: TreeComponent
+  checkBoxData = {    
+    checked:[] as any[],
+    checkedObj: [] as any[]
+  }
 
   treeOption: ITreeOptions = {
-    displayField:undefined,
-    childrenField:undefined,
-    idField:undefined,
+    displayField: undefined,
+    childrenField: undefined,
+    idField: undefined,
     nodeHeight: 23,
-    allowDrag: (node:any) => {
+    allowDrag: (node) => {
 
       return false;
     },
-    allowDrop: (node:any) => {
+    allowDrop: (node) => {
 
       return false;
     },
@@ -50,36 +50,42 @@ export class WebdtreeviewComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    debugger
     this.treeOption.displayField = this.treeConfigData.displayField;
     this.treeOption.childrenField = this.treeConfigData.childrenField;
     this.treeOption.idField = this.treeConfigData.idField;
-
-
   }
 
   setCheckedData() {
     if (this.control.value && Array.isArray(this.control.value)) {
       for (let nodeId of this.control.value) {
-        var node: TreeNode = this.treeObject.treeModel.getNodeById(nodeId?.module_id ? nodeId.module_id.toString():nodeId.toString())
-        
-        node.data.isChecked = true
-        this.checkBoxData.checked.push(node.id)
-        this.checkBoxData.checkedObj.push(node)
+        let node: TreeNode = this.treeObject.treeModel.getNodeById(nodeId?.module_id ? nodeId.module_id.toString():nodeId.toString())
+        if (node) {
+          node.data.isChecked = true;
+      
+          // ✅ Check before pushing into array
+          if (!this.checkBoxData.checked.includes(node.id)) {
+            this.checkBoxData.checked.push(node.id);
+          }
+      
+          if (!this.checkBoxData.checkedObj.some((n: TreeNode) => n.id === node.id)) {
+            this.checkBoxData.checkedObj.push(node);
+          }
+        }
       }
     }
   }
   
 
   onInitialized(tree: TreeComponent) {
-    debugger
+    
+    
     this.treeObject = tree
 
     this.initialize()
   }
 
   initialize() {
-    debugger
+    
     if (Array.isArray(this.treeConfigData.treeData) && this.treeConfigData.treeData.length > 0) {
 
       this.treeConfigData.treeData.map(item => {
@@ -103,6 +109,7 @@ export class WebdtreeviewComponent implements OnInit {
   }
 
   filterInArray(data: Array<any>, key: string | undefined, value: any, returnIndexOnly: boolean = false): null | any {
+    
     let index: number = _.findIndex(data, (o: any) => {
       return key ? o[key] : o == value
     })
@@ -110,6 +117,7 @@ export class WebdtreeviewComponent implements OnInit {
   }
   //--------------------------CheckBox functions start-------------------------
   checkBoxChecked(event: object | any, node: TreeNode) {
+    
     let isChecked: boolean = event ? event.target.checked : null
     this.addRemoveIds(isChecked, node.id)
     node.data.isChecked = isChecked
@@ -125,11 +133,11 @@ export class WebdtreeviewComponent implements OnInit {
   }
 
   addRemoveIds(isAdd: boolean, id: string | number) {
-  
+    
     let data: any = this.filterInArray(this.checkBoxData.checked, undefined, id, true)
     let isPresent: boolean = data ? true : (typeof data == 'number' && data > -1)
     if (isAdd == true && !isPresent) {
-      this.checkBoxData.checked.push(String(id))
+      this.checkBoxData.checked.push(id)
     } else if (isAdd == false && isPresent) {
       this.checkBoxData.checked.splice(data, 1)
     }
@@ -148,7 +156,7 @@ export class WebdtreeviewComponent implements OnInit {
   }
 
   checkForParents_helper(id:any) {
-    let node: TreeNode | any = this.treeObject.treeModel.getNodeById(id)
+    let node: TreeNode = this.treeObject.treeModel.getNodeById(id)
     let count = 0
     for (let nodeItem of node.data.children) {
       if (nodeItem.isChecked)
@@ -161,7 +169,7 @@ export class WebdtreeviewComponent implements OnInit {
   checkAllChildrens(nodeList:any, isChecked: boolean) {
     for (let node of nodeList) {
       node.isChecked = isChecked
-      this.addRemoveIds(isChecked,node[this.treeConfigData.idField as keyof typeof node])
+      this.addRemoveIds(isChecked, node[this.treeConfigData.idField])
       if (Array.isArray(node.children) && node.children.length > 0)
         this.checkAllChildrens(node.children, isChecked)
     }
@@ -169,6 +177,7 @@ export class WebdtreeviewComponent implements OnInit {
 
 
   //--------------------------CheckBox functions end-------------------------
+
 
 
 

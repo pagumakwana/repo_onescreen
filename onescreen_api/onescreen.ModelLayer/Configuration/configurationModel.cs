@@ -49,7 +49,7 @@ namespace onescreenModel.Configuration
         public string authority { get; set; }
         public string description { get; set; }
         public List<userModuleModel> lstmodule { get; set; }
-        //public List<controlsModel> lstcontrol { get; set; }
+        public List<controlsModel> lstcontrol { get; set; }
     }
     public class controlsModel : commonModel
     {

@@ -38,6 +38,8 @@ import { OrdermoduleComponent } from './adminmodeules/ordermodule/ordermodule.co
 import { ThankyoumoduleComponent } from './thankyoumodule/thankyoumodule.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { WallettransactionComponent } from './adminmodeules/wallettransaction/wallettransaction.component';
+import { ControlmoduleComponent } from './adminmodeules/controlmodule/controlmodule.component';
+import { ManagecontrolComponent } from './adminmodeules/controlmodule/managecontrol/managecontrol.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -236,6 +238,16 @@ export const routes: Routes = [
                 path: 'invoice/:order_id',
                 component: InvoiceComponent,
                 title: 'Thanks You',
+            },
+            {
+                path: 'control',
+                component: ControlmoduleComponent,
+                title: 'Controls',
+            },
+            {
+                path: 'control/:control_id',
+                component: ManagecontrolComponent,
+                title: 'Controls',
             },
         ]
     },

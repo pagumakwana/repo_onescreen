@@ -111,7 +111,7 @@ export class CartComponent implements OnInit {
       ?.filter((p: any) => p.product_id > 0)
       .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
     console.log("rzr_response", rzr_response)
-    if (rzr_response && rzr_response.status === 'failure') {
+    if (rzr_response && rzr_response.status === 'success') {
       setTimeout(() => {
         this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
           this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
@@ -160,6 +160,11 @@ export class CartComponent implements OnInit {
             });
           });
         });
+      }, 1000);
+    } else if (rzr_response && rzr_response.status === 'failure') {
+      this.failureSwal.fire();
+      setTimeout(() => {
+        this.failureSwal.close();
       }, 1000);
     }
   }
@@ -440,7 +445,7 @@ export class CartComponent implements OnInit {
             setTimeout(() => {
               this.detailupdated = false;
             }, 1500);
-              this.place_order();
+            this.place_order();
           }
 
           setTimeout(() => {
