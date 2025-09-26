@@ -17,6 +17,9 @@ export class CommonService {
     constructor(public _apiService: ApiService,
         public _encryptedStorage: EncryptedStorage,
         private _router: Router) {
+        this._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+            this.lstcontrol = lstcontrol ? JSON.parse(lstcontrol):[];
+        });
     }
 
     browser: any
@@ -26,7 +29,7 @@ export class CommonService {
     public cdnURL = configData.cdnURL;
     public cdnAPPURL = configData.cdnAPPURL;
     public authoritycontrolList: any = [];
-    public isLoggedIn:boolean=false;
+    public isLoggedIn: boolean = false;
 
     public navigation(url: any = [], isLoginRequired: boolean = false) {
         if (isLoginRequired) {
@@ -357,6 +360,11 @@ export class CommonService {
         });
     }
 
+    lstcontrol: any;
 
+    hasAccessofcontrol(syscontrolname: string): boolean {
+        console.log(this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false)
+        return this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false;
+    }
 
 }

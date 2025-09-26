@@ -54,14 +54,14 @@ namespace onescreenModel.Configuration
     public class controlsModel : commonModel
     {
         public Int64 control_id { get; set; }
-        public string title { get; set; }
-        public string syscontrolname { get; set; }
-        public Int64 module_id { get; set; }
-        public string modulename { get; set; }
-        public string aliasname { get; set; }
-        public string description { get; set; }
-        public bool allowaccess { get; set; }
-        public Int64 authority_id { get; set; }
+        public string? title { get; set; }
+        public string? syscontrolname { get; set; }
+        public Int64? module_id { get; set; }
+        public string? modulename { get; set; }
+        public string? aliasname { get; set; }
+        public string? description { get; set; }
+        public bool? allowaccess { get; set; }
+        public Int64? authority_id { get; set; }
     }
 
     public class portalconfigModel : commonModel

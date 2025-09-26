@@ -192,7 +192,7 @@ export class ProfilemoduleComponent {
         fileType: ['image/svg', 'image/jpeg', 'image/jpg', 'image/png'],
         size: 3145728
       },
-      isMulti: true,
+      isMulti: false,
       fileidentifier: 'profilepicture',
       ModuleType: 'profile_picture',
       ModuleID: 0,

@@ -233,7 +233,6 @@ export class WallettransactionComponent {
                 this.requestsuccSwal.fire();
                 setTimeout(() => {
                   this.requestsuccSwal.close()
-                  location.reload();
                 }, 1500);
               }, 1000);
             } else if (response === 'requestpending') {
@@ -249,7 +248,6 @@ export class WallettransactionComponent {
                 this.failureSwal.fire();
                 setTimeout(() => {
                   this.failureSwal.close();
-                  location.reload();
                 }, 1500);
               }, 1000);
             }

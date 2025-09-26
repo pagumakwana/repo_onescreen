@@ -7,13 +7,7 @@
                     <div class="flex-grow-1 me-3">
                         <h4 class="mb-1 fw-medium">Wallet Balance</h4>
                         <h4 class="mb-1 text-muted">{{walletwidget[0]?.balance_amount}}</h4>
-                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
-                    <!-- <div class="flex-shrink-0">
-                        <div class="avtar avtar-l bg-light-primary rounded-circle">
-                            <i class="ph-duotone ph-book-bookmark f-28"></i>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -25,13 +19,7 @@
                     <div class="flex-grow-1 me-3">
                         <h4 class="mb-1 fw-medium">Requested Amount</h4>
                         <h4 class="mb-1 text-muted">{{walletwidget[0]?.requested_amount}}</h4>
-                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
-                    <!-- <div class="flex-shrink-0">
-                        <div class="avtar avtar-l bg-light-success rounded-circle">
-                            <i class="ph-duotone ph-rocket f-28"></i>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -43,13 +31,7 @@
                     <div class="flex-grow-1 me-3">
                         <h4 class="mb-1 fw-medium">Total Transaction</h4>
                         <h4 class="mb-1 text-muted">{{walletwidget[0]?.transaction_amount}}</h4>
-                        <!-- <p class="mb-0 text-sm">May 23 - June 01 (2018)</p> -->
                     </div>
-                    <!-- <div class="flex-shrink-0">
-                        <div class="avtar avtar-l bg-light-warning rounded-circle">
-                            <i class="ph-duotone ph-credit-card f-28"></i>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -96,24 +78,7 @@
         </div>
         <div class="tab-content">
             <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
-                <div class="row gy-4">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-body border-bottom">
-                                <h5 class="mb-0">
-                                    Wallet Transaction Amount
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <webd-table #dataTableCom [config]='tableConfig'></webd-table>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
+                <webd-table #dataTableCom [config]='tableConfig'></webd-table>
             </div>
 
             <!-- Personal Information-->
@@ -143,7 +108,9 @@
                                                 <th>Status</th>
                                                 <th>Requested Name</th>
                                                 <th>Updated Name</th>
-                                                <th>Action</th>
+                                                <th
+                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -154,9 +121,6 @@
                                                     <i class="ph-duotone ph-check-circle text-success f-24"
                                                         data-bs-toggle="tooltip" data-bs-title="success"
                                                         *ngIf="_obj.is_approved == 1"></i>
-                                                    <!-- <i class="ph-duotone ph-clock-countdown text-warning f-24"
-                                                        data-bs-toggle="tooltip" data-bs-title="warning"
-                                                        *ngIf="_obj.is_approved == 0 && _obj.is_media_upload == 1"></i> -->
                                                     <i class="ph-duotone ph-x-circle text-danger f-24"
                                                         data-bs-toggle="tooltip" data-bs-title="danger"
                                                         *ngIf="_obj.is_approved == 0"></i>
@@ -165,18 +129,19 @@
                                                 </td>
                                                 <td>{{_obj.createdname}}</td>
                                                 <td>{{_obj.updatedname}}</td>
-                                                <td class="text-center">
+                                                <td class="text-center"
+                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
                                                     <div class="d-flex justify-content-center align-items-center gap-2">
-                                                        <button (click)="approveRequest(_obj.withdrawal_request_id, 'approved')"
+                                                        <button
+                                                            (click)="approveRequest(_obj.withdrawal_request_id, 'approved')"
                                                             class="btn btn-sm btn-success d-flex align-items-center"
                                                             title="Approve">
-                                                            <!-- <i class="ph-duotone ph-check-circle text-success f-18"></i> -->
                                                             <span class="ms-1">Approve</span>
                                                         </button>
-                                                        <button (click)="approveRequest(_obj.withdrawal_request_id, 'rejected')"
+                                                        <button
+                                                            (click)="approveRequest(_obj.withdrawal_request_id, 'rejected')"
                                                             class="btn btn-sm btn-danger d-flex align-items-center"
                                                             title="Reject">
-                                                            <!-- <i class="ph-duotone ph-x-circle text-light f-18"></i> -->
                                                             <span class="ms-1">Reject</span>
                                                         </button>
                                                     </div>
@@ -185,11 +150,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <!-- <webd-table #walletdataTableCom [config]='wallettableConfig'
-                                    (tableEvent)="tableClick($event)"></webd-table> -->
                             </div>
-                            <!-- </div> -->
                         </div>
 
                     </div>
@@ -199,8 +160,6 @@
         </div>
 
     </div>
-
-    <!-- [ sample-page ] end -->
 </div>
 
 
@@ -237,11 +196,10 @@
             </div>
             <form [formGroup]="fgwallet">
 
-                <div class="row mb-6 justify-content-center">
-                    <div class="col-lg-6 fv-row">
-                        <label class="col-form-label fw-bold fs-8 text-center d-block">Enter
-                            Amount</label>
-                        <input type="number" class="form-control form-control-sm" id="amount" name="amount"
+                <div class="row mb-8 justify-content-center">
+                    <div class="col-lg-8 fv-row">
+                        <label class="col-form-label fw-bold fs-8 text-center d-block">Wallet Balance : {{walletwidget[0]?.balance_amount}}</label>
+                        <input type="number" class="form-control" id="amount" name="amount"
                             placeholder="amount" formControlName="amount">
                     </div>
                 </div>

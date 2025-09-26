@@ -12,13 +12,10 @@
                             <tr>
                                 <th class="text-end">Order#</th>
                                 <th>Product Detail</th>
-                                <th>Screen</th>
-                                <th>Interval</th>
-                                <th>Repetition</th>
                                 <th class="text-center">Media Upload</th>
                                 <th class="text-center">Media Approved</th>
                                 <th class="text-center">Media Comment</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,15 +28,15 @@
                                                 class="wid-40 rounded">
                                         </div>
                                         <div class="col">
+                                            <h6 class="mb-1">{{_obj.product_name}}</h6>
                                             <h6 class="mb-1">{{_obj.time_slot_value}}</h6>
                                             <p class="text-muted f-12 mb-0">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
                                                 {{_obj.to_date| date: 'dd-MMM-yyyy' }} </p>
+                                                <p  class="text-muted f-12 mb-0">Interval : {{_obj.interval_value}}</p>
+                                                <p  class="text-muted f-12 mb-0">Repetiton : {{_obj.repetition_value}}</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{_obj.product_name}}</td>
-                                <td>{{_obj.interval_value}}</td>
-                                <td>{{_obj.repetition_value}}</td>
                                 <td class="text-center">
                                     <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
                                         data-bs-title="success" *ngIf="_obj.is_media_upload == 1"></i>
@@ -64,7 +61,7 @@
                                         data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
                                 </td>
                                 <td>{{_obj.media_comments}}</td>
-                                <td class="text-center">
+                                <td class="text-center" *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <a (click)="openvideo(_obj.thumbnail)"
                                             class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">

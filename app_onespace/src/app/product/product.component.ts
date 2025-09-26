@@ -414,10 +414,10 @@ export class ProductComponent implements OnInit {
           timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
           repetition_category_id: [0],
           repetition_category: [''],
-          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '',[Validators.required]],
+          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
           interval_category_id: [0],
           interval_category: [''],
-          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '',[Validators.required]],
+          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
           attribute_amount: 0.00,
           quantity: [1],
           date_total: 0.00
@@ -907,7 +907,10 @@ export class ProductComponent implements OnInit {
   }
 
   _wizard_index: number = 0;
-
+  typemastervalid: boolean = false;
+  propertymastervalid: boolean = false;
+  routemastervalid: boolean = false;
+  screenmastervalid: boolean = false;
   change_wizard_index(flag: string = 'plus') {
     if (flag == 'minus') {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index; // default to 1 if invalid
@@ -934,8 +937,43 @@ export class ProductComponent implements OnInit {
     } else {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index;
       if (this._wizard_index < 4) {
-        this._wizard_index++;
-      }
+        if (this._wizard_index == 3) {
+          const hasChecked = this.ScreenMaster.some((item: any) => item.isChecked === true);
+          if (hasChecked) {
+            this.screenmastervalid = false;
+            this._wizard_index++;
+          } else {
+            this.screenmastervalid = true;
+          }
+        } else if (this._wizard_index == 2) {
+          const hasChecked = this.RouteMaster.some((item: any) => item.isChecked === true);
+          if (hasChecked) {
+            this.routemastervalid = false;
+            this._wizard_index++;
+          } else {
+            this.routemastervalid = true;
+          }
+        }
+        else if (this._wizard_index == 1) {
+          const hasChecked = this.PropertyMaster.some((item: any) => item.isChecked === true);
+          if (hasChecked) {
+            this.propertymastervalid = false;
+            this._wizard_index++;
+          } else {
+            this.propertymastervalid = true;
+          }
+        }
+        else if (this._wizard_index == 0) {
+          const hasChecked = this.TypeMaster.some((item: any) => item.isChecked === true);
+          if (hasChecked) {
+            this.typemastervalid = false;
+            this._wizard_index++;
+          } else {
+            this.typemastervalid = true;
+          }
+        }
+
+      } this._cdr.detectChanges();
     }
   }
 

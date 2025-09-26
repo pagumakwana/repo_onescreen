@@ -85,6 +85,7 @@ namespace onescreenDAL.UserManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.usersignin, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstUserDetails = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
+                List<controlsModel> lstcontrol = new List<controlsModel>();
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -98,8 +99,19 @@ namespace onescreenDAL.UserManagement
                     }
                     if (ds.Tables[1].Rows.Count > 0)
                     {
+                        lstcontrol = ds.Tables[1].AsEnumerable().Select(Row =>
+                          new controlsModel
+                          {
+                              control_id = Row.Field<Int64>("control_id"),
+                              syscontrolname = Row.Field<string>("syscontrolname"),
+                              modulename = Row.Field<string>("modulename"),
+                              module_id = Row.Field<Int64>("module_id"),
+                          }).ToList();
+                    }
+                    if (ds.Tables[2].Rows.Count > 0)
+                    {
                         //Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                        lstUserDetails = ds.Tables[1].AsEnumerable().Select(Row =>
+                        lstUserDetails = ds.Tables[2].AsEnumerable().Select(Row =>
                           new userManagementModel
                           {
                               user_id = Row.Field<Int64>("user_id"),
@@ -113,6 +125,7 @@ namespace onescreenDAL.UserManagement
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                               lstauthority = lstauthority,
+                              lstcontrol = lstcontrol,
                               response = Row.Field<string>("Response"),
                           }).ToList();
                     }

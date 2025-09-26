@@ -30,6 +30,7 @@ namespace onescreenModel.UserManagement
         public List<authorityuserModel> lstauthority { get; set; }
         public List<vendoruserModel> lstvendor { get; set; }
         public List<productuserModel>? lstproduct { get; set; }
+        public List<controlsModel>? lstcontrol { get; set; }
         public string password { get; set; }
         public string? address { get; set; }
     }

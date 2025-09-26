@@ -15,14 +15,6 @@
               [controlObject]="fgUser.controls['profilepicture']" [fileConfig]="this.fileConfig['profilepicture']">
             </webd-mediauploader>
           </div>
-          <!-- <div class="col-lg-8">
-                        <div class="image-input image-input-outline" data-kt-image-input="true"
-                            [style.background-image]="'url(./assets/media/avatars/blank.png)'">
-                            <div class="image-input-wrapper w-125px h-125px" [style.background-image]="
-                    'url(./assets/media/avatars/300-1.jpg)'
-                  "></div>
-                        </div>
-                    </div> -->
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label required fw-bold fs-6"> Full Name</label>
@@ -98,17 +90,11 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <!-- <div 
-                                    *ngIf="fgUser.controls.dob.invalid && (fgUser.controls.dob.dirty || fgUser.controls.dob.touched) ">
-                                    <ng-container *ngIf="fgUser.controls.dob.errors?.['required']">
-                                        DOB is required.
-                                    </ng-container>
-
-                                </div> -->
               </div>
             </div>
           </div>
         </div>
+        <br>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6">Bio</label>
           <div class="col-lg-8">
@@ -120,7 +106,7 @@
             </div>
           </div>
         </div>
-
+        <br>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6">Website</label>
           <div class="col-lg-8">
@@ -128,13 +114,6 @@
               <div class="col-lg-6 fv-row">
                 <input type="text" class="form-control form-control-sm form-control-solid" id="website" name="website"
                   placeholder="Website" formControlName="website">
-                <!-- <div 
-                                    *ngIf="fgUser.controls.website.invalid && (fgUser.controls.website.dirty || fgUser.controls.website.touched) ">
-                                    <ng-container *ngIf="fgUser.controls.website.errors?.['required']">
-                                        Website is required.
-                                    </ng-container>
-
-                                </div> -->
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ export class AppSessionService {
             this._encryptedStorage.set(enAppSession.projectlist, JSON.stringify(userConfig.projectlist));
             this._encryptedStorage.set(enAppSession.usermodulelist, JSON.stringify(userConfig.usermodulelist));
             this._encryptedStorage.set(enAppSession.lstauthority, JSON.stringify(responseData.lstauthority));
+            this._encryptedStorage.set(enAppSession.lstcontrol, JSON.stringify(responseData.lstcontrol));
             this._encryptedStorage.set(enAppSession.society_id, '');
             this._encryptedStorage.set(enAppSession.complex_id, '');
             this._encryptedStorage.set(enAppSession.wing_id, '');
@@ -50,6 +51,7 @@ export class AppSessionService {
         this._encryptedStorage.set(enAppSession.usermodulelist, '');
         this._encryptedStorage.set(enAppSession.profilepicture, '');
         this._encryptedStorage.set(enAppSession.lstauthority, '');
+        this._encryptedStorage.set(enAppSession.lstcontrol, '');
         localStorage.setItem('_user', '');
     }
 

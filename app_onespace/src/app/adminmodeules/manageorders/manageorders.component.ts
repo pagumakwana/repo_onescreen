@@ -77,10 +77,7 @@ export class ManageordersComponent implements OnInit {
 
   lstauthority: string[] = [];
   isAppUser: boolean = false;
-  isVisibleApproved:boolean=false;
   ngOnInit(): void {
-    this._base._encryptedStorage.get(enAppSession.lstauthority).then((lstauthority:any) => {
-
       this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
       this.get_pendingmediaupload(this.order_id);
       this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
@@ -89,8 +86,8 @@ export class ManageordersComponent implements OnInit {
           this.isAppUser = this.lstauthority.includes('App User');
         }
       });
-    });
   }
+  
 
   selectedOrderId: number = 0;
   rejectComment: string = '';
