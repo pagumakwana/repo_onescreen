@@ -24,6 +24,10 @@ export class ManageordersComponent implements OnInit {
   public readonly successSwal!: SwalComponent;
   @ViewChild('uploadsuccessSwal')
   public readonly uploadsuccessSwal!: SwalComponent;
+  @ViewChild('approveSwal')
+  public readonly approveSwal!: SwalComponent;
+  @ViewChild('rejectSwal')
+  public readonly rejectSwal!: SwalComponent;
 
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
@@ -78,6 +82,8 @@ export class ManageordersComponent implements OnInit {
   lstauthority: string[] = [];
   isAppUser: boolean = false;
   ngOnInit(): void {
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((rescontrol: any) => {
+      this._base._commonService.lstcontrol = JSON.parse(rescontrol);
       this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
       this.get_pendingmediaupload(this.order_id);
       this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
@@ -86,8 +92,9 @@ export class ManageordersComponent implements OnInit {
           this.isAppUser = this.lstauthority.includes('App User');
         }
       });
+    });
   }
-  
+
 
   selectedOrderId: number = 0;
   rejectComment: string = '';
@@ -138,6 +145,7 @@ export class ManageordersComponent implements OnInit {
             console.log("Media status updated:", res);
             this.get_pendingmediaupload();
             this.successSwal.fire();
+            location.reload();
             if (this.modalRef) {
               this.modalRef.close();
             }

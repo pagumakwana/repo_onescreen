@@ -80,7 +80,10 @@ export class WallettransactionComponent {
       this.getwalletwidget(this.user_id);
     });
     this.getwallettransaction();
-    this.getwalletwithdrawal();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((rescontrol: any) => {
+      this._base._commonService.lstcontrol = JSON.parse(rescontrol);
+      this.getwalletwithdrawal();
+    });
     this.getwalletmaster();
 
   }
