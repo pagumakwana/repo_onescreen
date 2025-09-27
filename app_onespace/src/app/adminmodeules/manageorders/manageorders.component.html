@@ -15,7 +15,9 @@
                                 <th class="text-center">Media Upload</th>
                                 <th class="text-center">Media Approved</th>
                                 <th class="text-center">Media Comment</th>
-                                <th class="text-center" *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">Action</th>
+                                <th class="text-center"
+                                    >
+                                    Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,8 +34,8 @@
                                             <h6 class="mb-1">{{_obj.time_slot_value}}</h6>
                                             <p class="text-muted f-12 mb-0">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
                                                 {{_obj.to_date| date: 'dd-MMM-yyyy' }} </p>
-                                                <p  class="text-muted f-12 mb-0">Interval : {{_obj.interval_value}}</p>
-                                                <p  class="text-muted f-12 mb-0">Repetiton : {{_obj.repetition_value}}</p>
+                                            <p class="text-muted f-12 mb-0">Interval : {{_obj.interval_value}}</p>
+                                            <p class="text-muted f-12 mb-0">Repetiton : {{_obj.repetition_value}}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -61,13 +63,14 @@
                                         data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
                                 </td>
                                 <td>{{_obj.media_comments}}</td>
-                                <td class="text-center" *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">
+                                <td class="text-center"
+                                    >
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <a (click)="openvideo(_obj.thumbnail)"
                                             class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
                                             <i class="ti ti-eye f-18"></i>
                                         </a>
-                                        <ng-container *ngIf="!isAppUser">
+                                        <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
                                             <button (click)="media_approved(_obj.order_product_map_id,1)"
                                                 class="btn btn-sm btn-success" title="Approve">
                                                 <span class="ms-1">Approve</span>
@@ -89,7 +92,12 @@
     </div>
     <!-- [ sample-page ] end -->
 </div>
-
+<swal #approveSwal [swalOptions]="swalOptions" title="Media Approved!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
+<swal #rejectSwal [swalOptions]="swalOptions" title="Media Rejeted!" text="" icon="warning"
+    [showConfirmButton]="false">
+</swal>
 <ng-template #formModal let-modal>
     <form #myForm="ngForm">
         <div class="modal-body">

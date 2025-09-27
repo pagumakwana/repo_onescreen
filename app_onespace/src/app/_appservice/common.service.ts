@@ -363,7 +363,6 @@ export class CommonService {
     lstcontrol: any;
 
     hasAccessofcontrol(syscontrolname: string): boolean {
-        console.log(this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false)
         return this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false;
     }
 
