@@ -59,7 +59,7 @@ export class ThankyoumoduleComponent implements OnInit {
   fileConfig: { [key: string]: fileConfigModel } = {
     thumbnail: {
       fileValidationInfo: {
-        fileType: ['image/svg', 'image/jpeg', 'image/jpg', 'image/png', 'video/mp4'],
+        fileType: ['video/mp4'],
         size: 3145728
       },
       isMulti: true,
@@ -245,10 +245,15 @@ export class ThankyoumoduleComponent implements OnInit {
     return arrayReturn
   }
 
-  viewinvoice() {
-    this._base._router.navigate([`/app/invoice/${this.order_id}`]);
-  }
+  // viewinvoice() {
+  //   this._base._router.navigate([`/app/invoice/${this.order_id}`]);
+  // }
 
+  viewinvoice(order_id: number) {
+  const baseUrl = window.location.origin;
+  const url = `${baseUrl}/app/invoice/${order_id}`;
+  window.open(url, '_blank');
+}
   selectedVideoUrl: string | null = null;
   openvideo(videoUrl: string) {
     this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';

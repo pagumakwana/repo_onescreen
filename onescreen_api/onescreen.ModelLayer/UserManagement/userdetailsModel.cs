@@ -26,9 +26,9 @@ namespace onescreenModel.UserManagement
         public string? contact_person_name { get; set; }
         public Int64 product_id { get; set; }
         public string? product_name { get; set; }
-        public Int64? commission { get; set; }
+        public decimal? commission { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
-        public List<vendoruserModel> lstvendor { get; set; }
+        public List<vendoruserModel>? lstvendor { get; set; }
         public List<productuserModel>? lstproduct { get; set; }
         public List<controlsModel>? lstcontrol { get; set; }
         public string password { get; set; }
@@ -56,7 +56,7 @@ namespace onescreenModel.UserManagement
     }
     public class vendoruserModel
     {
-        public Int64 vendor_id { get; set; }
+        public Int64? vendor_id { get; set; }
         public string? contact_person_name { get; set; }
     }
 

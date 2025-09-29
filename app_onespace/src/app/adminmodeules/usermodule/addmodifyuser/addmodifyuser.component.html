@@ -98,15 +98,17 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Vendor Commission</label>
-                  <input type="number" class="form-control  form-control-solid" id="commission" name="commission"
-                    placeholder="commission" formControlName="commission" min="0" max="100">
-                  <div
+                  <input type="text" class="form-control form-control-solid" id="commission" name="commission"
+                    placeholder="commission" formControlName="commission">
+                    <!-- pattern="^[0-9]\d{9}$"
+                    onkeypress="return /[0-9]/i.test(event.key)" min="0" max="100"> -->
+                  <!-- <div
                     *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
                     class="text-danger">
                     <ng-container *ngIf="fgUser.controls['commission'].errors?.['required']">
                       Commission is required.
                     </ng-container>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- <div class="col-lg-3 mb-3">
                   <label class="form-label">Project</label>
@@ -126,7 +128,7 @@
                     (onSelection)="onAuthoritySelect($event)">
                   </webd-multiselect>
                 </div>
-                <div class="col-lg-3 mb-3">
+                <div class="col-lg-3 mb-3" [hidden]="true">
                   <label class="form-label">Vendor</label>
                   <webd-multiselect [data]="lstVendor" class="col-sm-3 col-form-label" textField='contact_person_name'
                     valueField='vendor_id' [formControl]="fgUser?.controls?.lstvendor" placeholder="Select vendor"

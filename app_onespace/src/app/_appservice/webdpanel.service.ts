@@ -610,8 +610,8 @@ export class WebDService {
     }
 
 
-    public getorderdetails(flag = 'all', order_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getorderdetails(flag = 'all', order_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public signUp(_userregister: userRegistration) {
         return this._base._apiService.post(`${ApiConstant.customer.SignUp}`, _userregister);

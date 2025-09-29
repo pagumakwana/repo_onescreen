@@ -995,7 +995,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getorderdertails(string flag, Int64 order_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getorderdertails(string flag, Int64 order_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -1005,6 +1005,8 @@ namespace onescreenDAL.ProductManagement
                 DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@order_id", order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

@@ -55,7 +55,8 @@ export class ControlmoduleComponent {
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "modulename", title: "Module", type: "text" },
-      { identifer: "title", title: "System Name", type: "text" },
+      { identifer: "syscontrolname", title: "System Name", type: "text" },
+      { identifer: "title", title: "Title", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },
     ],
