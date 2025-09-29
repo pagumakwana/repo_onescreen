@@ -18,11 +18,13 @@
 }
 .category {
     text-align: center;
-    border: 1px solid rgb(0 0 0 / 20%);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 30px 30px 0 30px;
-    width: 19%;
-    padding: 20px;
+    width: 150px;
+    height: 150px;
     transition: box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
 }
 .category:hover {
     box-shadow: 2px 2px 17px 12px rgb(242 242 242); 
@@ -30,8 +32,10 @@
 .category img {
     margin: 0 auto 25px auto;
     display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 150px;
     width: auto;
-    height: 103px;
 }
 
 // steps section css
@@ -240,12 +244,12 @@
 }
 
 @media only screen and (max-width: 1200px) {
-    .category {
-        width: 30%;
-    }
     .step > img {
         height: 120px;
         top: -70px;
+    }
+    .category {
+        margin-top: 20px;
     }
     .step {
         padding: 67px 20px 20px 20px;
@@ -287,18 +291,8 @@
 }
 
 @media only screen and (max-width: 900px){
-    .category {
-        width: 48%;
-    }
     .categories .inner_container {
         gap: 20px;
-    }
-    .category {
-        padding: 20px 10px;
-    }
-    .category img {
-        margin: 0 auto 20px auto;
-        height: 83px;
     }
     .step {
         width: 47%;
@@ -333,9 +327,6 @@
 }
 
 @media only screen and (max-width: 700px){
-    .category {
-        width: 99%;
-    }
     .step {
         width: 100%;
     }
@@ -358,3 +349,15 @@
     }
 }
 
+@media only screen and (max-width: 463px){
+    .category {
+        height: auto;
+        width: 48%;
+    }
+    .category img {
+        margin: 0;
+    }
+    .categories .inner_container {
+        gap: 3%;
+    }
+}

@@ -31424,6 +31424,7 @@ body.modal_open {
     margin-bottom: 6px;
     background: white;
     overflow: hidden;
+    position: relative;
 }
 
 .product_name {
@@ -31443,14 +31444,16 @@ body.modal_open {
     width: 20px;
     height: 20px;
     position: absolute;
-    right: 12px;
-    top: 12px;
+    right: 10px;
+    top: 10px;
     bottom: auto;
     left: auto;
     border-radius: 100%;
     z-index: 1;
 }
-
+.swiper-slide img {
+    border-radius: 30px 30px 0 30px;
+}
 .product_name h4 {
     font-weight: bold;
     margin-bottom: 10px;
@@ -31667,6 +31670,13 @@ body.modal_open {
         width: 100%;
     }
     .product_img img {
+        max-height: 100%;
+    }
+    .category {
+        height: auto;
+        width: 100%;
+    }
+    .category img {
         max-height: 100%;
     }
 }
