@@ -15,8 +15,7 @@
                                 <th class="text-center">Media Upload</th>
                                 <th class="text-center">Media Approved</th>
                                 <th class="text-center">Media Comment</th>
-                                <th class="text-center"
-                                    >
+                                <th class="text-center">
                                     Action</th>
                             </tr>
                         </thead>
@@ -63,14 +62,14 @@
                                         data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
                                 </td>
                                 <td>{{_obj.media_comments}}</td>
-                                <td class="text-center"
-                                    >
+                                <td class="text-center">
                                     <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <a (click)="openvideo(_obj.thumbnail)"
+                                        <a *ngIf="_obj.is_media_upload !== null" (click)="openvideo(_obj.thumbnail)"
                                             class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
                                             <i class="ti ti-eye f-18"></i>
                                         </a>
-                                        <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
+                                        <ng-container
+                                            *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
                                             <button (click)="media_approved(_obj.order_product_map_id,1)"
                                                 class="btn btn-sm btn-success" title="Approve">
                                                 <span class="ms-1">Approve</span>
@@ -95,11 +94,14 @@
 <swal #approveSwal [swalOptions]="swalOptions" title="Media Approved!" text="" icon="success"
     [showConfirmButton]="false">
 </swal>
-<swal #rejectSwal [swalOptions]="swalOptions" title="Media Rejeted!" text="" icon="warning"
-    [showConfirmButton]="false">
+<swal #rejectSwal [swalOptions]="swalOptions" title="Media Rejeted!" text="" icon="warning" [showConfirmButton]="false">
 </swal>
 <ng-template #formModal let-modal>
     <form #myForm="ngForm">
+        <div class="modal-header">
+            <label class="col-lg-6 col-form-label fw-bold fs-8">Comment for Rejection</label>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
         <div class="modal-body">
             <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
                 data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
@@ -107,15 +109,17 @@
                 data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
             </div>
 
-            <div class="row mb-6">
-                <div class="col-lg-4 fv-row">
-                    <label class="col-lg-6 col-form-label fw-bold fs-8">Comment</label>
-                    <input type="text" class="form-control form-control-sm" id="invoice_period" name="invoice_period"
-                        placeholder="Comment" [(ngModel)]="rejectComment">
-                </div>
-
+            <div class="row mb-12">
+                <textarea class="form-control form-control-sm" style="height: 120px;" id="invoice_period"
+                    name="invoice_period" placeholder="Comment" [(ngModel)]="rejectComment">
+                    </textarea>
             </div>
+            <br/>
             <div class="col d-flex justify-content-center align-items-center">
+                <button class="btn btn-outline-primary btn-sm" (click)="modal.dismiss('cancel')">
+                    Cancel
+                </button>
+                &nbsp;
                 <button class="btn btn-primary btn-sm" (click)="media_approved(selectedOrderId, 2, rejectComment)">
                     Submit
                 </button>
@@ -129,6 +133,9 @@
 
 <ng-template #formMediaModal let-modal>
     <form [formGroup]="fgmedia" #mediaForm="ngForm">
+        <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
         <div class="modal-body">
             <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
                 data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"

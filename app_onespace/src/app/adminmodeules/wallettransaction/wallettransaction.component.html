@@ -185,7 +185,8 @@
 <ng-template #formModal let-modal>
     <form #myForm="ngForm">
         <div class="modal-header">
-            <!-- <h4 class="modal-title" id="modal-basic-title">Coupon</h4> -->
+            <label class="col-form-label fw-bold fs-8 text-center d-block">Wallet Balance :
+                {{walletwidget[0]?.balance_amount}}</label>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
@@ -198,13 +199,17 @@
 
                 <div class="row mb-8 justify-content-center">
                     <div class="col-lg-8 fv-row">
-                        <label class="col-form-label fw-bold fs-8 text-center d-block">Wallet Balance : {{walletwidget[0]?.balance_amount}}</label>
-                        <input type="number" class="form-control" id="amount" name="amount"
-                            placeholder="amount" formControlName="amount">
+
+                        <input type="number" class="form-control" id="amount" name="amount" placeholder="amount"
+                            formControlName="amount">
                     </div>
                 </div>
                 &nbsp;
                 <div class="col d-flex justify-content-center align-items-center">
+                    <button class="btn btn-outline-primary btn-sm" (click)="modal.dismiss('cancel')">
+                        Cancel
+                    </button>
+                    &nbsp;
                     <button class="btn btn-primary btn-sm" (click)="setamount(true)">
                         Request
                     </button>

@@ -253,7 +253,7 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@vendor_id", objclsUserManagement.vendor_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.Int64);
+                objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -468,7 +468,7 @@ namespace onescreenDAL.UserManagement
                           is_approved = Row.Field<bool>("is_approved"),
                           password = Row.Field<string>("password"),
                           profilepicture = Row.Field<string>("profilepicture"),
-                          commission = Row.Field<Int64>("commission"),
+                          commission = Row.Field<Decimal>("commission"),
                           isactive = Row.Field<bool>("isactive"),
                           createdby = Row.Field<Int64?>("createdby"),
                           createdname = Row.Field<string>("createdname"),

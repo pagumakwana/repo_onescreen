@@ -91,11 +91,14 @@ export class OrdermoduleComponent {
   }
 
   getOderDetails() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then((user_id:any)=>{
+
+  
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getorderdetails('all', 0, parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
-      this.orderDetails = resorderDetails.data;
+    this._webDService.getorderdetails('all', 0, user_id,parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
+      this.orderDetails = [];
       this.orderDetails = Array.isArray(resorderDetails.data) ? resorderDetails.data : [];
       if (this.tableConfig?.isCustom) {
         this.tableConfig.isCustom.total = resorderDetails.count;
@@ -104,5 +107,6 @@ export class OrdermoduleComponent {
       this.tableObj.initializeTable();
       this._cdr.detectChanges();
     });
+      });
   }
 }

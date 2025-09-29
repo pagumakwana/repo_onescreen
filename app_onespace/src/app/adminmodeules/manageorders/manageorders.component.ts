@@ -120,9 +120,10 @@ export class ManageordersComponent implements OnInit {
     console.log("video", this.selectedVideoUrl);
   }
   get_pendingmediaupload(order_id: any = 0) {
+    debugger
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
       this._webDService.getpendingmediaupload(user_id, order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
-        this.pendingMedia = respendingMedia.data;
+        this.pendingMedia = [];
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
         this._cdr.detectChanges();
       });
@@ -145,7 +146,6 @@ export class ManageordersComponent implements OnInit {
             console.log("Media status updated:", res);
             this.get_pendingmediaupload();
             this.successSwal.fire();
-            location.reload();
             if (this.modalRef) {
               this.modalRef.close();
             }

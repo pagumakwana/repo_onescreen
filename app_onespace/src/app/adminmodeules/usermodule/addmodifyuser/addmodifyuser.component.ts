@@ -208,8 +208,8 @@ export class AddmodifyuserComponent {
           this._userModel.commission = this.fgUser.value.commission;
           // this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
-          this._userModel.lstvendor = this.fgUser.value.lstvendor;
-          this._userModel.lstproduct = this.fgUser.value.lstproduct;
+          this._userModel.lstvendor = this.fgUser.value.lstvendor || [];
+          this._userModel.lstproduct = this.fgUser.value.lstproduct || [];
           this._userModel.client_id = client_id;
           this._userModel.project_id = project_id;
           this.addmodifyuser(flag);
