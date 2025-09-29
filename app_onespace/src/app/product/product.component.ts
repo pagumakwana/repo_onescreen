@@ -400,6 +400,7 @@ export class ProductComponent implements OnInit {
       if (this.isRepetitionExists($event?.option_value_id)) {
         this.removefromarray($event?.option_value_id);
       } else {
+        this.timemastervalid = false;
         let control: FormGroup = this._fbCategoryMaster.group({
           route_category_id: [this._categoryRouteMaster.category_id],
           route_category: [this._categoryRouteMaster.category],
@@ -427,8 +428,6 @@ export class ProductComponent implements OnInit {
           this.calculate_final_amount((this.timeArray.length - 1))
         }, 500);
       }
-      //   this._index_time++
-      // }
     }
   }
 
@@ -622,13 +621,20 @@ export class ProductComponent implements OnInit {
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
   add_to_cart() {
-    this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
-    if (this.fgcategorymaster.valid) {
-      this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
-      this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
-      let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
-      console.log("_objFormData", _objFormData)
-      this.proceed_to_cart(_objFormData);
+    this.timemastervalid = false;
+    const ischekedarray = this.TimeMaster.filter((item: any) => item.isChecked == true);
+    console.log("ischeked", ischekedarray);
+    if (ischekedarray?.length > 0) {
+      this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
+      if (this.fgcategorymaster.valid) {
+        this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
+        this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
+        let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
+        console.log("_objFormData", _objFormData)
+        this.proceed_to_cart(_objFormData);
+      }
+    } else {
+      this.timemastervalid = true;
     }
   }
 
@@ -911,6 +917,7 @@ export class ProductComponent implements OnInit {
   propertymastervalid: boolean = false;
   routemastervalid: boolean = false;
   screenmastervalid: boolean = false;
+  timemastervalid: boolean = false;
   change_wizard_index(flag: string = 'plus') {
     if (flag == 'minus') {
       this._wizard_index = isNaN(this._wizard_index) ? 0 : this._wizard_index; // default to 1 if invalid

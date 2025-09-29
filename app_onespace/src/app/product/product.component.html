@@ -135,7 +135,7 @@
                             </div>
                             <div class="tab-pane" id="timeslotsection" [ngClass]="{'show active':_wizard_index == 4}">
                                 <ng-container *ngIf="this.TimeMaster.length>0">
-                                    <p class="text-danger" style="text-align: center;">Time Slot is required.</p>
+                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time Slot is required.</p>
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
