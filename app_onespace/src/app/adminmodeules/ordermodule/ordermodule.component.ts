@@ -51,7 +51,7 @@ export class OrdermoduleComponent {
     tableData: [],
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "order_number", title: "Order Number", type: "link"},
+      { identifer: "order_number", title: "Order#", type: "link"},
       { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
       { identifer: "order_total", title: "Total Amount", type: "text" },

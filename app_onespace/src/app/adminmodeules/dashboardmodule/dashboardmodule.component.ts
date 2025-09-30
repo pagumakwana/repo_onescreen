@@ -29,7 +29,7 @@ export class DashboardmoduleComponent {
     tableData: [],
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "order_number", title: "Order Number", type: "text" },
+      { identifer: "order_number", title: "Order#", type: "text" },
       { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
       { identifer: "payment_response", title: "Response", type: "text" },

@@ -15,19 +15,11 @@
           <div class="col-sm-6 text-sm-end">
             <h6>Date : <span class="text-muted f-w-400">{{invoicedetailsmaster?.createddatetime |
                 date:'dd/MM/yyyy'}}</span></h6>
-            <h6>Invoice# : <span class="text-muted f-w-400">INV-000457</span></h6>
+            <h6>Invoice# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.order_number}}</span></h6>
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="border rounded p-3">
-          <h6 class="mb-0">From:</h6>
-          <h5>OneScreen</h5>
-          <p class="mb-0">8534 Saunders Hill Apt. 583</p>
-          <!-- <p class="mb-0">(970) 982-3353</p>
-          <p class="mb-0">brandon07</p> -->
-        </div>
-      </div>
+      
       <div class="col-sm-6">
         <div class="border rounded p-3">
           <h6 class="mb-0">To:</h6>
@@ -35,6 +27,15 @@
           <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
           <!-- <p class="mb-0">75-9079921</p>
               <p class="mb-0">kasandra</p> -->
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="border rounded p-3">
+          <h6 class="mb-0">From:</h6>
+          <h5>OneScreen</h5>
+          <p class="mb-0">Andheri (East), Mumbai 400065</p>
+          <p class="mb-0">GSTIN: 27AAECR2971C1Z</p>
+          <!-- <p class="mb-0">brandon07</p> -->
         </div>
       </div>
       <div class="col-12">
@@ -47,7 +48,7 @@
                 <!-- <th>Description</th> -->
                 <!-- <th>Total Amount</th> -->
                 <!-- <th>Qty</th> -->
-                <th>SubTotal</th>
+                <th style="text-align: right;">SubTotal</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +67,7 @@
                 <!-- <td>{{ item.description }}</td> -->
                 <!-- <td>₹{{ item.base_amount }}</td> -->
                 <!-- <td>{{ item.quantity }}</td> -->
-                <td>₹{{ item.total_amount }}</td>
+                <td style="text-align: right;">₹{{ item.total_amount }}</td>
               </tr>
             </tbody>
           </table>

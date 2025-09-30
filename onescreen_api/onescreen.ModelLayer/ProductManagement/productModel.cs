@@ -330,8 +330,8 @@ namespace onescreenModel.ProductManagement
     public class wallet_withdrawal : commonModel
     {
         public Int64? withdrawal_request_id { get; set; }
-        public Int64? vendor_id { get; set; }
-        public string? contact_person_name { get; set; }
+        public Int64? user_id { get; set; }
+        public string? fullname { get; set; }
         public decimal? amount { get; set; }
         public Int64? wallet_master_id { get; set; }
         public Int64? is_approved { get; set; }
@@ -352,13 +352,14 @@ namespace onescreenModel.ProductManagement
     public class wallet_master : commonModel
     {
         public Int64? wallet_master_id { get; set; }
-        public Int64? vendor_id { get; set; }
+        public Int64? user_id { get; set; }
         public decimal? balance_amount { get; set; }
     }
 
     public class invoicedetails : commonModel
     {
         public Int64 order_id { get; set; }
+        public string? order_number { get;set; }
         public decimal? order_total { get;set; }
         public decimal? order_subtotal { get;set; }
         public decimal? order_discount { get;set; }

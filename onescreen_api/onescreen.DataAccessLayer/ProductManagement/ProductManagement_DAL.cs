@@ -1936,8 +1936,8 @@ namespace onescreenDAL.ProductManagement
                           new wallet_withdrawal
                           {
                               withdrawal_request_id = Row.Field<Int64>("withdrawal_request_id"),
-                              vendor_id = Row.Field<Int64>("vendor_id"),
-                              contact_person_name = Row.Field<string>("contact_person_name"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              fullname = Row.Field<string>("fullname"),
                               is_approved = Row.Field<Int64>("is_approved"),
                               wallet_master_id = Row.Field<Int64>("wallet_master_id"),
                               comment = Row.Field<string>("comment"),
@@ -2000,7 +2000,7 @@ namespace onescreenDAL.ProductManagement
                               wallet_balance_amt = Row.Field<decimal>("wallet_balance_amt"),
                               credit_debit = Row.Field<Int64>("credit_debit"),
                               order_id = Row.Field<Int64>("order_id"),
-                              vendor_id = Row.Field<Int64>("vendor_id"),
+                              user_id = Row.Field<Int64>("user_id"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -2039,7 +2039,7 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@amount", objwallet_withdrawal.amount, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@vendor_id", objwallet_withdrawal.vendor_id, DbType.Int64);
+                objDBParameter = new DBParameter("@user_id", objwallet_withdrawal.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -2097,7 +2097,7 @@ namespace onescreenDAL.ProductManagement
                           new wallet_master
                           {
                               wallet_master_id = Row.Field<Int64>("wallet_master_id"),
-                              vendor_id = Row.Field<Int64>("vendor_id"),
+                              user_id = Row.Field<Int64>("user_id"),
                               balance_amount = Row.Field<decimal>("balance_amount"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
@@ -2151,6 +2151,7 @@ namespace onescreenDAL.ProductManagement
                           new invoicedetails
                           {
                               order_id = Row.Field<Int64>("order_id"),
+                              order_number = Row.Field<string>("order_number"),
                               order_total = Row.Field<decimal>("order_total"),
                               order_subtotal = Row.Field<decimal>("order_subtotal"),
                               order_discount = Row.Field<decimal>("order_discount"),

@@ -94,7 +94,7 @@
                                     <label class="form-label">Product Base Price</label>
                                     <input type="text" class="form-control form-control-sm" id="base_amount"
                                         name="base_amount" placeholder="Product Base Price"
-                                        formControlName="base_amount" required>
+                                        formControlName="base_amount" minlength="0" maxlength="7" required>
                                     <div *ngIf="fgproductmaster.controls['base_amount'].invalid && (fgproductmaster.controls['base_amount'].dirty || fgproductmaster.controls['base_amount'].touched)"
                                         class="text-danger">
                                         <ng-container *ngIf="fgproductmaster.controls.base_amount.errors?.['required']">
@@ -127,7 +127,7 @@
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
                                                     class="form-control form-control-sm" placeholder="Price"
-                                                    formControlName="price_delta">
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
                                             </div>
                                         </div>
                                     </ng-container>
@@ -155,7 +155,7 @@
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
                                                     class="form-control form-control-sm" placeholder="Price"
-                                                    formControlName="price_delta">
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
                                             </div>
                                         </div>
                                     </ng-container>
@@ -184,7 +184,7 @@
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
                                                     class="form-control form-control-sm" placeholder="Price"
-                                                    formControlName="price_delta">
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
                                             </div>
                                         </div>
                                     </ng-container>

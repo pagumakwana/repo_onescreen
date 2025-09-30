@@ -131,7 +131,7 @@ export class WallettransactionComponent {
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
-      { identifer: "contact_person_name", title: "Vendor Name", type: "text" },
+      { identifer: "Fullname", title: "Fullname", type: "text" },
       // { identifer: "is_approved", title: "Status", type: "text" }, // 👈 custom type
       { identifer: "createdname", title: "Requested Name", type: "text" },
       { identifer: "updatedname", title: "Updated Name", type: "text" },
@@ -226,7 +226,7 @@ export class WallettransactionComponent {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._walletwithdrawal.flag = 'request'
         this._walletwithdrawal.wallet_master_id = this.walletMaster[0]?.wallet_master_id;
-        this._walletwithdrawal.vendor_id = parseInt(user_id);
+        this._walletwithdrawal.user_id = parseInt(user_id);
         this._walletwithdrawal.createdname = fullname;
         this._walletwithdrawal.createdby = parseInt(user_id);
         this._webDService.wallet_withdrawal_req(this._walletwithdrawal).subscribe({
