@@ -346,7 +346,7 @@ namespace onescreenModel.ProductManagement
         public decimal? wallet_balance_amt { get; set; }
         public Int64? credit_debit { get; set; }
         public Int64? order_id { get; set; }
-        public Int64? vendor_id { get; set; }
+        public Int64? user_id { get; set; }
     }
 
     public class wallet_master : commonModel

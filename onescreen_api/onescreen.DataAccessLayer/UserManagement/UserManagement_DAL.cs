@@ -251,7 +251,7 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@vendor_id", objclsUserManagement.vendor_id, DbType.Int64);
+                objDBParameter = new DBParameter("@user_id", objclsUserManagement.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
