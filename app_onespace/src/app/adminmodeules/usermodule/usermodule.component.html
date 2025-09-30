@@ -1,10 +1,12 @@
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-end" *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_newbtn')">
     <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
         New User
     </button>
 </div>
 <br>
+<ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_userlist')">
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+</ng-container>
 
 <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
     icon="warning" [showCancelButton]="true" [focusCancel]="true"

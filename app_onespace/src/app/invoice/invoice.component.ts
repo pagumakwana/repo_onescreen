@@ -17,6 +17,7 @@ export class InvoiceComponent implements OnInit {
   invoice_logo: String = '';
   public invoicedetailsmaster: any;
   order_id: any;
+  order_number: any;
   grandTotalInWords: string = '';
   constructor(
     public _base: BaseServiceHelper,
@@ -95,7 +96,7 @@ export class InvoiceComponent implements OnInit {
 
     const options = {
       margin: 0.5,
-      filename: `Invoice_${this.order_id}.pdf`,
+      filename: `Invoice_${this.invoicedetailsmaster?.order_number}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }

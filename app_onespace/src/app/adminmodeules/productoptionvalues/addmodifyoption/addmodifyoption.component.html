@@ -10,15 +10,16 @@
                         <form [formGroup]="fgoption">
                             <div class="row mb-6">
                                 <div class="col-lg-3 mb-3">
-                                    <webd-multiselect [data]="ProductMaster" class="col-sm-3 col-form-label" textField='product_name'
-                                        valueField='product_id' [formControl]="fgoption?.controls?.lstproduct"
-                                        placeholder="Select product" [config]="_configProduct"
-                                        (onSelection)="onItemSelect($event)">
+                                    <webd-multiselect [data]="ProductMaster" class="col-sm-3 col-form-label"
+                                        textField='product_name' valueField='product_id'
+                                        [formControl]="fgoption?.controls?.lstproduct" placeholder="Select product"
+                                        [config]="_configProduct" (onSelection)="onItemSelect($event)">
                                     </webd-multiselect>
                                 </div>
                                 <div class="col-lg-3 mb-3">
-                                    <webd-multiselect [data]="OptionType" class="col-sm-3 col-form-label" textField='title'
-                                        valueField='option_type_id' [formControl]="fgoption?.controls?.optiontype_list"
+                                    <webd-multiselect [data]="OptionType" class="col-sm-3 col-form-label"
+                                        textField='title' valueField='option_type_id'
+                                        [formControl]="fgoption?.controls?.optiontype_list"
                                         placeholder="Select option type" [config]="_configType"
                                         (onSelection)="onSelect($event)">
                                     </webd-multiselect>
@@ -26,7 +27,8 @@
                                 <div class="col-lg-3 mb-1">
                                     <label class="form-check-label text-dark fw-bold me-2">Publish</label>
                                     <div class="form-check form-check-inline form-check-solid m-0">
-                                        <input type="checkbox" class="form-check-input" id="isactive" formControlName="isactive">
+                                        <input type="checkbox" class="form-check-input" id="isactive"
+                                            formControlName="isactive">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -34,9 +36,20 @@
                                         Save
                                     </button>
                                 </div>
-                            </div> 
-                            <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
-                                [showConfirmButton]="false">
+                            </div>
+                            <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?"
+                                text="This cannot be undone" icon="warning" [showCancelButton]="true"
+                                [focusCancel]="true"
+                                [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+                            </swal>
+                            <swal #successSwal [swalOptions]="swalOptions" title="Success!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                            <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                             <swal #existSwal [swalOptions]="swalOptions" title="Mapping Already Exist!" text=""
+                                icon="warning" [showConfirmButton]="false">
                             </swal>
                         </form>
 
@@ -46,7 +59,8 @@
             </div>
         </div>
         <div class="card-body">
-        <webd-table #dataTableCom  [config]='tableConfigproductoption' (tableEvent)="tableClick($event)"></webd-table>
+            <webd-table #dataTableCom [config]='tableConfigproductoption'
+                (tableEvent)="tableClick($event)"></webd-table>
         </div>
     </div>
 </div>

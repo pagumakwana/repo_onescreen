@@ -13,6 +13,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { dataTableConfig, tableEvent } from '../../../_appmodel/_componentModel';
 import { productoption, productoptiontype } from '../../../_appmodel/_model';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
+import settlements from 'razorpay/dist/types/settlements';
 
 @Component({
   selector: 'app-addmodifyoption',
@@ -25,6 +26,12 @@ export class AddmodifyoptionComponent implements OnInit {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  @ViewChild('deleteSwal')
+  public readonly deleteSwal!: SwalComponent;
+
+  @ViewChild('existSwal')
+  public readonly existSwal!: SwalComponent;
 
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
 
@@ -52,6 +59,7 @@ export class AddmodifyoptionComponent implements OnInit {
   fgtype!: FormGroup
   _productOption: productoption = {};
 
+  private isOptionrModify: boolean = false;
   OptionType: any = [];
   ProductMaster: any = [];
   ProductOptionMaster: any = [];
@@ -172,6 +180,24 @@ export class AddmodifyoptionComponent implements OnInit {
     }
   }
 
+
+  // getoptions(option_id: any) {
+  //   return new Promise((resolve, reject) => {
+  //     this._webDService.getproductoption('all', option_id, 0, 0, parseInt('0'), parseInt('0')).subscribe((resproductoption: any) => {
+  //       let productoption = Array.isArray(resproductoption.data) ? resproductoption.data : [];
+  //       this._productOption = productoption[0];
+  //       debugger
+  //       this.isOptionrModify = true;
+  //       this.fgoption.controls['lstproduct'].setValue(this._productOption.lstproduct);
+  //       this.fgoption.controls['optiontype_list'].setValue(this._productOption.optiontype_list);
+  //       this.fgoption.controls['isactive'].setValue(this._productOption.isactive);
+  //       resolve(true)
+  //     }, error => {
+  //       resolve(false);
+  //     });
+  //   });
+  // }
+
   private istypeModify: boolean = false;
   setproductoption(flag: any) {
     this.isLoading$.next(true);
@@ -198,9 +224,11 @@ export class AddmodifyoptionComponent implements OnInit {
         this._productOption.user_id = parseInt(user_id);
         this._webDService.manageproductoptions(this._productOption).subscribe((response: any) => {
           let isRedirect: boolean = true
-          if (response === 'labelexists') {
-            // Show warning if society already exists
-            // this._base._alertMessageService.warning("Society already exists!");
+          if (response === 'existed') {
+            this.existSwal.fire();
+            setTimeout(() => {
+              this.existSwal.close();
+            }, 1500);
             isRedirect = false;
           }
 
@@ -212,10 +240,7 @@ export class AddmodifyoptionComponent implements OnInit {
           if (isRedirect && flag) {
             setTimeout(() => {
               this.saveSwal.fire()
-              setTimeout(() => {
-                this._base._router.navigate(['/app/managevalues']);
-                location.reload();
-              }, 1500);
+              this.getproductoption();
             }, 1000);
           }
         });
@@ -224,9 +249,40 @@ export class AddmodifyoptionComponent implements OnInit {
   }
   tableClick(dataItem: tableEvent) {
     if (dataItem?.action?.type == 'link' || (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Edit")) {
-      // this.modifylabel(dataItem.tableItem, 'MODIFYOPTIONVALUE');
+      this.modifyoption(dataItem.tableItem, 'MODIFYPRODUCTOPTION');
     } else if (dataItem?.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
-      // this.modifylabel(dataItem.tableItem, 'DELETEOPTIONVALUE');
+      this.modifyoption(dataItem.tableItem, 'DELETEPRODUCTOPTION');
+    }
+  }
+
+  modifyoption(data: any, flag: any) {
+    this._productOption = data;
+    this._productOption.flag = flag;
+    if (flag == 'MODIFYPRODUCTOPTION') {
+      this._base._router.navigate([`/app/manageoption`]);
+    } else if (flag == 'DELETEPRODUCTOPTION') {
+      this.deleteSwal.fire().then((clicked) => {
+        if (clicked.isConfirmed) {
+
+          this._productOption.isactive = false;
+          this._webDService.category(this._productOption).subscribe((response: any) => {
+            if (response == 'deletesuccess') {
+              this.ProductOptionMaster.filter((res: any, index: number) => {
+                if (res.option_id === this._productOption.option_id) {
+                  this.ProductOptionMaster.splice(index, 1);
+                  this._cdr.detectChanges();
+                  this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
+                }
+              });
+            }
+          }, error => {
+            // this._base._alertMessageService.error("Something went wrong !!");
+          });
+        }
+      });
     }
   }
 

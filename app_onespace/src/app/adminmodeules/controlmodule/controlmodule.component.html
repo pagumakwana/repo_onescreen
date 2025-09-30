@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-end" *ngIf="this._base._commonService.hasAccessofcontrol('admin_control_newbtn')">
     <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
     &nbsp; -->
     <!--begin::Add user-->
@@ -8,7 +8,11 @@
     <!--end::Add user-->
 </div>
 <br>
+
+<ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_control_controllist')">
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+</ng-container>
+
 <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
     icon="warning" [showCancelButton]="true" [focusCancel]="true"
     [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">

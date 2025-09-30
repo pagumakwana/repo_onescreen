@@ -2288,7 +2288,7 @@ export interface update_user {
 export interface wallet_withdrawal {
     flag?: any,
     withdrawal_request_id?: any,
-    vendor_id?: any,
+    user_id?: any,
     contact_person_name?: any,
     amount?: any,
     is_approved?: any,
@@ -2308,10 +2308,10 @@ export interface wallet_transaction {
     wallet_balance_amt?: any,
     credit_debit?: any,
     order_id?: any,
-    vendor_id?: any
+    user_id?: any
 }
 export interface wallet_master {
     wallet_master_id?: any,
-    vendor_id?: any,
+    user_id?: any,
     balance_amount?: any
 }
