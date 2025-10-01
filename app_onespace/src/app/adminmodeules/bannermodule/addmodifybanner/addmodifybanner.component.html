@@ -97,10 +97,10 @@
                                         formControlName="isactive">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mb-4" (click)="setbanner(true)">Submit</button>
+                            <a class="btn btn-outline-secondary mb-4" routerLink="/app/managebanner">Back</a>
                             &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
-
+                            <button type="submit" class="btn btn-primary mb-4" (click)="setbanner(true)">Submit</button>
+                            
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">
                             </swal>

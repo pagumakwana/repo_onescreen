@@ -85,11 +85,10 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
-
+                            <a class="btn btn-outline-secondary mb-4" routerLink="/app/managecategory">Back</a>
+                            &nbsp;
                             <button class="btn btn-primary mb-4"
                                 (click)="setcategoryMaster(true)">Submit</button>
-                            &nbsp;
-                            <button class="btn btn-secondary mb-4" (click)="navigateBack()">Back</button>
 
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">

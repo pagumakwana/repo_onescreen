@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { categoryMaster, fileChoosenDataModel, fileConfigModel, SaveModuleFileModel } from '../../../_appmodel/_model';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
@@ -18,7 +18,7 @@ import { WebdmediauploadComponent } from '../../../layout_template/webdmediauplo
 @Component({
   selector: 'app-addmodifycategory',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent, SweetAlert2Module, WebdtexteditorComponent, WebdmediauploadComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MultiselectComponent, SweetAlert2Module, WebdtexteditorComponent, WebdmediauploadComponent, RouterLink],
   templateUrl: './addmodifycategory.component.html',
   styleUrl: './addmodifycategory.component.scss'
 })

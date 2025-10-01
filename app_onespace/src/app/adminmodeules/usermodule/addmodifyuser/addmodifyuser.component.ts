@@ -107,7 +107,7 @@ export class AddmodifyuserComponent {
       website: [''],
       dob: [null],
       // lstproject: [''],
-      lstauthority: [''],
+      lstauthority: ['', [Validators.required]],
       lstvendor:[''],
       lstproduct:[''],
       bio: [''],

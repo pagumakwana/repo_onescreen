@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -13,7 +13,7 @@ import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor
 @Component({
   selector: 'app-addmodifytypemaster',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, SweetAlert2Module],
+  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, SweetAlert2Module,RouterLink],
   templateUrl: './addmodifytypemaster.component.html',
   styleUrl: './addmodifytypemaster.component.scss'
 })

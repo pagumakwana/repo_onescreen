@@ -80,7 +80,7 @@ export class AddmodifyvaluesComponent  implements OnInit{
       option_value: ['', [Validators.required]],
       display_order: [''],
       isactive: [true],
-      lstoptiontype: [''],
+      lstoptiontype: ['', [Validators.required]],
     })
   }
 
