@@ -10,7 +10,7 @@
     <div class="navbar-content">
       <ul class="pc-navbar">
 
-        <li class="pc-item">
+        <li class="pc-item" routerLinkActive="active">
           <a routerLink="/home" class="pc-link">
             <span class="pc-micon">
               <i class="ph-duotone ph-house"></i>
@@ -19,7 +19,7 @@
           </a>
         </li>
 
-        <li class="pc-item">
+        <li class="pc-item" routerLinkActive="active">
 
           <a routerLink="/aboutus" class="pc-link">
             <span class="pc-micon">
@@ -28,7 +28,7 @@
             <span class="pc-mtext">About Us</span>
           </a>
         </li>
-        <li class="pc-item">
+        <li class="pc-item" routerLinkActive="active">
 
           <a routerLink="/contactus" class="pc-link">
             <span class="pc-micon">
@@ -37,7 +37,7 @@
             <span class="pc-mtext">Contact Us</span>
           </a>
         </li>
-        <li class="pc-item">
+        <li class="pc-item" routerLinkActive="active">
 
           <a routerLink="/faqs" class="pc-link">
             <span class="pc-micon">
@@ -46,17 +46,8 @@
             <span class="pc-mtext">FAQs</span>
           </a>
         </li>
-        <!-- <li class="pc-item">
-
-          <a routerLink="/cart" class="pc-link">
-            <span class="pc-micon">
-              <i class="ph-duotone ph-user-circle"></i>
-            </span>
-            <span class="pc-mtext">Cart</span>
-          </a>
-        </li> -->
-        <li class="pc-item">
-          <a class="pc-link" (click)="goToProduct()" style="cursor: pointer;">
+        <li class="pc-item" routerLinkActive="active">
+          <a class="pc-link" routerLink="/product" style="cursor: pointer;">
             <span class="pc-micon">
               <i class="ph-duotone ph-monitor"></i>
             </span>
@@ -111,18 +102,6 @@
                       <span>My Account</span>
                     </a>
                   </li>
-                  <!-- <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-gear"></i>
-                      <span>Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-lock-key"></i>
-                      <span>Lock Screen</span>
-                    </a>
-                  </li> -->
                   <li>
                     <a class="pc-user-links" (click)="logout()" style="cursor : pointer;">
                       <i class="ph-duotone ph-power"></i>
@@ -172,13 +151,13 @@
             <img [src]="this._base._commonService.cdnURL+this._profilepicture"  alt="user-image" class="user-avtar" />
           </a>
           <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-            <ng-container *ngIf="!isLoggedIn">
+            <ng-container *ngIf="!this._base._commonService.isLoggedIn">
               <a [routerLink]="['/auth']" class="dropdown-item">
                 <i class="ph-duotone ph-user-circle"></i>
                 <span>Sign In</span>
               </a>
             </ng-container>
-            <ng-container *ngIf="isLoggedIn">
+            <ng-container *ngIf="this._base._commonService.isLoggedIn">
               <a class="dropdown-item" routerLink="/app/dashboard">
                 <i class="ph-duotone ph-gauge"></i> Dashboard
               </a>

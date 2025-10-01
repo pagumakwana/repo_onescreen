@@ -63,13 +63,9 @@ export class AddmodifyauthorityComponent implements OnInit {
   tableConfig: dataTableConfig = {
     tableData: [],
     tableConfig: [
-      // { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'fa fa-pencil' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'fa fa-trash' }] },
-      // { identifer: "createddatetime", title: "Date", type: "date" },
-      // { identifer: "isChecked", title: "Select", type: "checkbox" } ,
       { identifer: "modulename", title: "Module", type: "text" },
       { identifer: "title", title: "Name", type: "text" },
-      { identifer: "syscontrolname", title: "System Name", type: "text" },
-      { identifer: "description", title: "Description", type: "text" }
+      { identifer: "syscontrolname", title: "System Name", type: "text" }
     ],
     showCheckBox: true,
     isCustom: {
@@ -180,17 +176,20 @@ export class AddmodifyauthorityComponent implements OnInit {
         // Set checked state in treeConfig
         this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
         this.fguserAuthority.controls['lstmodule']?.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
-        this.fguserAuthority.controls['lstcontrol'].setValue(this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(','));
         // ** Update checkboxes based on the assigned controls **
         const assignedControlIds = this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(',');
 
-        this.tableConfig.tableData = this.tableConfig.tableData.map((control: any) => ({
-          ...control,
-          isChecked: assignedControlIds.includes(control.control_id.toString()) // Convert to string for matching
-        }));
-
+        this.tableConfig.tableData = this.tableConfig.tableData.map((control: any) => {
+          const isChecked = assignedControlIds.includes(control.control_id.toString());
+          return { ...control, isChecked };
+        });
+        
+        // 👉 Separate array of only checked controls
+        this.lstcheckdata = this.tableConfig.tableData.filter((c: any) => c.isChecked);
+        
+      
         // Update the form control for lstcontrol
-        this.fguserAuthority.controls['lstcontrol'].setValue(assignedControlIds);
+        this.fguserAuthority.controls['lstcontrol'].setValue(this.lstcheckdata);
 
         this._cdr.detectChanges();
       }

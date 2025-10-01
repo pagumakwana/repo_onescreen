@@ -18,9 +18,10 @@ export class AuthService implements OnDestroy {
 
   // public fields
   currentUser$: Observable<userModel | undefined>;
-  isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<userModel | any>;
+  isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
+
 
   get currentUserValue(): userModel {
     return this.currentUserSubject.value;
@@ -35,11 +36,18 @@ export class AuthService implements OnDestroy {
     private _base: BaseServiceHelper,
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
+    this.isLoading$ = this.isLoadingSubject.asObservable();
     this.currentUserSubject = new BehaviorSubject<userModel | null>(null);
     this.currentUser$ = this.currentUserSubject.asObservable();
-    this.isLoading$ = this.isLoadingSubject.asObservable();
+
+    
     const subscr = this.getUserByToken().subscribe();
     this.unsubscribe.push(subscr);
+  }
+
+  isLoggedIn(): boolean {
+    debugger
+    return !!this.currentUserValue;
   }
 
   // public methods
@@ -56,7 +64,7 @@ export class AuthService implements OnDestroy {
         console.error('err', err);
         return of(undefined);
       }),
-      finalize(() => this.isLoadingSubject.next(false))
+      finalize(() => {this.isLoadingSubject.next(false);this._base._commonService.isLoginUserSubject.next(true);})
     );
   }
 
@@ -66,6 +74,8 @@ export class AuthService implements OnDestroy {
     this._base._router.navigate(['/home'], {
       queryParams: {},
     });
+    this._base._commonService.isLoginUserSubject.next(false);
+    this.currentUserSubject.next(false)
   }
 
   getUserByToken(): Observable<userModel | undefined> {

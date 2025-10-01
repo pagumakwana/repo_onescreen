@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -8,15 +8,16 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { userModel } from '../../_appmodel/_model';
 import { Subscription } from 'rxjs';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usermodule',
   standalone: true,
-  imports: [WebdtableComponent, SweetAlert2Module],
+  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
   templateUrl: './usermodule.component.html',
   styleUrl: './usermodule.component.scss'
 })
-export class UsermoduleComponent {
+export class UsermoduleComponent implements OnInit {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
@@ -52,7 +53,7 @@ export class UsermoduleComponent {
       { identifer: "fullname", title: "Full Name", type: "text" },
       { identifer: "email_id", title: "Email ID", type: "text" },
       { identifer: "mobilenumber", title: "Mobile Number", type: "text" },
-      { identifer: "is_approved", title: "Is_Approved", type: "text" },
+      { identifer: "isactive", title: "User Status", type: "status" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,

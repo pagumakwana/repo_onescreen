@@ -14,10 +14,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'webd-table',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './webdtable.component.html',
   styleUrl: './webdtable.component.scss',
-  providers: [] 
+  providers: []
 })
 export class WebdtableComponent implements OnInit {
   @Input() modal!: TemplateRef<any>;
@@ -54,7 +54,7 @@ export class WebdtableComponent implements OnInit {
   dataTable: any;
   tableRecords: Array<any> = []
   pages: { [key: number]: Array<any> } = {}
-  imageBaseUrl: string ='' //'https://api.cameratosell.com';
+  imageBaseUrl: string = '' //'https://api.cameratosell.com';
   ishide: boolean = true
   isCheckAll = false
   // selectedStep = 10
@@ -307,7 +307,7 @@ export class WebdtableComponent implements OnInit {
 
   checkBoxSetup() {
     if (this.config.showCheckBox) {
-      this.config.tableData?.map((item:any) => {
+      this.config.tableData?.map((item: any) => {
         return item.isChecked_DataTable = this.isCheckAll
       })
     }
@@ -329,7 +329,7 @@ export class WebdtableComponent implements OnInit {
       this.dataTable = $(this.table?.nativeElement);
       // this.dataTable.DataTable();
       if (this.Object_size(this.pages) == 0) this.pageIndexingArrayCreation()
-      this.pages[this.config.isCustom?.current ? this.config.isCustom.current:0] = this.config.tableData
+      this.pages[this.config.isCustom?.current ? this.config.isCustom.current : 0] = this.config.tableData
 
       if (this.config?.isCustom?.total) this.loadRecords()
       this.ishide = false
@@ -361,7 +361,7 @@ export class WebdtableComponent implements OnInit {
 
   tableClick(tableItem: any, action: any, actionInfo?: any) {
     setTimeout(() => {
-      let checkedItems = this.config?.tableData?.filter((item:any) => item.isChecked_DataTable)
+      let checkedItems = this.config?.tableData?.filter((item: any) => item.isChecked_DataTable)
       let emitData: tableEvent = {
         tableItem: tableItem,
         action: action,
@@ -374,7 +374,7 @@ export class WebdtableComponent implements OnInit {
     }, 50);
   }
 
-  buttonClick(event:any) {
+  buttonClick(event: any) {
 
     if (event.isStatic) {
       this.buttonEvent.emit(event.isAddModify);
@@ -383,5 +383,25 @@ export class WebdtableComponent implements OnInit {
     }
   }
 
+  returnClass(param: any) {
+
+    switch (param) {
+      case 'Approved':
+        return 'badge bg-light-success'
+        break;
+      case 'Pending':
+        return 'badge bg-light-warning'
+        break;
+      case true:
+        return 'badge bg-light-success'
+        break;
+      case false:
+        return 'badge bg-light-danger'
+        break;
+      default:
+        return 'badge bg-light-default'
+        break;
+    }
+  }
 
 }

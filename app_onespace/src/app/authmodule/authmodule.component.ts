@@ -35,7 +35,6 @@ export class AuthmoduleComponent implements OnInit {
     this.isLoading$ = this.authService.isLoading$;
     this.route.queryParams.subscribe(params => {
       this.redirectUrl = params['q'] ?? null;
-      console.log('Query param q =', this.redirectUrl);
     });
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
@@ -61,7 +60,7 @@ export class AuthmoduleComponent implements OnInit {
   }
 
   setSignInModel() {
-    debugger
+    
     this._base._commonService.markFormGroupTouched(this.formSignIn)
     if (this.formSignIn.valid) {
       this._userModel.username = this.formSignIn.value.username;
@@ -85,7 +84,7 @@ export class AuthmoduleComponent implements OnInit {
               if (res) {
                 this.loginsuccess = true;
                 setTimeout(() => {
-                  debugger
+                  
                   if (this.redirectUrl != null) {
                     this._base._router.navigate([this.redirectUrl[0]]);
                   } else {
@@ -94,16 +93,6 @@ export class AuthmoduleComponent implements OnInit {
                   this.loginsuccess = false;
                   this._cdr.detectChanges();
                 }, 500);
-                // this._base._commonService.getauthoritymodule(user.user_id).then((resUserModule: any) => {
-                //   let UserModule: any[] = [];
-                //   UserModule = Array.isArray(resUserModule) ? resUserModule : [];
-                //   setTimeout(() => {
-                //     debugger
-                //     this._base._router.navigate(['/home']);
-                //     // this._base._router.navigate([UserModule[0].modulerouting]);
-                //   }, 500);
-
-                // });
               }
             })
           }, error => {
@@ -139,22 +128,6 @@ export class AuthmoduleComponent implements OnInit {
       });
     });
   }
-
-  // submit() {
-  //   this.hasError = false;
-  //   const loginSubscr = this.authService
-  //     .login(this.f.email.value, this.f.password.value)
-  //     .pipe(first())
-  //     .subscribe((user: UserModel | undefined) => {
-  //       debugger
-  //       if (user) {
-  //         this.router.navigate([this.returnUrl]);
-  //       } else {
-  //         this.hasError = true;
-  //       }
-  //     });
-  //   this.unsubscribe.push(loginSubscr);
-  // }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

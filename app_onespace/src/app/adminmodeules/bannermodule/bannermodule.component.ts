@@ -8,11 +8,12 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { Subscription } from 'rxjs';
 import { banner } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-bannermodule',
   standalone: true,
-  imports: [WebdtableComponent, SweetAlert2Module],
+  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
   templateUrl: './bannermodule.component.html',
   styleUrl: './bannermodule.component.scss'
 })

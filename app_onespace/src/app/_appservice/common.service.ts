@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 declare var $: any;
 import configData from "../../assets/projectConfig.json";
 import * as _ from 'lodash';
@@ -18,8 +18,11 @@ export class CommonService {
         public _encryptedStorage: EncryptedStorage,
         private _router: Router) {
         this._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
-            this.lstcontrol = lstcontrol ? JSON.parse(lstcontrol):[];
+            this.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
         });
+        this.isLoginUserSubject = new BehaviorSubject<boolean>(false);
+        this.isLoginUser$ = this.isLoginUserSubject.asObservable();
+
     }
 
     browser: any
@@ -30,6 +33,9 @@ export class CommonService {
     public cdnAPPURL = configData.cdnAPPURL;
     public authoritycontrolList: any = [];
     public isLoggedIn: boolean = false;
+
+    isLoginUser$: Observable<boolean>;
+    isLoginUserSubject: BehaviorSubject<boolean>;
 
     public navigation(url: any = [], isLoginRequired: boolean = false) {
         if (isLoginRequired) {

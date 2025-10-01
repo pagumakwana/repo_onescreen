@@ -9,11 +9,12 @@ import { Subscription } from 'rxjs';
 import { controlDetails, moduledataModel } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { RouterLink } from "@angular/router";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-controlmodule',
   standalone: true,
-  imports: [WebdtableComponent, SweetAlert2Module, RouterLink],
+  imports: [CommonModule,WebdtableComponent, SweetAlert2Module, RouterLink],
   templateUrl: './controlmodule.component.html',
   styleUrl: './controlmodule.component.scss'
 })

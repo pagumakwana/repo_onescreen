@@ -27,6 +27,9 @@
                         </div>
                     </td>
                     <td *ngFor="let key of config?.tableConfig">
+                        <ng-container *ngIf="key?.type == 'status'">
+                            <span [ngClass]="returnClass(tableItem[key.identifer])">{{tableItem[key.identifer] == true ? 'Active':'InActive'}}</span>
+                        </ng-container>
                         <ng-container *ngIf="key?.type == 'text'">
                             <p [innerHtml]="tableItem[key.identifer]"></p>
                         </ng-container>

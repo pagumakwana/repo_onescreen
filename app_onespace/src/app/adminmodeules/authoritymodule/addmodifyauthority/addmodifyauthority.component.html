@@ -1,62 +1,53 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>Manage Authority</h5>
-            </div>
-            <form [formGroup]="fguserAuthority">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-lg-3 mb-3">
-                                <label class="form-label">Authority</label>
-                                <input type="text" class="form-control" id="authority"
-                                    placeholder="Administrator, Forum" formControlName="authority">
-                                <div *ngIf="fguserAuthority.controls['authority'].invalid && (fguserAuthority.controls['authority'].dirty || fguserAuthority.controls['authority'].touched)"
-                                    class="text-danger">
-                                    <ng-container *ngIf="fguserAuthority.controls.authority.errors?.['required']">
-                                        authority is required.
-                                    </ng-container>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <label class="form-label">Authority Description</label>
-                                <webd-texteditor [formGroupTextArea]="this.fguserAuthority.controls['textarea']">
-                                </webd-texteditor>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="title">Module</label>
-                                        <webd-treeview *ngIf="treeConfig?.treeData?.length > 0"
-                                            [treeConfigData]='treeConfig'
-                                            [control]="fguserAuthority?.controls?.lstmodule"
-                                            (treeEvent)="treeEvent($event)">
-                                        </webd-treeview>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8 fv-row">
-                                    <webd-table #dataTableCom [config]='tableConfig'
-                                        [control]="fguserAuthority?.controls?.lstcontrol"
-                                        (tableEvent)="tableClick($event)">
-                                    </webd-table>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 mb-3">
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-outline-secondary"
-                                        (click)="navigateBack()">Back</button>&nbsp;
-                                    <button type="submit" class="btn btn-primary"
-                                        (click)="setuserAuthority(true)">Submit</button>
-                                </div>
-                            </div>
-                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
-                                icon="success" [showConfirmButton]="false">
-                            </swal>
+<form [formGroup]="fguserAuthority">
+    <div class="card">
+        <div class="card-header">
+            <h5>Manage Authority</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-lg-3 mb-3">
+                        <label class="form-label">Authority</label>
+                        <input type="text" class="form-control" id="authority" placeholder="Administrator, Forum"
+                            formControlName="authority">
+                        <div *ngIf="fguserAuthority.controls['authority'].invalid && (fguserAuthority.controls['authority'].dirty || fguserAuthority.controls['authority'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fguserAuthority.controls.authority.errors?.['required']">
+                                authority is required.
+                            </ng-container>
                         </div>
                     </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label">Authority Description</label>
+                        <webd-texteditor [formGroupTextArea]="this.fguserAuthority.controls['textarea']">
+                        </webd-texteditor>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="title">Module</label>
+                                <webd-treeview *ngIf="treeConfig?.treeData?.length > 0" [treeConfigData]='treeConfig'
+                                    [control]="fguserAuthority?.controls?.lstmodule" (treeEvent)="treeEvent($event)">
+                                </webd-treeview>
+                            </div>
+                        </div>
+                    </div>
+                    <webd-table #dataTableCom [config]='tableConfig' [control]="fguserAuthority?.controls?.lstcontrol"
+                        (tableEvent)="tableClick($event)">
+                    </webd-table>
+                    <div class="col-lg-3 mb-3">
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-outline-secondary"
+                                (click)="navigateBack()">Back</button>&nbsp;
+                            <button type="submit" class="btn btn-primary"
+                                (click)="setuserAuthority(true)">Submit</button>
+                        </div>
+                    </div>
+                    <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                        [showConfirmButton]="false">
+                    </swal>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</form>

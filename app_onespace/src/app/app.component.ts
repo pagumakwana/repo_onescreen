@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
+import { AuthService } from './authmodule/_authservice/auth.service';
 import { ApiService } from './_appservice/api.service';
 import { AppSessionService } from './_appservice/appsession.service';
 import { BaseServiceHelper } from './_appservice/baseHelper.service';
 import { CommonService } from './_appservice/common.service';
 import { EncryptedStorage } from './_appservice/encryptedstorage.service';
+import { InternetConnectionService } from './_appservice/internet-connection.service';
 import { ScriptLoaderService } from './_appservice/script-loader.service';
 import { PageTitleService } from './_appservice/title.service';
 import { WebDService } from './_appservice/webdpanel.service';
@@ -24,21 +26,26 @@ import { WebDService } from './_appservice/webdpanel.service';
     CommonService,
     ScriptLoaderService,
     EncryptedStorage,
-    AppSessionService]
+    AppSessionService,
+    InternetConnectionService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'app_onespace';
   private router = inject(Router);
   private renderer = inject(Renderer2);
+  private sub!: Subscription;
 
   @HostBinding('class') hostCssClass = '';
 
-  constructor() {
-    this.router.events
+  constructor(private _base: BaseServiceHelper,private internetConnectionService: InternetConnectionService) {
+    this.internetConnectionService.getOnlineStatus().subscribe(online => {
+      this._base._commonService.isOnline = online;
+     
+      this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const body = document.body;
-
+        
         if (event.url.includes('/app')) {
           this.renderer.removeAttribute(body, 'data-pc-layout');
         } else if (event.url.includes('/aboutus')) {
@@ -57,5 +64,14 @@ export class AppComponent {
           this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
         }
       });
+    });
+  }
+
+  ngOnInit() {
+   
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe(); // prevent memory leaks
   }
 }
