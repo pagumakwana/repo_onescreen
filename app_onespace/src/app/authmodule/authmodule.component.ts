@@ -14,8 +14,7 @@ import { AuthService } from './_authservice/auth.service';
   standalone: true,
   imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './authmodule.component.html',
-  styleUrl: './authmodule.component.scss',
-  providers: [AuthService, WebDService, BaseServiceHelper]
+  styleUrl: './authmodule.component.scss'
 })
 export class AuthmoduleComponent implements OnInit {
   hasError: boolean | undefined;

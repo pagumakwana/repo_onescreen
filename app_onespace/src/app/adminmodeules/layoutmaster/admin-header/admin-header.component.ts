@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs';
   styleUrl: './admin-header.component.scss'
 })
 export class AdminHeaderComponent implements OnInit,OnDestroy {
-  private sub!: Subscription;
   
 
   userDetails: any;
@@ -30,10 +29,6 @@ export class AdminHeaderComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this._base._commonService.isLoginUser$.subscribe((event: boolean) => {
-      this._base._commonService.isLoggedIn = event;
-      console.log("isLoggedIn2",this._base._commonService.isLoggedIn)
-    });
     this._base._encryptedStorage.get(enAppSession.profilepicture).then((resPicture) => {
       if (resPicture != null && resPicture != '' && resPicture != undefined) {
         this._profilepicture = resPicture;
@@ -56,7 +51,7 @@ export class AdminHeaderComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe(); // prevent memory leaks
+  
   }
   // getUserDetails() {
   //   this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {

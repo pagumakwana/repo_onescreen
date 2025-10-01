@@ -1,0 +1,36 @@
+2025-09-30 13:27:07 | /api/bannermanagement/getbanner | A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server) 
+   at onescreenDAL.BannerManagement.BannerManagement_DAL.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/BannerManagement/BannerManagement_DAL.cs:line 156
+   at onescreenBAL.BannerManagement.BannerManagement_BAL.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/BannerManagement/BannerManagement_BAL.cs:line 24
+   at onescreen_api.Controllers.BannerManagement.BannerManagementController.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/BannerManagement/BannerManagementController.cs:line 49
+   at lambda_method3(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-09-30 20:06:40 | /api/bannermanagement/getbanner | Invalid argument 
+   at onescreenDAL.BannerManagement.BannerManagement_DAL.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/BannerManagement/BannerManagement_DAL.cs:line 156
+   at onescreenBAL.BannerManagement.BannerManagement_BAL.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/BannerManagement/BannerManagement_BAL.cs:line 24
+   at onescreen_api.Controllers.BannerManagement.BannerManagementController.getbanner(String flag, Int64 banner_id, Int64 category_id, String category, Int64 label_id, String label, String search, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/BannerManagement/BannerManagementController.cs:line 49
+   at lambda_method3(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82

@@ -6,6 +6,7 @@ import { userModel } from '../../_appmodel/_model';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { environment } from '../../../environments/environments.prod';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 
 @Injectable({
@@ -45,10 +46,6 @@ export class AuthService implements OnDestroy {
     this.unsubscribe.push(subscr);
   }
 
-  isLoggedIn(): boolean {
-    debugger
-    return !!this.currentUserValue;
-  }
 
   // public methods
   login(email: string, password: string): Observable<any> {
@@ -64,7 +61,8 @@ export class AuthService implements OnDestroy {
         console.error('err', err);
         return of(undefined);
       }),
-      finalize(() => {this.isLoadingSubject.next(false);this._base._commonService.isLoginUserSubject.next(true);})
+      finalize(() => {this.isLoadingSubject.next(false);this._base._encryptedStorage.set(enAppSession.haslogin,true);
+        localStorage.setItem('isLoginUser','true'); this._base._commonService.isLoginUserSubject.next(true);})
     );
   }
 
@@ -74,8 +72,10 @@ export class AuthService implements OnDestroy {
     this._base._router.navigate(['/home'], {
       queryParams: {},
     });
+    this._base._encryptedStorage.set(enAppSession.haslogin,false);
+    localStorage.setItem('isLoginUser','false');
     this._base._commonService.isLoginUserSubject.next(false);
-    this.currentUserSubject.next(false)
+    this.currentUserSubject.next(null)
   }
 
   getUserByToken(): Observable<userModel | undefined> {

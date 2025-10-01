@@ -151,13 +151,13 @@
             <img [src]="this._base._commonService.cdnURL+this._profilepicture"  alt="user-image" class="user-avtar" />
           </a>
           <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-            <ng-container *ngIf="!this._base._commonService.isLoggedIn">
+            <ng-container *ngIf="!this._base._commonService.isLoggedInUser()">
               <a [routerLink]="['/auth']" class="dropdown-item">
                 <i class="ph-duotone ph-user-circle"></i>
                 <span>Sign In</span>
               </a>
             </ng-container>
-            <ng-container *ngIf="this._base._commonService.isLoggedIn">
+            <ng-container *ngIf="this._base._commonService.isLoggedInUser()">
               <a class="dropdown-item" routerLink="/app/dashboard">
                 <i class="ph-duotone ph-gauge"></i> Dashboard
               </a>

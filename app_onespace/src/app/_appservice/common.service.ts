@@ -20,8 +20,11 @@ export class CommonService {
         this._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
             this.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
         });
-        this.isLoginUserSubject = new BehaviorSubject<boolean>(false);
-        this.isLoginUser$ = this.isLoginUserSubject.asObservable();
+        // this.isLoginUserSubject = new BehaviorSubject<boolean>(false);\
+        // this._encryptedStorage.get(enAppSession.haslogin).then((haslogin: any) => {
+        //     this.isLoginUserSubject.next(!!haslogin);
+        // });
+
 
     }
 
@@ -34,8 +37,8 @@ export class CommonService {
     public authoritycontrolList: any = [];
     public isLoggedIn: boolean = false;
 
-    isLoginUser$: Observable<boolean>;
-    isLoginUserSubject: BehaviorSubject<boolean>;
+    isLoginUserSubject = new BehaviorSubject<boolean>(false);
+    isLoginUser$ = this.isLoginUserSubject.asObservable();
 
     public navigation(url: any = [], isLoginRequired: boolean = false) {
         if (isLoginRequired) {
@@ -45,6 +48,11 @@ export class CommonService {
         }
     }
 
+    isLoggedInUser(): boolean {
+        const isLoginUser = localStorage.getItem('isLoginUser') === 'true' ? true : false;
+        this.isLoginUserSubject.next(!!isLoginUser);
+        return !!this.isLoginUserSubject?.value;
+    }
 
     guid() {
         return this._p8(null) + this._p8(true) + this._p8(true) + this._p8(null);

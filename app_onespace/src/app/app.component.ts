@@ -27,7 +27,8 @@ import { WebDService } from './_appservice/webdpanel.service';
     ScriptLoaderService,
     EncryptedStorage,
     AppSessionService,
-    InternetConnectionService]
+    InternetConnectionService,
+    AuthService]
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'app_onespace';
@@ -37,38 +38,38 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostCssClass = '';
 
-  constructor(private _base: BaseServiceHelper,private internetConnectionService: InternetConnectionService) {
+  constructor(private _base: BaseServiceHelper, private internetConnectionService: InternetConnectionService) {
     this.internetConnectionService.getOnlineStatus().subscribe(online => {
       this._base._commonService.isOnline = online;
-     
+
       this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        const body = document.body;
-        
-        if (event.url.includes('/app')) {
-          this.renderer.removeAttribute(body, 'data-pc-layout');
-        } else if (event.url.includes('/aboutus')) {
-          this.hostCssClass = 'aboutus_module';
-          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-        } else if (event.url.includes('/contactus')) {
-          this.hostCssClass = 'contactus_module';
-          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-        }
-        else if (event.url.includes('/faqs')) {
-          this.hostCssClass = 'faq_module';
-          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-        }
-        else {
-          this.hostCssClass = '';
-          this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-        }
-      });
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: any) => {
+          const body = document.body;
+
+          if (event.url.includes('/app')) {
+            this.renderer.removeAttribute(body, 'data-pc-layout');
+          } else if (event.url.includes('/aboutus')) {
+            this.hostCssClass = 'aboutus_module';
+            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+          } else if (event.url.includes('/contactus')) {
+            this.hostCssClass = 'contactus_module';
+            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+          }
+          else if (event.url.includes('/faqs')) {
+            this.hostCssClass = 'faq_module';
+            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+          }
+          else {
+            this.hostCssClass = '';
+            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+          }
+        });
     });
   }
 
   ngOnInit() {
-   
+
   }
 
   ngOnDestroy() {
