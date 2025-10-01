@@ -7,9 +7,7 @@ import { AuthService } from './auth.service';
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {
   constructor(private authService: AuthService,private _base:BaseServiceHelper) {
-    this._base._encryptedStorage.get(enAppSession.haslogin).then((haslogin: any) => {
-      this._base._commonService.isLoginUserSubject.next(!!haslogin);
-  });
+    
    }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

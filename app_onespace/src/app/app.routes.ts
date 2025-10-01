@@ -40,6 +40,8 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { WallettransactionComponent } from './adminmodeules/wallettransaction/wallettransaction.component';
 import { ControlmoduleComponent } from './adminmodeules/controlmodule/controlmodule.component';
 import { ManagecontrolComponent } from './adminmodeules/controlmodule/managecontrol/managecontrol.component';
+import { FourzerofourComponent } from './fourzerofour/fourzerofour.component';
+import { NoconnectionComponent } from './noconnection/noconnection.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -52,6 +54,11 @@ export const routes: Routes = [
         path: 'signup',
         component: SignupmoduleComponent,
         title: 'Sign-up',
+    },
+    {
+        path: 'noconnection',
+        component: NoconnectionComponent,
+        title: 'Internet connection',
     },
     {
         path: '',
@@ -251,4 +258,5 @@ export const routes: Routes = [
             },
         ]
     },
+    { path: '**', component: FourzerofourComponent }
 ];

@@ -1,9 +1,9 @@
 <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_newbtn')">
-<div class="d-flex justify-content-end">
-    <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
-        New User
-    </button>
-</div>
+    <div class="d-flex justify-content-end">
+        <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
+            New User
+        </button>
+    </div>
 </ng-container>
 <br>
 <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_userlist')">

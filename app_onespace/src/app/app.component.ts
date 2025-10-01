@@ -41,30 +41,33 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private _base: BaseServiceHelper, private internetConnectionService: InternetConnectionService) {
     this.internetConnectionService.getOnlineStatus().subscribe(online => {
       this._base._commonService.isOnline = online;
+      if (this._base._commonService.isOnline) {
+        this.router.events
+          .pipe(filter(event => event instanceof NavigationEnd))
+          .subscribe((event: any) => {
+            const body = document.body;
 
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe((event: any) => {
-          const body = document.body;
-
-          if (event.url.includes('/app')) {
-            this.renderer.removeAttribute(body, 'data-pc-layout');
-          } else if (event.url.includes('/aboutus')) {
-            this.hostCssClass = 'aboutus_module';
-            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-          } else if (event.url.includes('/contactus')) {
-            this.hostCssClass = 'contactus_module';
-            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-          }
-          else if (event.url.includes('/faqs')) {
-            this.hostCssClass = 'faq_module';
-            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-          }
-          else {
-            this.hostCssClass = '';
-            this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
-          }
-        });
+            if (event.url.includes('/app')) {
+              this.renderer.removeAttribute(body, 'data-pc-layout');
+            } else if (event.url.includes('/aboutus')) {
+              this.hostCssClass = 'aboutus_module';
+              this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+            } else if (event.url.includes('/contactus')) {
+              this.hostCssClass = 'contactus_module';
+              this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+            }
+            else if (event.url.includes('/faqs')) {
+              this.hostCssClass = 'faq_module';
+              this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+            }
+            else {
+              this.hostCssClass = '';
+              this.renderer.setAttribute(body, 'data-pc-layout', 'horizontal');
+            }
+          });
+      } else {
+          this._base._router.navigate(['noconnection'])
+      }
     });
   }
 
