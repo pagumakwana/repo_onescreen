@@ -100,7 +100,7 @@
                   <label class="form-label">Vendor Commission</label>
                   <input type="text" class="form-control form-control-solid" id="commission" name="commission"
                     placeholder="commission" formControlName="commission">
-                    <!-- pattern="^[0-9]\d{9}$"
+                  <!-- pattern="^[0-9]\d{9}$"
                     onkeypress="return /[0-9]/i.test(event.key)" min="0" max="100"> -->
                   <!-- <div
                     *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
@@ -127,6 +127,13 @@
                     placeholder="Select Authority" [config]="_configAuthority"
                     (onSelection)="onAuthoritySelect($event)">
                   </webd-multiselect>
+                  <div
+                    *ngIf="fgUser.controls['lstauthority'].touched && fgUser.controls['lstauthority'].invalid"
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls.lstauthority.errors?.['required']">
+                      Authority is required.
+                    </ng-container>
+                  </div>
                 </div>
                 <div class="col-lg-3 mb-3" [hidden]="true">
                   <label class="form-label">Vendor</label>

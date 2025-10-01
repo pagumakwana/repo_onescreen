@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -15,7 +15,7 @@ import { MultiselectComponent } from '../../../layout_template/multiselect/multi
 @Component({
   selector: 'app-addmodifylabel',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,SweetAlert2Module],
+  imports: [FormsModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, SweetAlert2Module, RouterLink],
   templateUrl: './addmodifylabel.component.html',
   styleUrl: './addmodifylabel.component.scss'
 })

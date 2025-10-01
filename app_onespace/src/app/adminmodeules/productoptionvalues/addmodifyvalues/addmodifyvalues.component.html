@@ -28,6 +28,13 @@
                                         placeholder="Select option type" [config]="_configType"
                                         (onSelection)="onItemSelect($event)">
                                     </webd-multiselect>
+                                    <div *ngIf="fgoptionvalue.controls['lstoptiontype'].touched && fgoptionvalue.controls['lstoptiontype'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgoptionvalue.controls.lstoptiontype.errors?.['required']">
+                                            Option Type is required.
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
 
@@ -46,11 +53,12 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
+                            
+                            <a type="submit" class="btn btn-outline-secondary mb-4" [routerLink]="['/app/managevalues']">Back</a>
+                                &nbsp;
                             <button type="submit" class="btn btn-primary mb-4"
                                 (click)="setoptionValue(true)">Submit</button>
-                            &nbsp;
-                            <a type="submit" class="btn btn-secondary mb-4" [routerLink]="['/app/managevalues']">Back</a>
-
+                            
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">
                             </swal>

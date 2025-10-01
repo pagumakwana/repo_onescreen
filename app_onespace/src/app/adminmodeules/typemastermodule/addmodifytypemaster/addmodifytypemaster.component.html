@@ -43,11 +43,11 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
+                            <a class="btn btn-outline-secondary mb-4" routerLink="/app/managetypemaster" >Back</a>
+                            &nbsp;
                             <button type="submit" class="btn btn-primary mb-4"
                                 (click)="settypeMaster(true)">Submit</button>
-                            &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4" (click)="navigateBack">Back</button>
-
+                            
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">
                             </swal>

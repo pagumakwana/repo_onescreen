@@ -7,7 +7,7 @@ export class AuthGuard {
   constructor(private authService: AuthService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.currentUserSubject) {
       // logged in so return true
       return true;
     }

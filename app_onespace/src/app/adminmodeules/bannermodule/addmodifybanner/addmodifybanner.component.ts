@@ -5,7 +5,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { banner, fileChoosenDataModel, fileConfigModel, SaveModuleFileModel } from '../../../_appmodel/_model';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule,CommonModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module, RouterLink],
   templateUrl: './addmodifybanner.component.html',
   styleUrl: './addmodifybanner.component.scss',
   encapsulation: ViewEncapsulation.None

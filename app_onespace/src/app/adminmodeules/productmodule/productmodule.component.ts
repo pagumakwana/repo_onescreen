@@ -81,7 +81,8 @@ export class ProductmoduleComponent {
       { identifer: "product_name", title: "Product Name", type: "text" },
       { identifer: "category", title: "Category", type: "text" },
       // { identifer: "brand_name", title: "Brand", type: "text" },
-      { identifer: "product_description", title: "Description", type: "text" },
+       { identifer: "isactive", title: "Status", type: "status" },
+      // { identifer: "product_description", title: "Description", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
