@@ -677,8 +677,8 @@ export class WebDService {
     public wallet_withdrawal_req(_walletwithdrawal: wallet_withdrawal) {
         return this._base._apiService.post(`${ApiConstant.product.wallet_withdrawal_req}`, _walletwithdrawal);
     }
-    public getwalletmaster(flag = 'all', wallet_master_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getwalletmaster}?flag=${flag}&wallet_master_id=${wallet_master_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getwalletmaster(flag = 'all', wallet_master_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getwalletmaster}?flag=${flag}&wallet_master_id=${wallet_master_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
     public getinvoicedetails(order_id = 0, start_count = 0, end_count = 0) {

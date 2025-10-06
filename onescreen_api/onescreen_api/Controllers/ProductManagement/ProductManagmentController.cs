@@ -507,16 +507,17 @@ namespace onescreen_api.Controllers.ProductManagement
         /// </summary>
         /// <param name="flag"></param>
         /// <param name="wallet_master_id"></param>
+        /// <param name="user_id"></param>
         /// <param name="start_count"></param>
         /// <param name="end_count"></param>
         /// <returns></returns>
         [Route("getwalletmaster")]
         [HttpGet]
-        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getwalletmaster(flag, wallet_master_id, start_count, end_count);
+                return objProductManagement_BAL.getwalletmaster(flag, wallet_master_id, user_id, start_count, end_count);
             }
         }
 

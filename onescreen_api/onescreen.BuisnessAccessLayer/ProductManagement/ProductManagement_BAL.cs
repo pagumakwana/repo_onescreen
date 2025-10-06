@@ -258,11 +258,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getwalletmaster(flag, wallet_master_id, start_count, end_count);
+                return objProductManagement_DAL.getwalletmaster(flag, wallet_master_id, user_id, start_count, end_count);
             }
         }
         public responseModel getinvoicedetails(Int64 order_id, Int64 start_count = 0, Int64 end_count = 0)

@@ -1630,6 +1630,20 @@ namespace onescreenDAL.ProductManagement
                                 ObJParameterCOl3.Add(objDBParameter3);
                                 objDbHelper.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
                             }
+
+                            objDbHelper = new DBHelper();
+                            DBParameterCollection ObJParameterCOl4 = new DBParameterCollection();
+                            DBParameter objDBParameter4 = new DBParameter("@flag", objuserorderMaster.flag, DbType.String);
+                            ObJParameterCOl4.Add(objDBParameter4);
+                            objDBParameter4 = new DBParameter("@order_id", objuserorderMaster.order_id, DbType.Int64);
+                            ObJParameterCOl4.Add(objDBParameter4);
+                            objDBParameter4 = new DBParameter("@order_total_amount", objuserorderMaster.order_subtotal, DbType.Decimal);
+                            ObJParameterCOl4.Add(objDBParameter4);
+                            objDBParameter4 = new DBParameter("@client_id", client_id, DbType.String);
+                            ObJParameterCOl4.Add(objDBParameter4);
+                            objDBParameter4 = new DBParameter("@project_id", project_id, DbType.String);
+                            ObJParameterCOl4.Add(objDBParameter4);
+                            objDbHelper.ExecuteNonQuery(Constant.update_commision, ObJParameterCOl4, CommandType.StoredProcedure);
                             //ResponseMessage = Res[0].ToString();
                         }
                         else
@@ -2002,6 +2016,7 @@ namespace onescreenDAL.ProductManagement
                               wallet_balance_amt = Row.Field<decimal>("wallet_balance_amt"),
                               credit_debit = Row.Field<Int64>("credit_debit"),
                               order_id = Row.Field<Int64>("order_id"),
+                              order_number = Row.Field<string>("order_number"),
                               user_id = Row.Field<Int64>("user_id"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
@@ -2069,7 +2084,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwalletmaster(string flag, Int64 wallet_master_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -2079,6 +2094,8 @@ namespace onescreenDAL.ProductManagement
                 DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@wallet_master_id", wallet_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

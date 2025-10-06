@@ -123,23 +123,23 @@
                                                         *ngIf="_obj.is_approved == 1"></i>
                                                     <i class="ph-duotone ph-x-circle text-danger f-24"
                                                         data-bs-toggle="tooltip" data-bs-title="danger"
-                                                        *ngIf="_obj.is_approved == 0"></i>
+                                                        *ngIf="_obj.is_approved == 2"></i>
                                                     <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
-                                                        data-bs-title="No Update" *ngIf="_obj.is_approved == null"></i>
+                                                        data-bs-title="No Update" *ngIf="_obj.is_approved == 0"></i>
                                                 </td>
                                                 <td>{{_obj.createdname}}</td>
                                                 <td>{{_obj.updatedname}}</td>
                                                 <td class="text-center"
                                                     *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
-                                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                                    <div class="d-flex justify-content-center align-items-center gap-2" *ngIf = "_obj.is_approved == 0" >
                                                         <button
-                                                            (click)="approveRequest(_obj.withdrawal_request_id, 'approved')"
+                                                            (click)="approveRequest(_obj, 'approved')"
                                                             class="btn btn-sm btn-success d-flex align-items-center"
                                                             title="Approve">
                                                             <span class="ms-1">Approve</span>
                                                         </button>
                                                         <button
-                                                            (click)="approveRequest(_obj.withdrawal_request_id, 'rejected')"
+                                                            (click)="approveRequest(_obj, 'rejected')"
                                                             class="btn btn-sm btn-danger d-flex align-items-center"
                                                             title="Reject">
                                                             <span class="ms-1">Reject</span>

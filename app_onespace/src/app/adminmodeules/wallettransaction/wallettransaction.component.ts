@@ -108,7 +108,7 @@ export class WallettransactionComponent {
       { identifer: "previous_balance", title: "Previous Balance", type: "text" },
       { identifer: "transaction_amount", title: "Transaction Amount", type: "text" },
       { identifer: "wallet_balance_amt", title: "Balance Amount", type: "text" },
-      { identifer: "wallet_balance_amt", title: "Order Number", type: "text" },
+      { identifer: "order_number", title: "Order Number", type: "text" },
       //  { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     ],
     isCustom: {
@@ -158,7 +158,7 @@ export class WallettransactionComponent {
       let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
       let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
       let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-      this._webDService.getwallet_transaction('all', 0,user_id, parseInt(start), parseInt(end)).subscribe((restransactionMaster: any) => {
+      this._webDService.getwallet_transaction('all', 0, user_id, parseInt(start), parseInt(end)).subscribe((restransactionMaster: any) => {
         this.transactionMaster = restransactionMaster.data;
         this.transactionMaster = Array.isArray(restransactionMaster.data) ? restransactionMaster.data : [];
         if (this.tableConfig?.isCustom) {
@@ -202,10 +202,12 @@ export class WallettransactionComponent {
   }
 
   getwalletmaster() {
-    this._webDService.getwalletmaster('all', 0, 0, 0).subscribe((reswalletMaster: any) => {
-      this.walletMaster = reswalletMaster.data;
-      this.walletMaster = Array.isArray(reswalletMaster.data) ? reswalletMaster.data : [];
-      this._cdr.detectChanges();
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._webDService.getwalletmaster('all', 0, user_id, 0, 0).subscribe((reswalletMaster: any) => {
+        this.walletMaster = reswalletMaster.data;
+        this.walletMaster = Array.isArray(reswalletMaster.data) ? reswalletMaster.data : [];
+        this._cdr.detectChanges();
+      });
     });
   }
 
@@ -237,22 +239,28 @@ export class WallettransactionComponent {
               setTimeout(() => {
                 this.requestsuccSwal.fire();
                 setTimeout(() => {
-                  this.requestsuccSwal.close()
+                  this.getwalletwithdrawal();
+                  this.requestsuccSwal.close();
+                  this.modalRef.close();
                 }, 1500);
               }, 1000);
             } else if (response === 'requestpending') {
               setTimeout(() => {
                 this.pendingSwal.fire();
                 setTimeout(() => {
+                  this.getwalletwithdrawal();
                   this.pendingSwal.close();
-                  
+                  this.modalRef.close();
+
                 }, 1500);
               }, 1000);
             } else {
               setTimeout(() => {
                 this.failureSwal.fire();
                 setTimeout(() => {
+                  this.getwalletwithdrawal();
                   this.failureSwal.close();
+                  this.modalRef.close();
                 }, 1500);
               }, 1000);
             }
@@ -273,8 +281,8 @@ export class WallettransactionComponent {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
 
         this._walletwithdrawal = {};
-        this._walletwithdrawal.withdrawal_request_id = parseInt(data);
-        this._walletwithdrawal.wallet_master_id = this.walletMaster[0]?.wallet_master_id;
+        this._walletwithdrawal.withdrawal_request_id = parseInt(data?.withdrawal_request_id);
+        this._walletwithdrawal.wallet_master_id =parseInt(data?.wallet_master_id);
         this._walletwithdrawal.createdby = user_id;
         this._walletwithdrawal.createdname = fullname;
         this._walletwithdrawal.flag = flag;
@@ -286,7 +294,7 @@ export class WallettransactionComponent {
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
-                    
+                    this.getwalletwithdrawal();
                     this._cdr.detectChanges();
                   }, 500);
                 }
@@ -301,7 +309,7 @@ export class WallettransactionComponent {
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
-                    
+                    this.getwalletwithdrawal();
                     this._cdr.detectChanges();
                   }, 500);
                 }
