@@ -3,6 +3,7 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { dataTableConfig } from '../../_appmodel/_componentModel';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-dashboardmodule',
@@ -70,10 +71,11 @@ export class DashboardmoduleComponent {
   }
 
   getOderDetails() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getorderdetails('all', 0,0, parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
+    this._webDService.getorderdetails('all', 0,user_id, parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
       this.orderDetails = resorderDetails.data;
       this.orderDetails = Array.isArray(resorderDetails.data) ? resorderDetails.data : [];
       if (this.tableConfig?.isCustom) {
@@ -82,6 +84,7 @@ export class DashboardmoduleComponent {
       this.tableConfig.tableData = this.orderDetails;
       this.tableObj.initializeTable();
       this._cdr.detectChanges();
+    });
     });
   }
 }
