@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Validators } from 'ngx-editor';
 import { Observable, Subscription, first } from 'rxjs';
-import { userModel } from '../_appmodel/_model';
+import { user_verification, userModel } from '../_appmodel/_model';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { AuthService } from './_authservice/auth.service';
@@ -52,14 +52,19 @@ export class AuthmoduleComponent implements OnInit {
   }
 
   initForm() {
+    // this.formSignIn = this._fbSignIn.group({
+    //   username: ['', [Validators.required]],
+    //   password: ['', [Validators.required]]
+    // });
+
     this.formSignIn = this._fbSignIn.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
-    });
+      mobile_number: ['', [Validators.required]],
+      otp_code: ['']
+    })
   }
 
   setSignInModel() {
-    
+
     this._base._commonService.markFormGroupTouched(this.formSignIn)
     if (this.formSignIn.valid) {
       this._userModel.username = this.formSignIn.value.username;
@@ -83,7 +88,7 @@ export class AuthmoduleComponent implements OnInit {
               if (res) {
                 this.loginsuccess = true;
                 setTimeout(() => {
-                  
+
                   if (this.redirectUrl != null) {
                     this._base._router.navigate([this.redirectUrl[0]]);
                   } else {
@@ -134,9 +139,65 @@ export class AuthmoduleComponent implements OnInit {
 
   goToSignup() {
     if (this.redirectUrl) {
-      this._base._router.navigate(['signup'],{ queryParams: { q: [this.redirectUrl] } });
+      this._base._router.navigate(['signup'], { queryParams: { q: [this.redirectUrl] } });
     } else {
       this._base._router.navigate(['signup']);
     }
   }
+
+
+  //===========================OTP CODE================
+
+
+
+  _mobileverification: user_verification = {}
+
+  verify_number(flag: string = 'MOBILE_VERIFY') {
+    this._base._commonService.markFormGroupTouched(this.formSignIn);
+    if (this.formSignIn.valid) {
+      this._mobileverification.mobile_number = this.formSignIn.value.mobile_number;
+      this._mobileverification.otp_code = this.formSignIn.value.otp_code;
+      this.addverify();
+    }
+  }
+
+  isOTPsent: boolean = false;
+  isverifybutton: boolean = false;
+  OTPValue: string = '';
+  invalidOTP: boolean = false;
+  addverify() {
+    this.invalidOTP = false;
+    // this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+    //   this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+    this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
+    this._mobileverification.createdname = 'system';
+    this._mobileverification.createdby = 0;
+    this._webDService.mobile_verification(this._mobileverification).subscribe({
+      next: (response: any) => {
+        if (response.includes('otp_sent_success~')) {
+          const parts = response.split("~");
+          this.isOTPsent = true;
+          this.isverifybutton = true;
+          this.OTPValue = parts[1];
+          this._cdr.detectChanges();
+        } else if (response.includes('otp_verify')) {
+          this.OTPValue = '';
+          // this.modalService.dismissAll();
+          this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
+          console.warn('otp_verify response:', response);
+        } else {
+          this.invalidOTP = true;
+        }
+      },
+      complete: () => { },
+      error: (err) => {
+        console.error('Mobile verification failed:', err);
+        // optional: Swal error toast here
+      }
+    });
+    //   });
+    // });
+  }
+
+
 }

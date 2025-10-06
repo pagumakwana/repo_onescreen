@@ -1,4 +1,4 @@
-<div class="auth-main v2">
+<!-- <div class="auth-main v2">
   <div class="bg-overlay bg-dark"></div>
   <div class="auth-wrapper">
     <div class="auth-sidecontent">
@@ -63,9 +63,9 @@
                 <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="">
                 <label class="form-check-label text-muted" for="customCheckc1">Remember me?</label>
               </div>
-              <!-- <a href="../pages/forgot-password-v2.html">
+              <a href="../pages/forgot-password-v2.html">
                 <h6 class="text-secondary f-w-400 mb-0">Forgot Password?</h6>
-              </a> -->
+              </a>
             </div>
             <div class="d-grid mt-4">
               <button type="submit" class="btn btn-primary" [disabled]="formSignIn.invalid"> <ng-container
@@ -82,6 +82,95 @@
               <a href="/home"><i class="ti ti-arrow-left"></i>Back to Home</a>
             </div>
 
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="auth-main v2">
+  <div class="bg-overlay bg-dark"></div>
+  <div class="auth-wrapper">
+    <!-- Side Content -->
+    <div class="auth-sidecontent">
+      <div class="auth-sidefooter">
+        <img src="../../../assets/images/onescreen_logo.png" class="img-brand img-fluid" alt="images" />
+        <hr class="mb-3 mt-4" />
+        <div class="row">
+          <div class="col my-1">
+            <p class="m-0">Made with ♥ by Team <a href="https://.in" target="_blank">Top In Tech</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTP Login Form -->
+    <div class="auth-form">
+      <div class="card my-5 mx-3">
+        <div class="card-body">
+          <h4 class="f-w-500 mb-3 text-center">Login with OTP</h4>
+
+          <!-- Invalid OTP Message -->
+          <ng-container *ngIf="this.invalidOTP">
+            <div class="mb-3 alert alert-danger">
+              <div class="alert-text fw-bold">Invalid OTP</div>
+            </div>
+          </ng-container>
+
+          <form [formGroup]="formSignIn" novalidate>
+            <p disabled class="mb-3">Don't have an Account? <a (click)="this.goToSignup()" style="cursor: pointer;"
+                class="link-primary ms-1">Create Account</a></p>
+            <!-- Mobile Number -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Mobile Number</label>
+              <input type="text" class="form-control" id="mobile_number" name="mobile_number"
+                [ngClass]="{'disabled':this.isOTPsent}" placeholder="Enter Mobile Number" pattern="^[0-9]\d{9}$"
+                maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" formControlName="mobile_number" required>
+              <div
+                *ngIf="formSignIn.controls['mobile_number'].invalid && (formSignIn.controls['mobile_number'].dirty || formSignIn.controls['mobile_number'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="formSignIn.controls.mobile_number.errors?.['required']">
+                  Mobile number is required.
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- OTP -->
+            <div class="mb-3" *ngIf="this.isOTPsent">
+              <label class="form-label fw-bold">OTP</label>
+              <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
+                maxlength="6" onkeypress="return /[0-9]/i.test(event.key)" formControlName="otp_code" required>
+              <div
+                *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
+                  OTP is required.
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- OTP Value (Debug / Display) -->
+            <div class="mb-3" *ngIf="this.OTPValue">
+              <label class="form-label fw-bold">Your OTP:</label>
+              <span class="text-primary">{{this.OTPValue}}</span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-grid mb-3">
+              <ng-container *ngIf="!this.isOTPsent && !this.isverifybutton">
+                <button type="button" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Send OTP</button>
+              </ng-container>
+              <ng-container *ngIf="this.isverifybutton">
+                <button type="button" class="btn btn-success" (click)="verify_number('MOBILE_VERIFY')">Verify
+                  OTP</button>
+              </ng-container>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="text-center mt-3">
+              <a href="/home"><i class="ti ti-arrow-left"></i> Back to Home</a>
+            </div>
           </form>
         </div>
       </div>

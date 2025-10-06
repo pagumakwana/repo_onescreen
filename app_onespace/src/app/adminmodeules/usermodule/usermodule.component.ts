@@ -123,7 +123,7 @@ export class UsermoduleComponent implements OnInit {
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
     this._webDService.userlist('USERLIST', 0, 'null', parseInt(start), parseInt(end)).subscribe((resUserListdata: any) => {
-      this.userListData = resUserListdata.data;
+      this.userListData = [];
       this.userListData = Array.isArray(resUserListdata.data) ? resUserListdata.data : [];
       if (this.tableConfig?.isCustom) {
         this.tableConfig.isCustom.total = resUserListdata.count;
