@@ -521,7 +521,7 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.common.update_moduledata}`, _moduledataModel);
     }
 
-    public getportalconfig(flag = 'all', config_id = 0, config_name = "null",search = "null", start_count = 0, end_count = 0) {
+    public getportalconfig(flag = 'all', config_id = 0, config_name = "null", search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.config.getportalconfig}?flag=${flag}&config_id=${config_id}&config_name=${config_name}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageportalconfig(_portalconfigModel: portalconfigModel) {
@@ -653,7 +653,7 @@ export class WebDService {
     public media_status_update(_objmedia_status: media_status) {
         return this._base._apiService.post(`${ApiConstant.product.media_status_update}`, _objmedia_status);
     }
-    public getpendingmediaupload(user_id: number,order_id: number, start_count = 0, end_count = 0) {
+    public getpendingmediaupload(user_id: number, order_id: number, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.get_pendingmediaupload}?user_id=${user_id}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public media_upload(_media_upload: media_upload) {
@@ -668,24 +668,24 @@ export class WebDService {
     public update_userdetails(_updateuserdetail: update_user) {
         return this._base._apiService.post(`${ApiConstant.customer.update_userdetails}`, _updateuserdetail);
     }
-     public getwithdrawal_request(flag = 'all', withdrawal_request_id = 0, start_count = 0, end_count = 0) {
+    public getwithdrawal_request(flag = 'all', withdrawal_request_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getwithdrawal_request}?flag=${flag}&withdrawal_request_id=${withdrawal_request_id}&start_count=${start_count}&end_count=${end_count}`);
     }
-     public getwallet_transaction(flag = 'all', wallet_transaction_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getwallet_transaction}?flag=${flag}&wallet_transaction_id=${wallet_transaction_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getwallet_transaction(flag = 'all', wallet_transaction_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getwallet_transaction}?flag=${flag}&wallet_transaction_id=${wallet_transaction_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public wallet_withdrawal_req(_walletwithdrawal: wallet_withdrawal) {
         return this._base._apiService.post(`${ApiConstant.product.wallet_withdrawal_req}`, _walletwithdrawal);
     }
-     public getwalletmaster(flag = 'all', wallet_master_id = 0, start_count = 0, end_count = 0) {
+    public getwalletmaster(flag = 'all', wallet_master_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getwalletmaster}?flag=${flag}&wallet_master_id=${wallet_master_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
-     public getinvoicedetails(order_id = 0, start_count = 0, end_count = 0) {
+    public getinvoicedetails(order_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getinvoicedetails}?order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public getwalletwidget(user_id = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getwalletwidget}?user_id=${user_id}`);
     }
-    
+
 }

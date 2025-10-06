@@ -242,11 +242,11 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getwithdrawal_request(flag, withdrawal_request_id, start_count, end_count);
             }
         }
-        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getwallet_transaction(flag, wallet_transaction_id, start_count, end_count);
+                return objProductManagement_DAL.getwallet_transaction(flag, wallet_transaction_id,user_id, start_count, end_count);
             }
         }
 

@@ -1965,7 +1965,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -1975,6 +1975,8 @@ namespace onescreenDAL.ProductManagement
                 DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@wallet_transaction_id", wallet_transaction_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

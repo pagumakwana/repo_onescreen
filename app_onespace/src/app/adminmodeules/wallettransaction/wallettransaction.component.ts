@@ -154,18 +154,20 @@ export class WallettransactionComponent {
   };
 
   getwallettransaction() {
-    let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
-    let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
-    let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getwallet_transaction('all', 0, parseInt(start), parseInt(end)).subscribe((restransactionMaster: any) => {
-      this.transactionMaster = restransactionMaster.data;
-      this.transactionMaster = Array.isArray(restransactionMaster.data) ? restransactionMaster.data : [];
-      if (this.tableConfig?.isCustom) {
-        this.tableConfig.isCustom.total = restransactionMaster.count;
-      }
-      this.tableConfig.tableData = this.transactionMaster;
-      this.tableObj.initializeTable();
-      this._cdr.detectChanges();
+    this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
+      let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
+      let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
+      let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
+      this._webDService.getwallet_transaction('all', 0,user_id, parseInt(start), parseInt(end)).subscribe((restransactionMaster: any) => {
+        this.transactionMaster = restransactionMaster.data;
+        this.transactionMaster = Array.isArray(restransactionMaster.data) ? restransactionMaster.data : [];
+        if (this.tableConfig?.isCustom) {
+          this.tableConfig.isCustom.total = restransactionMaster.count;
+        }
+        this.tableConfig.tableData = this.transactionMaster;
+        this.tableObj.initializeTable();
+        this._cdr.detectChanges();
+      });
     });
   }
 
@@ -243,7 +245,7 @@ export class WallettransactionComponent {
                 this.pendingSwal.fire();
                 setTimeout(() => {
                   this.pendingSwal.close();
-                  location.reload();
+                  
                 }, 1500);
               }, 1000);
             } else {
@@ -284,7 +286,7 @@ export class WallettransactionComponent {
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
-                    location.reload();
+                    
                     this._cdr.detectChanges();
                   }, 500);
                 }
@@ -299,7 +301,7 @@ export class WallettransactionComponent {
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
-                    location.reload();
+                    
                     this._cdr.detectChanges();
                   }, 500);
                 }

@@ -1,7 +1,7 @@
 {
-    "apiBaseURL": "https://api.onescreen.in/api",
+    "apiBaseURL0": "https://api.onescreen.in/api",
     "apiBaseURLUAT": "https://api.onescreen.in/api",
-    "apiBaseURL1": "https://localhost:7278/api",
+    "apiBaseURL": "https://localhost:7278/api",
     "apiHubURL": "https://api.onescreen.in/apnaHUB",
     "cdnURL": "https://api.onescreen.in",
     "cdnAPPURL": "https://uat.apnasociety.com",

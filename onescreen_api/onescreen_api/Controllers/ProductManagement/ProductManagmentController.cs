@@ -479,11 +479,11 @@ namespace onescreen_api.Controllers.ProductManagement
         /// <returns></returns>
         [Route("getwallet_transaction")]
         [HttpGet]
-        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getwallet_transaction(string flag, Int64 wallet_transaction_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getwallet_transaction(flag, wallet_transaction_id, start_count, end_count);
+                return objProductManagement_BAL.getwallet_transaction(flag, wallet_transaction_id, user_id, start_count, end_count);
             }
         }
 
