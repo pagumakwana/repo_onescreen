@@ -64,8 +64,10 @@ namespace onescreenModel.Common
 
     public class userdashboardModel : commonModel
     {
-        public Int32 total_product { get; set; }
-        public Int32 in_cart { get; set; }
+        public Int32? total_product { get; set; }
+        public Int32? in_cart { get; set; }
+        public decimal? order_total { get; set; }
+        public Int32? total_order { get; set; }
 
     }
 

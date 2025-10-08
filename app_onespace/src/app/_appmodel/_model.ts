@@ -1971,6 +1971,7 @@ export interface productMaster {
     lstrepeattribute?: any,
     lstintervalattribute?: any,
     lsttimeattribute?: any,
+    lstuserproductcommission?: any,
     lstbrand?: any,
     thumbnail?: any,
     client_id?: number,

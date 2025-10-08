@@ -69,6 +69,7 @@ namespace onescreenDAL.ProductManagement
                 List<productAttributeModel> lsttimeattribute = new List<productAttributeModel>();
                 List<productAttributeModel> lstrepeattribute = new List<productAttributeModel>();
                 List<productAttributeModel> lstintervalattribute = new List<productAttributeModel>();
+                List<userproductcommissionModel> lstuserproductcommission = new List<userproductcommissionModel>();
                 if (ds != null)
                 {
                     if (flag == "Details")
@@ -156,11 +157,21 @@ namespace onescreenDAL.ProductManagement
                                     price_delta = Row.Field<decimal>("price_delta")
                                 }).ToList();
                         }
+                        if (ds.Tables[8].Rows.Count > 0)
+                        {
+                            lstuserproductcommission = ds.Tables[8].AsEnumerable().Select(Row =>
+                                new userproductcommissionModel
+                                {
+                                    user_id = Row.Field<Int64>("user_id"),
+                                    fullname = Row.Field<string>("fullname"),
+                                    commission = Row.Field<decimal>("commission")
+                                }).ToList();
+                        }
 
                     }
-                    if (ds.Tables[flag == "Details" ? 8 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 9 : 0].Rows.Count > 0)
                     {
-                        lstproducts = ds.Tables[flag == "Details" ? 8 : 0].AsEnumerable().Select(Row =>
+                        lstproducts = ds.Tables[flag == "Details" ? 9 : 0].AsEnumerable().Select(Row =>
                           new productModel
                           {
                               product_id = Row.Field<Int64>("product_id"),
@@ -182,6 +193,7 @@ namespace onescreenDAL.ProductManagement
                               lsttimeattribute = lsttimeattribute,
                               lstrepeattribute = lstrepeattribute,
                               lstintervalattribute = lstintervalattribute,
+                              lstuserproductcommission = lstuserproductcommission,
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -192,9 +204,9 @@ namespace onescreenDAL.ProductManagement
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
                     }
-                    if (ds.Tables[flag == "Details" ? 9 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Details" ? 10 : 1].Rows.Count > 0)
                     {
-                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 9 : 1].Rows[0]["RESPONSE"].ToString());
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 10 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     response.data = lstproducts;
                 }
@@ -284,7 +296,34 @@ namespace onescreenDAL.ProductManagement
                                     DataSet ds = objDbHelper.ExecuteDataSet(Constant.mapproductattribute, ObJParameterCOl, CommandType.StoredProcedure);
                                 });
                             }
+                            if ((objproductModel.lstuserproductcommission != null && objproductModel.lstuserproductcommission.Count > 0))
+                            {
+                                objproductModel.lstuserproductcommission.ForEach(_item =>
+                                {
+                                    DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                                    DBParameter objDBParameter = new DBParameter("@user_product_comm_id", _item.user_product_comm_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@user_id", _item.user_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@product_id", objproductModel.product_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@commission", _item.commission, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@isactive", _item.isactive, DbType.Boolean);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@createdby", objproductModel.user_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@createdname", objproductModel.createdname, DbType.String);
+                                    ObJParameterCOl.Add(objDBParameter);
 
+                                    DBHelper objDbHelper = new DBHelper();
+                                    DataSet ds = objDbHelper.ExecuteDataSet(Constant.mapuserproductcomm, ObJParameterCOl, CommandType.StoredProcedure);
+                                });
+                            }
                             if ((objproductModel.filemanager != null && objproductModel.filemanager.Count > 0))
                             {
                                 objproductModel.filemanager.ForEach(filemanager =>

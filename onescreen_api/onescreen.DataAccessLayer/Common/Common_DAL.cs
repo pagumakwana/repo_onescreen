@@ -192,6 +192,15 @@ namespace onescreen.DAL.Common
                     {
                         lstuserdashboard[0].in_cart = ds.Tables[1].Rows[0].Field<Int32>("in_cart");
                     }
+                    if (ds.Tables.Count > 2 && ds.Tables[2].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].order_total = ds.Tables[2].Rows[0].Field<decimal>("order_total");
+                    }
+                    if (ds.Tables.Count > 3 && ds.Tables[3].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].total_order = ds.Tables[3].Rows[0].Field<Int32>("total_order");
+                    }
+
                     lstresponse.data = lstuserdashboard;
                     lstresponse.response = "success";
                     lstresponse.count = lstuserdashboard.Count;

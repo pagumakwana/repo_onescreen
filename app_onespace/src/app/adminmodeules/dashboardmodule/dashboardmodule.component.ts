@@ -56,35 +56,37 @@ export class DashboardmoduleComponent {
   // }
 
   getuserdashboard() {
-    this._webDService.getdashboardwidget('all', 0).subscribe({
-      next: (res: any) => {
-        // 👇 Assign default empty object to avoid undefined errors
-        this.userdashboard = res?.data || {};
-        console.log("userdashboard", this.userdashboard);
-        this._cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error("Error fetching dashboard data", err);
-        this.userdashboard = {}; // 👈 fallback to safe object
-      }
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._webDService.getdashboardwidget('all', user_id).subscribe({
+        next: (res: any) => {
+          // 👇 Assign default empty object to avoid undefined errors
+          this.userdashboard = res?.data || {};
+          console.log("userdashboard", this.userdashboard);
+          this._cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error("Error fetching dashboard data", err);
+          this.userdashboard = {}; // 👈 fallback to safe object
+        }
+      });
     });
   }
 
   getOderDetails() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-    let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
-    let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
-    let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getorderdetails('all', 0,user_id, parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
-      this.orderDetails = resorderDetails.data;
-      this.orderDetails = Array.isArray(resorderDetails.data) ? resorderDetails.data : [];
-      if (this.tableConfig?.isCustom) {
-        this.tableConfig.isCustom.total = resorderDetails.count;
-      }
-      this.tableConfig.tableData = this.orderDetails;
-      this.tableObj.initializeTable();
-      this._cdr.detectChanges();
-    });
+      let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
+      let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
+      let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
+      this._webDService.getorderdetails('all', 0, user_id, parseInt(start), parseInt(end)).subscribe((resorderDetails: any) => {
+        this.orderDetails = resorderDetails.data;
+        this.orderDetails = Array.isArray(resorderDetails.data) ? resorderDetails.data : [];
+        if (this.tableConfig?.isCustom) {
+          this.tableConfig.isCustom.total = resorderDetails.count;
+        }
+        this.tableConfig.tableData = this.orderDetails;
+        this.tableObj.initializeTable();
+        this._cdr.detectChanges();
+      });
     });
   }
 }

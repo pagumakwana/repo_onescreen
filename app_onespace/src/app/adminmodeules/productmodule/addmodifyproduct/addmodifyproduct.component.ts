@@ -55,6 +55,7 @@ export class AddmodifyproductComponent {
   TimeSlotAttr: any = [];
   RepeAttr: any = [];
   IntervalAttr: any = [];
+  userMaster: any = [];
   private isProductModify: boolean = false;
 
   fileChoosenData: { [key: string]: Array<fileChoosenDataModel> } = {
@@ -143,6 +144,15 @@ export class AddmodifyproductComponent {
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
+  public _configUser: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'user_id',
+    textField: 'fullname',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
 
   initForm() {
     this.fgproductmaster = this._fbproductMaster.group({
@@ -159,8 +169,10 @@ export class AddmodifyproductComponent {
       lsttimeattr: this._fbproductMaster.array([]),
       lstrepeattr: this._fbproductMaster.array([]),
       lstinterattr: this._fbproductMaster.array([]),
+      lstuserproduct: this._fbproductMaster.array([]),
       lstcategoryroute: ['', [Validators.required]],
       lstpropertycategoryroute: ['', [Validators.required]],
+      lstuserproductcommission: [''],
       textarea: this._fbproductMaster.group({
         description: [''],
       })
@@ -172,6 +184,7 @@ export class AddmodifyproductComponent {
     this.getcategory('vehicle_type', 0);
     this.getcategory('selected_area', 0);
     this.getbrand();
+    this.getuser();
     this.getoptionvalues('Time Slot').then((res: any) => {
       this.TimeSlotAttr = res;
     });
@@ -181,6 +194,9 @@ export class AddmodifyproductComponent {
     this.getoptionvalues('Interval').then((res: any) => {
       this.IntervalAttr = res;
     });
+    // this.getuser().then((res: any) => {
+    //   this.userMaster = res;
+    // });
     if (this.product_id != '0') {
       this.getproductmaster(this.product_id);
     }
@@ -249,6 +265,7 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['lsttimeattribute'].setValue(this._productMaster.lsttimeattribute);
         this.fgproductmaster.controls['lstrepeattribute'].setValue(this._productMaster.lstrepeattribute);
         this.fgproductmaster.controls['lstintervalattribute'].setValue(this._productMaster.lstintervalattribute);
+        this.fgproductmaster.controls['lstuserproductcommission'].setValue(this._productMaster.lstuserproductcommission);
         // this.fgproductmaster.controls['lstbrand'].setValue(this._productMaster.lstbrand);
         this.fgproductmaster.controls['base_amount'].setValue(this._productMaster.base_amount);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
@@ -261,6 +278,9 @@ export class AddmodifyproductComponent {
         })
         this._productMaster.lstintervalattribute?.filter((_res:any)=>{
           this.onSelectInterval(_res);
+        })
+        this._productMaster.lstuserproductcommission?.filter((_res:any)=>{
+          this.onSelectUser(_res);
         })
         this.initFilesUrl(this._productMaster.filemanager)
         resolve(true)
@@ -288,6 +308,7 @@ export class AddmodifyproductComponent {
           this._productMaster.lstrepeattribute = this.fgproductmaster.value.lstrepeattr;
           this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstinterattr;
           this._productMaster.base_amount = this.fgproductmaster.value.base_amount;
+          this._productMaster.lstuserproductcommission = this.fgproductmaster.value.lstuserproduct;
           this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
           // this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
@@ -357,6 +378,18 @@ export class AddmodifyproductComponent {
       this._webDService.getbrand('all').subscribe((resbrandMaster: any) => {
         this.BrandMaster = [];
         this.BrandMaster = Array.isArray(resbrandMaster.data) ? resbrandMaster.data : [];
+        resolve(true)
+      }, error => {
+        resolve(false)
+      })
+    });
+  }
+
+  getuser() {
+    return new Promise((resolve, rejects) => {
+      this._webDService.userlist('all').subscribe((resuserMaster: any) => {
+        this.userMaster = [];
+        this.userMaster = Array.isArray(resuserMaster.data) ? resuserMaster.data : [];
         resolve(true)
       }, error => {
         resolve(false)
@@ -440,6 +473,10 @@ export class AddmodifyproductComponent {
     return this.fgproductmaster.get("lstinterattr") as FormArray
   }
 
+  get userArray(): FormArray {
+    return this.fgproductmaster.get("lstuserproduct") as FormArray
+  }
+
   onSelectTime($event: any) {
     if ($event && $event != null && $event != '') {
       debugger
@@ -508,6 +545,30 @@ export class AddmodifyproductComponent {
         return ctrl.value.option_value_id === $event?.option_value_id;
       });
       this.intervalArray.removeAt(_indexTime);
+    }
+  }
+
+  onSelectUser($event: any) {
+    if ($event && $event != null && $event != '') {
+      debugger
+      const _user = this.userMaster.filter((res:any)=> res.user_id == $event.user_id)
+      let control: FormGroup = this._fbproductMaster.group({
+        user_product_comm_id: [0],
+        product_id: [0],
+        user_id: [$event ? $event.user_id : 0],
+        fullname: [$event ? $event.fullname : ''],
+        commission: [$event ? $event?.commission : 0],
+      });
+      this.userArray.push(control);
+    }
+  }
+  onDeSelectUser($event: any) {
+    if ($event && $event != null && $event != '') {
+      console.log("Deselect : ", $event);
+      const _indexTime = this.userArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.user_id === $event?.user_id;
+      });
+      this.userArray.removeAt(_indexTime);
     }
   }
 
