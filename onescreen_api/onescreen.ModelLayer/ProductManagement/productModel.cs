@@ -29,6 +29,7 @@ namespace onescreenModel.ProductManagement
         public List<productAttributeModel>? lstrepeattribute { get; set; }
         public List<productAttributeModel>? lsttimeattribute { get; set; }
         public List<productAttributeModel>? lstintervalattribute { get; set; }
+        public List<userproductcommissionModel>? lstuserproductcommission { get; set; }
     }
 
     public class productAttributeModel : commonModel
@@ -38,6 +39,16 @@ namespace onescreenModel.ProductManagement
         public string? option_value { get; set; }
         public decimal price_delta { get; set; }
         public Int64? product_id { get; set; }
+    }
+
+
+    public class userproductcommissionModel : commonModel
+    {
+        public Int64? user_product_comm_id { get; set; }
+        public Int64? user_id { get; set; }
+        public string? fullname { get; set; }
+        public Int64? product_id { get; set; }
+        public decimal commission { get; set; }
     }
 
     public class brandModel : commonModel

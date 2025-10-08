@@ -170,8 +170,8 @@ export class AddmodifyuserComponent {
         this.fgUser.controls['email_id'].setValue(this._userModel.email_id);
         this.fgUser.controls['mobilenumber'].setValue(this._userModel.mobilenumber);
         this.fgUser.controls['password'].setValue(this._userModel.password);
-        debugger
-        this.fgUser.controls['dob'].setValue(this._base._commonService.fromModeltoDate(this._userModel.dob));
+        this.fgUser.controls['dob'].setValue(this._userModel.dob);
+        // this.fgUser.controls['dob'].setValue(this._base._commonService.fromModeltoDate(this._userModel.dob));
         this.fgUser.controls['bio'].setValue(this._userModel.bio);
         this.fgUser.controls['website'].setValue(this._userModel.website);
         this.fgUser.controls['commission'].setValue(this._userModel.commission);
@@ -202,10 +202,11 @@ export class AddmodifyuserComponent {
           this._userModel.email_id = this.fgUser.value.email_id;
           this._userModel.mobilenumber = this.fgUser.value.mobilenumber;
           this._userModel.password = this.fgUser.value.password;
-          this._userModel.dob = `${travelldate.year}-${travelldate.month}-${travelldate.day}`;
+          this._userModel.dob = this.fgUser.value.dob;
+          // this._userModel.dob = `${travelldate.year}-${travelldate.month}-${travelldate.day}`;
           this._userModel.bio = this.fgUser.value.bio || null;
           this._userModel.website = this.fgUser.value.website || null;
-          this._userModel.commission = this.fgUser.value.commission;
+          this._userModel.commission = this.fgUser.value.commission || null;
           // this._userModel.lstproject = this.fgUser.value.lstproject;
           this._userModel.lstauthority = this.fgUser.value.lstauthority;
           this._userModel.lstvendor = this.fgUser.value.lstvendor || [];
