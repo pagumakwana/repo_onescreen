@@ -4173,6 +4173,10 @@ textarea.is-invalid.dataTable-input {
 }
 .tab-content > .active {
   display: block;
+  min-height: 250px;
+}
+.tab-content > #timeslotsection.active {
+    min-height: auto;
 }
 
 .navbar {
@@ -31142,9 +31146,9 @@ body .section_gap {
     color: #ffffff !important;
 }
 .ternary_btn {
-    background: #E7E7E7;
+    background: #054089;
     border: 1px solid #E7E7E7;
-    color: #000;
+    color: #fff;
 }
 .ternary_btn:hover, .ternary_btn:focus-visible, .ternary_btn:active {
     background: #e7e7e7e5 !important;
@@ -31548,7 +31552,7 @@ body.modal_open {
 @media only screen and (max-width: 768px) {
     .product_lists {
         gap: 19px 3%;
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 
     .products {
@@ -31660,7 +31664,15 @@ body.modal_open {
         padding: 20px 10px;
     }
 }
-
+@media only screen and (max-width: 575px){
+  .tab-content > .active {
+      min-height: 200px;
+  }
+  .primary_btn,
+  .last .btn.btn-secondary {
+    width: 160px;
+  }
+}
 @media only screen and (max-width: 463px){
     .products {
         width: 48%;

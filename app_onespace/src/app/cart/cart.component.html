@@ -42,12 +42,60 @@
       <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
         <div class="row gy-4">
           <div class="col-xl-8">
-            <div class="card">
+            <!-- <div class="card">
               <div class="card-body border-bottom">
                 <h5 class="mb-0">
                   Cart Item
                 </h5>
-              </div>
+              </div> -->
+              <!-- Cart Section -->
+              <section>
+                <h2 class="cart-title">Cart Item</h2>
+
+                <div class="cart-list">
+
+                  <!-- Card 1 -->
+                  <div class="cart-card">
+                    <div class="card-header">
+                      <h4>Screen Latest 1</h4>
+                      <div class="delete-btn">✕</div>
+                    </div>
+                    <div class="card-body">
+                      <div class="card-row"><strong>Base Price:</strong> ₹500</div>
+                      <div class="card-row"><strong>Time Slot:</strong> 00:00 AM - 02:00 AM (₹10)</div>
+                      <div class="card-row"><strong>Location/Route:</strong> Borivali - Dahisar</div>
+                      <div class="card-row"><strong>Screen Repetition:</strong> 1 × ₹10</div>
+                      <div class="card-row"><strong>Screen Interval:</strong> 1 × ₹10</div>
+                      <div class="card-row"><strong>Duration:</strong> 31/10/2025 - 14/11/2025</div>
+                    </div>
+                    <div class="card-footer">
+                      <div><strong>Screen Latest 1 Total</strong></div>
+                      <div class="price-tag">₹1480</div>
+                    </div>
+                  </div>
+
+                  <!-- Card 2 -->
+                  <div class="cart-card">
+                    <div class="card-header">
+                      <h4>Screen Latest 1</h4>
+                      <div class="delete-btn">✕</div>
+                    </div>
+                    <div class="card-body">
+                      <div class="card-row"><strong>Base Price:</strong> ₹500</div>
+                      <div class="card-row"><strong>Time Slot:</strong> 00:00 AM - 02:00 AM (₹10)</div>
+                      <div class="card-row"><strong>Location/Route:</strong> Borivali - Dahisar</div>
+                      <div class="card-row"><strong>Screen Repetition:</strong> 1 × ₹10</div>
+                      <div class="card-row"><strong>Screen Interval:</strong> 1 × ₹10</div>
+                      <div class="card-row"><strong>Duration:</strong> 31/10/2025 - 14/11/2025</div>
+                    </div>
+                    <div class="card-footer">
+                      <div><strong>Screen Latest 1 Total</strong></div>
+                      <div class="price-tag">₹1480</div>
+                    </div>
+                  </div>
+
+                </div>
+              </section>
               <div class="card-body p-0 table-body" *ngIf="UserCart && UserCart.length > 0">
                 <div class="table-responsive">
                   <table class="table mb-0" id="pc-dt-simple">
@@ -67,20 +115,19 @@
                               <h5 class="mb-1">{{ item.product_name }}</h5>
                               <div *ngFor="let _item of item?.optionvaluesParsed">
                                 <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
-                                  <p class="text-sm text-muted mb-0">
-                                    Base Price - <b style="color: black;font-size: 13px;">{{_item?.base_amount}}</b>
-                                    <br />
-                                    {{ _item?.timeslot_category }} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.timeslot_price }}</b>
-                                    <br />
-                                    {{_item?.route_category}} <br />
-                                    {{_item?.repetition_category}} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.repetition_price }}</b> <br />
-                                    {{_item?.interval_category}} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.interval_price }}</b> <br />
-                                    {{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -
-                                    <b style="color: black;font-size: 13px;">₹{{ _item?.date_total }}</b>
-                                  </p>
+                                  <div class="text-sm text-muted mb-0 cart_detail_view">
+                                   <p>Base Price - <b style="color: black;font-size: 13px;">{{_item?.base_amount}}</b></p>
+                                   <p>{{ _item?.timeslot_category }} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.timeslot_price }}</b></p>
+                                    <p>
+                                    {{_item?.route_category}} </p>
+                                   <p>{{_item?.repetition_category}} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.repetition_price }}</b></p>
+                                    <p>{{_item?.interval_category}} - <b style="color: black;font-size: 13px;">₹{{
+                                      _item?.interval_price }}</b></p>
+                                     <p>{{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -
+                                    <b style="color: black;font-size: 13px;">₹{{ _item?.date_total }}</b></p>
+                                    </div>
                                   <!-- <hr> -->
                                 </ng-container>
                               </div>
@@ -113,20 +160,21 @@
                   </table>
 
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="text-end btn-page mb-0 mt-4 p-10">
-                      <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
-                    data-bs-target=".multi-collapse" aria-expanded="false"
-                    aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
-                      <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
-                        checkout</button>
-                    </div>
+                
+              </div>
+
+            <!-- </div> -->
+            <div class="row">
+                <div class="col-12">
+                  <div class="text-end btn-page mb-0 mt-4 p-10">
+                    <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                  data-bs-target=".multi-collapse" aria-expanded="false"
+                  aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
+                    <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
+                      checkout</button>
                   </div>
                 </div>
               </div>
-
-            </div>
             <!-- <div class="text-end">
               <a [routerLink]="['/product']" class="btn btn-link-secondary d-inline-flex align-items-center"><i
                   class="ti ti-chevron-left me-2"></i>
@@ -253,6 +301,7 @@
       <div class="tab-pane" id="ecomtab-2" role="tabpanel" aria-labelledby="ecomtab-tab-2">
         <div class="row gy-4">
           <div class="col-xl-8">
+            <form [formGroup]="fguser">
             <div class="card">
               <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
               <div class="card-body border-bottom">
@@ -264,6 +313,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="card-body">
                 <ng-container *ngIf="this.detailupdated">
                   <div class="mb-lg-15 alert alert-success">
@@ -272,7 +322,7 @@
                     </div>
                   </div>
                 </ng-container>
-                <form [formGroup]="fguser">
+                
                   <div class="row">
                     <div class="col-12">
                       <div class="mb-3 row align-items-center g-2">
@@ -320,17 +370,17 @@
                           </div>
                         </div>
                       </div>
-                      <div class="text-end btn-page mb-0 mt-4">
-                        <button class="btn btn-outline-secondary" type="button"
-                          (click)="goToCartTab()">Previous</button>
-                        <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
-                      </div>
                     </div>
                   </div>
-                </form>
               </div>
               <!-- </div> -->
             </div>
+            <div class="text-end btn-page mb-0 mt-4">
+              <button class="btn btn-outline-secondary" type="button"
+                (click)="goToCartTab()">Previous</button>
+              <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
+            </div>
+            </form>
             <!-- <div class="d-flex justify-content-end mb-3">
               <button class="btn btn-link-primary" type="button" (click)="goToCartTab()">
                 <i class="ti ti-arrow-narrow-left align-text-bottom me-2"></i>

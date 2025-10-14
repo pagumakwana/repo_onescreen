@@ -77,7 +77,7 @@
     border: 1px solid rgb(217 217 217 / 20%);
 }
 .accordion.open {
-    border-color: #FABA1C;
+    border-color: #054089;
     background: white;
 }
 .toggle:before {
@@ -105,6 +105,11 @@
     padding: revert-layer;
 }
 
+.form_sec {
+    .primary_btn {
+        width: 100%;
+    }
+}
 // Responsive CSS
 
 @media only screen and (max-width: 1200px) {

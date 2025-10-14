@@ -22,3 +22,71 @@
   font-size: 14px;    /* Adjust text size */
   padding: 10px;      /* Adjust padding */
 }
+.slot-container {
+    width: 100%;
+    margin: 0 auto;
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 8px;
+
+      .form-group {
+        flex: 1;
+        min-width: 160px;
+      }
+    }
+
+    .slot-card {
+      .card {
+        .card-header {
+          .card-title {
+            margin: 0;
+
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+}
+.last .btn.btn-secondary {
+  background: #054089 !important;
+  border: 1px solid #054089 !important;
+}
+.slot-top-tag p {
+  float: left;
+  padding-left: 10px;
+
+  strong {
+    font-size: 14px;
+  }
+}
+.slot-top-tag p:first-child {
+  padding-left: 0;
+}
+.total-card-bottom {
+    float: left;
+    width: 100%;
+    text-align: right;
+    padding: 10px 0;
+    font-size: 14px;
+    margin-top: 10px;
+
+    strong {
+      font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+  .product_lists {
+    .nav-pills .nav-link.nav-outline {
+      font-size: 13px;
+      padding: 10px;
+      margin: 0 4px;
+    }
+  }
+}
