@@ -108,7 +108,7 @@ export class WallettransactionComponent {
       { identifer: "previous_balance", title: "Previous Balance", type: "text" },
       { identifer: "transaction_amount", title: "Transaction Amount", type: "text" },
       { identifer: "wallet_balance_amt", title: "Balance Amount", type: "text" },
-      { identifer: "order_number", title: "Order Number", type: "text" },
+      { identifer: "order_number", title: "Order#", type: "text" },
       //  { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     ],
     isCustom: {
@@ -264,6 +264,8 @@ export class WallettransactionComponent {
                 }, 1500);
               }, 1000);
             }
+            this.fgwallet.controls['amount'].setValue('');
+            this.fgwallet.controls['amount'].updateValueAndValidity();
           },
           error: () => {
             setTimeout(() => {

@@ -11,7 +11,8 @@ export class AuthGuard {
    }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this._base._commonService.isLoggedInUser()) {
+    const currentUser = this.authService.currentUserValue;
+    if (currentUser) {
       // logged in so return true
       return true;
     }

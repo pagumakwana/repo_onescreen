@@ -340,9 +340,9 @@
                                     </div>
 
                                 </div>
-                                <div class="last">
+                                <div class="last"  [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
                                     <a style="text-decoration: none; color: white;"
-                                        [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}"
+                                       
                                         class="btn btn-secondary mt-3 mt-md-0" (click)="add_to_cart()">
                                         Add to cart
                                     </a>

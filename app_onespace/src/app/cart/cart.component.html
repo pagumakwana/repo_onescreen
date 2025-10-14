@@ -153,10 +153,10 @@
 
               <div class="card-body">
                 <!-- Open side panel instead of inline -->
-                <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="offcanvas"
+                <!-- <button type="button" class="" data-bs-toggle="offcanvas"
                   data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas">
                   Have a coupon code?
-                </button>
+                </button> -->
 
                 <!-- Coupon Input (outside) -->
                 <div class="input-group my-2">
@@ -171,6 +171,8 @@
                     {{this.Coupon_code_btn}}
                   </button>
                 </div>
+                <span> <a data-bs-toggle="offcanvas" class="text-primary"
+                  data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas" style="cursor: pointer;">Grab Coupon!</a></span>
 
                 <div *ngIf="is_valid" class="text-warning mt-1">
                   Please enter valid coupon code.
@@ -440,7 +442,7 @@
 
 <swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?" text="This cannot be undone"
   icon="warning" [showCancelButton]="true" [focusCancel]="true"
-  [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+  [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-secondary btn-sm'}">
 </swal>
 
 <swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"

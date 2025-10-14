@@ -1,3 +1,21 @@
+<div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0)">Online Courses</a></li>
+            <li class="breadcrumb-item" aria-current="page">Courses View</li>
+          </ul>
+        </div>
+        <div class="col-md-12">
+          <div class="page-header-title">
+            <h2 class="mb-0">Courses View</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="row">
     <!-- [ sample-page ] start -->
     <div class="col-sm-12">
@@ -25,7 +43,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="col-auto pe-0">
-                                            <img src="../assets/images/application/img-prod-1.jpg" alt="user-image"
+                                            <img [src]="_obj.thumbnail" alt="screen-image"
                                                 class="wid-40 rounded">
                                         </div>
                                         <div class="col">
@@ -76,7 +94,7 @@
                                             </button>
 
                                             <button (click)="openModal(_obj.order_product_map_id)"
-                                                class="btn btn-sm btn-danger" title="Reject">
+                                                class="btn btn-sm btn-outline-danger" title="Reject">
                                                 <span class="ms-1">Reject</span>
                                             </button>
                                         </ng-container>

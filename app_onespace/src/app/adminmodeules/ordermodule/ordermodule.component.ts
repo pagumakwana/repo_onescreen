@@ -57,7 +57,7 @@ export class OrdermoduleComponent {
       { identifer: "order_total", title: "Total Amount", type: "text" },
       { identifer: "order_subtotal", title: "SubTotal Amount", type: "text" },
       { identifer: "order_discount", title: "Discount Amount", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'View', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-eye' },] }],
+      { identifer: "", title: "Action", type: "button", buttonList: [{ name: 'Download', class: 'btn btn-primary', iconClass: '' },] }],
     isCustom: {
       current: 0,
       steps: 10,
@@ -73,9 +73,9 @@ export class OrdermoduleComponent {
   // }
 
   tableClick(dataItem: tableEvent) {
-    if (dataItem?.action?.type === 'link' && dataItem?.tableItem?.order_id) {
+    if (dataItem?.action?.type === 'button' && dataItem?.tableItem?.order_id) {
       this._router.navigate(['/app/invoice', dataItem.tableItem.order_id]); 
-    } else if (dataItem?.action?.type === 'buttonIcons' && dataItem.actionInfo.title === "View") {
+    } else if (dataItem?.action?.type === 'link' && dataItem.action.title === "Order#") {
       this._router.navigate(['/app/uploadmedia', dataItem?.tableItem?.order_id]);
     }
   }

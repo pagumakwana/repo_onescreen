@@ -104,9 +104,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
-                                                <th>FullName</th>
-                                                <th>Status</th>
                                                 <th>Requested Name</th>
+                                                <th>Status</th>
+                                                <!-- <th>Requested Name</th> -->
                                                 <th>Updated Name</th>
                                                 <th
                                                     *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
@@ -127,7 +127,7 @@
                                                     <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
                                                         data-bs-title="No Update" *ngIf="_obj.is_approved == 0"></i>
                                                 </td>
-                                                <td>{{_obj.createdname}}</td>
+                                                <!-- <td>{{_obj.createdname}}</td> -->
                                                 <td>{{_obj.updatedname}}</td>
                                                 <td class="text-center"
                                                     *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
@@ -140,7 +140,7 @@
                                                         </button>
                                                         <button
                                                             (click)="approveRequest(_obj, 'rejected')"
-                                                            class="btn btn-sm btn-danger d-flex align-items-center"
+                                                            class="btn btn-sm btn-outline-danger d-flex align-items-center"
                                                             title="Reject">
                                                             <span class="ms-1">Reject</span>
                                                         </button>
@@ -165,11 +165,11 @@
 
 <swal #approveSwal [swalOptions]="swalOptions" title="Are you sure to Approve?" text="" icon="warning"
     [showCancelButton]="true" [focusCancel]="true"
-    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-light btn-sm'}">
 </swal>
 <swal #rejectSwal [swalOptions]="swalOptions" title="Are you sure to Reject?" text="This cannot be undone"
     icon="warning" [showCancelButton]="true" [focusCancel]="true"
-    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-light btn-sm'}">
 </swal>
 
 <swal #successSwal [swalOptions]="swalOptions" title="Success!" text="" icon="success" [showConfirmButton]="false">
