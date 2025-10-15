@@ -139,8 +139,7 @@
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
-                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
-                                                style="margin: 0 auto;">
+                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
                                                 <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
@@ -150,37 +149,37 @@
                                     </div>
                                 </ng-container>
                                 <br>
-                                <div class="row">
+                                <div class="slot-container">
                                     <ng-container formArray="lst_cart_product">
 
-                                        <div class="col-md-6" [formGroup]='_objPass'
+                                        <div class="slot-card" [formGroup]='_objPass'
                                             *ngFor="let _objPass of timeArray?.controls;let i =index">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="card-title">
                                                         <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
                                                         </h3>
-                                                        <p><a class="card-link">Screen Property</a>
-                                                            : {{_objPass.controls['product_name'].value}} | Base
-                                                            Price
-                                                            : {{_objPass.controls['base_amount'].value}} | Total
-                                                            Price
-                                                            : {{_objPass.controls['total_amount'].value}}</p>
+                                                        <div class="slot-top-tag">
+                                                            <p>Property: <strong>{{_objPass.controls['product_name'].value}}</strong> |</p>  
+                                                            <p>Base Price: <strong>{{_objPass.controls['base_amount'].value}}</strong></p>
+                                                        </div>
 
                                                     </div>
 
                                                 </div>
                                                 <div class="card-body">
-                                                    <div class="row mb-3">
-                                                        <div class="col-lg-6">
+                                                    <div class="form-row">
+                                                        <div class="form-group">
                                                             <label for="screen_repetition_id_{{i+1}}"
                                                                 class="form-label">Screen
-                                                                Repetition : INR <i class="ph-duotone ph-info"
+                                                                Repetition : INR
+                                                                {{_objPass.controls['repetition_price'].value}}
+                                                                <i class="ph-duotone ph-info"
                                                                     ngbPopover="This is the popover content"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
-                                                                {{_objPass.controls['repetition_price'].value}}</label>
+                                                                </label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onRepetitionChange($event,i)">
                                                                 <option id="repet_value_id_" value="" class="disabled">
@@ -218,15 +217,16 @@
                                                                         class="ti ti-plus"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
+                                                        <div class="form-group">
                                                             <label for="interval_id_{{i+1}}" class="form-label">Screen
-                                                                Interval
-                                                                : INR <i class="ph-duotone ph-info"
+                                                                Interval : INR
+                                                                {{_objPass.controls['interval_price'].value}}
+                                                                <i class="ph-duotone ph-info"
                                                                     ngbPopover="This is the popover content"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
-                                                                {{_objPass.controls['interval_price'].value}}</label>
+                                                                </label>
                                                             <select class="form-control" id="screen_interval"
                                                                 (change)="onIntervalChange($event,i)">
                                                                 <option id="interval_value_id_" value=""
@@ -247,9 +247,8 @@
                                                                 </ng-container>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-3">
-                                                        <div class="col-lg-6">
+                                                    
+                                                        <div class="form-group">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
                                                                 ngbPopover="This is the popover content"
@@ -279,7 +278,7 @@
                                                                 </ng-container>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
+                                                        <div class="form-group">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
                                                                 :</label> <i class="ph-duotone ph-info"
                                                                 ngbPopover="This is the popover content"
@@ -309,6 +308,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="total-card-bottom">Total Price: <strong>{{_objPass.controls['total_amount'].value}}</strong></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -318,23 +319,23 @@
                             </div>
                             <div class="d-sm-flex wizard justify-content-between mt-3" style="text-align: center;">
                                 <div class="first">
-                                    <a style="text-decoration: none; color: white;" class="btn btn-secondary"
+                                    <a style="text-decoration: none;" class="btn btn-outline-primary"
                                         (click)="reset_form()">
                                         Reset Journey
                                     </a>
                                 </div>
                                 <div class="d-sm-flex">
                                     <div class="previous me-2" [ngClass]="{'disabled':_wizard_index == 0}">
-                                        <a style="text-decoration: none; color: white;"
+                                        <a style="text-decoration: none;"
                                             (click)="change_wizard_index('minus')"
-                                            class="btn btn-secondary mt-3 mt-md-0">
+                                            class="btn  btn-outline-primary mt-3 mt-md-0">
                                             Back To Previous
                                         </a>
                                     </div>
                                     <div class="next" [ngClass]="{'disabled':_wizard_index == 4}">
                                         <a style="text-decoration: none; color: white;"
                                             (click)="change_wizard_index('plus')"
-                                            class="btn btn-secondary mt-3 mt-md-0">
+                                            class="btn primary_btn mt-3 mt-md-0">
                                             Next Step
                                         </a>
                                     </div>
