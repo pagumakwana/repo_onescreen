@@ -4,11 +4,127 @@
             <div class="checkmark">✓</div>
             <h1>Thank You!</h1>
             <p>Your order has been received successfully. please upload your media.</p>
-            <button class="btn-home" (click)="viewinvoice(order_id)"> Download
+            <p>Order ID : <strong>INV-202510-0009</strong></p>
+            <button class="btn-down-invoice" (click)="viewinvoice(order_id)"><span>Download Invoice</span><i class="ti ti-download text-primary f-20"></i>
             </button>
         </div>
 
         <br />
+
+        <div class="thanku-card-container">
+            <article class="thanku-card">
+
+                <div class="thanku-card-body">
+                <div class="row">
+                    <div>
+                    <h3 class="thanku-title">Screen 1 : 00:00 AM - 02:00 AM</h3>
+                    <div class="thanku-muted">16-Oct-2025 to 16-Oct-2025</div>
+                    </div>
+                </div>
+
+                <!-- <div class="thanku-product-detail">
+                    <span class="thanku-chip">Screen: <strong>Screen 1</strong></span>
+                    <span class="thanku-chip">Interval: <strong>2</strong></span>
+                </div> -->
+
+                <div class="thanku-meta-grid" style="margin-top:10px;">
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Route</div>
+                    <strong>Borivali - Dahisar</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Interval</div>
+                    <strong>2</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Repetition</div>
+                    <strong>Repetition  1</strong>
+                    </div>
+
+                    <div class="thanku-meta" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div class="thanku-muted">Media Upload</div>
+                        <strong>Upload file</strong>
+                    </div>
+
+                    <div class="upload-tanku-contain">
+                        <label class="thanku-upload-btn" title="Upload media">
+                        <!-- Hidden file input triggered by this label -->
+                        <input type="file" id="mediaInput" accept="image/*,video/*" style="display:none" onchange="handleFile(event)">
+                        <!-- upload SVG icon -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 3v10" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 7l4-4 4 4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="thanku-muted" style="font-size:13px">Upload</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </article>
+
+            <article class="thanku-card">
+
+                <div class="thanku-card-body">
+                <div class="row">
+                    <div>
+                    <h3 class="thanku-title">Screen 1 : 00:00 AM - 02:00 AM</h3>
+                    <div class="thanku-muted">16-Oct-2025 to 16-Oct-2025</div>
+                    </div>
+                </div>
+
+                <!-- <div class="thanku-product-detail">
+                    <span class="thanku-chip">Screen: <strong>Screen 1</strong></span>
+                    <span class="thanku-chip">Interval: <strong>2</strong></span>
+                </div> -->
+
+                <div class="thanku-meta-grid" style="margin-top:10px;">
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Route</div>
+                    <strong>Borivali - Dahisar</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Interval</div>
+                    <strong>2</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Repetition</div>
+                    <strong>Repetition  1</strong>
+                    </div>
+
+                    <div class="thanku-meta" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div class="thanku-muted">Media Upload</div>
+                        <strong>Upload file</strong>
+                    </div>
+
+                    <div class="upload-tanku-contain">
+                        <label class="thanku-upload-btn" title="Upload media">
+                        <!-- Hidden file input triggered by this label -->
+                        <input type="file" id="mediaInput" accept="image/*,video/*" style="display:none" onchange="handleFile(event)">
+                        <!-- upload SVG icon -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 3v10" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 7l4-4 4 4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="thanku-muted" style="font-size:13px">Upload</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </article>
+           
+        </div>
         <div class="table-responsive">
             <table class="table table-hover tbl-product" id="pc-dt-simple">
                 <thead>
