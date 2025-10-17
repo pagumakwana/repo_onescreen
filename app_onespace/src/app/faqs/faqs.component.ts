@@ -29,22 +29,18 @@ export class FaqsComponent {
 
   faqList = [
     {
-      question: "How to sell camera on www.cameratosell.com", answer: `<ul>
-		  <li>Login to www.cameratosell.com</li>
-		  <li>Select the device you want to sell and select the correct details of your device.</li>
-		  <li>A Quote will be generated based on your selections.</li>
-		  <li>Schedule a pickup time and we will collect your device from your residential address and pay you instantly.</li>
-		</ul>`
+      question: "What is ONESCREEN?", answer: `ONESCREEN is a digital outdoor advertising brand that runs LED display ads on moving vehicles like trucks, taxis, autos, and wearable digital screens to give your brand maximum visibility.`
     },
-    { question: "Are there any documents required to sell my device?", answer: "Yes, we will need your KYC documents (ID Proof and address proof) for security purposes." },
-    { question: "Is the quotation received on the website final quotation?", answer: "Yes, if all the details filled by you match with the actual device, then you will receive the exact amount quoted on the website." },
-    { question: "Can you collect my device in a public place?", answer: "No, we only collect your device from your residential address." },
-    { question: "Is there any pickup charge?", answer: "No, there are no pickup charges. It is completely free." },
-    { question: "What happens to my sold device?", answer: "We rectify all the issues in your device and provide it to a used camera dealer who in return sells them to second-hand buyers." },
-    { question: "What if I can't find my device in your list?", answer: "Where there is a will, there is a way. Just select the 'Others' option and submit the form, we will get back to you as soon as possible." },
-    { question: "Why do you need the original invoice of my device?", answer: "Original invoice is the best proof of your ownership of the device and helps you in fetching better rates." },
-    { question: "If my model is not available on cameratosell, how to sell a camera online?", answer: "Can't find your Camera Model on cameratosell? Please drop us a mail at info@cameratosell.com with details about the Camera Brand, Model, Lenses & Condition, and we will get back to you ASAP with the quote." },
-    { question: "Where can I reach you for prompt resolution of queries and/or complaints?", answer: "You can reach us at info@cameratosell.com" }
+    { question: "How does ONESCREEN advertising work?", answer: "We transform vehicles and wearable screens into mobile billboards. You choose the vehicle type, route, screen format, and time slot—then your ad runs dynamically across targeted locations." },
+    { question: "What types of vehicles are available for advertising?", answer: "We offer a range of options including L-shaped LED trucks, taxi-top screens, auto panels, and portable human-carried LED screens." },
+    { question: "How can I book an ad campaign with ONESCREEN?", answer: "Booking is simple—choose your vehicle, route, screen, and preferred time slot, then confirm your booking directly through our platform." },
+    { question: "Can I update or change my ad after it’s live?", answer: "No, you can’t change your ad." },
+    { question: "What areas or cities does ONESCREEN cover?", answer: "ONESCREEN offers service in only surat. " },
+    { question: "What are the benefits of using ONESCREEN compared to traditional outdoor ads?", answer: "Unlike static billboards, ONESCREEN provides dynamic, mobile, and eye-catching digital displays that engage audiences wherever they are." },
+    { question: "How long can my ad campaign run?", answer: "Campaigns are flexible—you can book short-term, daily, weekly, or long-term durations depending on your marketing goals and budget." },
+    { question: "What kind of brands or businesses can advertise with ONESCREEN?", answer: "ONESCREEN is ideal for all industries—retail, fashion, real estate, FMCG, events, hospitality, and start-ups seeking impactful visibility." },
+    { question: "What is the cost of advertising with ONESCREEN?", answer: "Pricing depends on factors like vehicle type, route, campaign duration, and time slot. However, we offer <strong>best price guarantees</strong> for all campaigns." },
+    { question: "How can I track my campaign performance?", answer: "We provide live updates, route monitoring, and performance insights so you can measure visibility and impact in real time." }
   ];
 
   private unsubscribe: Subscription[] = [];

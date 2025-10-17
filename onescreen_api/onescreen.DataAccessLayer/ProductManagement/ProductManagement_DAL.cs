@@ -1113,6 +1113,8 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@cart_master_id", objusercartmaster.cart_master_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@batch_id", objusercartmaster.batch_id, DbType.Guid);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@coupon_id", objusercartmaster.coupon_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@coupon_code", objusercartmaster.coupon_code, DbType.String);
@@ -1174,7 +1176,7 @@ namespace onescreenDAL.ProductManagement
                                 ObJParameterCOl2.Add(objDBParameter2);
                                 objDbHelperModule.ExecuteNonQuery(Constant.mapusercart, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
-                            ResponseMessage = Res[0].ToString();
+                            ResponseMessage = ResponseMessage;
                         }
                         else
                         {
@@ -1191,14 +1193,14 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Guid? batch_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@user_cart_id", user_cart_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@batch_id", batch_id, DbType.Guid);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -2242,6 +2244,37 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
         }
+
+        public string update_to_cart(Guid batch_id,Int64 user_id)
+        {
+            string ResponseMessage = "";
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@batch_id", batch_id, DbType.Guid);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.update_to_cart, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+
+        }
+
         public void Dispose() 
         { 
         }

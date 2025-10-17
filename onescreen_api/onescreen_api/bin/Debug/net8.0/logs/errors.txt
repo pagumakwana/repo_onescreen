@@ -88,3 +88,245 @@
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 17:32:51 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 17:33:08 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 17:36:36 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 17:40:14 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 18:13:23 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 18:13:40 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 18:16:52 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 18:19:18 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 18:19:31 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1190
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method21(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 21:32:43 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1192
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 21:33:13 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1192
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 22:21:32 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1192
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 22:26:07 | /api/product/add_to_cart | Index was outside the bounds of the array. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1192
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-10-15 22:26:36 | /api/product/add_to_cart | Invalid object name 'dbo.WebD_UserCartMapping_2025_10_16_03_56_29'. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1192
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82

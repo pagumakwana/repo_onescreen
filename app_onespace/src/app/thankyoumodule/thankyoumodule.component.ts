@@ -249,10 +249,8 @@ export class ThankyoumoduleComponent implements OnInit {
   //   this._base._router.navigate([`/app/invoice/${this.order_id}`]);
   // }
 
-  viewinvoice(order_id: number) {
-  const baseUrl = window.location.origin;
-  const url = `${baseUrl}/app/invoice/${order_id}`;
-  window.open(url, '_blank');
+  viewinvoice() {
+  this._base._router.navigate(['app','invoice',this.order_id])
 }
   selectedVideoUrl: string | null = null;
   openvideo(videoUrl: string) {

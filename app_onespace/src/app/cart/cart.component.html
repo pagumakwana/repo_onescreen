@@ -48,133 +48,61 @@
                   Cart Item
                 </h5>
               </div> -->
-              <!-- Cart Section -->
-              <section>
-                <h2 class="cart-title">Cart Item</h2>
+            <!-- Cart Section -->
+            <section>
+              <h2 class="cart-title">Cart Item</h2>
 
-                <div class="cart-list">
+              <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
 
-                  <!-- Card 1 -->
-                  <div class="cart-card">
-                    <div class="card-header">
-                      <h4>Screen Latest 1</h4>
-                      <div class="delete-btn">✕</div>
-                    </div>
-                    <div class="card-body">
-                      <div class="card-row"><strong>Base Price:</strong> ₹500</div>
-                      <div class="card-row"><strong>Time Slot:</strong> 00:00 AM - 02:00 AM (₹10)</div>
-                      <div class="card-row"><strong>Location/Route:</strong> Borivali - Dahisar</div>
-                      <div class="card-row"><strong>Screen Repetition:</strong> 1 × ₹10</div>
-                      <div class="card-row"><strong>Screen Interval:</strong> 1 × ₹10</div>
-                      <div class="card-row"><strong>Duration:</strong> 31/10/2025 - 14/11/2025</div>
-                    </div>
-                    <div class="card-footer">
-                      <div><strong>Screen Latest 1 Total</strong></div>
-                      <div class="price-tag">₹1480</div>
-                    </div>
+                <!-- Card 1 -->
+                <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
+                  <div class="card-header">
+                    <h4>{{ item.product_name }}</h4>
+                    <div class="delete-btn"> <span (click)="removeFromCart(item)">✕</span></div>
                   </div>
-
-                  <!-- Card 2 -->
-                  <div class="cart-card">
-                    <div class="card-header">
-                      <h4>Screen Latest 1</h4>
-                      <div class="delete-btn">✕</div>
-                    </div>
-                    <div class="card-body">
-                      <div class="card-row"><strong>Base Price:</strong> ₹500</div>
-                      <div class="card-row"><strong>Time Slot:</strong> 00:00 AM - 02:00 AM (₹10)</div>
-                      <div class="card-row"><strong>Location/Route:</strong> Borivali - Dahisar</div>
-                      <div class="card-row"><strong>Screen Repetition:</strong> 1 × ₹10</div>
-                      <div class="card-row"><strong>Screen Interval:</strong> 1 × ₹10</div>
-                      <div class="card-row"><strong>Duration:</strong> 31/10/2025 - 14/11/2025</div>
-                    </div>
-                    <div class="card-footer">
-                      <div><strong>Screen Latest 1 Total</strong></div>
-                      <div class="price-tag">₹1480</div>
-                    </div>
+                  <div class="card-body">
+                    <ng-container *ngFor="let _item of item?.optionvaluesParsed">
+                      <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
+                        <div class="card-row"><strong>Base Price:</strong> ₹{{_item?.base_amount}}</div>
+                        <div class="card-row"><strong>Time Slot:</strong> {{_item?.timeslot_category}}
+                          (₹{{_item?.timeslot_price}})</div>
+                        <div class="card-row"><strong>Location/Route:</strong> {{_item?.route_category}}</div>
+                        <div class="card-row"><strong>Screen Repetition:</strong> {{_item?.repetition_category}} ×
+                          ₹{{_item?.repetition_price}}</div>
+                        <div class="card-row"><strong>Screen Interval:</strong> {{_item?.interval_category}} × ₹{{
+                          _item?.interval_price}}</div>
+                        <div class="card-row"><strong>Duration:</strong> {{_item?.from_date | date:'dd/MM/yyyy'}} to
+                          {{_item?.to_date | date:'dd/MM/yyyy'}} - ₹{{ _item?.date_total }}</div>
+                      </ng-container>
+                    </ng-container>
+                    <ng-template #noOptions>
+                      <p class="text-sm text-muted mb-0">No options</p>
+                    </ng-template>
                   </div>
-
+                  <div class="card-footer">
+                    <div><strong>{{ item.product_name }} Total</strong></div>
+                    <div class="price-tag">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
+                        {{ (opt.total_amount)}}{{ last ? '' : ', ' }}
+                      </ng-container></div>
+                  </div>
                 </div>
-              </section>
-              <div class="card-body p-0 table-body" *ngIf="UserCart && UserCart.length > 0">
-                <div class="table-responsive">
-                  <table class="table mb-0" id="pc-dt-simple">
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <!-- <th class="text-end">Base Price</th> -->
-                        <th class="text-end">Sub Total</th>
-                        <th class="text-end">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 ms-3">
-                              <h5 class="mb-1">{{ item.product_name }}</h5>
-                              <div *ngFor="let _item of item?.optionvaluesParsed">
-                                <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
-                                  <div class="text-sm text-muted mb-0 cart_detail_view">
-                                   <p>Base Price - <b style="color: black;font-size: 13px;">{{_item?.base_amount}}</b></p>
-                                   <p>{{ _item?.timeslot_category }} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.timeslot_price }}</b></p>
-                                    <p>
-                                    {{_item?.route_category}} </p>
-                                   <p>{{_item?.repetition_category}} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.repetition_price }}</b></p>
-                                    <p>{{_item?.interval_category}} - <b style="color: black;font-size: 13px;">₹{{
-                                      _item?.interval_price }}</b></p>
-                                     <p>{{_item?.from_date | date:'dd/MM/yyyy'}} to {{_item?.to_date | date:'dd/MM/yyyy'}} -
-                                    <b style="color: black;font-size: 13px;">₹{{ _item?.date_total }}</b></p>
-                                    </div>
-                                  <!-- <hr> -->
-                                </ng-container>
-                              </div>
 
-                              <ng-template #noOptions>
-                                <p class="text-sm text-muted mb-0">No options</p>
-                              </ng-template>
-                            </div>
-                          </div>
-                        </td>
-                        <!-- <td class="text-end">
-                          <h5 class="mb-0">₹{{item.base_amount}}</h5>
-                        </td> -->
-                        <td class="text-end">
-                          <h5 class="mb-0">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                              {{ (opt.total_amount)}}{{ last ? '' : ', ' }}
-                            </ng-container></h5>
-                        </td>
-                        <td class="text-end">
-                          <a (click)="removeFromCart(item)" class="avtar avtar-s btn-link-danger btn-pc-default">
-                            <i class="ti ti-trash f-18"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr *ngIf="!UserCart[0] || UserCart[0].length === 0">
-                        <td colspan="3" class="text-center text-muted">Your cart is empty</td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-
-                </div>
-                
               </div>
-
+              <div *ngIf="!UserCart || UserCart?.length === 0"> <span class="text-center text-muted">Your cart is
+                  empty</span></div>
+            </section>
             <!-- </div> -->
             <div class="row">
-                <div class="col-12">
-                  <div class="text-end btn-page mb-0 mt-4 p-10">
-                    <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+              <div class="col-12">
+                <div class="text-end btn-page mb-0 mt-4 p-10">
+                  <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                   data-bs-target=".multi-collapse" aria-expanded="false"
                   aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
-                    <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
-                      checkout</button>
-                  </div>
+                  <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
+                    checkout</button>
                 </div>
               </div>
+            </div>
             <!-- <div class="text-end">
               <a [routerLink]="['/product']" class="btn btn-link-secondary d-inline-flex align-items-center"><i
                   class="ti ti-chevron-left me-2"></i>
@@ -219,8 +147,8 @@
                     {{this.Coupon_code_btn}}
                   </button>
                 </div>
-                <span> <a data-bs-toggle="offcanvas" class="text-primary"
-                  data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas" style="cursor: pointer;">Grab Coupon!</a></span>
+                <span> <a data-bs-toggle="offcanvas" class="text-primary" data-bs-target="#couponOffcanvas"
+                    aria-controls="couponOffcanvas" style="cursor: pointer;">Grab Coupon!</a></span>
 
                 <div *ngIf="is_valid" class="text-warning mt-1">
                   Please enter valid coupon code.
@@ -304,31 +232,32 @@
         <div class="row gy-4">
           <div class="col-xl-8">
             <form [formGroup]="fguser">
-            <div class="card">
-              <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
-              <div class="card-body border-bottom">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h5 class="mb-0">Add/Update address</h5>
-                  </div>
-                  <div class="col-auto">
-                  </div>
-                </div>
-              </div>
-              
-              <div class="card-body">
-                <ng-container *ngIf="this.detailupdated">
-                  <div class="mb-lg-15 alert alert-success">
-                    <div class="primary-text font-weight-bold">
-                      Details Saved.
+              <div class="card">
+                <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
+                <div class="card-body border-bottom">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <h5 class="mb-0">Add/Update address</h5>
+                    </div>
+                    <div class="col-auto">
                     </div>
                   </div>
-                </ng-container>
-                
+                </div>
+
+                <div class="card-body">
+                  <ng-container *ngIf="this.detailupdated">
+                    <div class="mb-lg-15 alert alert-success">
+                      <div class="primary-text font-weight-bold">
+                        Details Saved.
+                      </div>
+                    </div>
+                  </ng-container>
+
                   <div class="row">
                     <div class="col-12">
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0 required">FullName :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">FullName :<small
+                            class="text-muted d-block">Enter
                             your fullname</small></label>
                         <div class="col-lg-8">
                           <input type="text" class="form-control" id="fullname" name="fullname"
@@ -343,7 +272,8 @@
                         </div>
                       </div>
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0 required">Email Id :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">Email Id :<small
+                            class="text-muted d-block">Enter
                             Email id</small></label>
                         <div class="col-lg-8">
                           <input type="email" class="form-control" id="email_id" name="email_id"
@@ -358,7 +288,8 @@
                         </div>
                       </div>
                       <div class="mb-3 row align-items-center g-2">
-                        <label class="col-lg-4 col-form-label py-0 required">Address :<small class="text-muted d-block">Enter
+                        <label class="col-lg-4 col-form-label py-0 required">Address :<small
+                            class="text-muted d-block">Enter
                             Address</small></label>
                         <div class="col-lg-8">
                           <textarea class="form-control" rows="3" placeholder="Enter Address" id="address"
@@ -374,14 +305,13 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <!-- </div> -->
               </div>
-              <!-- </div> -->
-            </div>
-            <div class="text-end btn-page mb-0 mt-4">
-              <button class="btn btn-outline-secondary" type="button"
-                (click)="goToCartTab()">Previous</button>
-              <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
-            </div>
+              <div class="text-end btn-page mb-0 mt-4">
+                <button class="btn btn-outline-secondary" type="button" (click)="goToCartTab()">Previous</button>
+                <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
+              </div>
             </form>
             <!-- <div class="d-flex justify-content-end mb-3">
               <button class="btn btn-link-primary" type="button" (click)="goToCartTab()">
@@ -532,3 +462,68 @@
     </div>
   </div>
 </div>
+
+<ng-template #formModal let-modal>
+  <form [formGroup]="fgverify">
+    <div class="modal-body p-5">
+
+      <!-- Title -->
+      <h4 class="fw-bold text-center mb-1">Login with OTP</h4>
+      <!-- <p class="text-center mb-4">
+      Don't have an Account? 
+      <a href="#" class="text-primary fw-semibold">Create Account</a>
+    </p> -->
+      <ng-container *ngIf="this.invalidOTP">
+        <div class="mb-lg-15 alert alert-success">
+          <div class="primary-text font-weight-bold">
+            Invalid OTP
+          </div>
+        </div>
+      </ng-container>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Mobile Number</label>
+        <input type="text" class="form-control" id="mobile_number" name="mobile_number"
+          [ngClass]="{'disabled':this.isOTPsen}" placeholder="Enter Mobile Number" pattern="^[0-9]\d{9}$" maxlength="10"
+          onkeypress="return /[0-9]/i.test(event.key)" formControlName="mobile_number" required>
+        <div
+          *ngIf="fgverify.controls['mobile_number'].invalid && (fgverify.controls['mobile_number'].dirty || fgverify.controls['mobile_number'].touched)"
+          class="text-danger">
+          <ng-container *ngIf="fgverify.controls.mobile_number.errors?.['required']">
+            mobile_number is required.
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="mb-3" *ngIf="this.isOTPsent">
+        <label class="form-label fw-bold">OTP</label>
+        <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
+          onkeypress="return /[0-9]/i.test(event.key)" maxlength="6" formControlName="otp_code" required>
+        <div
+          *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
+          class="text-danger">
+          <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
+            otp_code is required.
+          </ng-container>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">{{this.OTPValue}}</label>
+      </div>
+
+      <div class="d-grid mb-3">
+        <ng-container *ngIf="!this.isOTPsen && !this.isverifybutton">
+          <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Send
+            OTP</button>
+        </ng-container>
+        <ng-container *ngIf="this.isverifybutton">
+          <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Verify
+            OTP</button>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<swal #loginsuccessSwal [swalOptions]="swalOptions" title="Cart updated successfully!" text="" icon="success"
+  [showConfirmButton]="false">
+</swal>

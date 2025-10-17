@@ -221,6 +221,7 @@ namespace onescreenModel.Common
         public const string getwalletmaster = "[dbo].[getwalletmaster]";
         public const string getinvoicedetails = "[dbo].[getinvoicedetails]";
         public const string update_commision = "[dbo].[update_commision]";
+        public const string update_to_cart = "[dbo].[update_to_cart]";
         //END :: PRODUCT
     }
 }

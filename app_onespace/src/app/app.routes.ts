@@ -42,6 +42,8 @@ import { ControlmoduleComponent } from './adminmodeules/controlmodule/controlmod
 import { ManagecontrolComponent } from './adminmodeules/controlmodule/managecontrol/managecontrol.component';
 import { FourzerofourComponent } from './fourzerofour/fourzerofour.component';
 import { NoconnectionComponent } from './noconnection/noconnection.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -90,6 +92,11 @@ export const routes: Routes = [
                 title: 'Cart',
             },
             {
+                path: 'cart/:batch_id',
+                component: CartComponent,
+                title: 'Cart',
+            },
+            {
                 path: 'product',
                 component: ProductComponent,
                 title: 'Product',
@@ -103,7 +110,12 @@ export const routes: Routes = [
                 path: 'thankyou/:order_id',
                 component: ThankyoumoduleComponent,
                 title: 'Thanks You',
-            },]
+            },
+            {
+                path: 'privacy_policy',
+                component: PrivacyPolicyComponent,
+                title: 'Privacy Policy',
+            }]
     },
     {
         path: 'app',

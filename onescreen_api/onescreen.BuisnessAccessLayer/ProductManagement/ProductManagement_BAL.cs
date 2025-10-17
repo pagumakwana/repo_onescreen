@@ -149,11 +149,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Guid? batch_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getusercartdetail(user_cart_id, user_id, product_id, start_count, end_count);
+                return objProductManagement_DAL.getusercartdetail(batch_id, user_id, product_id, start_count, end_count);
             }
         }
 
@@ -272,7 +272,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getinvoicedetails(order_id, start_count, end_count);
             }
         }
-        public void Dispose() 
+
+        public string update_to_cart(Guid batch_id, Int64 user_id)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.update_to_cart(batch_id, user_id);
+            }
+        }
+            public void Dispose() 
         { 
         }
     }

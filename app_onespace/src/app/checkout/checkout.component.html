@@ -1,0 +1,464 @@
+<!-- [ Main Content ] start -->
+<div class="row">
+    <!-- [ sample-page ] start -->
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body p-0">
+          <ul class="nav nav-tabs checkout-tabs mb-0" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="ecomtab-tab-1" data-bs-toggle="tab" href="#ecomtab-1" role="tab"
+                aria-controls="ecomtab-1" aria-selected="true">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avtar avtar-s">
+                      <i class="ti ti-shopping-cart"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-2">
+                    <h5 class="mb-0">Cart Details</h5>
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="ecomtab-tab-2" data-bs-toggle="tab" href="#ecomtab-2" role="tab"
+                aria-controls="ecomtab-2" aria-selected="false" (click)="loadShippingData()">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avtar avtar-s">
+                      <i class="ti ti-building-skyscraper"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-2">
+                    <h5 class="mb-0">Shipping Information</h5>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-content">
+        <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
+          <div class="row gy-4">
+            <div class="col-xl-8">
+              <!-- <div class="card">
+                <div class="card-body border-bottom">
+                  <h5 class="mb-0">
+                    Cart Item
+                  </h5>
+                </div> -->
+              <!-- Cart Section -->
+              <section>
+                <h2 class="cart-title">Cart Item</h2>
+  
+                <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
+  
+                  <!-- Card 1 -->
+                  <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
+                    <div class="card-header">
+                      <h4>{{ item.product_name }}</h4>
+                      <div class="delete-btn"> <span (click)="removeFromCart(item)">✕</span></div>
+                    </div>
+                    <div class="card-body">
+                      <ng-container *ngFor="let _item of item?.optionvaluesParsed">
+                        <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
+                          <div class="card-row"><strong>Base Price:</strong> ₹{{_item?.base_amount}}</div>
+                          <div class="card-row"><strong>Time Slot:</strong> {{_item?.timeslot_category}}
+                            (₹{{_item?.timeslot_price}})</div>
+                          <div class="card-row"><strong>Location/Route:</strong> {{_item?.route_category}}</div>
+                          <div class="card-row"><strong>Screen Repetition:</strong> {{_item?.repetition_category}} ×
+                            ₹{{_item?.repetition_price}}</div>
+                          <div class="card-row"><strong>Screen Interval:</strong> {{_item?.interval_category}} × ₹{{
+                            _item?.interval_price}}</div>
+                          <div class="card-row"><strong>Duration:</strong> {{_item?.from_date | date:'dd/MM/yyyy'}} to
+                            {{_item?.to_date | date:'dd/MM/yyyy'}} - ₹{{ _item?.date_total }}</div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-template #noOptions>
+                        <p class="text-sm text-muted mb-0">No options</p>
+                      </ng-template>
+                    </div>
+                    <div class="card-footer">
+                      <div><strong>{{ item.product_name }} Total</strong></div>
+                      <div class="price-tag">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
+                          {{ (opt.total_amount)}}{{ last ? '' : ', ' }}
+                        </ng-container></div>
+                    </div>
+                  </div>
+  
+                </div>
+                <div *ngIf="!UserCart[0] || UserCart[0].length === 0"> <span class="text-center text-muted">Your cart is
+                    empty</span></div>
+              </section>
+              <!-- </div> -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="text-end btn-page mb-0 mt-4 p-10">
+                    <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".multi-collapse" aria-expanded="false"
+                    aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
+                    <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
+                      checkout</button>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="text-end">
+                <a [routerLink]="['/product']" class="btn btn-link-secondary d-inline-flex align-items-center"><i
+                    class="ti ti-chevron-left me-2"></i>
+                  Back to Shopping</a>
+              </div> -->
+            </div>
+            <div class="col-xl-4">
+              <div class="card">
+                <!-- <div class="card-body">
+                  <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal"
+                    data-bs-target="#couponModal">
+                    Have a coupon code?
+                  </button>
+                  <div class="input-group my-2">
+                    <input type="text" class="form-control" [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
+                      placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
+                    <button class="btn btn-outline-secondary" type="button"
+                      (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">{{this.Coupon_code_btn}}</button>
+                  </div>
+                  <div *ngIf="is_valid" class="text-warning mt-1">
+                    Please enter valid coupon code.
+                  </div>
+                </div> -->
+  
+                <div class="card-body">
+                  <!-- Open side panel instead of inline -->
+                  <!-- <button type="button" class="" data-bs-toggle="offcanvas"
+                    data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas">
+                    Have a coupon code?
+                  </button> -->
+  
+                  <!-- Coupon Input (outside) -->
+                  <div class="input-group my-2">
+                    <!-- <input type="text" class="form-control" [ngClass]="{'disabled': (this.Coupon_code_btn=='Remove')}"
+                      placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel"> -->
+  
+                    <input type="text" class="form-control" [ngClass]="{'disabled': (Coupon_code_btn == 'Remove')}"
+                      placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
+  
+                    <button class="btn btn-outline-secondary" type="button"
+                      (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">
+                      {{this.Coupon_code_btn}}
+                    </button>
+                  </div>
+                  <span> <a data-bs-toggle="offcanvas" class="text-primary" data-bs-target="#couponOffcanvas"
+                      aria-controls="couponOffcanvas" style="cursor: pointer;">Grab Coupon!</a></span>
+  
+                  <div *ngIf="is_valid" class="text-warning mt-1">
+                    Please enter valid coupon code.
+                  </div>
+                </div>
+  
+                <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
+                  [showConfirmButton]="false">
+                </swal>
+                <swal #invalidcodeSwal [swalOptions]="swalOptions" title="Invalid Coupon!" text="" icon="warning"
+                  [showConfirmButton]="false">
+                </swal>
+                <swal #removecouponSwal [swalOptions]="swalOptions" title="Coupon removed!" text="" icon="success"
+                  [showConfirmButton]="false">
+                </swal>
+              </div>
+              <div class="card">
+                <div class="card-body py-2">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0">
+                      <h5 class="mb-0">Order Summary</h5>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_subtotal}}</h5>
+                      </div><span class="text-muted">Sub Total</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">{{coupon_code}}</h5>
+                      </div><span class="text-muted">Coupon Code</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">{{this.cart_discount}}</h5>
+                      </div><span class="text-muted">Coupon Discount</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_tax}}</h5>
+                      </div><span class="text-muted">TAX</span>
+                    </li>
+  
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body py-2">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_total}}</h5>
+                      </div>
+                      <h5 class="mb-0 d-inline-block">Total</h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex align-items-center text-muted">
+                    <div class="avtar avtar-s bg-light-primary flex-shrink-0 me-2">
+                      <i class="material-icons-two-tone text-primary f-20">security</i>
+                    </div>
+                    <span class="text-muted text-sm w-100">Safe & Secure Payment. Easy returns. 100% Athentic
+                      products.</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="d-grid mb-3"
+                [ngClass]="{'disabled':this.cart_total <= 0 || (this.cart_total==undefined || this.cart_total==null)}">
+                <button class="btn btn-primary" (click)="place_order()" type="button">Place an Order</button>
+              </div> -->
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- Personal Information-->
+        <div class="tab-pane" id="ecomtab-2" role="tabpanel" aria-labelledby="ecomtab-tab-2">
+          <div class="row gy-4">
+            <div class="col-xl-8">
+              <form [formGroup]="fguser">
+                <div class="card">
+                  <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
+                  <div class="card-body border-bottom">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <h5 class="mb-0">Add/Update address</h5>
+                      </div>
+                      <div class="col-auto">
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="card-body">
+                    <ng-container *ngIf="this.detailupdated">
+                      <div class="mb-lg-15 alert alert-success">
+                        <div class="primary-text font-weight-bold">
+                          Details Saved.
+                        </div>
+                      </div>
+                    </ng-container>
+  
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="mb-3 row align-items-center g-2">
+                          <label class="col-lg-4 col-form-label py-0 required">FullName :<small
+                              class="text-muted d-block">Enter
+                              your fullname</small></label>
+                          <div class="col-lg-8">
+                            <input type="text" class="form-control" id="fullname" name="fullname"
+                              formControlName="fullname">
+                            <div
+                              *ngIf="fguser.controls['fullname'].invalid && (fguser.controls['fullname'].dirty || fguser.controls['fullname'].touched)"
+                              class="text-danger">
+                              <ng-container *ngIf="fguser.controls.fullname.errors?.['required']">
+                                Fullname is required.
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3 row align-items-center g-2">
+                          <label class="col-lg-4 col-form-label py-0 required">Email Id :<small
+                              class="text-muted d-block">Enter
+                              Email id</small></label>
+                          <div class="col-lg-8">
+                            <input type="email" class="form-control" id="email_id" name="email_id"
+                              formControlName="email_id">
+                            <div
+                              *ngIf="fguser.controls['email_id'].invalid && (fguser.controls['email_id'].dirty || fguser.controls['email_id'].touched)"
+                              class="text-danger">
+                              <ng-container *ngIf="fguser.controls.email_id.errors?.['required']">
+                                Email_id is required.
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3 row align-items-center g-2">
+                          <label class="col-lg-4 col-form-label py-0 required">Address :<small
+                              class="text-muted d-block">Enter
+                              Address</small></label>
+                          <div class="col-lg-8">
+                            <textarea class="form-control" rows="3" placeholder="Enter Address" id="address"
+                              name="address" formControlName="address"></textarea>
+                            <div
+                              *ngIf="fguser.controls['address'].invalid && (fguser.controls['address'].dirty || fguser.controls['address'].touched)"
+                              class="text-danger">
+                              <ng-container *ngIf="fguser.controls.address.errors?.['required']">
+                                Address is required.
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="text-end btn-page mb-0 mt-4">
+                  <button class="btn btn-outline-secondary" type="button" (click)="goToCartTab()">Previous</button>
+                  <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
+                </div>
+              </form>
+              <!-- <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-link-primary" type="button" (click)="goToCartTab()">
+                  <i class="ti ti-arrow-narrow-left align-text-bottom me-2"></i>
+                  Back to Cart
+                </button>
+              </div> -->
+            </div>
+            <div class="col-xl-4">
+              <div class="card">
+                <div class="card-body">
+                  <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="offcanvas"
+                    data-bs-target="#couponOffcanvas" aria-controls="couponOffcanvas">
+                    Have a coupon code?
+                  </button>
+                  <div class="input-group my-2">
+                    <input type="text" class="form-control" [ngClass]="{'disabled':(this.Coupon_code_btn=='Remove')}"
+                      placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text">
+                    <button class="btn btn-outline-secondary" type="button"
+                      (click)="applycoupon()">{{this.Coupon_code_btn}}</button>
+                  </div>
+                </div>
+                <swal #successSwal [swalOptions]="swalOptions" title="Coupon Applied!" text="" icon="success"
+                  [showConfirmButton]="false">
+                </swal>
+                <swal #invalidcodeSwal [swalOptions]="swalOptions" title="Invalid Coupon!" text="" icon="warning"
+                  [showConfirmButton]="false">
+                </swal>
+              </div>
+              <div class="card">
+                <div class="card-body py-2">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0">
+                      <h5 class="mb-0">Order Summary</h5>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_subtotal}}</h5>
+                      </div><span class="text-muted">Sub Total</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">{{coupon_code}}</h5>
+                      </div><span class="text-muted">Coupon Code</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">{{this.cart_discount}}</h5>
+                      </div><span class="text-muted">Coupon Discount</span>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_tax}}</h5>
+                      </div><span class="text-muted">TAX</span>
+                    </li>
+  
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body py-2">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0">
+                      <div class="float-end">
+                        <h5 class="mb-0">₹{{this.cart_total}}</h5>
+                      </div>
+                      <h5 class="mb-0 d-inline-block">Total</h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex align-items-center text-muted">
+                    <div class="avtar avtar-s bg-light-primary flex-shrink-0 me-2">
+                      <i class="material-icons-two-tone text-primary f-20">security</i>
+                    </div>
+                    <span class="text-muted text-sm w-100">Safe & Secure Payment. Easy returns. 100% Athentic
+                      products.</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="d-grid mb-3"
+                [ngClass]="{'disabled':this.cart_total <= 0 || (this.cart_total==undefined || this.cart_total==null)}">
+                <button class="btn btn-primary" (click)="place_order()" type="button">Place an Order</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- [ sample-page ] end -->
+  </div>
+  <!-- [ Main Content ] end -->
+  <!-- <ng-template #formModal let-modal> -->
+  <!-- <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
+    (pay_order)="proceeds_payment($event)"></app-checkout> -->
+  <swal #paysuccessSwal [swalOptions]="swalOptions" title="Order place successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+  </swal>
+  <swal #failureSwal [swalOptions]="swalOptions"
+    title="Something went wrong. Please try again later. If the issue persists, kindly contact support." text=""
+    icon="warning" [showConfirmButton]="false">
+  </swal>
+  <!-- </ng-template> -->
+  
+  <swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-secondary btn-sm'}">
+  </swal>
+  
+  <swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+  </swal>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas" aria-labelledby="couponOffcanvasLabel">
+  
+    <div class="offcanvas-header">
+      <h5 id="couponOffcanvasLabel">Coupons</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+  
+    <div class="offcanvas-body">
+      <div *ngFor="let coupon of couponList"
+        class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
+        [ngStyle]="{'background': coupon.colorSet.bg, 'border':'1px dashed ' + coupon.colorSet.border}">
+  
+        <!-- Left: Coupon details -->
+        <div>
+          <h6 class="fw-bold mb-1">{{coupon.coupon_code}}</h6>
+          <small>
+            <!-- Code: <b></b><br> -->
+            Discount: {{coupon.discount_value}}
+          </small>
+        </div>
+  
+        <!-- Right: Apply Button -->
+        <div class="text-end">
+          <button class="btn btn-sm mt-2" [ngClass]="coupon.colorSet.btn" data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="applySuggestedCoupon(coupon.coupon_code)">Apply</button>
+        </div>
+      </div>
+  
+      <!-- No coupon fallback -->
+      <div *ngIf="couponList.length === 0" class="text-muted text-center">
+        No coupons available
+      </div>
+    </div>
+  </div>

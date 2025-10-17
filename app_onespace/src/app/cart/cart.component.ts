@@ -3,12 +3,15 @@ import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from "@angular/router";
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user } from '../_appmodel/_model';
+import { ActivatedRoute, RouterModule } from "@angular/router";
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user, user_verification, userModel } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
-import { take } from 'rxjs';
+import { first, take } from 'rxjs';
+import { NgbDateParserFormatter, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
+import { AuthService } from '../authmodule/_authservice/auth.service';
 declare var Razorpay: any;
 declare var bootstrap: any;
 
@@ -16,11 +19,18 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, SweetAlert2Module, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, SweetAlert2Module, NgbModule, FormsModule, ReactiveFormsModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrl: './cart.component.scss',
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }, AuthService
+  ],
 })
 export class CartComponent implements OnInit {
+
+
+  @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
@@ -48,6 +58,7 @@ export class CartComponent implements OnInit {
   Coupon_code_btn: string = 'Apply'
   _usercartMaster: usercartMaster = {};
   _updateuserdetail: update_user = {};
+  fgverify!: FormGroup;
 
   fguser!: FormGroup
   usercartdata: any = [];
@@ -56,12 +67,21 @@ export class CartComponent implements OnInit {
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbuser: FormBuilder,
+    private authService: AuthService,
+    private _modalService: NgbModal,
+    private _activatedRouter: ActivatedRoute,
     private _cdr: ChangeDetectorRef) {
     this._base._scriptLoaderService.load('script', 'https://checkout.razorpay.com/v1/checkout.js');
   }
+
+  batch_id: any = null;
   ngOnInit(): void {
+    this.batch_id = this._activatedRouter.snapshot.paramMap.get('batch_id');
     this.initform();
-    this.get_cart();
+    if(this.batch_id==undefined || this.batch_id==null || this.batch_id==''){
+      this.batch_id = '00000000-0000-0000-0000-000000000000';
+    }
+    this.get_cart(this.batch_id);
     this.getcoupon();
     this.loadShippingData();
   }
@@ -73,11 +93,16 @@ export class CartComponent implements OnInit {
       email_id: ['', [Validators.required]],
       address: ['', [Validators.required]]
     });
+
+    this.fgverify = this._fbuser.group({
+      mobile_number: ['', [Validators.required]],
+      otp_code: ['']
+    })
   }
 
-  get_cart() {
+  get_cart(batch_id: any = '00000000-0000-0000-0000-000000000000') {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._webDService.getusercartdetail(0, user_id, 0, 0, 0).subscribe((resUserCart: any) => {
+      this._webDService.getusercartdetail(batch_id, (batch_id != undefined && batch_id != null && batch_id != '') ? 0 : user_id, 0, 0, 0).subscribe((resUserCart: any) => {
         this.UserCart = [];
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
         console.log("UserCartUserCart", this.UserCart)
@@ -460,9 +485,6 @@ export class CartComponent implements OnInit {
     this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
       this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
         this._base._encryptedStorage.get(enAppSession.address).then(address => {
-          console.log("fullname", fullname)
-          console.log("email_id", email_id)
-          console.log("address", address)
           this.fguser.patchValue({
             fullname: fullname || '',
             email_id: email_id || '',
@@ -483,13 +505,37 @@ export class CartComponent implements OnInit {
       tab.show();
     }
   }
+
+  public get modalService(): NgbModal {
+    return this._modalService;
+  }
+  public set modalService(value: NgbModal) {
+    this._modalService = value;
+  }
+
   goToShipping() {
-    const cartTab = document.querySelector('#ecomtab-tab-2');
-    if (cartTab) {
-      const tab = new bootstrap.Tab(cartTab);
-      tab.show();
-      this.loadShippingData();
-    }
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      debugger
+      if (user_id == '' || user_id == null || user_id == undefined) {
+        user_id = 0;
+      }
+      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+        if ((!user_id || parseInt(user_id, 10) <= 0)) {
+          this.modalService.open(this.formModal, {
+            size: 'm',
+            backdrop: true,
+            centered: true
+          });
+          return;
+        }
+        const cartTab = document.querySelector('#ecomtab-tab-2');
+        if (cartTab) {
+          const tab = new bootstrap.Tab(cartTab);
+          tab.show();
+          this.loadShippingData();
+        }
+      });
+    });
   }
 
   Coupon_text: string = '';
@@ -552,6 +598,109 @@ export class CartComponent implements OnInit {
   applySuggestedCoupon(code: string) {
     this.Coupon_code_text = code;
     // this.applycoupon();
+  }
+
+
+  _mobileverification: user_verification = {}
+  verify_number(flag: string = 'MOBILE_VERIFY') {
+    this._base._commonService.markFormGroupTouched(this.fgverify);
+    if (this.fgverify.valid) {
+      this._mobileverification.mobile_number = this.fgverify.value.mobile_number;
+      this._mobileverification.otp_code = this.fgverify.value.otp_code;
+      this.addverify();
+    }
+  }
+
+  isOTPsent: boolean = false;
+  isverifybutton: boolean = false;
+  OTPValue: string = '';
+  invalidOTP: boolean = false;
+  addverify() {
+    this.invalidOTP = false;
+    // this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+    //   this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+    this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
+    this._mobileverification.createdname = 'system';
+    this._mobileverification.createdby = 0;
+    this._webDService.mobile_verification(this._mobileverification).subscribe({
+      next: (response: any) => {
+        if (response.includes('otp_sent_success~')) {
+          const parts = response.split("~");
+          this.isOTPsent = true;
+          this.isverifybutton = true;
+          this.OTPValue = parts[1];
+          this._cdr.detectChanges();
+        } else if (response.includes('otp_verify')) {
+          this.OTPValue = '';
+          this.modalService.dismissAll();
+          this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
+          console.warn('otp_verify response:', response);
+        } else {
+          this.invalidOTP = true;
+        }
+      },
+      complete: () => { },
+      error: (err) => {
+        console.error('Mobile verification failed:', err);
+        // optional: Swal error toast here
+      }
+    });
+    //   });
+    // });
+  }
+
+  hasError: boolean = false;
+  SignInCustomer(_username: string = '', _passsword: string = '') {
+    this.hasError = false;
+    const loginSubscr = this.authService
+      .login(_username, _passsword)
+      .pipe(first())
+      .subscribe((user: userModel | undefined) => {
+        if (user) {
+          this.getUserConfig(user.user_id).then((resUserConfig: any) => {
+            this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
+              if (res) {
+                this.move_to_cart();
+              }
+            });
+          });
+        } else {
+          this.hasError = true;
+        }
+      });
+  }
+  getUserConfig(user_id: any) {
+    return new Promise((resolve, reject) => {
+      this._webDService.getuserconfig(user_id).subscribe((resUserModule: any) => {
+        let UserModule = [];
+        UserModule = Array.isArray(resUserModule) ? resUserModule : [];
+        resolve(UserModule)
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  @ViewChild('loginsuccessSwal')
+  public readonly loginsuccessSwal!: SwalComponent;
+
+  move_to_cart() {
+    this.modalService.dismissAll();
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._webDService.update_to_cart(this.batch_id,user_id).subscribe((res: any) => {
+        this.loginsuccessSwal.fire();
+          setTimeout(() => {
+            this.loginsuccessSwal.close();
+            const cartTab = document.querySelector('#ecomtab-tab-2');
+            if (cartTab) {
+              const tab = new bootstrap.Tab(cartTab);
+              tab.show();
+              this.loadShippingData();
+            }
+            this._cdr.detectChanges();
+          },1000);
+      })
+    })
   }
 
 }

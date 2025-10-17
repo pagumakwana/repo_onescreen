@@ -620,28 +620,32 @@ export class ProductComponent implements OnInit {
 
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
-  add_to_cart() {
+  add_to_cart(flag: any = 0) {
+    debugger
     this.timemastervalid = false;
     const ischekedarray = this.TimeMaster.filter((item: any) => item.isChecked == true);
     console.log("ischeked", ischekedarray);
     if (ischekedarray?.length > 0) {
       this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
-      if (this.fgcategorymaster.valid) {
+      if (this.fgcategorymaster.valid || flag==1) {
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
         let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
         console.log("_objFormData", _objFormData)
-        this.proceed_to_cart(_objFormData);
+        this.proceed_to_cart(_objFormData, flag);
       }
     } else {
       this.timemastervalid = true;
     }
   }
 
-  proceed_to_cart(_form_data: any = null) {
+  proceed_to_cart(_form_data: any = null, flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      if(user_id=='' || user_id==null || user_id==undefined){
+        user_id = 0;
+      }
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        if (!user_id || parseInt(user_id, 10) <= 0) {
+        if ((!user_id || parseInt(user_id, 10) <= 0) && flag==0) {
           this.modalService.open(this.formModal, {
             size: 'm',
             backdrop: true,
@@ -683,7 +687,7 @@ export class ProductComponent implements OnInit {
           product_id: this._categoryScreenMaster.product_id,
           total_amount: this._totalAmount,
           attribute_amount: _attriAmount,
-          user_id: user_id,
+          user_id: flag == 1 ? 0 : user_id,
           optionvalues: JSON.stringify(_value_object)
         }
         let _cart_subtotal = (this._totalAmount);
@@ -707,89 +711,12 @@ export class ProductComponent implements OnInit {
         }
         console.log("this._usercartMaster", this._usercartMaster)
         this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
+          this.modalService.dismissAll();
+          let responsemessage = response.split('~')[2];
           this.successSwal.fire();
           setTimeout(() => {
             this.successSwal.close();
-            this._base._router.navigate(['cart']);
-            this._cdr.detectChanges();
-            setTimeout(() => {
-              location.reload();
-            }, 1000);
-          }, 500);
-
-        }, error => {
-
-        });
-      });
-    });
-
-
-    console.log("cartModel", this.fgcategorymaster.value.lst_cart_product);
-  }
-
-  proceed_to_cart_bk(_form_data: any = null) {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        let _value_object: any = [];
-        let _attriAmount = 0.00;
-        _form_data?.filter((_item: any) => {
-          _value_object?.push({
-            timeslot_category_id: _item.timeslot_category_id,
-            timeslot_category: _item.timeslot_category,
-            timeslot_price: _item.timeslot_price,
-            from_date: _item.from_date,
-            to_date: _item.to_date,
-            route_category_id: _item.route_category_id,
-            route_category: _item.route_category,
-            product_id: _item.product_id,
-            product_name: _item.product_name,
-            repetition_category_id: _item.repetition_category_id,
-            repetition_category: _item.repetition_category,
-            repetition_price: _item.repetition_price,
-            interval_category_id: _item.interval_category_id,
-            interval_category: _item.interval_category,
-            interval_price: _item.interval_price,
-            attribute_amount: _item.attribute_amount,
-            total_amount: _item.total_amount,
-            base_amount: _item.base_amount,
-            quantity: _item.quantity,
-          });
-          _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
-        });
-        debugger
-        this._usercartmappingModel = {
-          base_amount: this._categoryScreenMaster.base_amount,
-          product_id: this._categoryScreenMaster.product_id,
-          total_amount: this._totalAmount,
-          attribute_amount: _attriAmount,
-          user_id: user_id,
-          optionvalues: JSON.stringify(_value_object)
-        }
-        let _cart_subtotal = (this._totalAmount);
-        let _cart_discount = 0.00;
-        let _cart_after_discount = (_cart_subtotal - _cart_discount);
-        let _cart_tax = (_cart_after_discount * (18 / 100));
-        let _cart_after_tax = (_cart_after_discount + _cart_tax);
-        let _cart_total = (_cart_after_tax);
-
-        this._usercartMaster = {
-          flag: 'NEWCART',
-          createdname: fullname,
-          user_id: parseInt(user_id),
-          lst_cart_product: [this._usercartmappingModel],
-          coupon_id: 0,
-          coupon_code: '',
-          cart_total: _cart_total,
-          cart_subtotal: _cart_subtotal,
-          cart_discount: 0.00,
-          cart_tax: _cart_tax
-        }
-        console.log("this._usercartMaster", this._usercartMaster)
-        this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
-          this.successSwal.fire();
-          setTimeout(() => {
-            this.successSwal.close();
-            this._base._router.navigate(['cart']);
+            this._base._router.navigate([flag == 1 ? `cart/${responsemessage}` : 'cart']);
             this._cdr.detectChanges();
           }, 500);
 
@@ -1007,7 +934,9 @@ export class ProductComponent implements OnInit {
 
     return totalPrice;
   }
-
+  skiplogin() {
+    this.add_to_cart(1);
+  }
 
 }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using onescreenBAL.ProductManagement;
 using onescreenModel.Common;
@@ -275,22 +276,22 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user_cart_id"></param>
-        /// <param name="user_id"></param>
-        /// <param name="product_id"></param>
-        /// <param name="start_count"></param>
-        /// <param name="end_count"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="batch_id"></param>
+       /// <param name="user_id"></param>
+       /// <param name="product_id"></param>
+       /// <param name="start_count"></param>
+       /// <param name="end_count"></param>
+       /// <returns></returns>
         [Route("getusercartdetail")]
         [HttpGet]
-        public responseModel getusercartdetail(Int64 user_cart_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getusercartdetail(Guid? batch_id, Int64 user_id, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getusercartdetail(user_cart_id, user_id, product_id, start_count, end_count);
+                return objProductManagement_BAL.getusercartdetail(batch_id, user_id, product_id, start_count, end_count);
             }
         }
 
@@ -535,6 +536,22 @@ namespace onescreen_api.Controllers.ProductManagement
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
                 return objProductManagement_BAL.getinvoicedetails(order_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batch_id"></param>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        [Route("update_to_cart")]
+        [HttpPost]
+        public string update_to_cart(Guid batch_id, Int64 user_id)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.update_to_cart(batch_id, user_id);
             }
         }
     }

@@ -54,7 +54,7 @@ export class WebdtableComponent implements OnInit {
   dataTable: any;
   tableRecords: Array<any> = []
   pages: { [key: number]: Array<any> } = {}
-  imageBaseUrl: string = '' //'https://api.cameratosell.com';
+  imageBaseUrl: string = '' //'https://api.onescreen.com';
   ishide: boolean = true
   isCheckAll = false
   // selectedStep = 10
