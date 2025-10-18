@@ -13,10 +13,11 @@
     align-items: flex-start;
 }
 .form_sec {
-    width: 32%;
+    width: 50%;
     border: 1px solid rgb(0 0 0 / 20%);
     border-radius: 25px 25px 0 25px;
     padding: 20px;
+        margin: 20px auto;
 }
 .faqs_form_heading {
     font-size: 31px;
@@ -39,7 +40,7 @@
     margin-bottom: 21px;
 }
 .faqs_questions {
-    width: 49%;
+    width: 100%;
     border: 1px solid rgb(0 0 0 / 20%);
     border-radius: 25px 25px 0 25px;
     padding: 20px;
@@ -109,6 +110,9 @@
     .primary_btn {
         width: 100%;
     }
+}
+.faqs_thumbnail {
+    display: none;
 }
 // Responsive CSS
 
