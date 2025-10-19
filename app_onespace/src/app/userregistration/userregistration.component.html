@@ -1,0 +1,45 @@
+<div class="modal_backdrop" *ngIf="isModalOpen">
+  <div class="modal_container">
+    <div class="modal_header">
+      <h2 class="modal_heading">Manage User</h2>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close('Cross click')"></button>
+    </div>
+
+    <div class="modal_body">
+      <form [formGroup]="fgUser">
+        <div class="form_container">
+          <input type="text" placeholder="Full Name" formControlName="fullname" />
+          <span class="form_error_msg"
+            *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)">
+            Full Name is required.
+          </span>
+        </div>
+
+        <div class="form_container">
+          <input type="tel" placeholder="Mobile Number" formControlName="mobilenumber" />
+          <span class="form_error_msg"
+            *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched)">
+            Mobile Number is required.
+          </span>
+        </div>
+
+        <div class="form_container">
+          <input type="email" placeholder="Email Address" formControlName="email_id" />
+        </div>
+
+        <div class="form_container">
+          <input type="password" placeholder="******" formControlName="password" />
+          <span class="form_error_msg"
+            *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched)">
+            Password is required.
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal_footer">
+      <button class="btn btn-secondary" (click)="navigateBack()">Cancel</button>
+      <button class="btn btn-primary" (click)="setUserModel(true)">Submit</button>
+    </div>
+  </div>
+</div>

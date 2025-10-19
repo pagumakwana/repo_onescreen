@@ -158,6 +158,111 @@ namespace onescreen.DAL.Common
             return dataTable;
         }
 
+        public responseModel getdashboardwidget(string flag, Int64 user_id)
+        {
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                responseModel lstresponse = new responseModel();
+                List<userdashboardModel> lstuserdashboard = new List<userdashboardModel>();
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getdashboardwidget, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstuserdashboard = ds.Tables[0].AsEnumerable().Select(Row =>
+                            new userdashboardModel
+                            {
+                                total_product = Row.Field<Int32>("total_product")
+                            }).ToList();
+                    }
+
+                    if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].in_cart = ds.Tables[1].Rows[0].Field<Int32>("in_cart");
+                    }
+                    if (ds.Tables.Count > 2 && ds.Tables[2].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].order_total = ds.Tables[2].Rows[0].Field<decimal>("order_total");
+                    }
+                    if (ds.Tables.Count > 3 && ds.Tables[3].Rows.Count > 0)
+                    {
+                        lstuserdashboard[0].total_order = ds.Tables[3].Rows[0].Field<Int32>("total_order");
+                    }
+
+                    lstresponse.data = lstuserdashboard;
+                    lstresponse.response = "success";
+                    lstresponse.count = lstuserdashboard.Count;
+
+                }
+                return lstresponse;
+            }
+            catch
+            {
+                return new responseModel() { count = 0, data = "", response = "invalid_request" };
+            }
+        }
+
+        public responseModel getwalletwidget(Int64 user_id)
+        {
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                responseModel lstresponse = new responseModel();
+                List<walletwidgetModel> lstwallet = new List<walletwidgetModel>();
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getwalletwidget, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstwallet = ds.Tables[0].AsEnumerable().Select(Row =>
+                            new walletwidgetModel
+                            {
+                                balance_amount = Row.Field<decimal>("balance_amount")
+                            }).ToList();
+                    }
+
+                    if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                    {
+                        lstwallet[0].requested_amount = ds.Tables[1].Rows[0].Field<decimal>("requested_amount");
+                    }
+                    if (ds.Tables.Count > 2 && ds.Tables[2].Rows.Count > 0)
+                    {
+                        lstwallet[0].transaction_amount = ds.Tables[2].Rows[0].Field<decimal>("transaction_amount");
+                    }
+                    lstresponse.data = lstwallet;
+                    lstresponse.response = "success";
+                    lstresponse.count = lstwallet.Count;
+
+                }
+                return lstresponse;
+            }
+            catch
+            {
+                return new responseModel() { count = 0, data = "", response = "invalid_request" };
+            }
+        }
+
 
         public void Dispose()
         {

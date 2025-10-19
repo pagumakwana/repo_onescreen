@@ -3,7 +3,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { Observable } from 'rxjs';
 import { EncryptedStorage } from './encryptedstorage.service';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppSessionService {
     constructor(public _encryptedStorage: EncryptedStorage) { }
     setUserSession(responseData: any, userConfig: any): Observable<any> {
@@ -16,9 +16,12 @@ export class AppSessionService {
             this._encryptedStorage.set(enAppSession.profilepicture, responseData.profilepicture);
             this._encryptedStorage.set(enAppSession.haslogin, true);
             this._encryptedStorage.set(enAppSession.password, responseData.password);
+            this._encryptedStorage.set(enAppSession.address, responseData.address);
             this._encryptedStorage.set(enAppSession.clientlist, JSON.stringify(userConfig.clientlist));
             this._encryptedStorage.set(enAppSession.projectlist, JSON.stringify(userConfig.projectlist));
             this._encryptedStorage.set(enAppSession.usermodulelist, JSON.stringify(userConfig.usermodulelist));
+            this._encryptedStorage.set(enAppSession.lstauthority, JSON.stringify(responseData.lstauthority));
+            this._encryptedStorage.set(enAppSession.lstcontrol, JSON.stringify(responseData.lstcontrol));
             this._encryptedStorage.set(enAppSession.society_id, '');
             this._encryptedStorage.set(enAppSession.complex_id, '');
             this._encryptedStorage.set(enAppSession.wing_id, '');
@@ -39,6 +42,7 @@ export class AppSessionService {
         this._encryptedStorage.set(enAppSession.email_id, '');
         this._encryptedStorage.set(enAppSession.haslogin, false);
         this._encryptedStorage.set(enAppSession.password, '');
+        this._encryptedStorage.set(enAppSession.address, '');
         this._encryptedStorage.set(enAppSession.clientlist, '');
         this._encryptedStorage.set(enAppSession.projectlist, '');
         this._encryptedStorage.set(enAppSession.society_id, '');
@@ -46,6 +50,8 @@ export class AppSessionService {
         this._encryptedStorage.set(enAppSession.wing_id, '');
         this._encryptedStorage.set(enAppSession.usermodulelist, '');
         this._encryptedStorage.set(enAppSession.profilepicture, '');
+        this._encryptedStorage.set(enAppSession.lstauthority, '');
+        this._encryptedStorage.set(enAppSession.lstcontrol, '');
         localStorage.setItem('_user', '');
     }
 

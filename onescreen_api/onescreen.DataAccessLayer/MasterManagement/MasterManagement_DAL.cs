@@ -448,9 +448,6 @@ namespace onescreenDAL.MasterManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@description", objcategoryModel.description, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@thumbnail", objcategoryModel.thumbnail, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-
                 objDBParameter = new DBParameter("@client_id", Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString()), DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString()), DbType.Int64);
@@ -486,8 +483,8 @@ namespace onescreenDAL.MasterManagement
                                     filemanager.fileidentifier = filemanager.fileidentifier;
                                     filemanager.displayorder = filemanager.displayorder;
                                     filemanager.module = filemanager.module;
-                                    filemanager.client_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
-                                    filemanager.project_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
+                                    filemanager.client_id = client_id;
+                                    filemanager.project_id = project_id;
                                     filemanager.createdby = objcategoryModel.user_id;
                                     filemanager.createdname = objcategoryModel.createdname;
                                     filemanager.createddatetime = DateTime.Now;

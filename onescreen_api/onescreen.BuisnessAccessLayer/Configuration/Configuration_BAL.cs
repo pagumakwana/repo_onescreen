@@ -85,7 +85,13 @@ namespace onescreenBAL.Configuration
                 return _objConfiguration_DAL.getauthoritymodule(user_id);
             }
         }
-
+        public responseModel getportalconfig(string flag, Int64 config_id, string config_name = "null", string search = "null", Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (Configuration_DAL _objConfiguration_DAL = new Configuration_DAL(_httpContextAccessor))
+            {
+                return _objConfiguration_DAL.getportalconfig(flag, config_id, config_name, search,start_count, end_count);
+            }
+        }
         public void Dispose() 
         { 
         }

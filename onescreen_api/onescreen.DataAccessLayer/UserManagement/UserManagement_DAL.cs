@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using onescreen.DAL.Common;
 using onescreenModel.Common;
+using onescreenModel.Configuration;
 using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
@@ -25,33 +26,29 @@ namespace onescreenDAL.UserManagement
             client_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["client_id"].ToString());
         }
 
-        public string SignUp(userManagementModel objclsUserManagement)
+        public string SignUp(userRegistration objuserRegistration)
         {
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@flag", objclsUserManagement.flag, DbType.String);
+                DBParameter objDBParameter = new DBParameter("@flag", objuserRegistration.flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@fullname", objclsUserManagement.fullname, DbType.String);
+                objDBParameter = new DBParameter("@fullname", objuserRegistration.fullname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@email_id", objclsUserManagement.email_id, DbType.String);
+                objDBParameter = new DBParameter("@email_id", objuserRegistration.email_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@mobilenumber", objclsUserManagement.mobilenumber, DbType.String);
+                objDBParameter = new DBParameter("@mobilenumber", objuserRegistration.mobilenumber, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@password", objclsUserManagement.password, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@thirdparty", objclsUserManagement.thirdparty, DbType.Boolean);
+                objDBParameter = new DBParameter("@password", objuserRegistration.password, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@createdby", objclsUserManagement.createdby, DbType.Int64);
+                objDBParameter = new DBParameter("@createdby", objuserRegistration.createdby, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@createdname", objclsUserManagement.createdname, DbType.String);
+                objDBParameter = new DBParameter("@createdname", objuserRegistration.createdname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();
@@ -87,12 +84,34 @@ namespace onescreenDAL.UserManagement
                 DBHelper objDbHelper = new DBHelper();
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.usersignin, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstUserDetails = new List<userManagementModel>();
+                List<authorityuserModel> lstauthority = new List<authorityuserModel>();
+                List<controlsModel> lstcontrol = new List<controlsModel>();
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
+                        lstauthority = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new authorityuserModel
+                          {
+                              authority_id = Row.Field<Int64>("authority_id"),
+                              authority = Row.Field<string>("authority"),
+                          }).ToList();
+                    }
+                    if (ds.Tables[1].Rows.Count > 0)
+                    {
+                        lstcontrol = ds.Tables[1].AsEnumerable().Select(Row =>
+                          new controlsModel
+                          {
+                              control_id = Row.Field<Int64>("control_id"),
+                              syscontrolname = Row.Field<string>("syscontrolname"),
+                              modulename = Row.Field<string>("modulename"),
+                              module_id = Row.Field<Int64>("module_id"),
+                          }).ToList();
+                    }
+                    if (ds.Tables[2].Rows.Count > 0)
+                    {
                         //Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                        lstUserDetails = ds.Tables[0].AsEnumerable().Select(Row =>
+                        lstUserDetails = ds.Tables[2].AsEnumerable().Select(Row =>
                           new userManagementModel
                           {
                               user_id = Row.Field<Int64>("user_id"),
@@ -101,9 +120,12 @@ namespace onescreenDAL.UserManagement
                               email_id = Row.Field<string>("email_id"),
                               mobilenumber = Row.Field<string>("mobilenumber"),
                               password = Row.Field<string>("password"),
+                              address = Row.Field<string>("address"),
                               profilepicture = Row.Field<string>("profilepicture"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              lstauthority = lstauthority,
+                              lstcontrol = lstcontrol,
                               response = Row.Field<string>("Response"),
                           }).ToList();
                     }
@@ -229,6 +251,8 @@ namespace onescreenDAL.UserManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@profilepicture", objclsUserManagement.profilepicture, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@commission", objclsUserManagement.commission, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", objclsUserManagement.project_id, DbType.Int64);
@@ -271,25 +295,32 @@ namespace onescreenDAL.UserManagement
                                     objDbHelper1.ExecuteScalar(Constant.mapauthorityuser, ObJParameterCOl2, CommandType.StoredProcedure);
                                 });
                             }
-                            if ((objclsUserManagement.lstproject != null && objclsUserManagement.lstproject.Count > 0))
+
+                            if ((objclsUserManagement.lstproduct != null && objclsUserManagement.lstproduct.Count > 0))
                             {
-                                objclsUserManagement.lstproject.ForEach(project =>
+                                objclsUserManagement.lstproduct.ForEach(userproduct =>
                                 {
-                                    DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
-                                    DBParameter objDBParameter3 = new DBParameter("@project_id", project.project_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@user_id", objclsUserManagement.user_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@client_id", objclsUserManagement.client_id, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@createdname", objclsUserManagement.createdname, DbType.String);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    objDBParameter3 = new DBParameter("@createdby", objclsUserManagement.createdby, DbType.Int64);
-                                    ObJParameterCOl3.Add(objDBParameter3);
-                                    DBHelper objDbHelper2 = new DBHelper();
-                                    objDbHelper2.ExecuteScalar(Constant.mapprojectuser, ObJParameterCOl3, CommandType.StoredProcedure);
+                                    userproduct.user_id = objclsUserManagement.user_id;
+                                    userproduct.product_id = userproduct.product_id;
+                                    userproduct.project_id = project_id;
+                                    userproduct.client_id = client_id;
+                                    userproduct.createdby = objclsUserManagement.user_id;
+                                    userproduct.createdname = objclsUserManagement.createdname;
+                                    userproduct.createddatetime = DateTime.Now;
+                                    userproduct.isactive = true;
+                                    userproduct.isdeleted = false;
                                 });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objclsUserManagement.lstproduct);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_UserProductMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapuserproduct, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
+
                             if ((objclsUserManagement.filemanager != null && objclsUserManagement.filemanager.Count > 0))
                             {
                                 objclsUserManagement.filemanager.ForEach(filemanager =>
@@ -362,7 +393,8 @@ namespace onescreenDAL.UserManagement
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getuserdetail, ObJParameterCOl, CommandType.StoredProcedure);
                 List<userManagementModel> lstuser = new List<userManagementModel>();
                 List<authorityuserModel> lstauthority = new List<authorityuserModel>();
-                List<projectuserModel> lstproject = new List<projectuserModel>();
+                List<productuserModel> lstproduct = new List<productuserModel>();
+                List<vendoruserModel> lstvendor = new List<vendoruserModel>();
                 List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
                 responseModel lstresponse = new responseModel();
                 if (ds != null)
@@ -379,19 +411,29 @@ namespace onescreenDAL.UserManagement
                                     authority = Row.Field<string>("authority")
                                 }).ToList();
                         }
+                        
                         if (ds.Tables[1].Rows.Count > 0)
                         {
-                            lstproject = ds.Tables[1].AsEnumerable().Select(Row =>
-                                new projectuserModel
+                            lstvendor = ds.Tables[1].AsEnumerable().Select(Row =>
+                                new vendoruserModel
                                 {
-                                    project_id = Row.Field<Int64>("project_id"),
-                                    user_id = Row.Field<Int64>("user_id"),
-                                    projectname = Row.Field<string>("projectname")
+                                    vendor_id = Row.Field<Int64>("vendor_id"),
+                                    contact_person_name = Row.Field<string>("contact_person_name")
                                 }).ToList();
                         }
+
                         if (ds.Tables[2].Rows.Count > 0)
                         {
-                            lstFileinfo = ds.Tables[2].AsEnumerable().Select(Row =>
+                            lstproduct = ds.Tables[2].AsEnumerable().Select(Row =>
+                                new productuserModel
+                                {
+                                    product_id = Row.Field<Int64>("product_id"),
+                                    product_name = Row.Field<string>("product_name")
+                                }).ToList();
+                        }
+                        if (ds.Tables[3].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[3].AsEnumerable().Select(Row =>
                                 new fileInfoModel
                                 {
                                     ref_id = Row.Field<Int64>("ref_id"),
@@ -407,9 +449,9 @@ namespace onescreenDAL.UserManagement
                                 }).ToList();
                         }
                     }
-                    if (ds.Tables[flag == "Detail" ? 3 : 0].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 4 : 0].Rows.Count > 0)
                     {
-                        lstuser = ds.Tables[flag == "Detail" ? 3 : 0].AsEnumerable().Select(Row =>
+                        lstuser = ds.Tables[flag == "Detail" ? 4 : 0].AsEnumerable().Select(Row =>
                       new userManagementModel
                       {
                           user_id = Row.Field<Int64>("user_id"),
@@ -424,6 +466,8 @@ namespace onescreenDAL.UserManagement
                           is_approved = Row.Field<bool>("is_approved"),
                           password = Row.Field<string>("password"),
                           profilepicture = Row.Field<string>("profilepicture"),
+                          commission = Row.Field<Decimal>("commission"),
+                          isactive = Row.Field<bool>("isactive"),
                           createdby = Row.Field<Int64?>("createdby"),
                           createdname = Row.Field<string>("createdname"),
                           createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -431,12 +475,13 @@ namespace onescreenDAL.UserManagement
                           updatedname = Row.Field<string>("updatedname"),
                           updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                           lstauthority = lstauthority,
-                          lstproject = lstproject,
+                          lstvendor = lstvendor,
+                          lstproduct = lstproduct
                       }).ToList();
                     }
-                    if (ds.Tables[flag == "Detail" ? 4 : 1].Rows.Count > 0)
+                    if (ds.Tables[flag == "Detail" ? 5 : 1].Rows.Count > 0)
                     {
-                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 4 : 1].Rows[0]["RESPONSE"].ToString());
+                        lstresponse.count = Convert.ToInt64(ds.Tables[flag == "Detail" ? 5 : 1].Rows[0]["RESPONSE"].ToString());
                     }
                     lstresponse.data = lstuser;
                 }
@@ -523,29 +568,35 @@ namespace onescreenDAL.UserManagement
             }
         }
 
-        public string managecontactus(contactUsModel objcontactus)
+        public string managecontactdetails(contact_details objcontactdetails)
         {
             try
             {
                 string Response = "";
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@fullname", objcontactus.fullname, DbType.String);
+                DBParameter objDBParameter = new DBParameter("@contact_id", objcontactdetails.contact_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@email_id", objcontactus.email_id, DbType.String);
+                objDBParameter = new DBParameter("@fullname", objcontactdetails.fullname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@message", objcontactus.message, DbType.String);
+                objDBParameter = new DBParameter("@email_id", objcontactdetails.email_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@subject", objcontactus.subject, DbType.String);
+                objDBParameter = new DBParameter("@mobile_no", objcontactdetails.mobile_no, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@mobile", objcontactus.mobile, DbType.String);
+                objDBParameter = new DBParameter("@subject_line", objcontactdetails.subject_line, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@description", objcontactdetails.description, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objcontactdetails.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objcontactdetails.createdname, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();
-                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managecontactus, ObJParameterCOl, CommandType.StoredProcedure);
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managecontactdetails, ObJParameterCOl, CommandType.StoredProcedure);
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -561,40 +612,46 @@ namespace onescreenDAL.UserManagement
             }
         }
 
-        public responseModel getcontactus()
+        public responseModel getcontactdetails(Int64 contact_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             try
             {
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@contact_id", contact_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
 
                 DBHelper objDbHelper = new DBHelper();
-                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getcontactus, ObJParameterCOl, CommandType.StoredProcedure);
-                List<contactUsModel> lstcontactus = new List<contactUsModel>();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getcontactdetails, ObJParameterCOl, CommandType.StoredProcedure);
+                List<contact_details> lstcontact = new List<contact_details>();
                 responseModel lstresponse = new responseModel();
                 if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                        lstcontactus = ds.Tables[0].AsEnumerable().Select(Row =>
-                          new contactUsModel
+                        lstcontact = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new contact_details
                           {
                               contact_id = Row.Field<Int64>("contact_id"),
                               fullname = Row.Field<string>("fullname"),
                               email_id = Row.Field<string>("email_id"),
-                              mobile = Row.Field<string>("mobile"),
-                              subject = Row.Field<string>("subject"),
-                              message = Row.Field<string>("message"),
-                              createdby = Row.Field<Int64?>("createdby"),
+                              mobile_no = Row.Field<string>("mobile_no"),
+                              subject_line = Row.Field<string>("subject_line"),
+                              description = Row.Field<string>("description"),
+                              createdby = Row.Field<Int64>("createdby"),
                               createdname = Row.Field<string>("createdname"),
-                              createddatetime = Row.Field<DateTime?>("createddatetime")
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
                           }).ToList();
                     }
                     lstresponse.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
-                    lstresponse.data = lstcontactus;
+                    lstresponse.data = lstcontact;
                 }
                 return lstresponse;
             }
@@ -860,6 +917,47 @@ namespace onescreenDAL.UserManagement
                     lstresponse.data = lstToken;
                 }
                 return lstresponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public string update_userdetails(update_user objupdate_user)
+        {
+            try
+            {
+                string Response = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@user_id", objupdate_user.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@fullname", objupdate_user.fullname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@email_id", objupdate_user.email_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@address", objupdate_user.address, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objupdate_user.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", objupdate_user.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.Update_Userdetails, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        Response = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                    }
+                }
+                return Response;
             }
             catch (Exception ex)
             {

@@ -1,95 +1,122 @@
 <nav class="pc-sidebar">
-    <div class="navbar-wrapper">
-      <div class="m-header">
-        <a routerLink="/dashboard" class="b-brand text-primary">
-          <!-- ========   Change your logo from here   ============ -->
-          <img src="../../../assets/images/webdroids_logo.png" alt="logo image" class="logo-lg" />
-          <span class="badge bg-brand-color-2 rounded-pill ms-2 theme-version">v1.0</span>
-        </a>
-      </div>
-      <div class="navbar-content">
-        <ul class="pc-navbar">
-        
-          <li class="pc-item">
-            <a routerLink="/dashboard" class="pc-link">
+  <div class="navbar-wrapper">
+    <div class="m-header">
+      <a routerLink="/app/dashboard" class="b-brand text-primary">
+        <img src="../../../../assets/images/onescreen_logo.png" alt="logo image" class="logo-lg" />
+        <!-- <span class="badge bg-brand-color-2 rounded-pill ms-2 theme-version">v1.0</span> -->
+      </a>
+    </div>
+
+    <!-- Sidebar menu rendered by Angular (recursive rendering) -->
+    <div class="navbar-content">
+      <ul class="pc-navbar">
+        <ng-container *ngFor="let menu of menuStructure">
+          <li class="pc-item"
+              [ngClass]="{ 'pc-hasmenu': menu.children?.length > 0, 'open': menu.expanded }">
+
+            <!-- parent row. If parent has children, clicking toggles submenu; otherwise navigates -->
+            <a class="pc-link"
+               (click)="menu.children?.length ? toggleMenu(menu, $event) : navigateToMenu(menu, menuStructure)">
               <span class="pc-micon">
-                <i class="ph-duotone ph-gauge"></i>
+                <!-- use your existing icon system; adapt class binding if needed -->
+                <i class="{{ menu.moduleicon || 'ph-gauge' }}"></i>
               </span>
-              <span class="pc-mtext">Dashboard</span>
-            </a>
-          </li>
-     
-          <li class="pc-item">
-            
-            <a routerLink="/user" class="pc-link">
-              <span class="pc-micon">
-                <i class="ph-duotone ph-user-circle"></i>
+              <span class="pc-mtext">{{ menu.modulename }}</span>
+
+              <!-- caret shown only if there are children -->
+              <span class="pc-arrow" *ngIf="menu.children?.length">
+                <i data-feather="chevron-right"></i>
               </span>
-              <span class="pc-mtext">Manage User</span>
+
+              <!-- optional badge -->
+              <span class="pc-badge" *ngIf="menu.badge">{{ menu.badge }}</span>
             </a>
+
+            <!-- submenu: recursively render children -->
+            <ul class="pc-submenu" *ngIf="menu.children?.length && menu.expanded">
+              <ng-container *ngFor="let child of menu.children">
+                <li class="pc-item"
+                    [ngClass]="{ 'pc-hasmenu': child.children?.length > 0, 'open': child.expanded }">
+
+                  <a class="pc-link"
+                     (click)="child.children?.length ? toggleMenu(child, $event) : navigateToMenu(child, menuStructure)">
+                    <span class="pc-micon">
+                      <i class="{{ child.moduleicon || 'ph-gauge' }}"></i>
+                    </span>
+                    <span class="pc-mtext">{{ child.modulename }}</span>
+
+                    <span class="pc-arrow" *ngIf="child.children?.length">
+                      <i data-feather="chevron-right"></i>
+                    </span>
+
+                    <span class="pc-badge" *ngIf="child.badge">{{ child.badge }}</span>
+                  </a>
+
+                  <!-- nested submenu -->
+                  <ul class="pc-submenu" *ngIf="child.children?.length && child.expanded">
+                    <ng-container *ngFor="let sub of child.children">
+                      <li class="pc-item">
+                        <a class="pc-link" (click)="navigateToMenu(sub, menuStructure)">
+                          <span class="pc-micon">
+                            <i class="{{ sub.moduleicon || 'ph-gauge' }}"></i>
+                          </span>
+                          <span class="pc-mtext">{{ sub.modulename }}</span>
+                        </a>
+                      </li>
+                    </ng-container>
+                  </ul>
+
+                </li>
+              </ng-container>
+            </ul>
           </li>
-        </ul>
-        <div class="card nav-action-card bg-brand-color-4">
-          <div class="card-body" style="background-image: url('../assets/images/layout/nav-card-bg.svg')">
-            <h5 class="text-dark">Help Center</h5>
-            <p class="text-dark text-opacity-75">Please contact us for more questions.</p>
-            <a href="https://phoenixcoded.support-hub.io/" class="btn btn-primary" target="_blank">Go to help Center</a>
-          </div>
+        </ng-container>
+      </ul>
+
+      <!-- <div class="card nav-action-card bg-brand-color-4">
+        <div class="card-body" style="background-image: url('../assets/images/layout/nav-card-bg.svg')">
+          <h5 class="text-dark">Help Center</h5>
+          <p class="text-dark text-opacity-75">Please contact us for more questions.</p>
+          <a href="https://phoenixcoded.support-hub.io/" class="btn btn-primary" target="_blank">Go to help Center</a>
         </div>
-      </div>
-      <div class="card pc-user-card">
-        <div class="card-body">
-          <div class="d-flex align-items-center">
-            <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle" />
-            </div>
-            <div class="flex-grow-1 ms-3">
-              <div class="dropdown">
-                <a href="#" class="arrow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,20">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1 me-2">
-                      <h6 class="mb-0">Jonh Smith</h6>
-                      <small>Administrator</small>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="btn btn-icon btn-link-secondary avtar">
-                        <i class="ph-duotone ph-windows-logo"></i>    
-                      </div>
+      </div> -->
+    </div>
+
+    <!-- <div class="card pc-user-card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0">
+            <img src="../assets/images/user/avatar-1.jpg" alt="user-image"
+                 class="user-avtar wid-45 rounded-circle" />
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <div class="dropdown">
+              <a href="#" class="arrow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                 data-bs-offset="0,20">
+                <div class="d-flex align-items-center">
+                  <div class="flex-grow-1 me-2">
+                    <h6 class="mb-0">Jonh Smith</h6>
+                    <small>Administrator</small>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <div class="btn btn-icon btn-link-secondary avtar">
+                      <i class="ph-duotone ph-windows-logo"></i>
                     </div>
                   </div>
-                </a>
-                <div class="dropdown-menu">
-                  <ul>
-                    <li>
-                      <a class="pc-user-links">
-                        <i class="ph-duotone ph-user"></i>
-                        <span>My Account</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="pc-user-links">
-                        <i class="ph-duotone ph-gear"></i>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="pc-user-links">
-                        <i class="ph-duotone ph-lock-key"></i>
-                        <span>Lock Screen</span>
-                      </a>
-                      </li>
-                    <li>
-                      <a class="pc-user-links">
-                        <i class="ph-duotone ph-power"></i>
-                        <span>Logout</span>
-                      </a>
-                    </li>
-                  </ul>
                 </div>
+              </a>
+              <div class="dropdown-menu">
+                <ul>
+                  <li><a class="pc-user-links"><i class="ph-duotone ph-user"></i><span>My Account</span></a></li>
+                  <li><a class="pc-user-links"><i class="ph-duotone ph-gear"></i><span>Settings</span></a></li>
+                  <li><a class="pc-user-links"><i class="ph-duotone ph-lock-key"></i><span>Lock Screen</span></a></li>
+                  <li><a class="pc-user-links"><i class="ph-duotone ph-power"></i><span>Logout</span></a></li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </div> -->
+  </div>
+</nav>

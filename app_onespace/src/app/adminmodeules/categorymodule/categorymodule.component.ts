@@ -6,7 +6,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { categoryMaster } from '../../_appmodel/_model';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -15,13 +15,13 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-categorymodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './categorymodule.component.html',
   styleUrl: './categorymodule.component.scss'
 })
 export class CategorymoduleComponent {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
-  @ViewChild('fileInput', { static: true }) fileInput:any;
+  @ViewChild('fileInput', { static: true }) fileInput: any;
 
   @ViewChild('deleteSwal')
   public readonly deleteSwal!: SwalComponent;
@@ -30,7 +30,9 @@ export class CategorymoduleComponent {
   public readonly successSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
-
+  navigateaddform() {
+    this._base._router.navigate(['/app/managecategory/0']);
+  }
   private modalRef!: NgbModalRef;
   dataTable: any;
   constructor(public _base: BaseServiceHelper,
@@ -48,8 +50,7 @@ export class CategorymoduleComponent {
       { identifer: "category", title: "Category", type: "text" },
       { identifer: "typemaster", title: "Type Master", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },
-    ],
+       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -84,7 +85,7 @@ export class CategorymoduleComponent {
       return `${day}/${month}/${year}`;
     };
 
-    const selectedColumns = this.CategoryMaster.map((item:any) => {
+    const selectedColumns = this.CategoryMaster.map((item: any) => {
       return {
         Date: formatDate(item.createddatetime),
         TypeMaster: item.typemaster,
@@ -106,7 +107,7 @@ export class CategorymoduleComponent {
     // saveAs(data, 'CategoryData.xlsx');
   }
 
-  importCategoryData($event :any) {
+  importCategoryData($event: any) {
     this.importFile = $event.target.files;
   }
 
@@ -135,7 +136,7 @@ export class CategorymoduleComponent {
     let obj = this._base._commonService.getcatalogrange(this.tableConfig?.isCustom?.steps, (this.tableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getcategory('all', 0, 'null', 0, 'null', false, 0,'null', parseInt(start), parseInt(end)).subscribe((resCategory: any) => {
+    this._webDService.getcategory('all', 0, 'null', 0, 'null', false, 0, 'null', parseInt(start), parseInt(end)).subscribe((resCategory: any) => {
       this.CategoryMaster = resCategory.data;
       this.CategoryMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
       if (this.tableConfig?.isCustom) {
@@ -147,11 +148,11 @@ export class CategorymoduleComponent {
     });
   }
 
-  modifyCategory(data:any, flag:any) {
+  modifyCategory(data: any, flag: any) {
     this._categoryMaster = data;
     this._categoryMaster.flag = flag;
     if (flag == 'MODIFYCATEGORY') {
-      this._base._router.navigate([`/app/catalogue/category/${data.category_id}`]);
+      this._base._router.navigate([`/app/managecategory/${data.category_id}`]);
     } else if (flag == 'DELETECATEGORY') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -164,6 +165,9 @@ export class CategorymoduleComponent {
                   this.CategoryMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

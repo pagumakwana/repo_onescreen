@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 
-@Injectable()
+@Injectable(
+    { providedIn: 'root' }
+)
 export class WebDService {
 
     constructor(private _base: BaseServiceHelper) {
@@ -100,7 +102,7 @@ export class WebDService {
     public labelmaster(_labelMaster: labelMaster) {
         return this._base._apiService.post(`${ApiConstant.mastermanagement.label}`, _labelMaster);
     }
-    public getlabelmaster(flag = 'all', label_id = 0, aliasname = 'null', typemaster_id = 0, typemaster = 'null', search ="null", start_count = 0, end_count = 0) {
+    public getlabelmaster(flag = 'all', label_id = 0, aliasname = 'null', typemaster_id = 0, typemaster = 'null', search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.mastermanagement.getlabel}?flag=${flag}&label_id=${label_id}&aliasname=${aliasname}&typemaster_id=${typemaster_id}&typemaster=${typemaster}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public blogs(_blog: blog) {
@@ -202,44 +204,13 @@ export class WebDService {
     public formdetails(datamodel: any) {
         return this._base._apiService.post(ApiConstant.managetour.bookinginfo, datamodel);
     }
-    public anthology(_anthology: anthology) {
-        return this._base._apiService.post(`${ApiConstant.postmanagement.anthology}`, _anthology);
-    }
-    public getanthology(flag = 'all', anthology_id = 0, aliasname = 'null', category_id = 0, category = 'null', label_id = 0, label = 'null', start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.postmanagement.getanthology}?flag=${flag}&anthology_id=${anthology_id}&aliasname=${aliasname}&category_id=${category_id}&category=${category}&label_id=${label_id}&label=${label}&start_count=${start_count}&end_count=${end_count}`);
-    }
-
-    public managesociety(_societyModel: societyModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managesociety}`, _societyModel);
-    }
-    public getsociety(flag = 'all', society_id = 0, category_id = 0, search = "null" , start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getsociety}?flag=${flag}&society_id=${society_id}&category_id=${category_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managecomplex(_complexModel: complexModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managecomplex}`, _complexModel);
-    }
-    public getcomplex(flag = 'all', society_id = 0, complex_id = 0, search = "null" , start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getcomplex}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managewing(_wingModel: wingModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managewing}`, _wingModel);
-    }
-    public getwing(flag = 'all', society_id = 0, complex_id = 0, wing_id = 0,search = "null" , start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getwing}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public manageflat(_flatModel: flatModel) {
-        return this._base._apiService.post(`${ApiConstant.society.manageflat}`, _flatModel);
-    }
-    public getflat(flag = 'all', society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0,search = "null" , start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getflat}?flag=${flag}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&flat_id=${flat_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
     public get_usermaster(flag = 'all', usermaster_id = 0, is_mandatory = false, has_parent = false, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.mastermanagement.getusermaster}?flag=${flag}&usermaster_id=${usermaster_id}&is_mandatory=${is_mandatory}&has_parent=${has_parent}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managemaster(_usermaster: MasterModel) {
         return this._base._apiService.post(`${ApiConstant.mastermanagement.managemaster}`, _usermaster);
     }
-    public get_usermasterdata(flag = 'all', usermasterdata_id = 0, usermaster_name = 'null',usermasterdata_parent_id = 0, search = "null", start_count = 0, end_count = 0) {
+    public get_usermasterdata(flag = 'all', usermasterdata_id = 0, usermaster_name = 'null', usermasterdata_parent_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.mastermanagement.getusermasterdata}?flag=${flag}&usermasterdata_id=${usermasterdata_id}&usermaster_name=${usermaster_name}&usermasterdata_parent_id=${usermasterdata_parent_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managemasterdata(_masterdata: MasterDataModel) {
@@ -251,12 +222,6 @@ export class WebDService {
     public managenotice(_noticeModel: noticeModel) {
         return this._base._apiService.post(`${ApiConstant.common.managenotice}`, _noticeModel);
     }
-    public getgate(flag = 'all', gate_id = 0, society_id = 0, complex_id = 0, wing_id = 0,search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.society.getgate}?flag=${flag}&gate_id=${gate_id}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managegate(_gateModel: gateModel) {
-        return this._base._apiService.post(`${ApiConstant.society.managegate}`, _gateModel);
-    }
 
     public getsupport(flag = 'all', support_id = 0, category_id = 0, society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getsupport}?flag=${flag}&support_id=${support_id}&category_id=${category_id}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&flat_id=${flat_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
@@ -265,14 +230,14 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.common.managesupport}`, _supportMaster);
     }
 
-    public getdocuments(flag = 'all', document_id = 0, category_id = 0, search= "null", start_count = 0, end_count = 0) {
+    public getdocuments(flag = 'all', document_id = 0, category_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getdocuments}?flag=${flag}&document_id=${document_id}&category_id=${category_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managedocuments(_documentsMaster: documentsMaster) {
         return this._base._apiService.post(`${ApiConstant.common.managedocuments}`, _documentsMaster);
     }
 
-    public getvehicle(flag = 'all', vehicle_id = 0, society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0, search="null", start_count = 0, end_count = 0) {
+    public getvehicle(flag = 'all', vehicle_id = 0, society_id = 0, complex_id = 0, wing_id = 0, flat_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.society.getvehicle}?flag=${flag}&vehicle_id=${vehicle_id}&society_id=${society_id}&complex_id=${complex_id}&wing_id=${wing_id}&flat_id=${flat_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managevehicle(_vehicleModel: vehicleModel) {
@@ -286,14 +251,14 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.customer.managepet}`, _petModel);
     }
 
-    public getaccountheaders(flag = 'all', accountheader_id = 0, category_id = 0, search="null", start_count = 0, end_count = 0) {
+    public getaccountheaders(flag = 'all', accountheader_id = 0, category_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.account.getaccountheaders}?flag=${flag}&accountheader_id=${accountheader_id}&category_id=${category_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageaccountheaders(_accountHeaderModel: accountHeaderModel) {
         return this._base._apiService.post(`${ApiConstant.account.manageaccountheaders}`, _accountHeaderModel);
     }
 
-    public getbudget(flag = 'all', budget_id = 0, category_id = 0, financialyear_id = 0, search ="null", start_count = 0, end_count = 0) {
+    public getbudget(flag = 'all', budget_id = 0, category_id = 0, financialyear_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.account.getbudget}?flag=${flag}&budget_id=${budget_id}&category_id=${category_id}&financialyear_id=${financialyear_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managebudget(_budgetModel: budgetModel) {
@@ -323,13 +288,8 @@ export class WebDService {
     public appuser_approved_reject(_app_userapproved_model: app_userapproved_model) {
         return this._base._apiService.post(`${ApiConstant.customer.appuser_approved_reject}`, _app_userapproved_model);
     }
-    public getvendor(flag = 'all', vendor_id = 0, search = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.common.getvendor}?flag=${flag}&vendor_id=${vendor_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
-    }
-    public managevendor(_vendorModel: vendorModel) {
-        return this._base._apiService.post(`${ApiConstant.common.managevendor}`, _vendorModel);
-    }
-    public getserviceprovider(flag = 'all', serviceprovider_id = 0, search= "null", start_count = 0, end_count = 0) {
+
+    public getserviceprovider(flag = 'all', serviceprovider_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getserviceprovider}?flag=${flag}&serviceprovider_id=${serviceprovider_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageserviceprovider(_serviceproviderModel: serviceproviderModel) {
@@ -363,8 +323,8 @@ export class WebDService {
     // , start_date = 'null', end_date = 'null'
     // &start_date=${start_date}&end_date=${end_date}
 
-    public getdashboardwidget(flag = 'all') {
-        return this._base._apiService.get(`${ApiConstant.reports.getdashboardwidget}?flag=${flag}`);
+    public getdashboardwidget(flag = 'all', user_id = 0) {
+        return this._base._apiService.get(`${ApiConstant.common.getdashboardwidget}?flag=${flag}&user_id=${user_id}`);
     }
 
     public gethelpdeskWidget(flag = 'week') {
@@ -375,7 +335,7 @@ export class WebDService {
         return this._base._apiService.get(`${ApiConstant.reports.getactivedeactiveWidget}?flag=${flag}`);
     }
 
-      public getactivesocietyWidget(flag = 'week') {
+    public getactivesocietyWidget(flag = 'week') {
         return this._base._apiService.get(`${ApiConstant.reports.getactivesocietyWidget}?flag=${flag}`);
     }
 
@@ -468,14 +428,14 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.common.managesupportresponse}`, _responseModel);
     }
 
-    public getaudience(flag: any, audience_id = 0, search= "null", start_count = 0, end_count = 0) {
+    public getaudience(flag: any, audience_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.communication.getaudience}?flag=${flag}&audience_id=${audience_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageaudience(_audiencemaster: audiencemanagemaster) {
         return this._base._apiService.post(`${ApiConstant.communication.manageaudience}`, _audiencemaster);
     }
 
-    public gettrigger(flag: any, trigger_id = 0,  search= "null", start_count = 0, end_count = 0) {
+    public gettrigger(flag: any, trigger_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.communication.gettrigger}?flag=${flag}&trigger_id=${trigger_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managetrigger(_TriggerMaster: triggerMaster) {
@@ -532,7 +492,7 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.communication.manageconfiguration}`, _configurationModel);
     }
 
-    public getguard(user_id = 0, search= "null", start_count = 0, end_count = 0) {
+    public getguard(user_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.communication.getguard}?user_id=${user_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
 
@@ -561,37 +521,37 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.common.update_moduledata}`, _moduledataModel);
     }
 
-    public getportalconfig(flag = 'all', config_id = 0, config_name = "null", start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.config.getportalconfig}?flag=${flag}&config_id=${config_id}&config_name=${config_name}&start_count=${start_count}&end_count=${end_count}`);
+    public getportalconfig(flag = 'all', config_id = 0, config_name = "null", search = "null", start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.config.getportalconfig}?flag=${flag}&config_id=${config_id}&config_name=${config_name}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
     public manageportalconfig(_portalconfigModel: portalconfigModel) {
         return this._base._apiService.post(`${ApiConstant.config.manageportalconfig}`, _portalconfigModel);
     }
-    
-public getcommunicatonlogs(flag = 'All', request_id = 0, start_count = 0, end_count = 0) {
+
+    public getcommunicatonlogs(flag = 'All', request_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.reports.getcommunicatonlogs}?flag=${flag}&request_id=${request_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
     public getpendingqueue(flag = 'All', request_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.reports.getpendingqueue}?flag=${flag}&request_id=${request_id}&start_count=${start_count}&end_count=${end_count}`);
     }
-     public manageaudienceuserdetail(_audienceusermapModel:audienceusermapModel) {
+    public manageaudienceuserdetail(_audienceusermapModel: audienceusermapModel) {
         return this._base._apiService.post(`${ApiConstant.communication.manageaudienceuserdetail}`, _audienceusermapModel);
     }
-    
+
     public getaudienceuserdetail(flag: any, audience_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.communication.getaudienceuserdetail}?flag=${flag}&audience_id=${audience_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
-    public manageinvoicetemplate(_invoicetemplateModel: invoiceTemplateModel ) {
-     return this._base._apiService.post(`${ApiConstant.account.manageinvoicetemplate}`, _invoicetemplateModel);
+    public manageinvoicetemplate(_invoicetemplateModel: invoiceTemplateModel) {
+        return this._base._apiService.post(`${ApiConstant.account.manageinvoicetemplate}`, _invoicetemplateModel);
     }
 
     public getinvoicetemplate(flag: any, inv_template_id = 0, search = "null", start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.account.getinvoicetemplate}?flag=${flag}&inv_template_id=${inv_template_id}&search=${search}&start_count=${start_count}&end_count=${end_count}`);
     }
 
-      public manage_delete_record( user_id = 0 ) {
+    public manage_delete_record(user_id = 0) {
         return this._base._apiService.post(`${ApiConstant.customer.manage_delete_record}?user_id=${user_id}`);
     }
     public getheaderflat(accountheader_id = 0, inv_template_id = 0, start_count = 0, end_count = 0) {
@@ -600,17 +560,135 @@ public getcommunicatonlogs(flag = 'All', request_id = 0, start_count = 0, end_co
     public updateInvoiceHeaderAmount(_useramountModel: useramountModel[]) {
         return this._base._apiService.post(`${ApiConstant.account.updateInvoiceHeaderAmount}`, _useramountModel);
     }
-     public get_generalreceipt(receipt_id = 0, start_count = 0, end_count = 0) {
+    public get_generalreceipt(receipt_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.account.get_generalreceipt}?receipt_id=${receipt_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
     public manageproduct(_productMaster: productMaster) {
         return this._base._apiService.post(`${ApiConstant.product.manageproduct}`, _productMaster);
     }
-    public getproduct(flag = 'all', product_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getproduct}?flag=${flag}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getproduct(flag = 'all', product_id = 0, brand_id = 0, category_name = 'null', start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getproduct}?flag=${flag}&product_id=${product_id}&brand_id=${brand_id}&category_name=${category_name}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getproductoption(flag = 'all', option_id = 0, product_id = 0, option_type_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getproductoptions}?flag=${flag}&option_id=${option_id}&product_id=${product_id}&option_type_id=${option_type_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
-   
+    public managebrand(_brandMaster: brandsMaster) {
+        return this._base._apiService.post(`${ApiConstant.product.managebrand}`, _brandMaster);
+    }
+    public getbrand(flag = 'all', brand_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getbrand}?flag=${flag}&brand_id=${brand_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public productoptiontypes(flag = 'all', option_type_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.productoptiontypes}?flag=${flag}&option_type_id=${option_type_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public manageproductoptiontypes(_optionType: productoptiontype) {
+        return this._base._apiService.post(`${ApiConstant.product.manageproductoptiontypes}`, _optionType);
+    }
+
+    public productoptionvalues(flag = 'all', option_value_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.productoptionvalues}?flag=${flag}&option_value_id=${option_value_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public manageproductoptionvalues(_optionValue: productoptionvalue) {
+        return this._base._apiService.post(`${ApiConstant.product.manageproductoptionvalues}`, _optionValue);
+    }
+    public manageproductoptions(_productOption: productoption) {
+        return this._base._apiService.post(`${ApiConstant.product.manageproductoptions}`, _productOption);
+    }
+
+    public getcoupon(coupon_id = 0, coupon_code = '', start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getcoupon}?coupon_id=${coupon_id}&coupon_code=${coupon_code}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public managecoupon(_couponModel: couponModel) {
+        return this._base._apiService.post(`${ApiConstant.product.managecoupon}`, _couponModel);
+    }
+
+    public getoptionvalue(option_type = '', product_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getoptionvalue}?option_type=${option_type}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+
+    public getorderdetails(flag = 'all', order_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getorderdertails}?flag=${flag}&order_id=${order_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public signUp(_userregister: userRegistration) {
+        return this._base._apiService.post(`${ApiConstant.customer.SignUp}`, _userregister);
+    }
+    public add_to_cart(_usercartMaster: usercartMaster) {
+        return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
+    }
+    public getusercartdetail(batch_id:any='00000000-0000-0000-0000-000000000000', user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?batch_id=${batch_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getvendor(flag = 'all', vendor_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getvendor}?flag=${flag}&vendor_id=${vendor_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public managevendor(_vendor: vendorModel) {
+        return this._base._apiService.post(`${ApiConstant.product.managevendor}`, _vendor);
+    }
+    public createOrder(_razorpay_OrderAttribute: razorpay_OrderAttribute) {
+        return this._base._apiService.post(`${ApiConstant.customer.create_order}`, _razorpay_OrderAttribute);
+    }
+    public verifyorder(_razorpayPaymentResponse: razorpayPaymentResponse) {
+        return this._base._apiService.post(`${ApiConstant.customer.verify_order}`, _razorpayPaymentResponse);
+    }
+    public getcouponcart(flag = 'all', coupon_id = 0, coupon_code = '', start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getcoupon}?flag=${flag}&coupon_id=${coupon_id}&coupon_code=${coupon_code}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public apply_coupon(_applycoupon: user_coupon_model) {
+        return this._base._apiService.post(`${ApiConstant.product.apply_coupon}`, _applycoupon);
+    }
+    public getcontactdetails(contact_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.customer.getcontactdetails}?contact_id=${contact_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public managecontactdetails(_contactDetails: contactDetails) {
+        return this._base._apiService.post(`${ApiConstant.customer.managecontactdetails}`, _contactDetails);
+    }
+    public move_to_order(_ordermaster: ordermaster) {
+        return this._base._apiService.post(`${ApiConstant.product.move_to_order}`, _ordermaster);
+    }
+    public media_status_update(_objmedia_status: media_status) {
+        return this._base._apiService.post(`${ApiConstant.product.media_status_update}`, _objmedia_status);
+    }
+    public getpendingmediaupload(user_id: number, order_id: number, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.get_pendingmediaupload}?user_id=${user_id}&order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public media_upload(_media_upload: media_upload) {
+        return this._base._apiService.post(`${ApiConstant.product.media_upload}`, _media_upload);
+    }
+    public remove_cart(_removeusercartModel: removeusercartModel) {
+        return this._base._apiService.post(`${ApiConstant.product.remove_cart}`, _removeusercartModel);
+    }
+    public mobile_verification(_mobileverification: user_verification) {
+        return this._base._apiService.post(`${ApiConstant.product.mobile_verification}`, _mobileverification);
+    }
+    public update_userdetails(_updateuserdetail: update_user) {
+        return this._base._apiService.post(`${ApiConstant.customer.update_userdetails}`, _updateuserdetail);
+    }
+    public getwithdrawal_request(flag = 'all', withdrawal_request_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getwithdrawal_request}?flag=${flag}&withdrawal_request_id=${withdrawal_request_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getwallet_transaction(flag = 'all', wallet_transaction_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getwallet_transaction}?flag=${flag}&wallet_transaction_id=${wallet_transaction_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public wallet_withdrawal_req(_walletwithdrawal: wallet_withdrawal) {
+        return this._base._apiService.post(`${ApiConstant.product.wallet_withdrawal_req}`, _walletwithdrawal);
+    }
+    public getwalletmaster(flag = 'all', wallet_master_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getwalletmaster}?flag=${flag}&wallet_master_id=${wallet_master_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public getinvoicedetails(order_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getinvoicedetails}?order_id=${order_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+    public getwalletwidget(user_id = 0) {
+        return this._base._apiService.get(`${ApiConstant.common.getwalletwidget}?user_id=${user_id}`);
+    }
+    public update_to_cart(batch_id:any,user_id = 0) {
+        return this._base._apiService.post(`${ApiConstant.product.update_to_cart}?batch_id=${batch_id}&user_id=${user_id}`);
+    }
 
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
@@ -12,7 +12,7 @@ import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 @Component({
   selector: 'app-typemastermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, SweetAlert2Module],
   templateUrl: './typemastermodule.component.html',
   styleUrl: './typemastermodule.component.scss'
 })
@@ -25,6 +25,10 @@ export class TypemastermoduleComponent {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  navigateaddform() {
+    this._base._router.navigate(['/app/managetypemaster/0']);
+  }
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
@@ -47,7 +51,7 @@ export class TypemastermoduleComponent {
       { identifer: "typemaster", title: "Type Master", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
       { identifer: "displayorder", title: "Display Order", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] }, ],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -124,7 +128,7 @@ export class TypemastermoduleComponent {
     this._typeMaster.aliasname = data.aliasname;
     this._typeMaster.typemaster_id = data.typemaster_id;
     if (flag == 'MODIFYTYPEMASTER') {
-      this._base._router.navigate([`/app/catalogue/typemaster/${btoa(data.typemaster_id)}/${data.aliasname}`]);
+      this._base._router.navigate([`/app/managetypemaster/${data.typemaster_id}`]);
     } else if (flag == 'DELETETYPEMASTER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -136,6 +140,9 @@ export class TypemastermoduleComponent {
                   this.TypeMaster.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

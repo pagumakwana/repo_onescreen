@@ -17,8 +17,8 @@
               <div class="row mb-6">
                 <div class="col-lg-3 mb-3">
                   <label class="form-label"> Full Name</label>
-                  <input type="text" class="form-control  form-control-solid" id="fullname"
-                    name="fullname" placeholder="Full Name" formControlName="fullname" required>
+                  <input type="text" class="form-control  form-control-solid" id="fullname" name="fullname"
+                    placeholder="Full Name" formControlName="fullname" required>
                   <div
                     *ngIf="fgUser.controls['fullname'].invalid && (fgUser.controls['fullname'].dirty || fgUser.controls['fullname'].touched)"
                     class="text-danger">
@@ -29,8 +29,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Email Address</label>
-                  <input type="text" class="form-control  form-control-solid" id="email_id"
-                    name="email_id" placeholder="Email Address" formControlName="email_id" required>
+                  <input type="text" class="form-control  form-control-solid" id="email_id" name="email_id"
+                    placeholder="Email Address" formControlName="email_id" required>
                   <div
                     *ngIf="fgUser.controls['email_id'].invalid && (fgUser.controls['email_id'].dirty || fgUser.controls['email_id'].touched) "
                     class="text-danger">
@@ -41,8 +41,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Password</label>
-                  <input type="text" class="form-control  form-control-solid" id="password"
-                    name="password" placeholder="******" formControlName="password" required>
+                  <input type="text" class="form-control  form-control-solid" id="password" name="password"
+                    placeholder="******" formControlName="password" required>
                   <div
                     *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched) "
                     class="text-danger">
@@ -53,8 +53,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Mobile</label>
-                  <input type="text" class="form-control  form-control-solid" id="mobilenumber"
-                    name="mobilenumber" placeholder="+91 917287011" formControlName="mobilenumber" required>
+                  <input type="text" class="form-control  form-control-solid" id="mobilenumber" name="mobilenumber"
+                    placeholder="+91 917287011" formControlName="mobilenumber" required>
                   <div
                     *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched) "
                     class="text-danger">
@@ -67,9 +67,8 @@
               <div class="row mb-6">
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">DOB</label>
-                  <input type="text" class="form-control" style="cursor: pointer;" ngbDatepicker
-                    #travellingdate="ngbDatepicker" travellingdate.displayMonths="true" readonly formControlName="dob"
-                    required placeholder="dd-mm-yyyy" (click)="travellingdate.toggle()">
+                  <input type="date" class="form-control form-control-sm form-control-solid" id="date" name="date"
+                    placeholder="dd-mm-yyyy" formControlName="dob" />
                   <!-- <span class="input-group-text" (click)="travellingdate.toggle()">
                     <i class="fa fa-calendar"></i>
                   </span> -->
@@ -87,8 +86,8 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                   <label class="form-label">Bio</label>
-                  <input type="text" class="form-control  form-control-solid" id="bio" name="bio"
-                    placeholder="Bio" formControlName="bio">
+                  <input type="text" class="form-control  form-control-solid" id="bio" name="bio" placeholder="Bio"
+                    formControlName="bio">
                   <!-- <div *ngIf="fgUser.controls.bio.invalid && (fgUser.controls.bio.dirty || fgUser.controls.bio.touched) "
                                     class="text-danger">
                                     <ng-container *ngIf="fgUser.controls.bio.errors?.['required']">
@@ -96,13 +95,27 @@
                                     </ng-container>
                                 </div> -->
                 </div>
-                <div class="col-lg-3 mb-3">
+                <div class="col-lg-3 mb-3" hidden>
+                  <label class="form-label">Vendor Commission</label>
+                  <input type="text" class="form-control form-control-solid" id="commission" name="commission"
+                    placeholder="commission" formControlName="commission">
+                  <!-- pattern="^[0-9]\d{9}$"
+                    onkeypress="return /[0-9]/i.test(event.key)" min="0" max="100"> -->
+                  <!-- <div
+                    *ngIf="fgUser.controls['commission'].invalid && (fgUser.controls['commission'].dirty || fgUser.controls['commission'].touched) "
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls['commission'].errors?.['required']">
+                      Commission is required.
+                    </ng-container>
+                  </div> -->
+                </div>
+                <!-- <div class="col-lg-3 mb-3">
                   <label class="form-label">Project</label>
                   <webd-multiselect [data]="lstProject" class="col-sm-3 col-form-label" textField='projectname'
                     valueField='project_id' [formControl]="fgUser?.controls?.lstproject" placeholder="Select Project"
                     [config]="_configProject" (onSelection)="onItemSelect($event)">
                   </webd-multiselect>
-                </div>
+                </div> -->
 
               </div>
               <div class="row mb-6">
@@ -113,18 +126,46 @@
                     placeholder="Select Authority" [config]="_configAuthority"
                     (onSelection)="onAuthoritySelect($event)">
                   </webd-multiselect>
+                  <div *ngIf="fgUser.controls['lstauthority'].touched && fgUser.controls['lstauthority'].invalid"
+                    class="text-danger">
+                    <ng-container *ngIf="fgUser.controls.lstauthority.errors?.['required']">
+                      Authority is required.
+                    </ng-container>
+                  </div>
                 </div>
-                <div class="col-lg-4 mb-3 form-check">
+                <div class="col-lg-3 mb-3" [hidden]="true">
+                  <label class="form-label">Vendor</label>
+                  <webd-multiselect [data]="lstVendor" class="col-sm-3 col-form-label" textField='contact_person_name'
+                    valueField='vendor_id' [formControl]="fgUser?.controls?.lstvendor" placeholder="Select vendor"
+                    [config]="_configVendor" (onSelection)="onVendorSelect($event)">
+                  </webd-multiselect>
+                </div>
+                <div class="col-lg-3 mb-3" hidden>
+                  <label class="form-label">Products</label>
+                  <webd-multiselect [data]="lstProduct" class="col-sm-3 col-form-label" textField='product_name'
+                    valueField='product_id' [formControl]="fgUser?.controls?.lstproduct" placeholder="Select Product"
+                    [config]="_configProduct" (onSelection)="onProductSelect($event)">
+                  </webd-multiselect>
+                </div>
+                <div class="col-lg-3 mb-3 form-check">
                   <label class="form-label"></label>
                   <label>Published</label>
                   <input type="checkbox" class="form-check-input" id="isPublished" formControlName="isactive">
                   <span class="new-control-indicator"></span>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary mb-4" (click)="setUserModel(true)">Submit</button>
-              &nbsp;
-              <button type="submit" class="btn btn-secondary mb-4">Back</button>
             </form>
+
+            <div class="col-lg-3 mb-3">
+              <div class="mt-4">
+                <button style="cursor: pointer;" class="btn btn-outline-secondary"
+                  (click)="navigateBack()">Back</button>&nbsp;
+                <button style="cursor: pointer;" class="btn btn-primary" (click)="setUserModel(true)">Submit</button>
+              </div>
+            </div>
+            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+              [showConfirmButton]="false">
+            </swal>
           </div>
         </div>
       </div>

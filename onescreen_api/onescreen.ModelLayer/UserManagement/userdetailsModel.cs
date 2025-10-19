@@ -16,15 +16,23 @@ namespace onescreenModel.UserManagement
         public string fullname { get; set; }
         public string email_id { get; set; }
         public string mobilenumber { get; set; }
-        public string bio { get; set; }
-        public bool thirdparty { get; set; }
-        public string dob { get; set; }
-        public string website { get; set; }
+        public string? bio { get; set; }
+        public bool? thirdparty { get; set; }
+        public string? dob { get; set; }
+        public string? website { get; set; }
         public string? profilepicture { get; set; }
         public Nullable<bool> is_approved { get; set; }
+        public Int64 vendor_id { get; set; }
+        public string? contact_person_name { get; set; }
+        public Int64 product_id { get; set; }
+        public string? product_name { get; set; }
+        public decimal? commission { get; set; }
         public List<authorityuserModel> lstauthority { get; set; }
-        public List<projectuserModel> lstproject { get; set; }
+        public List<vendoruserModel>? lstvendor { get; set; }
+        public List<productuserModel>? lstproduct { get; set; }
+        public List<controlsModel>? lstcontrol { get; set; }
         public string password { get; set; }
+        public string? address { get; set; }
     }
 
     public class authorityuserModel
@@ -34,11 +42,22 @@ namespace onescreenModel.UserManagement
         public string authority { get; set; }
     }
 
+    public class productuserModel : commonModel
+    {
+        public Int64 product_id { get; set; }
+        public Int64? user_id { get; set; }
+        public string? product_name { get; set; }
+    }
     public class projectuserModel
     {
         public Int64 project_id { get; set; }
         public Int64 user_id { get; set; }
         public string projectname { get; set; }
+    }
+    public class vendoruserModel
+    {
+        public Int64? vendor_id { get; set; }
+        public string? contact_person_name { get; set; }
     }
 
     public class requestOTPModel : commonModel
@@ -49,14 +68,14 @@ namespace onescreenModel.UserManagement
         public bool IsValidate { get; set; }
     }
 
-    public class contactUsModel : commonModel
+    public class contact_details : commonModel
     {
         public Int64 contact_id { get; set; }
         public string fullname { get; set; }
         public string email_id { get; set; }
-        public string mobile { get; set; }
-        public string subject { get; set; }
-        public string message { get; set; }
+        public string? mobile_no { get; set; }
+        public string? subject_line { get; set; }
+        public string? description { get; set; }
     }
 
     public class subscriberModel : commonModel
@@ -105,5 +124,24 @@ namespace onescreenModel.UserManagement
         public List<authorityModel> lstauthority { get; set; }
         public List<projectModel> lstproject { get; set; }
         public string password { get; set; }
+    }
+
+    public class userRegistration : commonModel
+    {
+        public Int64 user_id { get; set; }
+        public string fullname { get; set; }
+        public string email_id { get; set; }
+        public string mobilenumber { get; set; }
+        public string password { get; set; }
+
+    }
+
+    public class update_user :commonModel
+    {
+        public Int64 user_id { get; set; }
+        public string fullname { get; set; }
+        public string email_id { get; set; }
+        //public string mobilenumber { get; set; }
+        public string address { get; set; }
     }
 }

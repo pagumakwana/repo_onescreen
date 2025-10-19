@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Controls</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="fgcontrols">
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Control</label>
+                                    <input type="text" class="form-control " id="title" name="title" placeholder="Control"
+                                        formControlName="title" required>
+                                    <div *ngIf="fgcontrols.controls['title'].invalid && (fgcontrols.controls['title'].dirty || fgcontrols.controls['title'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgcontrols.controls.title.errors?.['required']">
+                                            Control is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Module</label>
+                                    <webd-multiselect [data]="moduleMaster" class="col-sm-3 col-form-label"
+                                        textField='modulename' valueField='module_id'
+                                        [formControl]="fgcontrols?.controls?.lstmodule" placeholder="Select Module"
+                                        [config]="_configmodule" (onSelection)="changeModule($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgcontrols.controls['lstmodule'].invalid && (fgcontrols.controls['lstmodule'].dirty || fgcontrols.controls['lstmodule'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgcontrols.controls.lstmodule.errors?.['required']">
+                                            Module is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label">Short Description</label>
+                                    <webd-texteditor [formGroupTextArea]="this.fgcontrols.controls['textarea']">
+                                    </webd-texteditor>
+                                </div>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3 form-check">
+                                    <label class="form-label"></label>
+                                    <label>Published</label>
+                                    <input type="checkbox" class="form-check-input" id="isPublished"
+                                        formControlName="isactive">
+                                    <span class="new-control-indicator"></span>
+                                </div>
+                            </div>
+                            <a class="btn btn-outline-secondary mb-4" routerLink="/app/control">Back</a>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary mb-4"
+                                (click)="setcontrol(true)">Submit</button>
+                            
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,26 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Project\\repo_onescreen\\onescreen_api\\",
+  "WorkspaceRootPath": "D:\\Repo\\repo_onescreen\\onescreen_api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\project\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\productmanagement\\productmanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\usermanagement\\usermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|solutionrelative:onescreen.dataaccesslayer\\usermanagement\\usermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\mastermanagement\\mastermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|solutionrelative:onescreen.dataaccesslayer\\mastermanagement\\mastermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\productmanagement\\productmanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|solutionrelative:onescreen.dataaccesslayer\\productmanagement\\productmanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A7FC361-B263-40B6-AC24-A1C2075F8BA5}|onescreen_api\\onescreen_api.csproj|d:\\project\\repo_onescreen\\onescreen_api\\onescreen_api\\controllers\\productmanagement\\productmanagmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\configuration\\configuration_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|solutionrelative:onescreen.dataaccesslayer\\configuration\\configuration_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.modellayer\\usermanagement\\userdetailsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|solutionrelative:onescreen.modellayer\\usermanagement\\userdetailsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.dataaccesslayer\\bannermanagement\\bannermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0EB7BF6-9276-4D06-9051-7D15E01243FB}|onescreen.DataAccessLayer\\onescreen.DataAccessLayer.csproj|solutionrelative:onescreen.dataaccesslayer\\bannermanagement\\bannermanagement_dal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.modellayer\\productmanagement\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|solutionrelative:onescreen.modellayer\\productmanagement\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A7FC361-B263-40B6-AC24-A1C2075F8BA5}|onescreen_api\\onescreen_api.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen_api\\controllers\\productmanagement\\productmanagmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A7FC361-B263-40B6-AC24-A1C2075F8BA5}|onescreen_api\\onescreen_api.csproj|solutionrelative:onescreen_api\\controllers\\productmanagement\\productmanagmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D462640D-864A-409B-BB83-FAFF64F3C8CB}|onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj|d:\\project\\repo_onescreen\\onescreen_api\\onescreen.buisnessaccesslayer\\productmanagement\\productmanagement_bal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D462640D-864A-409B-BB83-FAFF64F3C8CB}|onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.buisnessaccesslayer\\productmanagement\\productmanagement_bal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D462640D-864A-409B-BB83-FAFF64F3C8CB}|onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj|solutionrelative:onescreen.buisnessaccesslayer\\productmanagement\\productmanagement_bal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|d:\\project\\repo_onescreen\\onescreen_api\\onescreen.modellayer\\common\\constant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.modellayer\\common\\constant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|solutionrelative:onescreen.modellayer\\common\\constant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|d:\\project\\repo_onescreen\\onescreen_api\\onescreen.modellayer\\productmanagement\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D86AE1EB-05AA-47F1-98F2-7A23B9BF1B57}|onescreen.ModelLayer\\onescreen.ModelLayer.csproj|solutionrelative:onescreen.modellayer\\productmanagement\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2A7FC361-B263-40B6-AC24-A1C2075F8BA5}|onescreen_api\\onescreen_api.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen_api\\controllers\\bannermanagement\\bannermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A7FC361-B263-40B6-AC24-A1C2075F8BA5}|onescreen_api\\onescreen_api.csproj|solutionrelative:onescreen_api\\controllers\\bannermanagement\\bannermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D462640D-864A-409B-BB83-FAFF64F3C8CB}|onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj|d:\\repo\\repo_onescreen\\onescreen_api\\onescreen.buisnessaccesslayer\\bannermanagement\\bannermanagement_bal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D462640D-864A-409B-BB83-FAFF64F3C8CB}|onescreen.BuisnessAccessLayer\\onescreen.BuisnessAccessLayer.csproj|solutionrelative:onescreen.buisnessaccesslayer\\bannermanagement\\bannermanagement_bal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,10 +70,6 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
@@ -53,63 +77,156 @@
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "userdetailsModel.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\UserManagement\\userdetailsModel.cs",
+              "RelativeDocumentMoniker": "onescreen.ModelLayer\\UserManagement\\userdetailsModel.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\UserManagement\\userdetailsModel.cs",
+              "RelativeToolTip": "onescreen.ModelLayer\\UserManagement\\userdetailsModel.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA1wBkAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-29T06:36:44.792Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Configuration_DAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\Configuration\\Configuration_DAL.cs",
+              "RelativeDocumentMoniker": "onescreen.DataAccessLayer\\Configuration\\Configuration_DAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\Configuration\\Configuration_DAL.cs",
+              "RelativeToolTip": "onescreen.DataAccessLayer\\Configuration\\Configuration_DAL.cs",
+              "ViewState": "AgIAADkCAAAAAAAAAAAYwEcCAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T10:43:46.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MasterManagement_DAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\MasterManagement\\MasterManagement_DAL.cs",
+              "RelativeDocumentMoniker": "onescreen.DataAccessLayer\\MasterManagement\\MasterManagement_DAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\MasterManagement\\MasterManagement_DAL.cs",
+              "RelativeToolTip": "onescreen.DataAccessLayer\\MasterManagement\\MasterManagement_DAL.cs",
+              "ViewState": "AgIAAHkBAAAAAAAAAAAQwHQCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T10:27:17.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserManagement_DAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\UserManagement\\UserManagement_DAL.cs",
+              "RelativeDocumentMoniker": "onescreen.DataAccessLayer\\UserManagement\\UserManagement_DAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\UserManagement\\UserManagement_DAL.cs",
+              "RelativeToolTip": "onescreen.DataAccessLayer\\UserManagement\\UserManagement_DAL.cs",
+              "ViewState": "AgIAAHUBAAAAAAAAAADwv4gBAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T10:30:33.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BannerManagement_DAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\BannerManagement\\BannerManagement_DAL.cs",
+              "RelativeDocumentMoniker": "onescreen.DataAccessLayer\\BannerManagement\\BannerManagement_DAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\BannerManagement\\BannerManagement_DAL.cs",
+              "RelativeToolTip": "onescreen.DataAccessLayer\\BannerManagement\\BannerManagement_DAL.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAswKIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T09:52:05.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BannerManagement_BAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\BannerManagement\\BannerManagement_BAL.cs",
+              "RelativeDocumentMoniker": "onescreen.BuisnessAccessLayer\\BannerManagement\\BannerManagement_BAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\BannerManagement\\BannerManagement_BAL.cs",
+              "RelativeToolTip": "onescreen.BuisnessAccessLayer\\BannerManagement\\BannerManagement_BAL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T09:50:27.708Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BannerManagementController.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\BannerManagement\\BannerManagementController.cs",
+              "RelativeDocumentMoniker": "onescreen_api\\Controllers\\BannerManagement\\BannerManagementController.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\BannerManagement\\BannerManagementController.cs",
+              "RelativeToolTip": "onescreen_api\\Controllers\\BannerManagement\\BannerManagementController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T09:41:33.93Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "Constant.cs",
-              "DocumentMoniker": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\Common\\Constant.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\Common\\Constant.cs",
               "RelativeDocumentMoniker": "onescreen.ModelLayer\\Common\\Constant.cs",
-              "ToolTip": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\Common\\Constant.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\Common\\Constant.cs",
               "RelativeToolTip": "onescreen.ModelLayer\\Common\\Constant.cs",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAAALMAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAKYAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-22T07:33:43.547Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "ProductManagmentController.cs",
-              "DocumentMoniker": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
               "RelativeDocumentMoniker": "onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
-              "ToolTip": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
               "RelativeToolTip": "onescreen_api\\Controllers\\ProductManagement\\ProductManagmentController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAgwCoAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAcwEsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-22T07:31:22.309Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "productModel.cs",
-              "DocumentMoniker": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\ProductManagement\\productModel.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\ProductManagement\\productModel.cs",
               "RelativeDocumentMoniker": "onescreen.ModelLayer\\ProductManagement\\productModel.cs",
-              "ToolTip": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\ProductManagement\\productModel.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\ProductManagement\\productModel.cs",
               "RelativeToolTip": "onescreen.ModelLayer\\ProductManagement\\productModel.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA5wA8AAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-22T07:30:36.839Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ProductManagement_DAL.cs",
-              "DocumentMoniker": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
               "RelativeDocumentMoniker": "onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
-              "ToolTip": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
               "RelativeToolTip": "onescreen.DataAccessLayer\\ProductManagement\\ProductManagement_DAL.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAowIEAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAADkEAAAAAAAAAAAAwNAEAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-22T07:30:12.448Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "ProductManagement_BAL.cs",
-              "DocumentMoniker": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
+              "DocumentMoniker": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
               "RelativeDocumentMoniker": "onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
-              "ToolTip": "D:\\Project\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
+              "ToolTip": "D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
               "RelativeToolTip": "onescreen.BuisnessAccessLayer\\ProductManagement\\ProductManagement_BAL.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwB4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAA7wDYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-22T07:29:35.302Z"
             }

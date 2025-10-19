@@ -1,2 +1,20 @@
+<div class="d-flex justify-content-end">
+    <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
+    &nbsp; -->
+    <!--begin::Add user-->
+    <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
+        New Typemaster
+    </button>
+    <!--end::Add user-->
+</div>
+<br>
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 
+<swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+</swal>
+
+<swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>

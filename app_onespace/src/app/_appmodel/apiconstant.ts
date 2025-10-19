@@ -18,8 +18,6 @@ export class ApiConstant {
         managesupportresponse: "common/managesupportresponse",
         getdocuments: "common/getdocuments",
         managedocuments: "common/managedocuments",
-        getvendor: "common/getvendor",
-        managevendor: "common/managevendor",
         getserviceprovider: "common/getserviceprovider",
         manageserviceprovider: "common/manageserviceprovider",
         getcompany: "common/getcompany",
@@ -28,10 +26,13 @@ export class ApiConstant {
         managenotification: "common/managenotification",
         getpost: "common/getpost",
         managepost: "common/managepost",
-        update_moduledata: "common/update_moduledata"
+        update_moduledata: "common/update_moduledata",
+        getdashboardwidget: "common/getdashboardwidget",
+        getwalletwidget: "common/getwalletwidget"
     }
     public static customer = {
         signIn: "usermanagement/SignIn",
+        SignUp: "usermanagement/SignUp",
         registerCustomer: "usermanagement/SignUp",
         validateUser: "Admin/usermanagement/ValidateUser",
         forgotPassword: "Admin/usermanagement/ForgotPassword",
@@ -48,6 +49,11 @@ export class ApiConstant {
         managecommuserdetail: "usermanagement/managecommuserdetail",
         getcommuserdetail: "usermanagement/getcommuserdetail",
         manage_delete_record: "usermanagement/manage_delete_record",
+        create_order: "product/create_order",
+        verify_order: "product/verify_order",
+        getcontactdetails: "usermanagement/getcontactdetails",
+        managecontactdetails: "usermanagement/managecontactdetails",
+        update_userdetails: "usermanagement/update_userdetails"
 
 
     }
@@ -204,8 +210,8 @@ export class ApiConstant {
         manageutility: "account/manageutility",
         getjournal: "account/getjournal",
         managejournal: "account/managejournal",
-        manageinvoicetemplate:"account/manageinvoicetemplate",
-        getinvoicetemplate:"account/getinvoicetemplate",
+        manageinvoicetemplate: "account/manageinvoicetemplate",
+        getinvoicetemplate: "account/getinvoicetemplate",
         getheaderflat: "account/getheaderflat",
         updateInvoiceHeaderAmount: "account/updateInvoiceHeaderAmount",
         get_generalreceipt: "account/get_generalreceipt"
@@ -239,7 +245,6 @@ export class ApiConstant {
 
     public static reports = {
         getinoutreport: "Report/getinoutreport",
-        getdashboardwidget: "Report/getdashboardwidget",
         gethelpdeskWidget: "Report/gethelpdeskWidget",
         getinvoiceWidget: "Report/getinvoiceWidget",
         getserviceproviderWidget: "Report/getserviceproviderWidget",
@@ -247,7 +252,7 @@ export class ApiConstant {
         getcommunicatonlogs: "Report/getcommunicatonlogs",
         getpendingqueue: "Report/getpendingqueue",
         getactivedeactiveWidget: "Report/getactivedeactiveWidget",
-        getactivesocietyWidget:"Report/getactivesocietyWidget"
+        getactivesocietyWidget: "Report/getactivesocietyWidget"
     }
 
     public static product = {
@@ -257,6 +262,34 @@ export class ApiConstant {
         getproduct: "product/getproduct",
         get_product_enquiry: "product/get_product_enquiry",
         modify_enquiry: "product/modify_enquiry",
-        manage_enquiry: "product/manage_enquiry"
+        manage_enquiry: "product/manage_enquiry",
+        productoptiontypes: "product/productoptiontypes",
+        manageproductoptiontypes: "product/manageproductoptiontypes",
+        productoptionvalues: "product/productoptionvalues",
+        manageproductoptionvalues: "product/manageproductoptionvalues",
+        manageproductoptions: "product/manageproductoptions",
+        getcoupon: "product/getcoupon",
+        managecoupon: "product/managecoupon",
+        getproductoptions: "product/getproductoptions",
+        getoptionvalue: "product/getoptionvalue",
+        getorderdertails: "product/getorderdertails",
+        add_to_cart: "product/add_to_cart",
+        getusercartdetail: "product/getusercartdetail",
+        getvendor: "product/getvendor",
+        managevendor: "product/managevendor",
+        getcouponcart: "product/getcouponcart",
+        apply_coupon: "product/apply_coupon",
+        move_to_order: "product/move_to_order",
+        get_pendingmediaupload: "product/get_pendingmediaupload",
+        media_status_update: "product/media_status_update",
+        media_upload: "product/media_upload",
+        remove_cart: "product/remove_cart",
+        mobile_verification: "product/mobile_verification",
+        getwithdrawal_request: "product/getwithdrawal_request",
+        getwallet_transaction: "product/getwallet_transaction",
+        wallet_withdrawal_req: "product/wallet_withdrawal_req",
+        getwalletmaster: "product/getwalletmaster",
+        getinvoicedetails: "product/getinvoicedetails",
+        update_to_cart: "product/update_to_cart"
     }
 }

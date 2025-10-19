@@ -15,10 +15,11 @@
                                 </webd-mediauploader>
                             </div>
                             <div class="row mb-6">
-                                <div class="col-lg-4 mb-3">
+                                <div class="col-lg-3 mb-3">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" class="form-control " id="product_name" name="product_name"
-                                        placeholder="Product Name" formControlName="product_name" required>
+                                    <input type="text" class="form-control  form-control-sm" id="product_name"
+                                        name="product_name" placeholder="Product Name" formControlName="product_name"
+                                        required>
                                     <div *ngIf="fgproductmaster.controls['product_name'].invalid && (fgproductmaster.controls['product_name'].dirty || fgproductmaster.controls['product_name'].touched)"
                                         class="text-danger">
                                         <ng-container
@@ -27,7 +28,7 @@
                                         </ng-container>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-3">
+                                <div class="col-lg-3 mb-3">
                                     <label class="form-label">Category</label>
                                     <webd-multiselect [data]="CategoryMaster" class="col-sm-3 col-form-label"
                                         textField='category' valueField='category_id'
@@ -43,7 +44,39 @@
                                         </ng-container>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-3">
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Property</label>
+                                    <webd-multiselect [data]="PropertyCategoryMaster" class="col-sm-3 col-form-label"
+                                        textField='category' valueField='category_id'
+                                        [formControl]="fgproductmaster?.controls?.lstpropertycategoryroute"
+                                        placeholder="Select Property" [config]="_configPropertyCategory"
+                                        (onSelection)="onPropertyCategory($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgproductmaster.controls['lstpropertycategoryroute'].touched && fgproductmaster.controls['lstpropertycategoryroute'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls['lstpropertycategoryroute'].errors?.['required']">
+                                            Property is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Route</label>
+                                    <webd-multiselect [data]="RouteCategoryMaster" class="col-sm-3 col-form-label"
+                                        textField='category' valueField='category_id'
+                                        [formControl]="fgproductmaster?.controls?.lstcategoryroute"
+                                        placeholder="Select Category" [config]="_configRouteCategory"
+                                        (onSelection)="onRouteCategory($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgproductmaster.controls['lstcategoryroute'].touched && fgproductmaster.controls['lstcategoryroute'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgproductmaster.controls['lstcategoryroute'].errors?.['required']">
+                                            Route is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-lg-3 mb-3">
                                     <label class="form-label">Brand Selection</label>
                                     <webd-multiselect [data]="BrandMaster" class="col-sm-3 col-form-label"
                                         textField='brand_name' valueField='brand_id'
@@ -56,15 +89,146 @@
                                             Brand is required.
                                         </ng-container>
                                     </div>
+                                </div> -->
+                                <div class="col-lg-3 mb-3">
+                                    <label class="form-label">Product Base Price</label>
+                                    <input type="text" class="form-control form-control-sm" id="base_amount"
+                                        name="base_amount" placeholder="Product Base Price"
+                                        formControlName="base_amount" minlength="0" maxlength="7" required>
+                                    <div *ngIf="fgproductmaster.controls['base_amount'].invalid && (fgproductmaster.controls['base_amount'].dirty || fgproductmaster.controls['base_amount'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgproductmaster.controls.base_amount.errors?.['required']">
+                                            Product Name is required.
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
+                            <label class="form-label mb-2 pt-1">Product Attribute</label>
+                            <hr>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Time Slot Attribute</label>
+                                <webd-multiselect [data]="TimeSlotAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lsttimeattribute"
+                                    placeholder="Select Time Slot" [config]="_configTime"
+                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)">
+                                </webd-multiselect>
+                            </div>
+                            <div class="card-body">
+                                <ng-container formArray="lsttimeattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of timeArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Time Slot" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Screen Repetition Attribute</label>
+                                <webd-multiselect [data]="RepeAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lstrepeattribute"
+                                    placeholder="Select Repetition" [config]="_configRepe"
+                                    (onSelectEvent)="onSelectRepe($event)" (onDeSelectEvent)="onDeSelectRepe($event)">
+                                </webd-multiselect>
+                            </div>
+                            <div class="card-body">
+                                <ng-container formArray="lstrepeattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of repetitionArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Screen Repetition" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Screen Interval Attribute</label>
+                                <webd-multiselect [data]="IntervalAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lstintervalattribute"
+                                    placeholder="Select Interval" [config]="_configInterval"
+                                    (onSelectEvent)="onSelectInterval($event)"
+                                    (onDeSelectEvent)="onDeSelectInterval($event)">
+                                </webd-multiselect>
+                            </div>
+                            <div class="card-body">
+                                <ng-container formArray="lstinterattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of intervalArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Screen Interval" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Assign User Commision </label>
+                                <webd-multiselect [data]="userMaster" class="col-sm-3 col-form-label"
+                                    textField='fullname' valueField='user_id'
+                                    [formControl]="fgproductmaster?.controls?.lstuserproductcommission"
+                                    placeholder="Select User" [config]="_configUser"
+                                    (onSelectEvent)="onSelectUser($event)"
+                                    (onDeSelectEvent)="onDeSelectUser($event)">
+                                </webd-multiselect>
+                            </div>
+                            <div class="card-body">
+                                <ng-container formArray="lstuserproduct">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of userArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="user{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Users" formControlName="fullname">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="commission{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Commission"
+                                                    formControlName="commission" minlength="0" maxlength="7">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <hr>
                             <div class="row mb-6">
-                                <div class="col-lg-4 mb-3">
+                                <div class="col-lg-12 mb-3">
                                     <label class="form-label">Short Description</label>
                                     <webd-texteditor [formGroupTextArea]="this.fgproductmaster.controls['textarea']">
                                     </webd-texteditor>
                                 </div>
-                                <div class="col-lg-4 mb-3 form-check">
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-3 mb-3 form-check">
                                     <label class="form-label"></label>
                                     <label>Published</label>
                                     <input type="checkbox" class="form-check-input" id="isPublished"
@@ -72,12 +236,19 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary mb-4"
-                                onclick="setproductMaster(true)">Submit</button>
-                            &nbsp;
-                            <button type="submit" class="btn btn-secondary mb-4">Back</button>
                         </form>
+                        <div class="col-lg-3 mb-3">
+                            <div class="mt-4">
+                                <button style="cursor: pointer;" class="btn btn-outline-secondary"
+                                    (click)="navigateBack()">Back</button>&nbsp;
+                                <button style="cursor: pointer;" class="btn btn-primary"
+                                    (click)="setproductMaster(true)">Submit</button>
+                            </div>
+                        </div>
+
+                        <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"
+                            [showConfirmButton]="false">
+                        </swal>
                     </div>
                 </div>
             </div>

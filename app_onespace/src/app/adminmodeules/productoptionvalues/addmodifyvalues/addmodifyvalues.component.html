@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Manage Option Value</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="fgoptionvalue">
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Option Value</label>
+                                    <input type="text" class="form-control " id="label" name="label" placeholder="Value"
+                                        formControlName="option_value" required>
+                                    <div *ngIf="fgoptionvalue.controls['option_value'].invalid && (fgoptionvalue.controls['option_value'].dirty || fgoptionvalue.controls['option_value'].touched)"
+                                        class="text-danger">
+                                        <ng-container *ngIf="fgoptionvalue.controls.option_value.errors?.['required']">
+                                            Value is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Option Type</label>
+                                    <webd-multiselect [data]="OptionType" class="col-sm-3 col-form-label"
+                                        textField='title' valueField='option_type_id'
+                                        [formControl]="fgoptionvalue?.controls?.lstoptiontype"
+                                        placeholder="Select option type" [config]="_configType"
+                                        (onSelection)="onItemSelect($event)">
+                                    </webd-multiselect>
+                                    <div *ngIf="fgoptionvalue.controls['lstoptiontype'].touched && fgoptionvalue.controls['lstoptiontype'].invalid"
+                                        class="text-danger">
+                                        <ng-container
+                                            *ngIf="fgoptionvalue.controls.lstoptiontype.errors?.['required']">
+                                            Option Type is required.
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-6">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" min="0" class="form-control" id="display_order"
+                                        name="display_order" placeholder="0" formControlName="display_order"
+                                        onkeypress="numberOnly($event)" />
+                                </div>
+                                <div class="col-lg-4 mb-3 form-check">
+                                    <label class="form-label"></label>
+                                    <label>Published</label>
+                                    <input type="checkbox" class="form-check-input" id="isPublished"
+                                        formControlName="isactive">
+                                    <span class="new-control-indicator"></span>
+                                </div>
+                            </div>
+                            
+                            <a type="submit" class="btn btn-outline-secondary mb-4" [routerLink]="['/app/managevalues']">Back</a>
+                                &nbsp;
+                            <button type="submit" class="btn btn-primary mb-4"
+                                (click)="setoptionValue(true)">Submit</button>
+                            
+                            <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
+                                icon="success" [showConfirmButton]="false">
+                            </swal>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

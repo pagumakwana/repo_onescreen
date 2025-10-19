@@ -61,5 +61,22 @@ namespace onescreenModel.Common
         public Int64? createdby { get; set; }
         public string? createdname { get; set; }
     }
-    
+
+    public class userdashboardModel : commonModel
+    {
+        public Int32? total_product { get; set; }
+        public Int32? in_cart { get; set; }
+        public decimal? order_total { get; set; }
+        public Int32? total_order { get; set; }
+
+    }
+
+    public class walletwidgetModel : commonModel
+    {
+        public decimal? balance_amount { get; set; }
+        public decimal? requested_amount { get; set; }
+        public decimal? transaction_amount { get; set; }
+
+    }
+
 }

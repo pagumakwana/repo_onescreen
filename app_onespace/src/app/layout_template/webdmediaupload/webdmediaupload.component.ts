@@ -63,6 +63,7 @@ export class WebdmediauploadComponent implements OnInit {
   }
 
   fileChoosen($event:any) {
+    debugger
     if ($event.target.files.length > 0) {
       let isValid: boolean = false
       for (let file of $event.target.files) {
@@ -76,10 +77,13 @@ export class WebdmediauploadComponent implements OnInit {
             this.controlObject?.updateValueAndValidity()
             this._base._commonService.readImage(file).subscribe((res: any) => {
 
-              let imgData: fileChoosenDataModel = { file: file, thumb: res, file_id: 0, displayorder: undefined, ModuleType: this.fileConfig.ModuleType, fileidentifier: this.fileConfig.fileidentifier, ModuleID: this.fileConfig.ModuleID, fileextension: this.fileConfig.fileextension, }
+              let imgData: fileChoosenDataModel = { file: file, thumb: res, file_id: 0, displayorder: 0, ModuleType: this.fileConfig.ModuleType, fileidentifier: this.fileConfig.fileidentifier, ModuleID: this.fileConfig.ModuleID, fileextension: this.fileConfig.fileextension, }
 
               this.fileChoosenData.push(imgData);
-              this._cdr.detectChanges();
+              setTimeout(() => {
+                
+                this._cdr.detectChanges();
+              }, 200);
             })
           }
         }

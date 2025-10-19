@@ -195,6 +195,9 @@ D:/Project/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/obj/Debug/net8
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Microsoft.Net.Http.Headers.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/BouncyCastle.Crypto.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/Razorpay.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/System.ClientModel.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/bin/Debug/net8.0/System.Diagnostics.EventLog.dll

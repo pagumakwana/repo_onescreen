@@ -1,2 +1,23 @@
-<webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+<div class="d-flex justify-content-end" *ngIf="this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
+    <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
+    &nbsp; -->
+    <!--begin::Add user-->
+    <button class="btn btn-primary btn-sm" (click)="navigateaddform()">
+        New Banner
+    </button>
+    <!--end::Add user-->
+</div>
+<br>
 
+<ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_managebanner_bannerlist')">
+<webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+</ng-container>
+
+<swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+</swal>
+
+<swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>

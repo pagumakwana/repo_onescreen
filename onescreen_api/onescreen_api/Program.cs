@@ -25,7 +25,7 @@ builder.Services.AddControllers(options =>
     options.RespectBrowserAcceptHeader = true; // false by default
 }).AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.IgnoreNullValues = true;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
 });
 builder.Services.Configure<FormOptions>(options =>
@@ -77,7 +77,24 @@ app.Use(async (context, next) =>
     context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
         new string[] { "Accept-Encoding" };
 
-    await next();
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        // Create log folder & file
+        var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "errors.txt");
+        Directory.CreateDirectory(Path.GetDirectoryName(logPath)!);
+
+        // Write error
+        var logEntry = $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} | {context.Request.Path} | {ex.Message} {Environment.NewLine}{ex.StackTrace}{Environment.NewLine}";
+        await File.AppendAllTextAsync(logPath, logEntry);
+
+        // Return 500 response
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("Internal Server Error. Please check logs.");
+    }
 });
 
 app.UseCors("AllowOrigin");

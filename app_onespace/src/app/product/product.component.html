@@ -1,0 +1,424 @@
+<form [formGroup]="fgcategorymaster">
+    <div class="row">
+        <!-- [ sample-page ] start -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>start selecting your screen params!</h5>
+                </div>
+                <div class="card-body">
+                    <div id="basicwizard" class="form-wizard row justify-content-center">
+                        <ul class="nav nav-pills justify-content-center course-wizard" style="gap: 5px;">
+                            <li class="nav-item" data-target-form="#screensectionForm">
+                                <a class="nav-link" [ngClass]="{'active':_wizard_index == 0}">
+                                    <div class="course-wizard-num">
+                                        <span>1</span>
+                                    </div>
+                                    <span class="d-none d-sm-inline">Screen Type</span>
+                                </a>
+                            </li>
+                            <!-- end nav item -->
+                            <li class="nav-item" data-target-form="#vehiclesectionForm">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 1}">
+                                    <div class="course-wizard-num">
+                                        <span>2</span>
+                                    </div>
+                                    <span class="d-none d-sm-inline">Vehicle/ Property Section</span>
+                                </a>
+                            </li>
+                            <!-- end nav item -->
+                            <li class="nav-item" data-target-form="#routesectionForm">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 2}">
+                                    <div class="course-wizard-num">
+                                        <span>3</span>
+                                    </div>
+                                    <span class="d-none d-sm-inline">Route/ Property Section</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" data-target-form="#productsectionForm">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 3}">
+                                    <div class="course-wizard-num">
+                                        <span>4</span>
+                                    </div>
+                                    <span class="d-none d-sm-inline">Screen Section</span>
+                                </a>
+                            </li>
+                            <!-- end nav item -->
+                            <li class="nav-item">
+                                <a class="nav-link icon-btn" [ngClass]="{'active':_wizard_index == 4}">
+                                    <div class="course-wizard-num">
+                                        <span>5</span>
+                                    </div>
+                                    <span class="d-none d-sm-inline">Time Slot Section</span>
+                                </a>
+                            </li>
+                            <!-- end nav item -->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="screensection" [ngClass]="{'show active':_wizard_index == 0}">
+                                <p class="text-danger" *ngIf="this.typemastervalid" style="text-align: center;">screen
+                                    type is required.</p>
+                                <div class="product_lists">
+                                    <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
+                                        <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                            (click)="onSelecttype(_obj,_ind)">
+                                            <div class="product_img">
+                                                <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                                            </div>
+                                            <div class="product_name">
+                                                {{_obj.category}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="vehiclesection" [ngClass]="{'show active':_wizard_index == 1}">
+                                <ng-container *ngIf="this.PropertyMaster.length>0">
+                                    <p class="text-danger" *ngIf="this.propertymastervalid" style="text-align: center;">
+                                        Vehicle/ Property is required.</p>
+                                    <h3 class="section_head" style="text-align: center;">Vehicle/ Property</h3>
+                                    <div class="product_lists">
+                                        <ng-container *ngFor="let _obj of this.PropertyMaster; let _ind = index">
+                                            <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                                (click)="onSelectproperty(_obj,_ind)">
+                                                <div class="product_img">
+                                                    <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                                                </div>
+                                                <div class="product_name">
+                                                    {{_obj.category}}
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="tab-pane" id="routesection" [ngClass]="{'show active':_wizard_index == 2}">
+                                <ng-container *ngIf="this.RouteMaster.length>0">
+                                    <p class="text-danger" *ngIf="this.routemastervalid" style="text-align: center;">
+                                        Route/ Property is required.</p>
+                                    <h3 class="section_head" style="text-align: center;">Route/ Property Selection</h3>
+                                    <div class="product_lists">
+                                        <ng-container *ngFor="let _obj of this.RouteMaster; let _ind = index">
+                                            <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                                (click)="onSelectroute(_obj,_ind)">
+                                                <div class="product_img">
+                                                    <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                                                </div>
+                                                <div class="product_name">
+                                                    {{_obj.category}}
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                            <div class="tab-pane" id="productsection" [ngClass]="{'show active':_wizard_index == 3}">
+                                <ng-container *ngIf="this.ScreenMaster.length>0">
+                                    <p class="text-danger" *ngIf="this.screenmastervalid" style="text-align: center;">
+                                        Screen/ Product is required.</p>
+                                    <h3 class="section_head" style="text-align: center;">Screen/ Product</h3>
+                                    <div class="product_lists">
+                                        <ng-container *ngFor="let _obj of this.ScreenMaster; let _ind = index">
+                                            <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                                (click)="onSelectscreen(_obj,_ind)">
+                                                <div class="product_img">
+                                                    <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                                                </div>
+                                                <div class="product_name">
+                                                    {{_obj.product_name}}
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="tab-pane" id="timeslotsection" [ngClass]="{'show active':_wizard_index == 4}">
+                                <ng-container *ngIf="this.TimeMaster.length>0">
+                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time Slot is required.</p>
+                                    <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
+                                    <div class="product_lists">
+                                        <ul class="nav nav-pills" style="gap: 5px;">
+                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
+                                                <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
+                                                    style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
+                                                    {{_obj.option_value}}</a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </ng-container>
+                                <br>
+                                <div class="slot-container">
+                                    <ng-container formArray="lst_cart_product">
+
+                                        <div class="slot-card" [formGroup]='_objPass'
+                                            *ngFor="let _objPass of timeArray?.controls;let i =index">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="card-title">
+                                                        <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
+                                                        </h3>
+                                                        <div class="slot-top-tag">
+                                                            <p>Property: <strong>{{_objPass.controls['product_name'].value}}</strong> |</p>  
+                                                            <p>Base Price: <strong>{{_objPass.controls['base_amount'].value}}</strong></p>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="form-group">
+                                                            <label for="screen_repetition_id_{{i+1}}"
+                                                                class="form-label">Screen
+                                                                Repetition : INR
+                                                                {{_objPass.controls['repetition_price'].value}}
+                                                                <i class="ph-duotone ph-info"
+                                                                    ngbPopover="This is the popover content"
+                                                                    triggers="click" placement="right"
+                                                                    popoverClass="custom-popover">
+                                                                </i>
+                                                                </label>
+                                                            <select class="form-control" id="screen_interval"
+                                                                (change)="onRepetitionChange($event,i)">
+                                                                <option id="repet_value_id_" value="" class="disabled">
+                                                                    Select
+                                                                    Repetition</option>
+                                                                <option
+                                                                    *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
+                                                                    id="repet_value_id_{{_ind}}"
+                                                                    [value]="_item.option_value_id">
+                                                                    {{_item.option_value}}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.repetition_price.errors?.['required']">
+                                                                    Repetition is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2   mb-2" style="display: none;">
+                                                            <label for="quantity_{{i+1}}" class="form-label">Quantity
+                                                                :</label>
+                                                            <br>
+                                                            <div class="btn-group btn-group-sm mb-2 border"
+                                                                role="group">
+                                                                <button type="button" (click)="update_qty('minus',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-minus"></i></button>
+                                                                <input id="quantity_{{i+1}}"
+                                                                    class="wid-35 text-center border-0 m-0 form-control rounded-0 shadow-none"
+                                                                    type="text" formControlName="quantity" value="0">
+                                                                <button type="button" (click)="update_qty('add',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="interval_id_{{i+1}}" class="form-label">Screen
+                                                                Interval : INR
+                                                                {{_objPass.controls['interval_price'].value}}
+                                                                <i class="ph-duotone ph-info"
+                                                                    ngbPopover="This is the popover content"
+                                                                    triggers="click" placement="right"
+                                                                    popoverClass="custom-popover">
+                                                                </i>
+                                                                </label>
+                                                            <select class="form-control" id="screen_interval"
+                                                                (change)="onIntervalChange($event,i)">
+                                                                <option id="interval_value_id_" value=""
+                                                                    class="disabled">Select
+                                                                    Interval</option>
+                                                                <option
+                                                                    *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                                    id="interval_value_id_{{_ind}}"
+                                                                    [value]="_item.option_value_id">
+                                                                    {{_item.option_value}}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="_objPass.controls.interval_price.invalid && (_objPass.controls.interval_price.dirty || _objPass.controls.interval_price.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.interval_price.errors?.['required']">
+                                                                    Interval is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="form-group">
+                                                            <label for="from_date{{i+1}}" class="form-label">From Date
+                                                                :</label> <i class="ph-duotone ph-info"
+                                                                ngbPopover="This is the popover content"
+                                                                triggers="click" placement="right"
+                                                                popoverClass="custom-popover">
+                                                            </i>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                    ngbDatepicker #from_date="ngbDatepicker"
+                                                                    id="from_date{{i+1}}" from_date.displayMonths="true"
+                                                                    formControlName="from_date" placeholder="dd-mm-yyyy"
+                                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                                    (click)="from_date.toggle();"
+                                                                    (dateSelect)="date_select(i,'fromdate')">
+                                                                <span class="input-group-text" required>
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div *ngIf="_objPass.controls.from_date.invalid && (_objPass.controls.from_date.dirty || _objPass.controls.from_date.touched) || from_date_alert!=''"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.from_date.errors?.['required'] && from_date_alert==''">
+                                                                    From Date is required.
+                                                                </ng-container>
+                                                                <ng-container *ngIf="from_date_alert!=''">
+                                                                    {{from_date_alert}}
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="to_date{{i+1}}" class="form-label">To Date
+                                                                :</label> <i class="ph-duotone ph-info"
+                                                                ngbPopover="This is the popover content"
+                                                                triggers="click" placement="right"
+                                                                popoverClass="custom-popover">
+                                                            </i>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                    ngbDatepicker #to_date="ngbDatepicker"
+                                                                    id="to_date{{i+1}}" to_date.displayMonths="true"
+                                                                    formControlName="to_date" placeholder="dd-mm-yyyy"
+                                                                    [minDate]="mintoDate" (click)="to_date.toggle();"
+                                                                    (dateSelect)="date_select(i,'todate')">
+                                                                <span class="input-group-text">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div *ngIf="_objPass.controls.to_date.invalid && (_objPass.controls.to_date.dirty || _objPass.controls.to_date.touched) || to_date_alert!=''"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.to_date.errors?.['required'] && to_date_alert==''">
+                                                                    To Date is required.
+                                                                </ng-container>
+                                                                <ng-container *ngIf="to_date_alert!=''">
+                                                                    {{to_date_alert}}
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="total-card-bottom">Total Price: <strong>{{_objPass.controls['total_amount'].value}}</strong></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="d-sm-flex wizard justify-content-between mt-3" style="text-align: center;">
+                                <div class="first">
+                                    <a style="text-decoration: none;" class="btn btn-outline-primary"
+                                        (click)="reset_form()">
+                                        Reset Journey
+                                    </a>
+                                </div>
+                                <div class="d-sm-flex">
+                                    <div class="previous me-2" [ngClass]="{'disabled':_wizard_index == 0}">
+                                        <a style="text-decoration: none;"
+                                            (click)="change_wizard_index('minus')"
+                                            class="btn  btn-outline-primary mt-3 mt-md-0">
+                                            Back To Previous
+                                        </a>
+                                    </div>
+                                    <div class="next" [ngClass]="{'disabled':_wizard_index == 4}">
+                                        <a style="text-decoration: none; color: white;"
+                                            (click)="change_wizard_index('plus')"
+                                            class="btn primary_btn mt-3 mt-md-0">
+                                            Next Step
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="last"  [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
+                                    <a style="text-decoration: none; color: white;"
+                                       
+                                        class="btn btn-secondary mt-3 mt-md-0" (click)="add_to_cart()">
+                                        Add to cart
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ sample-page ] end -->
+    </div>
+</form>
+<swal #successSwal [swalOptions]="swalOptions" title="Product added to cart successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
+
+<ng-template #formModal let-modal>
+    <form [formGroup]="fgverify">
+        <div class="modal-body p-5">
+
+            <!-- Title -->
+            <h4 class="fw-bold text-center mb-1">Login with OTP</h4>
+            <!-- <p class="text-center mb-4">
+        Don't have an Account? 
+        <a href="#" class="text-primary fw-semibold">Create Account</a>
+      </p> -->
+            <ng-container *ngIf="this.invalidOTP">
+                <div class="mb-lg-15 alert alert-success">
+                    <div class="primary-text font-weight-bold">
+                        Invalid OTP
+                    </div>
+                </div>
+            </ng-container>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mobile Number</label>
+                <input type="text" class="form-control" id="mobile_number" name="mobile_number"
+                    [ngClass]="{'disabled':this.isOTPsen}" placeholder="Enter Mobile Number" pattern="^[0-9]\d{9}$"
+                    maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" formControlName="mobile_number"
+                    required>
+                <div *ngIf="fgverify.controls['mobile_number'].invalid && (fgverify.controls['mobile_number'].dirty || fgverify.controls['mobile_number'].touched)"
+                    class="text-danger">
+                    <ng-container *ngIf="fgverify.controls.mobile_number.errors?.['required']">
+                        mobile_number is required.
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="mb-3" *ngIf="this.isOTPsent">
+                <label class="form-label fw-bold">OTP</label>
+                <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
+                    onkeypress="return /[0-9]/i.test(event.key)" maxlength="6" formControlName="otp_code" required>
+                <div *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
+                    class="text-danger">
+                    <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
+                        otp_code is required.
+                    </ng-container>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">{{this.OTPValue}}</label>
+            </div>
+
+            <div class="d-grid mb-3">
+                <ng-container *ngIf="!this.isOTPsen && !this.isverifybutton">
+                    <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Send
+                        OTP</button>
+                </ng-container>
+                <ng-container *ngIf="this.isverifybutton">
+                    <button type="submit" class="btn btn-primary" (click)="verify_number('MOBILE_VERIFY')">Verify
+                        OTP</button>
+                </ng-container>
+                <br>
+                <button type="submit" class="btn btn-outline-primary" (click)="skiplogin()">Skip</button>
+            </div>
+        </div>
+    </form>
+</ng-template>

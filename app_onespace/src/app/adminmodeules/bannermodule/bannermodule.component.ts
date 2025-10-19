@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
@@ -8,11 +8,12 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { Subscription } from 'rxjs';
 import { banner } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-bannermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
   templateUrl: './bannermodule.component.html',
   styleUrl: './bannermodule.component.scss'
 })
@@ -27,6 +28,11 @@ export class BannermoduleComponent {
   public readonly successSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
+  
+  navigateaddform() {
+    this._base._router.navigate(['/app/managebanner/0']);
+  }
 
   private modalRef!: NgbModalRef;
   dataTable: any;
@@ -46,7 +52,7 @@ export class BannermoduleComponent {
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "250px" } },
       { identifer: "title", title: "Title", type: "text" },
       { identifer: "displayorder", title: "Display Order", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] }],
+       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -128,7 +134,7 @@ export class BannermoduleComponent {
     this._banner.flag = flag;
     this._banner.banner_id = data.banner_id;
     if (flag == 'MODIFYBANNER') {
-      this._base._router.navigate([`/app/catalogue/banner/${data.banner_id}`]);
+      this._base._router.navigate([`/app/managebanner/${data.banner_id}`]);
     } else if (flag == 'DELETEBANNER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -140,6 +146,9 @@ export class BannermoduleComponent {
                   this.bannerList.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

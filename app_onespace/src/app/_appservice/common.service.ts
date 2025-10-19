@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 declare var $: any;
 import configData from "../../assets/projectConfig.json";
 import * as _ from 'lodash';
@@ -12,11 +12,20 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { EncryptedStorage } from './encryptedstorage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CommonService {
     constructor(public _apiService: ApiService,
         public _encryptedStorage: EncryptedStorage,
         private _router: Router) {
+        this._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+            this.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+        });
+        // this.isLoginUserSubject = new BehaviorSubject<boolean>(false);\
+        // this._encryptedStorage.get(enAppSession.haslogin).then((haslogin: any) => {
+        //     this.isLoginUserSubject.next(!!haslogin);
+        // });
+
+
     }
 
     browser: any
@@ -26,8 +35,23 @@ export class CommonService {
     public cdnURL = configData.cdnURL;
     public cdnAPPURL = configData.cdnAPPURL;
     public authoritycontrolList: any = [];
-    public navigation(url: any = []) {
-        this._router.navigate(url);
+    public isLoggedIn: boolean = false;
+
+    isLoginUserSubject = new BehaviorSubject<boolean>(false);
+    isLoginUser$ = this.isLoginUserSubject.asObservable();
+
+    public navigation(url: any = [], isLoginRequired: boolean = false) {
+        if (isLoginRequired) {
+            this._router.navigate(['auth'], { queryParams: { q: url } });
+        } else {
+            this._router.navigate(url);
+        }
+    }
+
+    isLoggedInUser(): boolean {
+        const isLoginUser = localStorage.getItem('isLoginUser') === 'true' ? true : false;
+        this.isLoginUserSubject.next(!!isLoginUser);
+        return !!this.isLoginUserSubject?.value;
     }
 
     guid() {
@@ -298,21 +322,29 @@ export class CommonService {
         return index > -1 ? object[index] : null
     }
 
-    list_to_tree(listData: Array<any>, idField: string, parentidField: string) {
-        let map: any, node, roots = [], i;
+    list_to_tree(list: any[], idField = 'id', parentField = 'parent_id') {
+        const map: Record<string, any> = {};
+        const roots: any[] = [];
 
-        for (i = 0; i < listData.length; i += 1) {
-            map[listData[i][idField]] = i; // initialize the map
-            listData[i].children = []; // initialize the children
-        }
+        for (const item of list) {
+            const id = item[idField];
+            const parentId = item[parentField];
 
-        for (i = 0; i < listData.length; i += 1) {
-            node = listData[i];
-            if (node[parentidField] !== parseInt("0")) {
-                // if you have dangling branches check that map[node[parentidField]] exists
-                listData[map[node[parentidField]]].children.push(node);
+            // Ensure entry exists in map
+            if (!map[id]) {
+                map[id] = { ...item, children: [] };
             } else {
-                roots.push(node);
+                map[id] = { ...map[id], ...item };
+            }
+
+            if (parentId == null || parentId == 0) {
+                roots.push(map[id]); // root node
+            } else {
+                // Ensure parent exists
+                if (!map[parentId]) {
+                    map[parentId] = { children: [] };
+                }
+                map[parentId].children.push(map[id]); // safe push
             }
         }
 
@@ -333,15 +365,19 @@ export class CommonService {
         return null
     }
 
-    get_portal_config(sessiona_key_name:any) {
+    get_portal_config(sessiona_key_name: any) {
         return new Promise((resolve, rej) => {
             this._encryptedStorage.get(enAppSession.portal_config).then((res_portalconfig: any) => {
                 let _obj_portalConfig = JSON.parse(res_portalconfig);
-                resolve(_obj_portalConfig?.find((pc:any) => pc.config_name === sessiona_key_name)?.config_value);
+                resolve(_obj_portalConfig?.find((pc: any) => pc.config_name === sessiona_key_name)?.config_value);
             });
         });
     }
 
+    lstcontrol: any;
 
+    hasAccessofcontrol(syscontrolname: string): boolean {
+        return this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false;
+    }
 
 }

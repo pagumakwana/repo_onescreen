@@ -48,8 +48,8 @@ namespace onescreenModel.Common
         public const string managedocuments = "[dbo].[managedocuments]";
         public const string mapdocumentcategory = "[dbo].[mapdocumentcategory]";
 
-        public const string getvendor = "[dbo].[getvendor]";
-        public const string managevendor = "[dbo].[managevendor]";
+        //public const string getvendor = "[dbo].[getvendor]";
+        //public const string managevendor = "[dbo].[managevendor]";
 
         public const string getserviceprovider = "[dbo].[getserviceprovider]";
         public const string manageserviceprovider = "[dbo].[manageserviceprovider]";
@@ -64,6 +64,8 @@ namespace onescreenModel.Common
         public const string getnotification = "[dbo].[getnotification]";
         public const string managenotification = "[dbo].[managenotification]";
         public const string update_moduledata = "[dbo].[update_moduledata]";
+        public const string getdashboardwidget = "[dbo].[getdashboardwidget]";
+        public const string getwalletwidget = "[dbo].[getwalletwidget]";
         //END :: COMMON
 
         //START :: BannerManagemet
@@ -106,8 +108,8 @@ namespace onescreenModel.Common
         public const string RequestOTP = "[dbo].[RequestOTP]";
         public const string managesubscribe = "[dbo].[managesubscribe]";
         public const string getsubscriber = "[dbo].[getsubscriber]";
-        public const string managecontactus = "[dbo].[managecontactus]";
-        public const string getcontactus = "[dbo].[getcontactus]";
+        //public const string managecontactus = "[dbo].[managecontactus]";
+        //public const string getcontactus = "[dbo].[getcontactus]";
         public const string manageuser = "[dbo].[manageuser]";
         public const string getuserdetail = "[dbo].[getuserdetail]";
         public const string getuserconfig = "[dbo].[getuserconfig]";
@@ -119,6 +121,11 @@ namespace onescreenModel.Common
         public const string getusertoken = "[dbo].[getusertoken]";
         public const string manage_delete_record = "[dbo].[manage_delete_record]";
         public const string user_approved_reject = "[dbo].[user_approved_reject]";
+
+        public const string getcontactdetails = "[dbo].[getcontactdetails]";
+        public const string managecontactdetails = "[dbo].[managecontactdetails]";
+        public const string Update_Userdetails = "[dbo].[Update_Userdetails]";
+        public const string mapuserproduct = "[dbo].[mapuserproduct]";
 
         //END :: UserManagement
 
@@ -178,6 +185,43 @@ namespace onescreenModel.Common
         public const string getbrand = "[dbo].[getbrand]";
         public const string manageproduct = "[dbo].[manageproduct]";
         public const string managebrand = "[dbo].[managebrand]";
+        public const string manageproductoptiontypes = "[dbo].[manageproductoptiontypes]";
+        public const string manageroductoptionvalues = "[dbo].[manageroductoptionvalues]";
+        public const string getproductoptiontypes = "[dbo].[getproductoptiontypes]";
+        public const string getproductoptionvalues = "[dbo].[getproductoptionvalues]";
+        public const string manageproductoption = "[dbo].[manageproductoption]";
+        public const string getcoupon = "[dbo].[getcoupon]";
+        public const string managecoupon = "[dbo].[managecoupon]";
+        public const string getproductoption = "[dbo].[getproductoption]";
+        public const string mapproductoption = "[dbo].[mapproductoption]";
+        public const string getoptionvalue = "[dbo].[getoptionvalue]";
+        public const string mapproductattribute = "[dbo].[mapproductattribute]";
+        public const string mapuserproductcomm = "[dbo].[mapuserproductcomm]";
+        public const string managecartmaster = "[dbo].[managecartmaster]";
+        public const string removecart = "[dbo].[removecart]";
+        public const string manageproductcart = "[dbo].[manageproductcart]";
+        public const string getorderdertails = "[dbo].[getorderdertails]";
+        public const string mapusercart = "[dbo].[mapusercart]";
+        public const string getusercartdetail = "[dbo].[getusercartdetail]";
+        public const string getvendor = "[dbo].[getvendor]";
+        public const string managevendor = "[dbo].[managevendor]";
+        public const string manageordermaster = "[dbo].[manageordermaster]";
+        public const string mapuserorder = "[dbo].[mapuserorder]";
+        public const string mapuserorderproduct = "[dbo].[mapuserorderproduct]";
+        public const string getcoupon_cart = "[dbo].[getcoupon_cart]";
+        public const string user_coupon_mapping = "[dbo].[user_coupon_mapping]";
+        public const string get_pendingmediaupload = "[dbo].[get_pendingmediaupload]";
+        public const string media_status_approved = "[dbo].[media_status_approved]";
+        public const string media_upload = "[dbo].[media_upload]";
+        public const string mobile_verify = "[dbo].[mobile_verify]";
+        public const string getconfig = "[dbo].[getconfig]";
+        public const string getwallet_withdrawal_req = "[dbo].[getwallet_withdrawal_req]";
+        public const string getwallettransaction = "[dbo].[getwallettransaction]";
+        public const string wallet_withdrawal_req = "[dbo].[wallet_withdrawal_req]";
+        public const string getwalletmaster = "[dbo].[getwalletmaster]";
+        public const string getinvoicedetails = "[dbo].[getinvoicedetails]";
+        public const string update_commision = "[dbo].[update_commision]";
+        public const string update_to_cart = "[dbo].[update_to_cart]";
         //END :: PRODUCT
     }
 }

@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { banner, fileChoosenDataModel, fileConfigModel, SaveModuleFileModel } from '../../../_appmodel/_model';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { enAppSession } from '../../../_appmodel/sessionstorage';
@@ -13,18 +13,28 @@ import * as _ from "lodash";
 import { WebdtexteditorComponent } from '../../../layout_template/webdtexteditor/webdtexteditor.component';
 import { MultiselectComponent } from '../../../layout_template/multiselect/multiselect.component';
 import { WebdmediauploadComponent } from '../../../layout_template/webdmediaupload/webdmediaupload.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-addmodifybanner',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,WebdtexteditorComponent, MultiselectComponent,WebdmediauploadComponent],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, WebdtexteditorComponent, MultiselectComponent, WebdmediauploadComponent, SweetAlert2Module, RouterLink],
   templateUrl: './addmodifybanner.component.html',
   styleUrl: './addmodifybanner.component.scss',
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class AddmodifybannerComponent {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  // confirmGoBack() {
+  //   this.deleteSwal.fire();
+  // }
+
+  navigateBack() {
+    this._base._router.navigate(['/app/managebanner']);
+  }
+
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -126,34 +136,55 @@ export class AddmodifybannerComponent {
     })
   }
 
-  // saveModuleFile_helper() {
-  //   let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
-  //   if (fileData.length > 0)
-  //     this.saveModuleFile_multi_helper(fileData, fileData.length, [])
-  //   else {
-  //     this.addmodifybanner(this.flagType);
-  //   }
-  // }
+  saveModuleFile_helper() {
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    if (fileData.length > 0)
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+    else {
+      this.addmodifybanner(this.flagType);
+    }
+  }
 
-  // saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>) {
-  //   this._base._commonService.saveModuleFile(arrayData[counter - 1].files, arrayData[counter - 1], this.fgbanner.controls[arrayData[counter - 1].fileidentifier].value).then((uploadResponse: Array<any>) => {
-  //     if (Array.isArray(uploadResponse)) {
-  //       for (let uploadedFile of uploadResponse) {
-  //         uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
-  //       }
-  //     }
-  //     resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
-  //     if (counter > 1) {
-  //       counter--
-  //       this.saveModuleFile_multi_helper(arrayData, counter, resolveData)
-  //     } else {
-  //       this._banner.filemanager = resolveData
-  //       this.addmodifybanner(this.flagType);
-  //     }
-  //   })
-  // }
+  saveModuleFile_multi_helper(
+    arrayData: Array<SaveModuleFileModel>,
+    counter: number,
+    resolveData: Array<any>
+  ) {
+    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
 
-  getbannerdetails(banner_id:any) {
+    const fileIdentifier: string = currentItem.fileidentifier ?? '';
+    const rawValue = this.fgbanner.controls[fileIdentifier]?.value;
+    const controlValue: string | undefined =
+      typeof rawValue === 'string' ? rawValue : undefined;
+    const files: string | any[] | FileList = currentItem.files ?? '';
+
+    this._base._commonService
+      .saveModuleFile(files, currentItem, controlValue)
+      .then((uploadResponse: any) => {
+        const responseArray: any[] = Array.isArray(uploadResponse)
+          ? uploadResponse
+          : [];
+
+        for (let uploadedFile of responseArray) {
+          uploadedFile.fileidentifier = fileIdentifier;
+        }
+
+        resolveData = this._base._commonService.joinArray(
+          resolveData,
+          responseArray
+        );
+
+        if (counter > 1) {
+          counter--;
+          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+        } else {
+          this._banner.filemanager = resolveData;
+          this.addmodifybanner(this.flagType);
+        }
+      });
+  }
+
+  getbannerdetails(banner_id: any) {
     return new Promise((resolve, reject) => {
       this._webDService.getbanner('Details', banner_id).subscribe((resBannerDetails: any) => {
         let bannerMaster = Array.isArray(resBannerDetails.data) ? resBannerDetails.data : [];
@@ -161,7 +192,7 @@ export class AddmodifybannerComponent {
         this.fgbanner.controls['title'].setValue(this._banner.title);
         this.fgbanner.controls['subtitle'].setValue(this._banner.subtitle);
         this.fgbanner.controls['url'].setValue(this._banner.url);
-        // this.fgbanner.controls['textarea'].get('description').setValue(this._banner.description);
+        this.fgbanner.get('textarea.description')?.setValue(this._banner.description);
         this.fgbanner.controls['lstcategory'].setValue(this._banner.lstcategory);
         this.fgbanner.controls['lsttypemaster'].setValue(this._banner.lsttypemaster);
         this.fgbanner.controls['lstlabel'].setValue(this._banner.lstlabel);
@@ -176,8 +207,8 @@ export class AddmodifybannerComponent {
     });
   }
 
-  flagType:any;
-  setbanner(flag:any) {
+  flagType: any;
+  setbanner(flag: any) {
     this.flagType = flag;
     this._base._commonService.markFormGroupTouched(this.fgbanner)
     if (this.fgbanner.valid) {
@@ -217,13 +248,13 @@ export class AddmodifybannerComponent {
         this._banner.isactive = this.fgbanner.value.isactive;
         this._banner.project_id = parseInt(project_id);
         this._banner.filemanager = []
-        // this.saveModuleFile_helper()
-        this.addmodifybanner(flag);
+        this.saveModuleFile_helper()
+        // this.addmodifybanner(flag);
       });
     }
   }
 
-  addmodifybanner(flag:any) {
+  addmodifybanner(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._banner.flag = this.banner_id == '0' ? 'NEWBANNER' : 'MODIFYBANNER';
@@ -244,10 +275,10 @@ export class AddmodifybannerComponent {
 
           if (isRedirect && flag) {
             setTimeout(() => {
-              this.successSwal.fire().then(() => {
-                // Navigate to the list page after confirmation
-                this._base._router.navigate(['/app/catalogue/banner']);
-              });
+              this.successSwal.fire()
+              setTimeout(() => {
+                this._base._router.navigate(['/app/managebanner']);
+              }, 1500);
             }, 1000);
           }
         });
@@ -310,14 +341,14 @@ export class AddmodifybannerComponent {
     });
   }
 
-  getcategorydetails(typemaster_id:any) {
+  getcategorydetails(typemaster_id: any) {
     this._webDService.getcategory('all', typemaster_id).subscribe((rescategoryMaster: any) => {
       this.CategoryMaster = [];
       this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
       this._cdr.detectChanges();
     });
   }
-  onSelectionChange($event:any) {
+  onSelectionChange($event: any) {
     if ($event && $event != null && $event.length > 0) {
       this.isBannerDisable = $event[0].typemaster_id == 0
       let typemaster_id = $event && $event?.length > 0 ? $event[0]?.typemaster_id : 0;

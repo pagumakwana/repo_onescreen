@@ -23,6 +23,9 @@ export enum enAppSession {
     usermodulelist,
     usermaster_id,
     profilepicture,
-    portal_config
+    portal_config,
+    address,
+    lstauthority,
+    lstcontrol
     // userData,
 }

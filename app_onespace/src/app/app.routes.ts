@@ -17,13 +17,50 @@ import { AddmodifylabelComponent } from './adminmodeules/labelmodule/addmodifyla
 import { LabelmoduleComponent } from './adminmodeules/labelmodule/labelmodule.component';
 import { TypemastermoduleComponent } from './adminmodeules/typemastermodule/typemastermodule.component';
 import { AddmodifytypemasterComponent } from './adminmodeules/typemastermodule/addmodifytypemaster/addmodifytypemaster.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
+import { CartComponent } from './cart/cart.component';
+import { AddmodifyauthorityComponent } from './adminmodeules/authoritymodule/addmodifyauthority/addmodifyauthority.component';
+import { AuthoritymoduleComponent } from './adminmodeules/authoritymodule/authoritymodule.component';
+import { ProfilemoduleComponent } from './adminmodeules/profilemodule/profilemodule.component';
+import { ProductComponent } from './product/product.component';
+import { AuthGuard } from './authmodule/_authservice/auth.guard';
+import { ProductoptionvaluesComponent } from './adminmodeules/productoptionvalues/productoptionvalues.component';
+import { AddmodifyvaluesComponent } from './adminmodeules/productoptionvalues/addmodifyvalues/addmodifyvalues.component';
+import { AddmodifyoptionComponent } from './adminmodeules/productoptionvalues/addmodifyoption/addmodifyoption.component';
+import { UserregistrationComponent } from './userregistration/userregistration.component';
+import { VendormoduleComponent } from './adminmodeules/vendormodule/vendormodule.component';
+import { AddmodifyvendorComponent } from './adminmodeules/vendormodule/addmodifyvendor/addmodifyvendor.component';
+import { SignupmoduleComponent } from './authmodule/signupmodule/signupmodule.component';
+import { ManageordersComponent } from './adminmodeules/manageorders/manageorders.component';
+import { OrdermoduleComponent } from './adminmodeules/ordermodule/ordermodule.component';
+import { ThankyoumoduleComponent } from './thankyoumodule/thankyoumodule.component';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { WallettransactionComponent } from './adminmodeules/wallettransaction/wallettransaction.component';
+import { ControlmoduleComponent } from './adminmodeules/controlmodule/controlmodule.component';
+import { ManagecontrolComponent } from './adminmodeules/controlmodule/managecontrol/managecontrol.component';
+import { FourzerofourComponent } from './fourzerofour/fourzerofour.component';
+import { NoconnectionComponent } from './noconnection/noconnection.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
     {
         path: 'auth',
         component: AuthmoduleComponent,
-        title: 'Sing-in',
+        title: 'Sign-in',
+    },
+    {
+        path: 'signup',
+        component: SignupmoduleComponent,
+        title: 'Sign-up',
+    },
+    {
+        path: 'noconnection',
+        component: NoconnectionComponent,
+        title: 'Internet connection',
     },
     {
         path: '',
@@ -33,10 +70,56 @@ export const routes: Routes = [
                 path: 'home',
                 component: HomeModuleComponent,
                 title: 'Home page',
-            },]
+            },
+            {
+                path: 'contactus',
+                component: ContactusComponent,
+                title: 'Contact Us',
+            },
+            {
+                path: 'faqs',
+                component: FaqsComponent,
+                title: 'About Us',
+            },
+            {
+                path: 'aboutus',
+                component: AboutusComponent,
+                title: 'About Us',
+            },
+            {
+                path: 'cart',
+                component: CartComponent,
+                title: 'Cart',
+            },
+            {
+                path: 'cart/:batch_id',
+                component: CartComponent,
+                title: 'Cart',
+            },
+            {
+                path: 'product',
+                component: ProductComponent,
+                title: 'Product',
+            },
+            {
+                path: 'userregistration',
+                component: UserregistrationComponent,
+                title: 'User Registration',
+            },
+            {
+                path: 'thankyou/:order_id',
+                component: ThankyoumoduleComponent,
+                title: 'Thanks You',
+            },
+            {
+                path: 'privacy_policy',
+                component: PrivacyPolicyComponent,
+                title: 'Privacy Policy',
+            }]
     },
     {
         path: 'app',
+        canActivate: [AuthGuard],
         component: AdminmodeulesComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: "full" },
@@ -53,7 +136,7 @@ export const routes: Routes = [
             {
                 path: 'manageuser/:user_id',
                 component: AddmodifyuserComponent,
-                title: 'Manage User',
+                title: 'Add Modify User',
             },
             {
                 path: 'managecategory',
@@ -63,7 +146,7 @@ export const routes: Routes = [
             {
                 path: 'managecategory/:category_id',
                 component: AddmodifycategoryComponent,
-                title: 'Manage Category',
+                title: 'Add Modify Category',
             },
             {
                 path: 'manageproduct',
@@ -72,8 +155,8 @@ export const routes: Routes = [
             },
             {
                 path: 'manageproduct/:product_id',
-                component: AddmodifyproductComponent    ,
-                title: 'Manage Product',
+                component: AddmodifyproductComponent,
+                title: 'Add Modify Product',
             },
             {
                 path: 'managebanner',
@@ -83,7 +166,7 @@ export const routes: Routes = [
             {
                 path: 'managebanner/:banner_id',
                 component: AddmodifybannerComponent,
-                title: 'Manage Banner',
+                title: 'Add Modify Banner',
             },
             {
                 path: 'managelabel',
@@ -93,7 +176,7 @@ export const routes: Routes = [
             {
                 path: 'managelabel/:label_id',
                 component: AddmodifylabelComponent,
-                title: 'Manage Label',
+                title: 'Add Modify Label',
             },
             {
                 path: 'managetypemaster',
@@ -103,8 +186,89 @@ export const routes: Routes = [
             {
                 path: 'managetypemaster/:typemaster_id',
                 component: AddmodifytypemasterComponent,
-                title: 'Manage Label',
+                title: 'Add Modify Typemaster',
+            },
+            {
+                path: 'manageauthority',
+                component: AuthoritymoduleComponent,
+                title: 'Manage Authority',
+            },
+            {
+                path: 'manageauthority/:authority_id',
+                component: AddmodifyauthorityComponent,
+                title: 'Add Modify Authority',
+            },
+            {
+                path: 'profile',
+                component: ProfilemoduleComponent,
+                title: 'Profile',
+            },
+            {
+                path: 'managevalues',
+                component: ProductoptionvaluesComponent,
+                title: 'Manage Optionvalues',
+            },
+            {
+                path: 'managevalues/:option_value_id',
+                component: AddmodifyvaluesComponent,
+                title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'manageoption',
+                component: AddmodifyoptionComponent,
+                title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'manageoption/:option_id',
+                component: AddmodifyoptionComponent,
+                title: 'Add Modify Optionvalues',
+            },
+            {
+                path: 'managevendor',
+                component: VendormoduleComponent,
+                title: 'Manage Vendor',
+            },
+            {
+                path: 'managevendor/:vendor_id',
+                component: AddmodifyvendorComponent,
+                title: 'Add Modify Vendor',
+            },
+            {
+                path: 'uploadmedia',
+                component: ManageordersComponent,
+                title: 'Media Uplaod',
+            },
+              {
+                path: 'uploadmedia/:order_id',
+                component: ManageordersComponent,
+                title: 'Media Uplaod',
+            },
+            {
+                path: 'orders',
+                component: OrdermoduleComponent,
+                title: 'Orders',
+            },
+            {
+                path: 'wallettransaction',
+                component: WallettransactionComponent,
+                title: 'wallet',
+            },
+            {
+                path: 'invoice/:order_id',
+                component: InvoiceComponent,
+                title: 'Thanks You',
+            },
+            {
+                path: 'control',
+                component: ControlmoduleComponent,
+                title: 'Controls',
+            },
+            {
+                path: 'control/:control_id',
+                component: ManagecontrolComponent,
+                title: 'Controls',
             },
         ]
     },
+    { path: '**', component: FourzerofourComponent }
 ];

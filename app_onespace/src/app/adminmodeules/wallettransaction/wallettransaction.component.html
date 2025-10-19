@@ -1,0 +1,229 @@
+<!-- [ Main Content ] start -->
+<div class="row">
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">Wallet Balance</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.balance_amount}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">Requested Amount</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.requested_amount}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-3">
+                        <h4 class="mb-1 fw-medium">Total Transaction</h4>
+                        <h4 class="mb-1 text-muted">{{walletwidget[0]?.transaction_amount}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- [ sample-page ] start -->
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <ul class="nav nav-tabs checkout-tabs mb-0" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="ecomtab-tab-1" data-bs-toggle="tab" href="#ecomtab-1" role="tab"
+                            aria-controls="ecomtab-1" aria-selected="true">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s">
+                                        <i class="ph-duotone ph-subtitles"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="mb-0">Transaction Details</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="ecomtab-tab-2" data-bs-toggle="tab" href="#ecomtab-2" role="tab"
+                            aria-controls="ecomtab-2" aria-selected="false">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s">
+                                        <i class="ph-duotone ph-cardholder"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="mb-0">Withdrawal Transaction</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
+                <webd-table #dataTableCom [config]='tableConfig'></webd-table>
+            </div>
+
+            <!-- Personal Information-->
+            <div class="tab-pane" id="ecomtab-2" role="tabpanel" aria-labelledby="ecomtab-tab-2">
+                <div class="row gy-4">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <!-- <div class="collapse multi-collapse" id="multiCollapseExample2"> -->
+                            <div class="card-body border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h5 class="mb-0">Wallet</h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-primary btn-sm" (click)="openModal()">Withdraw
+                                            Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover tbl-product" id="pc-dt-simple">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Requested Name</th>
+                                                <th>Status</th>
+                                                <!-- <th>Requested Name</th> -->
+                                                <th>Updated Name</th>
+                                                <th
+                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let _obj of this.withdrawalMaster">
+                                                <td>{{_obj.createddatetime | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{_obj.fullname}}</td>
+                                                <td class="text-center">
+                                                    <i class="ph-duotone ph-check-circle text-success f-24"
+                                                        data-bs-toggle="tooltip" data-bs-title="success"
+                                                        *ngIf="_obj.is_approved == 1"></i>
+                                                    <i class="ph-duotone ph-x-circle text-danger f-24"
+                                                        data-bs-toggle="tooltip" data-bs-title="danger"
+                                                        *ngIf="_obj.is_approved == 2"></i>
+                                                    <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
+                                                        data-bs-title="No Update" *ngIf="_obj.is_approved == 0"></i>
+                                                </td>
+                                                <!-- <td>{{_obj.createdname}}</td> -->
+                                                <td>{{_obj.updatedname}}</td>
+                                                <td class="text-center"
+                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    <div class="d-flex justify-content-center align-items-center gap-2" *ngIf = "_obj.is_approved == 0" >
+                                                        <button
+                                                            (click)="approveRequest(_obj, 'approved')"
+                                                            class="btn btn-sm btn-success d-flex align-items-center"
+                                                            title="Approve">
+                                                            <span class="ms-1">Approve</span>
+                                                        </button>
+                                                        <button
+                                                            (click)="approveRequest(_obj, 'rejected')"
+                                                            class="btn btn-sm btn-outline-danger d-flex align-items-center"
+                                                            title="Reject">
+                                                            <span class="ms-1">Reject</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<swal #approveSwal [swalOptions]="swalOptions" title="Are you sure to Approve?" text="" icon="warning"
+    [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-light btn-sm'}">
+</swal>
+<swal #rejectSwal [swalOptions]="swalOptions" title="Are you sure to Reject?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-light btn-sm'}">
+</swal>
+
+<swal #successSwal [swalOptions]="swalOptions" title="Success!" text="" icon="success" [showConfirmButton]="false">
+</swal>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas" aria-labelledby="couponOffcanvasLabel">
+
+    <div class="offcanvas-header">
+        <h5 id="couponOffcanvasLabel">Coupons</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+</div>
+
+<ng-template #formModal let-modal>
+    <form #myForm="ngForm">
+        <div class="modal-header">
+            <label class="col-form-label fw-bold fs-8 text-center d-block">Wallet Balance :
+                {{walletwidget[0]?.balance_amount}}</label>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+            <form [formGroup]="fgwallet">
+
+                <div class="row mb-8 justify-content-center">
+                    <div class="col-lg-8 fv-row">
+
+                        <input type="text" class="form-control" id="amount" name="amount" placeholder="amount"
+                            formControlName="amount" onkeypress="return /[0-9]/i.test(event.key)">
+                    </div>
+                </div>
+                &nbsp;
+                <div class="col d-flex justify-content-center align-items-center">
+                    <button class="btn btn-outline-primary btn-sm" (click)="modal.dismiss('cancel')">
+                        Cancel
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-primary btn-sm" (click)="setamount(true)">
+                        Request
+                    </button>
+                </div>
+            </form>
+            <swal #requestsuccSwal [swalOptions]="swalOptions" title="Your withdrawal request has been submitted successfully!" text="" icon="success"
+                [showConfirmButton]="false">
+            </swal>
+            <swal #failureSwal [swalOptions]="swalOptions" title="Insufficient Balance!" text="Insufficient Balance"
+                icon="warning" [showConfirmButton]="false">
+            </swal>
+            <swal #pendingSwal [swalOptions]="swalOptions" title="Your previous withdrawal request is pending, Please try after sometime!" text="" icon="warning"
+                [showConfirmButton]="false">
+            </swal>
+        </div>
+    </form>
+</ng-template>

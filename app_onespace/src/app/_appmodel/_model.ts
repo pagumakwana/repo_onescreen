@@ -7,19 +7,19 @@ export class AuthModel {
     authToken: string;
     refreshToken: string;
     expiresIn: Date;
-  
+
     constructor(authToken: string = '', refreshToken: string = '', expiresIn: Date = new Date()) {
-      this.authToken = authToken;
-      this.refreshToken = refreshToken;
-      this.expiresIn = expiresIn;
+        this.authToken = authToken;
+        this.refreshToken = refreshToken;
+        this.expiresIn = expiresIn;
     }
-  
+
     setAuth(auth: AuthModel) {
-      this.authToken = auth.authToken;
-      this.refreshToken = auth.refreshToken;
-      this.expiresIn = auth.expiresIn;
+        this.authToken = auth.authToken;
+        this.refreshToken = auth.refreshToken;
+        this.expiresIn = auth.expiresIn;
     }
-  }
+}
 
 export interface userModel {
     flag?: string,
@@ -39,6 +39,11 @@ export interface userModel {
     flat_id?: any,
     category_id?: any,
     category?: any,
+    vendor_id?: any,
+    contact_person_name?: any,
+    product_id?: any,
+    product_name?: any,
+    commission?: any,
     lstusertype?: any,
     usertype_id?: any,
     lstsociety?: any,
@@ -50,6 +55,8 @@ export interface userModel {
     authority_id?: number,
     lstproject?: any,
     lstauthority?: any,
+    lstvendor?: any,
+    lstproduct?:any,
     lstcategory?: any,
     user_id?: number,
     client_id?: number,
@@ -57,6 +64,7 @@ export interface userModel {
     createdby?: number,
     createdname?: string,
     profilepicture?: any,
+    isactive?: any,
     filemanager?: Array<{
         ref_id: number,
         file_id: number,
@@ -430,6 +438,7 @@ export class SaveModuleFileModel {
     ModuleID?: number;
     ModuleType?: string;
     fileidentifier?: string;
+    fileextension?: string;
     indexidentifier?: number;
     displayorder?: number;
     subidentifier?: string;
@@ -680,10 +689,10 @@ export interface societyModel {
     location_id?: number;
     pincode?: string;
     search?: any,
-    usermaster_id?:any,
-    usermasterdata_id?:any,
-    usermasterdata_name?:any,
-    usermasterdata_parent_id?:any,
+    usermaster_id?: any,
+    usermasterdata_id?: any,
+    usermasterdata_name?: any,
+    usermasterdata_parent_id?: any,
     isactive?: boolean,
     client_id?: number,
     project_id?: number,
@@ -1143,29 +1152,29 @@ export interface financialyearModel {
     user_id?: number,
     createdname?: string
 }
-export interface vendorModel {
-    flag?: any,
-    vendor_id?: number,
-    vendor_name?: string,
-    vendor_code?: any,
-    email_id?: string,
-    mobile_number?: string,
-    gst_number?: any,
-    pan_number?: any,
-    vendor_address?: string,
-    gst_rate?: string,
-    gsttax_id?: number,
-    gsttaxtype?: string,
-    department_id?: number,
-    department?: string,
-    lstgsttaxtype?: any,
-    lstdepartment?: any,
-    isactive?: boolean,
-    client_id?: number,
-    project_id?: number,
-    user_id?: number,
-    createdname?: string
-}
+// export interface vendorModel {
+//     flag?: any,
+//     vendor_id?: number,
+//     vendor_name?: string,
+//     vendor_code?: any,
+//     email_id?: string,
+//     mobile_number?: string,
+//     gst_number?: any,
+//     pan_number?: any,
+//     vendor_address?: string,
+//     gst_rate?: string,
+//     gsttax_id?: number,
+//     gsttaxtype?: string,
+//     department_id?: number,
+//     department?: string,
+//     lstgsttaxtype?: any,
+//     lstdepartment?: any,
+//     isactive?: boolean,
+//     client_id?: number,
+//     project_id?: number,
+//     user_id?: number,
+//     createdname?: string
+// }
 export interface modeModel {
     flag?: any,
     mode_id?: number,
@@ -1466,8 +1475,8 @@ export interface invoicebatchModel {
     financialyear_id?: number,
     financialyear?: string,
     lstinvfinancialyear?: any;
-    category_id?:any;
-    category?:any;
+    category_id?: any;
+    category?: any;
     inv_template_id?: any;
     society_id?: any;
     society_name?: any;
@@ -1522,9 +1531,9 @@ export interface receiptModel {
     amount?: any,
     date?: any,
     cheque_date?: any,
-    invoice_number?:any,
+    invoice_number?: any,
     invoice_date?: any,
-    invoice_duedate?:any,
+    invoice_duedate?: any,
     society_id?: any,
     society_name?: any,
     society_address?: any,
@@ -1908,8 +1917,8 @@ export interface invoiceTemplateModel {
     financialyear_id?: number,
     financialyear?: string,
     lstinvfinancialyear?: any;
-    category_id?:any;
-    category?:any;
+    category_id?: any;
+    category?: any;
     society_id?: any;
     society_name?: any;
     complex_id?: any;
@@ -1920,19 +1929,19 @@ export interface invoiceTemplateModel {
     lstcomplex?: any;
     lstwing?: any;
     lstfinancialmonth?: any;
-    accountheader_id?:any;
-    accountheader_title?:any;
-    lstaccountheaders?:any;
-    invoice_accountheader_id?:any;
+    accountheader_id?: any;
+    accountheader_title?: any;
+    lstaccountheaders?: any;
+    invoice_accountheader_id?: any;
     isactive?: boolean,
     client_id?: number,
     project_id?: number,
     user_id?: number,
-    createdby?:any,
+    createdby?: any,
     createdname?: string,
 }
 
-export interface useramountModel{
+export interface useramountModel {
     flat_id: any;
     accountheader_id: any;
     total_amount: any;
@@ -1948,9 +1957,21 @@ export interface productMaster {
     isactive?: boolean,
     category_id?: any,
     category?: any,
+    base_amount?: any,
+    route_category_id?: any,
+    route_category?: any,
+    property_category_id?: any,
+    property_category?: any,
     brand_id?: any,
     brand_name?: any,
     lstcategory?: any,
+    lstcategoryroute?: any,
+    lstpropertycategoryroute?: any,
+    lstattribute?: any,
+    lstrepeattribute?: any,
+    lstintervalattribute?: any,
+    lsttimeattribute?: any,
+    lstuserproductcommission?: any,
     lstbrand?: any,
     thumbnail?: any,
     client_id?: number,
@@ -1970,4 +1991,328 @@ export interface productMaster {
         module: string
     }>
 
+}
+
+export interface brandsMaster {
+    flag?: any,
+    brand_id?: any,
+    brand_name?: any,
+    brand_description?: any,
+    isactive?: boolean,
+    thumbnail?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+
+}
+
+export interface productoptionvalue {
+    flag?: any,
+    option_value_id?: any,
+    option_value?: any,
+    display_order?: any,
+    option_type_id?: any,
+    title?: any,
+    lstoptiontype?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoptiontype {
+    flag?: any,
+    option_type_id?: any,
+    title?: any,
+    display_order?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface productoption {
+    flag?: any,
+    option_id?: any,
+    option_type_id?: any,
+    title?: any,
+    product_id?: any,
+    product_name?: any,
+    optiontype_list?: any,
+    lstproduct?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+
+export interface couponModel {
+    flag?: any,
+    coupon_id?: any,
+    coupon_code?: any,
+    discount_value?: any,
+    from_date?: any,
+    to_date?: any,
+    isdisable?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string
+}
+export interface ordermaster {
+    lst_ordermaster?: any,
+    lst_orderdetail?: any,
+    lst_orderproduct?: any
+}
+export interface orderDetails {
+    flag?: any,
+    order_id?: any,
+    cart_master_id?: any,
+    order_number?: any,
+    payment_type?: any,
+    payment_order_id?: any,
+    payment_response?: any,
+    coupon_id?: any,
+    order_total?: any,
+    order_subtotal?: any,
+    order_discount?: any,
+    order_tax?: any,
+    order_status?: any,
+    payment_status?: any,
+    lst_orderdetail?: any,
+    lst_orderproduct?: any,
+    isdisable?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface userRegistration {
+    flag?: any,
+    user_id?: any,
+    fullname?: any,
+    email_id?: any,
+    mobilenumber?: any,
+    password?: any,
+    client_id?: number,
+    project_id?: number,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface usercartMaster {
+    flag?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    coupon_id?: number,
+    coupon_code?: string,
+    cart_total?: any,
+    cart_subtotal?: any,
+    cart_discount?: any,
+    cart_tax?: any,
+    lst_cart_product?: usercartmappingModel[];
+    client_id?: number,
+    project_id?: number,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface usercartmappingModel {
+    user_cart_mapping_id?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    fullname?: any,
+    product_id?: any,
+    product_name?: any,
+    optionvalues?: any,
+    total_amount?: any,
+    attribute_amount?: any,
+    base_amount?: any
+
+}
+export interface vendorModel {
+    flag?: any,
+    vendor_id?: any,
+    contact_person_name?: any,
+    company_name?: any,
+    email_id?: any,
+    mobile_no?: any,
+    vendor_address?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    createdby?: number,
+    createdname?: string
+}
+export interface razorpay_OrderAttribute {
+    amount?: number,
+    amount_due?: number,
+    amount_paid?: number,
+    payment_capture?: any,
+    attempts?: number,
+    created_at?: number,
+    currency?: any,
+    entity?: string,
+    id?: string,
+    notes?: any,
+    offer_id?: string,
+    receipt?: string,
+    status?: string,
+}
+
+export interface razorpayPaymentResponse {
+    razorpay_order_id: string,
+    razorpay_payment_id: string,
+    razorpay_signature: string,
+    status: string
+}
+
+export interface user_coupon_model {
+    flag?: any,
+    coupon_cart_mapid?: any,
+    coupon_id?: any
+    cart_id?: any
+    user_id?: any
+    product_ids?: any,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface contactDetails {
+    contact_id?: any,
+    fullname?: any,
+    description?: any,
+    email_id?: any,
+    mobile_no?: any,
+    subject_line?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdname?: string,
+}
+
+export interface media_status {
+    order_product_map_id?: any,
+    is_media_approved?: any,
+    media_comments?: any,
+    createdby?: number,
+    createdname?: string,
+    thumbnail?:string,
+    filemanager?: Array<{
+        ref_id?: number,
+        file_id?: number,
+        filename?: string,
+        filepath: string,
+        filetype?: string,
+        fileextension?: string,
+        filesize?: number,
+        fileidentifier?: string,
+        displayorder?: string,
+        module?: string
+    }>
+}
+
+
+export interface media_upload {
+    order_product_map_id?: any,
+    thumbnail?: any,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+    }>
+    createdby?: number,
+    createdname?: string
+}
+
+export interface removeusercartModel{
+    user_cart_mapping_id?: any,
+    cart_master_id?: any,
+    user_id?: any,
+    product_id?: any,
+    product_name?: any,
+    sub_amount?: any,
+    total_amount?: any,
+    attribute_amount?: any,
+    base_amount?: any,
+    tax_amount?: any
+}
+
+export interface user_verification {
+    flag?: any,
+    otp_code?: any,
+    mobile_number?: any,
+    createdby?: number,
+    createdname?: string
+}
+
+export interface update_user {
+    user_id?: any,
+    fullname?: any,
+    email_id?: any,
+    // mobilenumber?: any,
+    address?: any,
+    client_id?: any,
+    project_id?: any,
+    createdby?: number,
+    createdname?: string
+
+}
+
+export interface wallet_withdrawal {
+    flag?: any,
+    withdrawal_request_id?: any,
+    user_id?: any,
+    contact_person_name?: any,
+    amount?: any,
+    is_approved?: any,
+    wallet_master_id?: any,
+    comment?: any,
+    createdby?: any,
+    createdname?: any,
+    updatedname?: any,
+    client_id?: any,
+    project_id?: any,
+}
+
+export interface wallet_transaction {
+    wallet_transaction_id?: any,
+    previous_balance?: any,
+    transaction_amount?: any,
+    wallet_balance_amt?: any,
+    credit_debit?: any,
+    order_id?: any,
+    user_id?: any
+}
+export interface wallet_master {
+    wallet_master_id?: any,
+    user_id?: any,
+    balance_amount?: any
 }

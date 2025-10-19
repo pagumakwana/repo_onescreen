@@ -165,5 +165,25 @@ namespace onescreen_api.Controllers.Configuration
                 return objConfiguration_BAL.getauthoritymodule(user_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="config_id"></param>
+        /// <param name="config_name"></param>
+        /// <param name="search"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getportalconfig")]
+        [HttpGet]
+        public responseModel getportalconfig(string flag, Int64 config_id, string config_name = "null", string search = "null", Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (Configuration_BAL objConfiguration_BAL = new Configuration_BAL(_httpContextAccessor))
+            {
+                return objConfiguration_BAL.getportalconfig(flag, config_id, config_name, search, start_count, end_count);
+            }
+        }
     }
 }

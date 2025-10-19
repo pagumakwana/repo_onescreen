@@ -1,0 +1,251 @@
+<div class="card">
+    <div class="card-body">
+        <div style="text-align: center;">
+            <div class="checkmark">✓</div>
+            <h1>Thank You!</h1>
+            <p>Your order has been received successfully. please upload your media.</p>
+            <p>Order ID : <strong>INV-202510-0009</strong></p>
+            <button class="btn-down-invoice" (click)="viewinvoice()"><span>Download Invoice</span><i class="ti ti-download text-primary f-20"></i>
+            </button>
+        </div>
+
+        <br />
+
+        <div class="thanku-card-container">
+            <article class="thanku-card">
+
+                <div class="thanku-card-body">
+                <div class="row">
+                    <div>
+                    <h3 class="thanku-title">Screen 1 : 00:00 AM - 02:00 AM</h3>
+                    <div class="thanku-muted">16-Oct-2025 to 16-Oct-2025</div>
+                    </div>
+                </div>
+
+                <!-- <div class="thanku-product-detail">
+                    <span class="thanku-chip">Screen: <strong>Screen 1</strong></span>
+                    <span class="thanku-chip">Interval: <strong>2</strong></span>
+                </div> -->
+
+                <div class="thanku-meta-grid" style="margin-top:10px;">
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Route</div>
+                    <strong>Borivali - Dahisar</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Interval</div>
+                    <strong>2</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Repetition</div>
+                    <strong>Repetition  1</strong>
+                    </div>
+
+                    <div class="thanku-meta" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div class="thanku-muted">Media Upload</div>
+                        <strong>Upload file</strong>
+                    </div>
+
+                    <div class="upload-tanku-contain">
+                        <label class="thanku-upload-btn" title="Upload media">
+                        <!-- Hidden file input triggered by this label -->
+                        <input type="file" id="mediaInput" accept="image/*,video/*" style="display:none" onchange="handleFile(event)">
+                        <!-- upload SVG icon -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 3v10" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 7l4-4 4 4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="thanku-muted" style="font-size:13px">Upload</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </article>
+
+            <article class="thanku-card">
+
+                <div class="thanku-card-body">
+                <div class="row">
+                    <div>
+                    <h3 class="thanku-title">Screen 1 : 00:00 AM - 02:00 AM</h3>
+                    <div class="thanku-muted">16-Oct-2025 to 16-Oct-2025</div>
+                    </div>
+                </div>
+
+                <!-- <div class="thanku-product-detail">
+                    <span class="thanku-chip">Screen: <strong>Screen 1</strong></span>
+                    <span class="thanku-chip">Interval: <strong>2</strong></span>
+                </div> -->
+
+                <div class="thanku-meta-grid" style="margin-top:10px;">
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Route</div>
+                    <strong>Borivali - Dahisar</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Interval</div>
+                    <strong>2</strong>
+                    </div>
+
+                    <div class="thanku-meta">
+                    <div class="thanku-muted">Repetition</div>
+                    <strong>Repetition  1</strong>
+                    </div>
+
+                    <div class="thanku-meta" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div class="thanku-muted">Media Upload</div>
+                        <strong>Upload file</strong>
+                    </div>
+
+                    <div class="upload-tanku-contain">
+                        <label class="thanku-upload-btn" title="Upload media">
+                        <!-- Hidden file input triggered by this label -->
+                        <input type="file" id="mediaInput" accept="image/*,video/*" style="display:none" onchange="handleFile(event)">
+                        <!-- upload SVG icon -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 3v10" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 7l4-4 4 4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#065f5f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="thanku-muted" style="font-size:13px">Upload</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </article>
+           
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover tbl-product" id="pc-dt-simple">
+                <thead>
+                    <tr>
+                        <th class="text-end">Order#</th>
+                        <th>Product Detail</th>
+                        <th>Screen</th>
+                        <th>Interval</th>
+                        <th>Repetition</th>
+                        <th class="text-center">Media Upload</th>
+                        <th class="text-center">Media Approved</th>
+                        <th class="text-center">Media Comment</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let _obj of this.pendingMedia">
+                        <td class="text-end">{{_obj.order_number}}</td>
+                        <td>
+                            <div class="row">
+                                <!-- <div class="col-auto pe-0">
+                                <img src="../assets/images/application/img-prod-1.jpg" alt="user-image"
+                                    class="wid-40 rounded">
+                            </div> -->
+                                <div class="col">
+                                    <h6 class="mb-1">{{_obj.time_slot_value}}</h6>
+                                    <p class="text-muted f-12 mb-0">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
+                                        {{_obj.to_date| date: 'dd-MMM-yyyy' }} </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{_obj.product_name}}</td>
+                        <td>{{_obj.interval_value}}</td>
+                        <td>{{_obj.repetition_value}}</td>
+                        <td class="text-center">
+                            <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
+                                data-bs-title="success" *ngIf="_obj.is_media_upload == 1"></i>
+                            <i class="ph-duotone ph-clock-countdown text-warning f-24" data-bs-toggle="tooltip"
+                                data-bs-title="warning" *ngIf="_obj.is_media_upload == 0"></i>
+                            <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
+                                data-bs-title="danger" *ngIf="_obj.is_media_upload == 2"></i>
+                            <a (click)="open_upload_media(_obj.order_product_map_id)">
+                                <i class="ti ti-upload text-primary f-24" data-bs-toggle="tooltip"
+                                    data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
+                            </a>
+
+                        </td>
+                        <td class="text-center">
+                            <i class="ph-duotone ph-check-circle text-success f-24" data-bs-toggle="tooltip"
+                                data-bs-title="success" *ngIf="_obj.is_media_approved == 1"></i>
+                            <i class="ph-duotone ph-clock-countdown text-warning f-24" data-bs-toggle="tooltip"
+                                data-bs-title="warning"
+                                *ngIf="_obj.is_media_approved == 0 && _obj.is_media_upload == 1"></i>
+                            <i class="ph-duotone ph-x-circle text-danger f-24" data-bs-toggle="tooltip"
+                                data-bs-title="danger" *ngIf="_obj.is_media_approved == 2"></i>
+                            <i class="ph-duotone ph-dots-three-outline" data-bs-toggle="tooltip"
+                                data-bs-title="No Update" *ngIf="_obj.is_media_approved == null"></i>
+                        </td>
+                        <td>{{_obj.media_comments}}</td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <a (click)="openvideo(_obj.thumbnail)"
+                                    class="avtar avtar-xs btn-link-secondary btn-pc-default" title="View">
+                                    <i class="ti ti-eye f-18"></i>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<ng-template #formMediaModal let-modal>
+    <form [formGroup]="fgmedia" #mediaForm="ngForm">
+        <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-column scroll-y me-n7 pe-7 mw-650px" id="kt_modal_update_customer_scroll"
+                data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                data-kt-scroll-wrappers="#kt_modal_update_customer_scroll" data-kt-scroll-offset="300px">
+            </div>
+            <div class="row mb-6">
+                <div class="col-lg-12 fv-row">
+                    <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                        [controlObject]="fgmedia.controls['thumbnail']" [fileConfig]="this.fileConfig['thumbnail']">
+                    </webd-mediauploader>
+                </div>
+
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary btn-sm" (click)="upload_media()">
+                    Submit
+                </button>
+            </div>
+            <swal #uploadsuccessSwal [swalOptions]="swalOptions" title="Upload successfully!" text="" icon="success"
+                [showConfirmButton]="false">
+            </swal>
+
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #VideoModal let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row mb-6">
+            <div class="col-lg-12 fv-row text-center">
+                <video width="100%" height="auto" controls *ngIf="selectedVideoUrl">
+                    <source [src]="selectedVideoUrl" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</ng-template>

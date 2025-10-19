@@ -1,22 +1,23 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { userModel } from '../../_appmodel/_model';
 import { Subscription } from 'rxjs';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usermodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
   templateUrl: './usermodule.component.html',
   styleUrl: './usermodule.component.scss'
 })
-export class UsermoduleComponent {
+export class UsermoduleComponent implements OnInit {
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   @ViewChild('fileInput', { static: true }) fileInput: any;
 
@@ -25,6 +26,11 @@ export class UsermoduleComponent {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
+
+  navigateaddform()
+  {
+    this._base._router.navigate(["/app/manageuser/0"]);
+  }
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
@@ -47,8 +53,8 @@ export class UsermoduleComponent {
       { identifer: "fullname", title: "Full Name", type: "text" },
       { identifer: "email_id", title: "Email ID", type: "text" },
       { identifer: "mobilenumber", title: "Mobile Number", type: "text" },
-      { identifer: "is_approved", title: "Is_Approved", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'avtar avtar-s btn btn-primary', iconClass: 'ti ti-pencil' }, { title: 'Delete', class: 'avtar avtar-s btn btn-danger', iconClass: 'ti ti-trash' }] },],
+      { identifer: "isactive", title: "User Status", type: "status" },
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -117,7 +123,7 @@ export class UsermoduleComponent {
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
     this._webDService.userlist('USERLIST', 0, 'null', parseInt(start), parseInt(end)).subscribe((resUserListdata: any) => {
-      this.userListData = resUserListdata.data;
+      this.userListData = [];
       this.userListData = Array.isArray(resUserListdata.data) ? resUserListdata.data : [];
       if (this.tableConfig?.isCustom) {
         this.tableConfig.isCustom.total = resUserListdata.count;
@@ -133,7 +139,7 @@ export class UsermoduleComponent {
     this._userModel.flag = flag;
     this._userModel.user_id = data.user_id;
     if (flag == 'MODIFYUSER') {
-      this._base._router.navigate([`/app/user/userlist/${data.user_id}`]);
+      this._base._router.navigate([`/app/manageuser/${data.user_id}`]);
     } else if (flag == 'DELETEUSER') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -145,6 +151,9 @@ export class UsermoduleComponent {
                   this.userListData.splice(index, 1);
                   this._cdr.detectChanges();
                   this.successSwal.fire()
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1500);
                 }
               });
             }

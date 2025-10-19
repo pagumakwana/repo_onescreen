@@ -1,0 +1,168 @@
+<div class="contactus_page">
+    <section class="container_section breadcrumb">
+        <div class="inner_container">
+            <h1 class="page_heading">Contact Us
+            </h1>
+            <p aria-label="Breadcrumb navigation">
+                <span>Home</span>
+                <img src="../../../assets/images/right_arrow.svg" alt="Breadcrumb navigation Arrow">
+                <span class="domain_color">Contact Us</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>Get in Touch</h2>
+
+      <div class="info-item">
+        <span>📍</span>
+        <p>OneScreen Pvt. Ltd., Thane, Mumbai, India</p>
+      </div>
+
+      <div class="info-item">
+        <span>📞</span>
+        <p>+91 8108030098</p>
+      </div>
+
+      <div class="info-item">
+        <span>✉️</span>
+        <p><a href="mailto:onescreen25@gmail.com">onescreen25&#64;gmail.com</a></p>
+      </div>
+
+      <div class="info-item">
+        <span> <i class="fas fa-map-marker-alt" style="color: #fff;"></i></span>
+        <a href="https://wa.me/918108030098?text=Hello%21%20Could%20you%20please%20share%20your%20shop%20location%3F%20I%27d%20like%20to%20visit."
+            target="_blank">
+            Get Location
+           
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h2>Send a Message</h2>
+      <form [formGroup]="fgcontactdetails">
+        <!-- <form> -->
+        <div class="form_container">
+            <label>Full Name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Full Name"
+                formControlName="fullname" required>
+            <div *ngIf="fgcontactdetails.controls['fullname'].invalid && (fgcontactdetails.controls['fullname'].dirty || fgcontactdetails.controls['fullname'].touched )"
+                class="text-danger">
+                <ng-container *ngIf="fgcontactdetails.controls['fullname'].errors?.['required']">
+                    FullName required.
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="form_container">
+            <label>Email Id</label>
+            <input type="text" id="email_id" name="email_id" placeholder="Email_id"
+                formControlName="email_id" required
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+            <div *ngIf="fgcontactdetails.controls['email_id'].invalid && (fgcontactdetails.controls['email_id'].dirty || fgcontactdetails.controls['email_id'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['required']">
+                    Email Id required.
+                </ng-container>
+                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['email']">
+                    Please enter a valid email address.
+                </ng-container>
+                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['pattern']">
+                    Email must be in a proper format (e.g., example&#64;gmail.com).
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="form_container">
+            <label>Mobile Number</label>
+            <input type="text" id="label" name="mobile_no" placeholder="Mobile Number"
+                formControlName="mobile_no" required pattern="^[6-9]\d{9}$">
+            <div *ngIf="fgcontactdetails.controls['mobile_no'].invalid && (fgcontactdetails.controls['mobile_no'].dirty || fgcontactdetails.controls['mobile_no'].touched)"
+                class="text-danger">
+                <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['required']">
+                    Mobile Number required.
+                </ng-container>
+                <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['pattern']">
+                    Please enter a valid 10-digit mobile number
+                </ng-container>
+            </div>
+        </div>
+        <div class="form_container">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Message goes here..."
+                formControlName="description"></textarea>
+        </div>
+        <!-- <div class="checkbox-container">
+            <input type="checkbox" id="privacy-policy" name="privacy-policy" required aria-required="true">
+            <label for="privacy-policy">Click here to confirm you have read our privacy policy*</label>
+        </div> -->
+        <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
+                (click)="setcontactdetail(true)"> -->
+        <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
+            <ng-container *ngIf="!isLoading">Submit</ng-container>
+            <ng-container *ngIf="isLoading">
+                <span clas="indicator-progress" [style.display]="'block'">
+                    Please wait...{{ " " }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </ng-container>
+        </button>
+        <swal #successSwal [swalOptions]="swalOptions" title="Submitted!" text="" icon="success"
+            [showConfirmButton]="false">
+        </swal>
+    </form>
+    </div>
+  </div>
+</section>
+
+    <!-- <section class="container_section locations top_gap">
+        <div class="inner_container">
+            <div class="contact_txt">
+                <h2 class="section_topic">CONTACT</h2>
+                <p class="section_heading">Where to Reach Us.</p>
+            </div>
+            <div class="offices_list">
+                <h3>Our Offices</h3>
+                <div class="offices">
+                    <div class="office">
+                        <h4>Head Office</h4>
+                        <p>Thane,</p>
+                        <p>Email: <a href="mailto:onescreen25@gmail.com">onescreen25&#64;gmail.com</a></p>
+                        <p>Mobile: <a href="tel:+918108030098">+91 8108030098</a></p>
+                        <div class="map_area"></div>
+                        <a href="https://wa.me/918108030098?text=Hello%21%20Could%20you%20please%20share%20your%20shop%20location%3F%20I%27d%20like%20to%20visit."
+                            target="_blank">
+                            Get Location
+                            <img src="../../../assets/images/location.svg" alt="Location Icon" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+   
+
+    <section class="grow_business">
+        <div class="inner_container">
+            <div class="grow_sections">
+                <div class="grow_business_left">
+                    <div class="logo">
+                        <img src="../../assets/images/onescreen_logo.png" alt="Camera Logo" />
+                    </div>
+                    <h3>Join thousands who trust ScreenToSell for the best deals!</h3>
+                </div>
+                <div class="grow_business_right">
+                    <button class="btn primary_btn">
+                        <span>Find your screen</span>
+                        <img src="../../../assets/images/user.svg" alt="User Icon" />
+                    </button>
+                    <p>Trusted by thousands across India!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

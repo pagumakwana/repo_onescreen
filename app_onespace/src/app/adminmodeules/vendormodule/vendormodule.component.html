@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-end mb-2">
+  <button (click)="navigateaddform()" class="btn btn-primary btn-sm" style="border-radius: 0;">
+    New Vendor
+  </button>
+</div>
+<br>
+<webd-table #dataTableCom [config]="tableConfig" (tableEvent)="tableClick($event)"></webd-table>
+
+<swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
+  icon="warning" [showCancelButton]="true" [focusCancel]="true"
+  [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+</swal>
+
+<swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
+  [showConfirmButton]="false">
+</swal>
