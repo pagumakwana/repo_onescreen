@@ -6,6 +6,9 @@
     align-items: flex-start;
     gap: 30px;
 }
+.container_section.aboutus {
+    margin-bottom: 30px;
+}
 .aboutus_thumbnail img {
     max-width: 450px;
     height: auto;
@@ -15,7 +18,7 @@
     width: 49%;
 }
 .aboutus_content {
-    width: 38%;
+    width: 100%;
 }
 .aboutus_content ul {
     list-style: none;
@@ -41,6 +44,7 @@
     background: rgb(232 236 241 / 20%);
     padding: 62px 0;
     margin-bottom: 108px;
+    display: none;
 }
 .ourstory .inner_container {
     display: flex;
@@ -79,6 +83,151 @@
     margin-bottom: 0;
 }
 
+// New Section added as per requirements start
+.about-deal-section {
+    background-color: #054089;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 10px;
+    color: white;
+    gap: 20px;
+    max-width: 1130px;
+}
+.about-deal-item {
+    text-align: center;
+    flex: 1 1 120px;
+    max-width: 150px;
+}
+.about-deal-icon {
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.about-deal-label {
+    font-size: 14px;
+}
+
+.about-count-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.about-count-header h1 {
+    font-size: 2rem;
+    color: #1A3E74;
+    margin-bottom: 10px;
+}
+
+.about-count-header p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.about-stat-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.about-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1A3E74;
+    margin-bottom: 10px;
+}
+
+.about-stat-title {
+    font-size: 1rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.service-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    align-items: flex-start;
+}
+.services-text {
+    flex: 1 1 250px;
+    text-align: left
+}
+.services-text h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.services-text p {
+    color: #555;
+    font-size: 14px;
+    max-width: 270px
+}
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    flex: 2 1 500px;
+}
+.services-grid a {
+    text-decoration: none;
+}
+.mainService-card {
+    display: flex;
+    align-items: center;
+    background-color: rgb(22 34 51 / 8%);
+    padding: 15px;
+    border-radius: 8px;
+    gap: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+.mainService-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.service-info {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+}
+.mainService-card .arrow {
+    font-size: 18px;
+    color: #333;
+}
+// New Section added as per requirements End
+
 // Responsive CSS
 @media only screen and (max-width: 1200px) {
     .aboutus_thumbnail {
@@ -102,6 +251,20 @@
     }
 }
 
+@media only screen and (max-width: 1024px) {
+    .service-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .services-text {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+    .services-grid {
+        flex: 2 1 auto;
+    }
+}
 @media only screen and (max-width: 900px) {
     .aboutus_content ul {
         margin-bottom: 20px;
@@ -118,6 +281,19 @@
     }
 }
 
+@media (max-width: 768px) {
+    .about-count-header h1 {
+    font-size: 1.6rem;
+    }
+    .about-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .service-container {
+        padding: 20px;
+    }
+}
+
 @media only screen and (max-width: 700px) {
     .ourstory {
         padding: 30px 0;
@@ -131,5 +307,29 @@
     .ourstory .inner_container > div {
         width: 100% !important;
         padding-top: 0;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .about-deal-section {
+        align-items: center;
+        padding: 20px 5px;
+        gap: 5px;
+    }
+    .about-deal-item {
+        max-width: 100px;
+        margin-bottom: 15px;
+    }
+    .about-count-header p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    .about-count-header h1 {
+        font-size: 1.2rem;
+    }
+    .about-count-section {
+        padding: 30px 0;
     }
 }
