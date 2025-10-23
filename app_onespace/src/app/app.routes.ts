@@ -44,6 +44,8 @@ import { FourzerofourComponent } from './fourzerofour/fourzerofour.component';
 import { NoconnectionComponent } from './noconnection/noconnection.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { DisputeAndCancellationPolicyComponent } from './dispute-and-cancellation-policy/dispute-and-cancellation-policy.component';
+import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -115,7 +117,23 @@ export const routes: Routes = [
                 path: 'privacy_policy',
                 component: PrivacyPolicyComponent,
                 title: 'Privacy Policy',
-            }]
+            },
+            {
+                path: 'order_policy',
+                component: OrdermoduleComponent,
+                title: 'Order Policy',
+            },
+            {
+                path: 'dispute_and_cancellation_policy',
+                component: DisputeAndCancellationPolicyComponent,
+                title: 'Disput and Cancellation Policy',
+            },
+            {
+                path: 'terms_and_condition',
+                component: TermsAndConditionComponent,
+                title: 'Terms and Conditions',
+            }
+        ]
     },
     {
         path: 'app',

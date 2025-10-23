@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import html2pdf from 'html2pdf.js';
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-invoice',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './invoice.component.html',
   styleUrl: './invoice.component.scss'
 })

@@ -1,0 +1,32 @@
+all .10s ease-in-out: all .10s ease-in-out;
+#054089: #054089;
+#07336a: #07336a;
+#1d89e5: #1d89e5;
+#1b76d3: #1b76d3;
+#E7E7E7: #E7E7E7;
+#e7e7e7e5: #e7e7e7e5;
+$arial: 'Graphik';
+
+.header_container_section {
+    max-width: 1174px;
+    margin: 0 auto;
+}
+body .section_gap {
+    margin-bottom: 108px;
+}
+.domain_color {
+    color: #054089;
+}
+
+// Responsive CSS
+@media only screen and (max-width: 1200px) {
+    body .section_gap, .whyus_section, .peopletalk {
+        margin-bottom: 50px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    body .section_gap, .whyus_section, .peopletalk {
+        margin-bottom: 30px;
+    }
+}

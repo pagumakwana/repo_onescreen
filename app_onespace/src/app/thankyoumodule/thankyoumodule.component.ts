@@ -97,6 +97,9 @@ export class ThankyoumoduleComponent implements OnInit {
 
   get_pendingmediaupload(order_id: any = 0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
+      if(user_id==undefined || user_id==null || user_id==''){
+        user_id = 0;
+      }
       this._webDService.getpendingmediaupload(user_id, order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
         this.pendingMedia = respendingMedia.data;
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
