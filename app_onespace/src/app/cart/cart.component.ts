@@ -102,7 +102,8 @@ export class CartComponent implements OnInit {
 
   get_cart(batch_id: any = '00000000-0000-0000-0000-000000000000') {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._webDService.getusercartdetail(batch_id, (batch_id != undefined && batch_id != null && batch_id != '') ? 0 : user_id, 0, 0, 0).subscribe((resUserCart: any) => {
+      debugger
+      this._webDService.getusercartdetail(batch_id, (batch_id != undefined && batch_id != null && batch_id != '00000000-0000-0000-0000-000000000000') ? 0 : user_id, 0, 0, 0).subscribe((resUserCart: any) => {
         this.UserCart = [];
         this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
         console.log("UserCartUserCart", this.UserCart)

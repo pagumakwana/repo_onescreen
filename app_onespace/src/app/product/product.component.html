@@ -79,7 +79,7 @@
                                     <h3 class="section_head" style="text-align: center;">Vehicle/ Property</h3>
                                     <div class="product_lists">
                                         <ng-container *ngFor="let _obj of this.PropertyMaster; let _ind = index">
-                                            <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                            <div class="products" [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
                                                 (click)="onSelectproperty(_obj,_ind)">
                                                 <div class="product_img">
                                                     <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
