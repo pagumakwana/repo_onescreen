@@ -113,7 +113,7 @@ export class CartComponent implements OnInit {
           if (res.optionvalues && typeof res.optionvalues === 'string') {
             try {
               const parsed = JSON.parse(res.optionvalues);
-              res.optionvaluesParsed = JSON.parse(parsed);
+              res.optionvaluesParsed = [JSON.parse(parsed)];
             } catch (e) {
               console.warn('Invalid JSON for optionvalues:', res.optionvalues);
               res.optionvaluesParsed = [];
@@ -122,7 +122,7 @@ export class CartComponent implements OnInit {
             res.optionvaluesParsed = [];
           }
         });
-
+console.log("this.UserCart[0]?.lst_cart_product",this.UserCart[0]?.lst_cart_product)
         this._cdr.detectChanges();
       });
     });

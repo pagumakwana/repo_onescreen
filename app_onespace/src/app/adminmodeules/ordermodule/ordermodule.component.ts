@@ -49,6 +49,7 @@ export class OrdermoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Orders',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "order_number", title: "Order#", type: "link"},

@@ -45,6 +45,7 @@ export class CategorymoduleComponent {
   _categoryMaster: categoryMaster = {};
   tableConfig: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Category',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "category", title: "Category", type: "text" },

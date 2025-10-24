@@ -47,6 +47,7 @@ export class BannermoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Banners',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "250px" } },

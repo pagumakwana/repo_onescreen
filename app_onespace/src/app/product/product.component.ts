@@ -314,7 +314,7 @@ export class ProductComponent implements OnInit {
       this._categoryScreenMaster.product_id = ($event?.product_id);
       this._categoryScreenMaster.product_name = ($event?.product_name);
       this._categoryScreenMaster.base_amount = (_item ? _item[0]?.base_amount : 0.00);
-      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_amount)
+      // this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_amount)
       this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
         this.TimeMaster = [];
         this.TimeMaster = res;
@@ -509,7 +509,7 @@ export class ProductComponent implements OnInit {
 
     // total_amount = total_amount + (_days_total ? _days_total : 0.00)
     obj.controls['total_amount'].setValue(total_amount);
-    this._totalAmount = total_amount;
+    // this._totalAmount = total_amount;
     this._cdr.detectChanges();
   }
   readonly DELIMITER = '-';
@@ -571,7 +571,7 @@ export class ProductComponent implements OnInit {
       total_amount = (_total_amount + _date_total);
 
       obj.controls['total_amount'].setValue(total_amount);
-      this._totalAmount = total_amount;
+      // this._totalAmount = total_amount;
     }
     this._cdr.detectChanges();
   }
@@ -655,7 +655,6 @@ export class ProductComponent implements OnInit {
         }
 
         let _value_object: any = [];
-        let _attriAmount = 0.00;
         _form_data?.filter((_item: any) => {
           _value_object?.push({
             timeslot_category_id: _item.timeslot_category_id,
@@ -679,29 +678,37 @@ export class ProductComponent implements OnInit {
             date_total: _item.date_total,
             quantity: _item.quantity,
           });
-          _attriAmount = (_attriAmount ? _attriAmount : 0.00) + _item.attribute_amount;
         });
         debugger
-        this._usercartmappingModel = {
-          base_amount: this._categoryScreenMaster.base_amount,
-          product_id: this._categoryScreenMaster.product_id,
-          total_amount: this._totalAmount,
-          attribute_amount: _attriAmount,
-          user_id: flag == 1 ? 0 : user_id,
-          optionvalues: JSON.stringify(_value_object)
-        }
+        console.log("_value_object",_value_object)
+        let _value_option:any=[];
+        _value_object.filter((_res:any)=>{
+          this._usercartmappingModel = {
+            base_amount: _res?.base_amount,
+            product_id: _res?.product_id,
+            total_amount: _res?.total_amount,
+            attribute_amount: _res?.attribute_amount,
+            user_id: flag == 1 ? 0 : user_id,
+            optionvalues: JSON.stringify(_res)
+          }
+          this._totalAmount = this._totalAmount+_res?.total_amount;
+          _value_option.push(this._usercartmappingModel);
+        })
+
         let _cart_subtotal = (this._totalAmount);
         let _cart_discount = 0.00;
         let _cart_after_discount = (_cart_subtotal - _cart_discount);
         let _cart_tax = (_cart_after_discount * (18 / 100));
         let _cart_after_tax = (_cart_after_discount + _cart_tax);
         let _cart_total = (_cart_after_tax);
+       
+       
 
         this._usercartMaster = {
           flag: 'NEWCART',
           createdname: fullname,
           user_id: parseInt(user_id),
-          lst_cart_product: [this._usercartmappingModel],
+          lst_cart_product: _value_option,
           coupon_id: 0,
           coupon_code: '',
           cart_total: _cart_total,

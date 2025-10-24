@@ -54,6 +54,7 @@ export class ProductoptionvaluesComponent {
   //done
   tableConfigoptionvalue: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Product Options',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "title", title: "Option Type", type: "text" },

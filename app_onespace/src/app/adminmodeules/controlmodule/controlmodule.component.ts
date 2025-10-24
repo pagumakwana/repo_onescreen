@@ -53,6 +53,7 @@ export class ControlmoduleComponent {
   _moduledataModel: moduledataModel = {};
   tableConfig: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Controls',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "modulename", title: "Module", type: "text" },

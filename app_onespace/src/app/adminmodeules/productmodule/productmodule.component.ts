@@ -75,6 +75,7 @@ export class ProductmoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    tableTitle:'Manage Products',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "100px" } },

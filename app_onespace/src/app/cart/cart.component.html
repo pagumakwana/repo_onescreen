@@ -61,8 +61,8 @@
                     <div class="delete-btn"> <span (click)="removeFromCart(item)">✕</span></div>
                   </div>
                   <div class="card-body">
-                    <ng-container *ngFor="let _item of item?.optionvaluesParsed">
-                      <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
+                    <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
+                      <ng-container *ngFor="let _item of item?.optionvaluesParsed">
                         <div class="card-row"><strong>Base Price:</strong> ₹{{_item?.base_amount}}</div>
                         <div class="card-row"><strong>Time Slot:</strong> {{_item?.timeslot_category}}
                           (₹{{_item?.timeslot_price}})</div>

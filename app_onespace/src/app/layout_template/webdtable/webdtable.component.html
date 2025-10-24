@@ -1,9 +1,11 @@
-<div id="datatable_wrapper" class="card">
-    <div class="card-title">
+<!-- [ Main Content ] start -->
+
+<div class="card">
+    <div class="card-header">
         <h4>{{config?.tableTitle}}</h4>
     </div>
     <div class="card-body">
-        <div class="btn-toolbar p-3" role="toolbar">
+        <div class="btn-toolbar p-3" role="toolbar" *ngIf="config?.buttonList">
             <ng-container *ngFor="let btnObj of config?.buttonList">
                 <a class="btn btn-success btn-sm" (click)="buttonClick(btnObj)"><span>{{btnObj.name}}</span></a>&nbsp;
             </ng-container>
@@ -29,7 +31,8 @@
                         </td>
                         <td *ngFor="let key of config?.tableConfig">
                             <ng-container *ngIf="key?.type == 'status'">
-                                <span [ngClass]="returnClass(tableItem[key.identifer])">{{tableItem[key.identifer] ==
+                                <span [ngClass]="returnClass(tableItem[key.identifer])">{{tableItem[key.identifer]
+                                    ==
                                     true ? 'Active':'InActive'}}</span>
                             </ng-container>
                             <ng-container *ngIf="key?.type == 'text'">
@@ -92,11 +95,13 @@
                     <li class="page-item" [ngClass]="{ 'disabled' : this.config.isCustom?.current == 0}"><a
                             (click)="previous()">Prev</a></li>
                     <li *ngFor="let page of pageArray;let i = index"
-                        [ngClass]="{ 'active' : this.config.isCustom?.current == page , 'disabled' : page == '...'}"><a
-                            (click)="page == '...' ? '' : jumpDirect(page)">{{showPageNo(page)}}</a></li>
+                        [ngClass]="{ 'active' : this.config.isCustom?.current == page , 'disabled' : page == '...'}">
+                        <a (click)="page == '...' ? '' : jumpDirect(page)">{{showPageNo(page)}}</a>
+                    </li>
                     <li class="next"
-                        [ngClass]="{ 'disabled' : this.config.isCustom?.current == pageArray[pageArray.length-1]}"><a
-                            (click)="next()">Next</a></li>
+                        [ngClass]="{ 'disabled' : this.config.isCustom?.current == pageArray[pageArray.length-1]}">
+                        <a (click)="next()">Next</a>
+                    </li>
                 </ul>
             </div>
         </div>
