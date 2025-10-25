@@ -31651,6 +31651,9 @@ body.modal_open {
     .top_gap {
         margin-top: 100px;
     }
+    .grow_business {
+      padding-bottom: 30px;
+    }
 }
 
 @media only screen and (max-width: 700px){
