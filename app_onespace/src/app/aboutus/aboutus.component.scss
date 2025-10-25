@@ -384,6 +384,55 @@
     border-bottom: 3px solid #054089;
     margin-bottom: 20px;
 }
+.accordion.open {
+    border-color: #054089;
+    background: white;
+}
+.accordion {
+    border-radius: 20px 20px 0 20px;
+    background: rgba(217, 217, 217, 0.2);
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid rgba(217, 217, 217, 0.2);
+    text-align: left;
+}
+.toggle {
+    position: relative;
+    padding: 20px 45px 20px 20px;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+}
+.toggle:before {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    margin: auto 0;
+    width: 28px;
+    height: 28px;
+    background-size: contain !important;
+    background-position: center !important;
+}
+.toggle:before {
+    content: "";
+    // background: url('./media/accordian_close_arrow.svg') no-repeat;
+}
+.inner {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.inner > div {
+    padding: 0 20px 20px 20px;
+    display: block;
+    clear: both;
+}
+.inner > div *, .inner > div {
+    font-size: 14px;
+}
 // New Section added as per requirements End
 
 // Responsive CSS
