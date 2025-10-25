@@ -70,6 +70,7 @@
                                             </div>
                                         </div>
                                     </ng-container>
+
                                 </div>
                             </div>
                             <div class="tab-pane" id="vehiclesection" [ngClass]="{'show active':_wizard_index == 1}">
@@ -79,7 +80,8 @@
                                     <h3 class="section_head" style="text-align: center;">Vehicle/ Property</h3>
                                     <div class="product_lists">
                                         <ng-container *ngFor="let _obj of this.PropertyMaster; let _ind = index">
-                                            <div class="products" [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
+                                            <div class="products"
+                                                [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
                                                 (click)="onSelectproperty(_obj,_ind)">
                                                 <div class="product_img">
                                                     <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
@@ -135,24 +137,60 @@
                             </div>
                             <div class="tab-pane" id="timeslotsection" [ngClass]="{'show active':_wizard_index == 4}">
                                 <ng-container *ngIf="this.TimeMaster.length>0">
-                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time Slot is required.</p>
+                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time
+                                        Slot is required.</p>
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
-                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
-                                                <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
+                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
+                                                [ngClass]="{'disabled':ismonthly}">
+                                                <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active': _obj.isChecked,'disabled':_obj.isDisabled}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     {{_obj.option_value}}</a>
                                             </li>
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':ismonthly}" style="cursor:pointer"
+                                                    (click)="onSelectPackageEvent()">
+                                                    Basic Monthly</a></li>
                                         </ul>
 
                                     </div>
                                 </ng-container>
+                                <div *ngIf="this.ismonthly">
+                                    <div class="form-group">
+                                        <label for="from_date_month" class="form-label">Start Date
+                                            :</label> <i class="ph-duotone ph-info"
+                                            ngbPopover="This is the popover content" triggers="click" placement="right"
+                                            popoverClass="custom-popover">
+                                        </i>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                #from_date_month="ngbDatepicker" id="from_date_month"
+                                                from_date_month.displayMonths="true" formControlName="from_date_month"
+                                                placeholder="dd-mm-yyyy" [minDate]="minmonth"
+                                                (click)="from_date_month.toggle();" (dateSelect)="onDateSelect($event)">
+                                            <span class="input-group-text" required>
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="from_date_month.invalid && (from_date_month.dirty || from_date_month.touched) || from_date_alert!=''"
+                                            class="error_msg">
+                                            <ng-container *ngIf="from_date_month.errors?.['required']">
+                                                Start Date is required.
+                                            </ng-container>
+                                            <ng-container *ngIf="from_date_month?.hasError('outOfRange')">
+                                                Please select a date within 1 month range.
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
                                 <br>
                                 <div class="slot-container">
                                     <ng-container formArray="lst_cart_product">
-
+                                        <!-- [ngClass]="{'disabled':this.ismonthly}" -->
                                         <div class="slot-card" [formGroup]='_objPass'
+                                            [ngClass]="{'disabled':this.ismonthly}"
                                             *ngFor="let _objPass of timeArray?.controls;let i =index">
                                             <div class="card">
                                                 <div class="card-header">
@@ -160,8 +198,13 @@
                                                         <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
                                                         </h3>
                                                         <div class="slot-top-tag">
-                                                            <p>Property: <strong>{{_objPass.controls['product_name'].value}}</strong> |</p>  
-                                                            <p>Base Price: <strong>{{_objPass.controls['base_amount'].value}}</strong></p>
+                                                            <p>Property:
+                                                                <strong>{{_objPass.controls['product_name'].value}}</strong>
+                                                                |
+                                                            </p>
+                                                            <p>Base Price:
+                                                                <strong>{{_objPass.controls['base_amount'].value}}</strong>
+                                                            </p>
                                                         </div>
 
                                                     </div>
@@ -172,16 +215,17 @@
                                                         <div class="form-group">
                                                             <label for="screen_repetition_id_{{i+1}}"
                                                                 class="form-label">Advertise
-                                                                Repetition 
+                                                                Repetition
                                                                 <!-- {{_objPass.controls['repetition_price'].value}} -->
                                                                 <i class="ph-duotone ph-info"
                                                                     ngbPopover="This is the popover content"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
-                                                                </label>
-                                                            <select class="form-control" id="screen_interval"
-                                                                (change)="onRepetitionChange($event,i)">
+                                                            </label>
+                                                            <select class="form-control" id="screen_repetition"
+                                                                (change)="onRepetitionChange($event,i)"
+                                                                formControlName="selectedReptitionddl">
                                                                 <option id="repet_value_id_" value="" class="disabled">
                                                                     Select
                                                                     Repetition</option>
@@ -218,7 +262,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="interval_id_{{i+1}}" class="form-label">Advertise
+                                                            <label for="interval_id_{{i+1}}"
+                                                                class="form-label">Advertise
                                                                 length
                                                                 <!-- {{_objPass.controls['interval_price'].value}} -->
                                                                 <i class="ph-duotone ph-info"
@@ -226,9 +271,10 @@
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
-                                                                </label>
+                                                            </label>
                                                             <select class="form-control" id="screen_interval"
-                                                                (change)="onIntervalChange($event,i)">
+                                                                (change)="onIntervalChange($event,i)"
+                                                                formControlName="selectedIntervalddl">
                                                                 <option id="interval_value_id_" value=""
                                                                     class="disabled">Select
                                                                     Interval</option>
@@ -247,7 +293,7 @@
                                                                 </ng-container>
                                                             </div>
                                                         </div>
-                                                    
+
                                                         <div class="form-group">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
@@ -309,7 +355,9 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="total-card-bottom">Total Price: <strong>{{_objPass.controls['total_amount'].value}}</strong></div>
+                                                    <div class="total-card-bottom">Total Price:
+                                                        <strong>{{_objPass.controls['total_amount'].value}}</strong>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -326,24 +374,22 @@
                                 </div>
                                 <div class="d-sm-flex">
                                     <div class="previous me-2" [ngClass]="{'disabled':_wizard_index == 0}">
-                                        <a style="text-decoration: none;"
-                                            (click)="change_wizard_index('minus')"
+                                        <a style="text-decoration: none;" (click)="change_wizard_index('minus')"
                                             class="btn  btn-outline-primary mt-3 mt-md-0">
                                             Back To Previous
                                         </a>
                                     </div>
                                     <div class="next" [ngClass]="{'disabled':_wizard_index == 4}">
                                         <a style="text-decoration: none; color: white;"
-                                            (click)="change_wizard_index('plus')"
-                                            class="btn primary_btn mt-3 mt-md-0">
+                                            (click)="change_wizard_index('plus')" class="btn primary_btn mt-3 mt-md-0">
                                             Next Step
                                         </a>
                                     </div>
 
                                 </div>
-                                <div class="last"  [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
+                                <div class="last"
+                                    [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
                                     <a style="text-decoration: none; color: white;"
-                                       
                                         class="btn btn-secondary mt-3 mt-md-0" (click)="add_to_cart()">
                                         Add to cart
                                     </a>

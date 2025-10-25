@@ -30,6 +30,7 @@ export class ProductComponent implements OnInit {
 
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
+  @ViewChild("from_date_month", { static: true }) from_date_month!: NgbInputDatepicker;
 
   // ngAfterViewInit(): void {
   //   const popoverTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -72,6 +73,8 @@ export class ProductComponent implements OnInit {
   maxfromDate: NgbDateStruct | null = null;
   mintoDate: NgbDateStruct | null = null;
   maxtoDate: NgbDateStruct | null = null;
+  minmonth: NgbDateStruct | null = null;
+  maxmonth: NgbDateStruct | null = null;
   ConfigMaster: any = [];
 
   fgverify!: FormGroup;
@@ -185,6 +188,10 @@ export class ProductComponent implements OnInit {
     // this.gettimeslot();
   }
 
+  private toNgbDate(date: Date): NgbDateStruct {
+    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+  }
+
   initform() {
     this.fgcategorymaster = this._fbCategoryMaster.group({
       category_id: [0],
@@ -194,7 +201,8 @@ export class ProductComponent implements OnInit {
       lstscreen: [''],
       lsttimeslot: [''],
       lst_cart_product: this._fbCategoryMaster.array([]),
-      final_price: ['']
+      final_price: [''],
+      from_date_month: ['']
     });
 
     this.fgverify = this._fbCategoryMaster.group({
@@ -320,7 +328,8 @@ export class ProductComponent implements OnInit {
         this.TimeMaster = res;
         this.TimeMaster = this.TimeMaster.map((item: any) => ({
           ...item,          // keep existing properties
-          isChecked: false  // add new key
+          isChecked: false,
+          isDisabled: false  // add new key
         }));
         this._cdr.detectChanges();
         console.log(" this.TimeMaster", this.TimeMaster)
@@ -391,12 +400,64 @@ export class ProductComponent implements OnInit {
       console.log(`Removed repetition_category_id ${repId} from timeArray`);
     }
   }
+
+  ismonthly: boolean = false;
+  onSelectPackageEvent() {
+    const today = new Date();
+
+    // initial restriction (today + 1 month)
+    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+
+    this.ismonthly = !this.ismonthly;
+    this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+      this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
+      // const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value === "Repetition 4");
+      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value === "Upto 30 Seconds");
+      if (this.isRepetitionExists(_timeslot?.option_value_id)) {
+        this.removefromarray(_timeslot?.option_value_id);
+      } else {
+        this.timemastervalid = false;
+        let control: FormGroup = this._fbCategoryMaster.group({
+          route_category_id: [this._categoryRouteMaster.category_id],
+          route_category: [this._categoryRouteMaster.category],
+          product_id: [this._categoryScreenMaster.product_id],
+          product_name: [this._categoryScreenMaster.product_name],
+          timeslot_category_id: [_timeslot ? _timeslot?.option_value_id : '', [Validators.required]],
+          timeslot_category: [_timeslot ? _timeslot?.option_value : '', [Validators.required]],
+          from_date: ['', [Validators.required]],
+          to_date: ['', [Validators.required]],
+          total_amount: [this._categoryScreenMaster.base_amount],
+          base_amount: [this._categoryScreenMaster.base_amount],
+          timeslot_price: [_timeslot ? _timeslot?.price_delta : 0.00],
+          repetition_category_id: [0],
+          repetition_category: [''],
+          selectedReptitionddl: [_itemRepe[0]?.option_value_id],
+          repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
+          interval_category_id: [0],
+          interval_category: [''],
+          selectedIntervalddl: [_itemInterval[0]?.option_value_id],
+          interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
+          attribute_amount: 0.00,
+          quantity: [1],
+          date_total: 0.00
+        });
+
+        this.timeArray.push(control);
+        this.onRepetitionChange(this.ScreenRepeMaster[0]?.option_value_id, 0)
+        this.onIntervalChange(this.ScreenIntervalMaster[0]?.option_value_id, 0)
+        this.calculate_final_amount((this.timeArray.length - 1))
+      }
+    })
+  }
+
   onSelectEvent($event: any, _index: number = 0) {
+    debugger
     if ($event && $event != null && $event != '') {
       this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-      const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+      const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value === "Repetition 4");
+      const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value === "Upto 30 Seconds");
       if (this.isRepetitionExists($event?.option_value_id)) {
         this.removefromarray($event?.option_value_id);
       } else {
@@ -415,9 +476,11 @@ export class ProductComponent implements OnInit {
           timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
           repetition_category_id: [0],
           repetition_category: [''],
+          selectedReptitionddl: [_itemRepe[0]?.option_value_id],
           repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
           interval_category_id: [0],
           interval_category: [''],
+          selectedIntervalddl: [_itemInterval[0]?.option_value_id],
           interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
           attribute_amount: 0.00,
           quantity: [1],
@@ -461,12 +524,16 @@ export class ProductComponent implements OnInit {
 
 
   onRepetitionChange($event: any, _index: number) {
-    const selectedValue = $event.target.value;
+    const selectedValue = this.ismonthly ? $event : $event.target.value;
     if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenRepeMaster.find((x: any) => x.option_value_id == selectedValue);
       let obj = this.timeArray.at(_index) as FormGroup;
       obj.controls["repetition_category"].setValue(selectedItem ? selectedItem?.option_value : '');
+      obj.controls["repetition_category"].updateValueAndValidity();
       obj.controls["repetition_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
+      obj.controls["repetition_category_id"].updateValueAndValidity();
+      obj.controls["selectedReptitionddl"].setValue(selectedItem ? selectedItem?.option_value_id.toString() : '0');
+      obj.controls["selectedReptitionddl"].updateValueAndValidity();
       this.calculate_final_amount(_index, 'repetition', selectedItem ? selectedItem?.price_delta : 0.00);
       this._cdr.detectChanges();
     }
@@ -474,12 +541,16 @@ export class ProductComponent implements OnInit {
   }
 
   onIntervalChange($event: any, _index: number) {
-    const selectedValue = $event.target.value;
+    const selectedValue = this.ismonthly ? $event : $event.target.value;
     let obj = this.timeArray.at(_index) as FormGroup;
     if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
       obj.controls["interval_category"].setValue(selectedItem ? selectedItem?.option_value : '');
+      obj.controls["interval_category"].updateValueAndValidity();
       obj.controls["interval_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
+      obj.controls["interval_category_id"].updateValueAndValidity();
+      obj.controls["selectedIntervalddl"].setValue(selectedItem ? selectedItem?.option_value_id.toString() : '0');
+      obj.controls["selectedIntervalddl"].updateValueAndValidity();
       this.calculate_final_amount(_index, 'interval', selectedItem ? selectedItem?.price_delta : 0.00);
       this._cdr.detectChanges();
     }
@@ -502,14 +573,11 @@ export class ProductComponent implements OnInit {
 
     let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
     obj.controls['attribute_amount'].setValue(attribute_amount);
-
+    obj.controls["attribute_amount"].updateValueAndValidity();
     let base_amount = (obj.controls['base_amount'].value) * this.quantity;
-    debugger
     let total_amount = (base_amount + attribute_amount);
-
-    // total_amount = total_amount + (_days_total ? _days_total : 0.00)
     obj.controls['total_amount'].setValue(total_amount);
-    // this._totalAmount = total_amount;
+    obj.controls["total_amount"].updateValueAndValidity();
     this._cdr.detectChanges();
   }
   readonly DELIMITER = '-';
@@ -564,58 +632,19 @@ export class ProductComponent implements OnInit {
         _total_amount = (_total_amount - date_total);
         _attribute_amount = (_attribute_amount - date_total);
         obj.controls['attribute_amount'].setValue(_attribute_amount);
+        obj.controls['attribute_amount'].updateValueAndValidity();
       }
       let _date_total = 0.00;
       _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
       obj.controls['date_total'].setValue(_date_total);
+      obj.controls['date_total'].updateValueAndValidity();
       total_amount = (_total_amount + _date_total);
 
       obj.controls['total_amount'].setValue(total_amount);
+      obj.controls['total_amount'].updateValueAndValidity();
       // this._totalAmount = total_amount;
     }
     this._cdr.detectChanges();
-  }
-
-  calculate_final_amount_backup(_index: number, _param: string, _price_delta: any) {
-    debugger
-    let obj = this.timeArray.at(_index) as FormGroup;
-    let current_price_delta = _price_delta;
-
-    let prev_repetition_price = obj.controls['repetition_price'].value;
-    let prev_interval_price = obj.controls['interval_price'].value;
-
-    let prev_total_amount = obj.controls['total_amount'].value;
-    let prev_attribute_amount = obj.controls['attribute_amount'].value;
-    let curr_total_amount = 0.00;
-    let curr_attribute_amount = 0.00;
-
-    if (_param == 'repetition') {
-
-      obj.controls["repetition_price"].setValue(current_price_delta);
-      obj.controls["repetition_price"].updateValueAndValidity();
-      let attribute_amount = (prev_attribute_amount - (prev_repetition_price ? prev_repetition_price : 0.00));
-      curr_attribute_amount = (attribute_amount + current_price_delta);
-      obj.controls["attribute_amount"].setValue(curr_attribute_amount);
-      obj.controls["attribute_amount"].updateValueAndValidity();
-
-      let total_amount = (prev_total_amount - (prev_repetition_price ? prev_repetition_price : 0.00));
-      curr_total_amount = (total_amount + current_price_delta);
-      obj.controls["total_amount"].setValue(curr_total_amount);
-      obj.controls["total_amount"].updateValueAndValidity();
-    } else if (_param == 'interval') {
-
-      obj.controls["interval_price"].setValue(current_price_delta);
-      obj.controls["interval_price"].updateValueAndValidity();
-      let attribute_amount = (prev_attribute_amount - (prev_interval_price ? prev_interval_price : 0.00));
-      curr_attribute_amount = (attribute_amount + current_price_delta);
-      obj.controls["attribute_amount"].setValue(curr_attribute_amount);
-      obj.controls["attribute_amount"].updateValueAndValidity();
-
-      let total_amount = (prev_total_amount - (prev_interval_price ? prev_interval_price : 0.00));
-      curr_total_amount = (total_amount + current_price_delta);
-      obj.controls["total_amount"].setValue(curr_total_amount);
-      obj.controls["total_amount"].updateValueAndValidity();
-    }
   }
 
   _usercartMaster: usercartMaster = {};
@@ -627,7 +656,7 @@ export class ProductComponent implements OnInit {
     console.log("ischeked", ischekedarray);
     if (ischekedarray?.length > 0) {
       this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
-      if (this.fgcategorymaster.valid || flag==1) {
+      if (this.fgcategorymaster.valid || flag == 1) {
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
         let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
@@ -641,11 +670,11 @@ export class ProductComponent implements OnInit {
 
   proceed_to_cart(_form_data: any = null, flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      if(user_id=='' || user_id==null || user_id==undefined){
+      if (user_id == '' || user_id == null || user_id == undefined) {
         user_id = 0;
       }
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        if ((!user_id || parseInt(user_id, 10) <= 0) && flag==0) {
+        if ((!user_id || parseInt(user_id, 10) <= 0) && flag == 0) {
           this.modalService.open(this.formModal, {
             size: 'm',
             backdrop: true,
@@ -680,9 +709,9 @@ export class ProductComponent implements OnInit {
           });
         });
         debugger
-        console.log("_value_object",_value_object)
-        let _value_option:any=[];
-        _value_object.filter((_res:any)=>{
+        console.log("_value_object", _value_object)
+        let _value_option: any = [];
+        _value_object.filter((_res: any) => {
           this._usercartmappingModel = {
             base_amount: _res?.base_amount,
             product_id: _res?.product_id,
@@ -691,7 +720,7 @@ export class ProductComponent implements OnInit {
             user_id: flag == 1 ? 0 : user_id,
             optionvalues: JSON.stringify(_res)
           }
-          this._totalAmount = this._totalAmount+_res?.total_amount;
+          this._totalAmount = this._totalAmount + _res?.total_amount;
           _value_option.push(this._usercartmappingModel);
         })
 
@@ -701,8 +730,8 @@ export class ProductComponent implements OnInit {
         let _cart_tax = (_cart_after_discount * (18 / 100));
         let _cart_after_tax = (_cart_after_discount + _cart_tax);
         let _cart_total = (_cart_after_tax);
-       
-       
+
+
 
         this._usercartMaster = {
           flag: 'NEWCART',
@@ -762,8 +791,6 @@ export class ProductComponent implements OnInit {
       location.reload();
     }, 1000);
   }
-
-
 
   _mobileverification: user_verification = {}
 
@@ -945,5 +972,38 @@ export class ProductComponent implements OnInit {
     this.add_to_cart(1);
   }
 
+  dateRangeValidator = (control: any) => {
+    const date = control.value;
+    if (!date || !this.minmonth || !this.maxmonth) return null; // ✅ prevent null access
+
+    const selected = new Date(date.year, date.month - 1, date.day);
+    const min = new Date(this.minmonth.year, this.minmonth.month - 1, this.minmonth.day);
+    const max = new Date(this.maxmonth.year, this.maxmonth.month - 1, this.maxmonth.day);
+
+    return selected < min || selected > max ? { outOfRange: true } : null;
+  };
+
+  onDateSelect(date: NgbDateStruct) {
+    // When a new date is selected, recalculate the 1-month window
+    const selectedDate = new Date(date.year, date.month - 1, date.day);
+    const nextMonth = new Date(selectedDate);
+    nextMonth.setDate(selectedDate.getDate() + 30);
+
+    this.fgcategorymaster.get('from_date_month')?.updateValueAndValidity();
+
+
+    this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+      debugger
+      const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
+        (group as FormGroup).get('timeslot_category_id')?.value === _timeslot?.option_value_id
+      );
+      let obj = this.timeArray.at(index) as FormGroup;
+      obj.controls["from_date"].setValue(date);
+      obj.controls["from_date"]?.updateValueAndValidity();
+      obj.controls["to_date"].setValue(this.toNgbDate(nextMonth));
+      obj.controls["to_date"]?.updateValueAndValidity()
+      console.log("index",index)
+    });
+  }
 }
 
