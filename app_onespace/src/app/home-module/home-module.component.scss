@@ -208,7 +208,13 @@
     line-height: 26px;
     margin-bottom: 8px;
 }
-
+.tablet-step {
+    display: none;
+}
+.desktop-step {
+    justify-content: center;
+    gap: 30px;
+}
 // Responsive CSS
 @media only screen and (min-width: 1201px) {
     .categories {
@@ -323,6 +329,12 @@
     }
     .testimonial_designation {
         font-size: 13px;
+    }
+    .tablet-step {
+        display: block;
+    }
+    .desktop-step {
+        display: none;
     }
 }
 
