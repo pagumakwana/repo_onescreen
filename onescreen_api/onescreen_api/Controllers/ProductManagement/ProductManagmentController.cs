@@ -554,5 +554,20 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.update_to_cart(batch_id, user_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="search_date"></param>
+        /// <returns></returns>
+        [Route("getorderproduct")]
+        [HttpGet]
+        public responseModel getorderproduct(string search_date = "null")
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getorderproduct(search_date);
+            }
+        }
     }
 }

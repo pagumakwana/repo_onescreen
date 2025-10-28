@@ -2316,3 +2316,25 @@ export interface wallet_master {
     user_id?: any,
     balance_amount?: any
 }
+
+export interface userorderproductModel{
+    order_product_map_id?: any,
+    order_id?: any,
+    cart_master_id?: any,
+    product_id?: any,
+    timeslot_category_id?: any,
+    timeslot_category?: any,
+    timeslot_price?: any,
+    repetition_category_id?: any,
+    repetition_category?: any,
+    repetition_price?: any,
+    interval_category_id?: any,
+    interval_category?: any,
+    interval_price?: any,
+    from_date?: any,
+    to_date?: any,
+    quantity?: any,
+    base_amount?: any,
+    attribute_amount?: any,
+    total_amount?: any,
+}

@@ -690,5 +690,8 @@ export class WebDService {
     public update_to_cart(batch_id:any,user_id = 0) {
         return this._base._apiService.post(`${ApiConstant.product.update_to_cart}?batch_id=${batch_id}&user_id=${user_id}`);
     }
+    public getorderproduct(search_date:any) {
+        return this._base._apiService.get(`${ApiConstant.product.getorderproduct}?search_date=${search_date}`);
+    }
 
 }
