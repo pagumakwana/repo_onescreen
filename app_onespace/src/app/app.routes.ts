@@ -46,6 +46,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { DisputeAndCancellationPolicyComponent } from './dispute-and-cancellation-policy/dispute-and-cancellation-policy.component';
 import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
+import { ScreenbookingComponent } from './adminmodeules/screenbooking/screenbooking.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -285,6 +286,11 @@ export const routes: Routes = [
                 path: 'control/:control_id',
                 component: ManagecontrolComponent,
                 title: 'Controls',
+            },
+            {
+                path: 'booking',
+                component: ScreenbookingComponent,
+                title: 'ScreenBooking',
             },
         ]
     },

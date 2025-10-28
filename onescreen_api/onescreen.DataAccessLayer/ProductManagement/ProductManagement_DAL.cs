@@ -2275,6 +2275,73 @@ namespace onescreenDAL.ProductManagement
 
         }
 
+        public responseModel getorderproduct(string search_date = "null")
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@search_date", search_date, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getorderproduct, ObJParameterCOl, CommandType.StoredProcedure);
+                List<userorderproductModel> lstorderproduct = new List<userorderproductModel>();
+                if (ds != null)
+                {
+
+                    lstorderproduct = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new userorderproductModel
+                          {
+                              order_product_map_id = Row.Field<Int64>("order_product_map_id"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              order_id = Row.Field<Int64>("order_id"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              product_id = Row.Field<Int64>("product_id"),
+                              timeslot_category_id = Row.Field<Int64>("time_slot_id"),
+                              timeslot_category = Row.Field<string>("time_slot_value"),
+                              timeslot_price = Row.Field<decimal>("time_slot_price"),
+                              repetition_category_id = Row.Field<Int64>("repetition_id"),
+                              repetition_category = Row.Field<string>("repetition_value"),
+                              repetition_price = Row.Field<decimal>("repetition_price"),
+                              interval_category_id = Row.Field<Int64>("interval_id"),
+                              interval_category = Row.Field<string>("interval_value"),
+                              interval_price = Row.Field<decimal>("interval_price"),
+                              from_date = Row.Field<string>("from_date"),
+                              to_date = Row.Field<string>("to_date"),
+                              quantity = Row.Field<Int64>("quantity"),
+                              base_amount = Row.Field<decimal>("base_amount"),
+                              attribute_amount = Row.Field<decimal>("attribute_amount"),
+                              total_amount = Row.Field<decimal>("total_amount"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstorderproduct;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose() 
         { 
         }

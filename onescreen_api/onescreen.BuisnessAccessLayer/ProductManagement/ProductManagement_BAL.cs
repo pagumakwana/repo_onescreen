@@ -280,7 +280,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.update_to_cart(batch_id, user_id);
             }
         }
-            public void Dispose() 
+
+        public responseModel getorderproduct(string search_date = "null")
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getorderproduct(search_date);
+            }
+        }
+        public void Dispose() 
         { 
         }
     }
