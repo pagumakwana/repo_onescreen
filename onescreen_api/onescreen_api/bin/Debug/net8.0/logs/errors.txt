@@ -330,3 +330,39 @@
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-11-01 14:42:35 | /api/product/add_to_cart | @ismonthly is not a parameter for procedure managecartmaster. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1195
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 140
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.add_to_cart(usercartMaster objusercartmaster) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 260
+   at lambda_method19(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82
+2025-11-01 14:50:17 | /api/product/getusercartdetail | Cannot cast DBNull. Value to type 'System.Boolean'. Please use a nullable type. 
+   at onescreenDAL.ProductManagement.ProductManagement_DAL.getusercartdetail(Nullable`1 batch_id, Int64 user_id, Int64 product_id, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.DataAccessLayer/ProductManagement/ProductManagement_DAL.cs:line 1288
+   at onescreenBAL.ProductManagement.ProductManagement_BAL.getusercartdetail(Nullable`1 batch_id, Int64 user_id, Int64 product_id, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen.BuisnessAccessLayer/ProductManagement/ProductManagement_BAL.cs:line 156
+   at onescreen_api.Controllers.ProductManagement.ProductManagmentController.getusercartdetail(Nullable`1 batch_id, Int64 user_id, Int64 product_id, Int64 start_count, Int64 end_count) in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Controllers/ProductManagement/ProductManagmentController.cs:line 294
+   at lambda_method22(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Program.<>c.<<<Main>$>b__0_5>d.MoveNext() in /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/Program.cs:line 82

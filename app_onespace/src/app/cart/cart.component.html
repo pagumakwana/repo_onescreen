@@ -42,15 +42,8 @@
       <div class="tab-pane show active" id="ecomtab-1" role="tabpanel" aria-labelledby="ecomtab-tab-1">
         <div class="row gy-4">
           <div class="col-xl-8">
-            <!-- <div class="card">
-              <div class="card-body border-bottom">
-                <h5 class="mb-0">
-                  Cart Item
-                </h5>
-              </div> -->
-            <!-- Cart Section -->
             <section>
-              <h2 class="cart-title">Cart Item</h2>
+              <h2 class="cart-title">Cart Item</h2> <a class="btn btn-primary mt-3 text-white" *ngIf="this.ismonthly"  (click)="removeFromCarts()" >Remove Monthly Package</a>
 
               <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
 
@@ -58,7 +51,7 @@
                 <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
                   <div class="card-header">
                     <h4>{{ item.product_name }}</h4>
-                    <div class="delete-btn"> <span (click)="removeFromCart(item)">✕</span></div>
+                    <div class="delete-btn" *ngIf="!item.ismonthly"> <span (click)="removeFromCart(item)">✕</span></div>
                   </div>
                   <div class="card-body">
                     <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
@@ -526,4 +519,9 @@
 
 <swal #loginsuccessSwal [swalOptions]="swalOptions" title="Cart updated successfully!" text="" icon="success"
   [showConfirmButton]="false">
+</swal>
+
+<swal #deletepackageSwal [swalOptions]="swalOptions" title="Remove all product from basic package?" text="This cannot be undone"
+  icon="warning" [showCancelButton]="true" [focusCancel]="true"
+  [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-secondary btn-sm'}">
 </swal>

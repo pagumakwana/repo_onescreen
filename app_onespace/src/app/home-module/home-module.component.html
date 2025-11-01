@@ -8,14 +8,12 @@
 
         <section class="container_section categories">
             <div class="inner_container">
-                <div class="category" (click)="goToProduct()">
-                    <img src="../../../assets/images/moving.png" alt="Moving" />
-                    <!-- <span>Moving</span> -->
-                </div>
-                <div class="category" (click)="goToProduct()">
-                    <img src="../../../assets/images/fixed.png" alt="Fixed" />
-                    <!-- <span>Fixed</span> -->
-                </div>
+                <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
+                    <div class="category" [ngClass]="{'disabled': _obj.isfeatured}" style="cursor: pointer;"
+                        routerLink="/product">
+                        <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                    </div>
+                </ng-container>
             </div>
         </section>
 
@@ -58,22 +56,22 @@
                     <p class="step_description">Finalize your booking and start your campaign.
                     </p>
                 </div>
+            </div>
+            <div class="steps desktop-step">
+                <div class="step">
+                    <img src="../../../assets/images/how it works 4.png" alt="Get Paid Image" />
+                    <span class="step_count">4</span>
+                    <h3 class="secondary_heading">Set Your Schedule</h3>
+                    <p class="step_description">Choose ideal time slots to display your ad.
+                    </p>
                 </div>
-                <div class="steps desktop-step">
-                    <div class="step">
-                        <img src="../../../assets/images/how it works 4.png" alt="Get Paid Image" />
-                        <span class="step_count">4</span>
-                        <h3 class="secondary_heading">Set Your Schedule</h3>
-                        <p class="step_description">Choose ideal time slots to display your ad.
-                        </p>
-                    </div>
-                    <div class="step desktop-step">
-                        <img src="../../../assets/images/how it works 5.png" alt="Get Paid Image" />
-                        <span class="step_count">5</span>
-                        <h3 class="secondary_heading">Confirm & Go Live</h3>
-                        <p class="step_description">Finalize your booking and start your campaign.
-                        </p>
-                    </div>
+                <div class="step desktop-step">
+                    <img src="../../../assets/images/how it works 5.png" alt="Get Paid Image" />
+                    <span class="step_count">5</span>
+                    <h3 class="secondary_heading">Confirm & Go Live</h3>
+                    <p class="step_description">Finalize your booking and start your campaign.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -106,13 +104,14 @@
                         <div class="whyus_point">
                             <img src="../../../assets/images/free_pickup.svg" alt="Free Pickup Image" />
                             <h3 class="whyus_name">Advanced LED Technology</h3>
-                            <p class="whyus_description">Deliver bright, high-quality visuals that capture attention.</p>
+                            <p class="whyus_description">Deliver bright, high-quality visuals that capture attention.
+                            </p>
                         </div>
-                        <div class="whyus_point">
+                        <!-- <div class="whyus_point">
                             <img src="../../../assets/images/invoice.svg" alt="Valid Purchase Invoice Image" />
                             <h3 class="whyus_name">Flexible Booking Options</h3>
                             <p class="whyus_description">Choose vehicle, route, screen, and time—your way.</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterModule } from "@angular/router";
 
 @Component({
 	selector: 'app-home-module',
 	standalone: true,
-	imports: [CommonModule, FormsModule, RouterLink],
+	imports: [CommonModule, FormsModule, RouterModule],
 	templateUrl: './home-module.component.html',
 	styleUrl: './home-module.component.scss',
 	encapsulation: ViewEncapsulation.None,
@@ -25,7 +25,7 @@ export class HomeModuleComponent implements OnInit {
 	) { }
 
 	bannerList: any = [];
-
+	TypeMaster: any = [];
 
 	goToProduct() {
 		this._base._router.navigate(['/product']);
@@ -53,6 +53,7 @@ export class HomeModuleComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.getBanner();
+		this.gettypecategory();
 	}
 
 	getBanner() {
@@ -62,4 +63,16 @@ export class HomeModuleComponent implements OnInit {
 			this._cdr.detectChanges();
 		});
 	}
+
+	gettypecategory() {
+		this._webDService.getcategory('all', 0, 'vehicle_type', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
+		  this.TypeMaster = resCategory.data;
+		  this.TypeMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+		  this.TypeMaster = this.TypeMaster.map((item: any) => ({
+			...item,          // keep existing properties
+			isChecked: false  // add new key
+		  }));
+		  this._cdr.detectChanges();
+		});
+	  }
 }

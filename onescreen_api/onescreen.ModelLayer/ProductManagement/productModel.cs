@@ -133,6 +133,7 @@ namespace onescreenModel.ProductManagement
         public Int64? user_id { get; set; }
         public Guid? batch_id { get; set; }
         public Int64? coupon_id { get; set; }
+        public bool? ismonthly { get; set; }
         public string? coupon_code { get; set; }
         public decimal cart_total { get; set; }
         public decimal cart_subtotal { get; set; }
@@ -148,6 +149,7 @@ namespace onescreenModel.ProductManagement
         public Int64? product_id { get; set; }
         public string? product_name { get; set; }
         public Int64? user_id { get; set; }
+        public bool? ismonthly { get; set; }
         public string? fullname { get; set; }
         public string? optionvalues { get; set; }
         public decimal attribute_amount { get; set; }
@@ -220,6 +222,7 @@ namespace onescreenModel.ProductManagement
         public Int64 coupon_id { get; set; }
         public string? order_number { get; set; }
         public string? payment_type { get; set; }
+        public bool? ismonthly { get; set; }
         public string? payment_order_id { get; set; }
         public string? payment_response { get; set; }
         public decimal? order_total { get; set; }
@@ -237,6 +240,7 @@ namespace onescreenModel.ProductManagement
         public long order_id { get; set; }
         public long order_history_id { get; set; }
         public long product_id { get; set; }
+        public bool? ismonthly { get; set; }
         public long cart_master_id { get; set; }
         public string? optionvalues { get; set; }
         public List<userorderproductModel> optionvaluesParsed { get; set; }
@@ -248,6 +252,7 @@ namespace onescreenModel.ProductManagement
         public long? order_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
+        public bool? ismonthly { get; set; }
         public long? timeslot_category_id { get; set; }         // [time_slot_id]
         public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
         public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)

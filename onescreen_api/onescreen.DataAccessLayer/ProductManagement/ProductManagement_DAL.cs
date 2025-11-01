@@ -1159,6 +1159,7 @@ namespace onescreenDAL.ProductManagement
                                     item.base_amount = item.base_amount;
                                     item.total_amount = item.total_amount;
                                     item.attribute_amount = item.attribute_amount;
+                                    item.ismonthly = item.ismonthly;
                                     item.client_id = client_id;
                                     item.project_id = project_id;
                                     item.createdby = objusercartmaster.user_id;
@@ -1234,6 +1235,7 @@ namespace onescreenDAL.ProductManagement
                               cart_master_id = Row.Field<Int64>("cart_master_id"),
                               optionvalues = Row.Field<string>("optionvalues"),
                               attribute_amount = Row.Field<decimal>("attribute_amount"),
+                              ismonthly = Row.Field<bool>("ismonthly"),
                               base_amount = Row.Field<decimal>("base_amount"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
@@ -1611,6 +1613,7 @@ namespace onescreenDAL.ProductManagement
                                     item.order_id = objuserorderMaster.order_id;
                                     item.cart_master_id = objuserorderMaster.cart_master_id;
                                     item.product_id = item.product_id;
+                                    item.ismonthly = item.ismonthly;
                                     item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
                                     item.user_id = objuserorderMaster.user_id;
                                     item.client_id = client_id;
