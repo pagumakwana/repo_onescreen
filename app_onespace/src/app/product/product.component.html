@@ -60,7 +60,8 @@
                                     type is required.</p>
                                 <div class="product_lists">
                                     <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
-                                        <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                        <div class="products"
+                                            [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
                                             (click)="onSelecttype(_obj,_ind)">
                                             <div class="product_img">
                                                 <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
@@ -161,7 +162,7 @@
                                     <div class="form-group">
                                         <label for="from_date_month" class="form-label">Start Date
                                             :</label> <i class="ph-duotone ph-info"
-                                            ngbPopover="This is the popover content" triggers="click" placement="right"
+                                            ngbPopover="Ad start date for package" triggers="click" placement="right"
                                             popoverClass="custom-popover">
                                         </i>
                                         <div class="input-group">
@@ -200,11 +201,11 @@
                                                         <div class="slot-top-tag">
                                                             <p>Property:
                                                                 <strong>{{_objPass.controls['product_name'].value}}</strong>
-                                                                |
+                                                                <!-- | -->
                                                             </p>
-                                                            <p>Base Price:
+                                                            <!-- <p>Base Price:
                                                                 <strong>{{_objPass.controls['base_amount'].value}}</strong>
-                                                            </p>
+                                                            </p> -->
                                                         </div>
 
                                                     </div>
@@ -217,8 +218,7 @@
                                                                 class="form-label">Advertise
                                                                 Repetition
                                                                 <!-- {{_objPass.controls['repetition_price'].value}} -->
-                                                                <i class="ph-duotone ph-info"
-                                                                    ngbPopover="This is the popover content"
+                                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
@@ -266,8 +266,7 @@
                                                                 class="form-label">Advertise
                                                                 length
                                                                 <!-- {{_objPass.controls['interval_price'].value}} -->
-                                                                <i class="ph-duotone ph-info"
-                                                                    ngbPopover="This is the popover content"
+                                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
@@ -297,7 +296,7 @@
                                                         <div class="form-group">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="This is the popover content"
+                                                                ngbPopover="Ad Start date"
                                                                 triggers="click" placement="right"
                                                                 popoverClass="custom-popover">
                                                             </i>
@@ -327,7 +326,7 @@
                                                         <div class="form-group">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="This is the popover content"
+                                                                ngbPopover="Ad End date"
                                                                 triggers="click" placement="right"
                                                                 popoverClass="custom-popover">
                                                             </i>

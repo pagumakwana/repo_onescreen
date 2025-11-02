@@ -1,9 +1,9 @@
 .toggle:before {
     content: "";
-    background: url('../../assets/images/accordian_close_arrow.svg') no-repeat;
+    background: url('../../assets/images/plus.png') no-repeat;
 }
 .open .toggle:before {
-    background: url('../../assets/images/accordian_open_arrow.svg') no-repeat;
+    background: url('../../assets/images/minus.png') no-repeat;
 }
 .faqs_sec {
     display: flex;

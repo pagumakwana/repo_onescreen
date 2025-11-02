@@ -580,13 +580,13 @@ namespace onescreenDAL.ProductManagement
                               isactive = Row.Field<bool>("isactive"),
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
-                    }
-                    if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
-                    {
-                        response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
-                    }
-                    response.data = lstoptiontype;
-               
+                }
+                if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstoptiontype;
+
                 return response;
             }
             catch (Exception ex)
@@ -626,7 +626,7 @@ namespace onescreenDAL.ProductManagement
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                       ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                     }
                 }
                 return ResponseMessage;
@@ -850,7 +850,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 string ResponseMessage = "success";
-                if(objproductOptionsModel.optiontype_list.Count > 0)
+                if (objproductOptionsModel.optiontype_list.Count > 0)
                 {
                     objproductOptionsModel.optiontype_list.ForEach(item =>
                     {
@@ -1290,7 +1290,7 @@ namespace onescreenDAL.ProductManagement
         }
 
         public string remove_cart(removeusercartModel objremoveusercartModel)
-            {
+        {
             try
             {
                 string ResponseMessage = "";
@@ -1326,7 +1326,7 @@ namespace onescreenDAL.ProductManagement
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                     }
 
                 }
@@ -1519,7 +1519,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 Razorpay_OrderAttribute response = JsonConvert.DeserializeObject<Razorpay_OrderAttribute>(json);
-            return response;
+                return response;
             }
             catch (Exception)
             {
@@ -1543,7 +1543,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 Utils.verifyPaymentSignature(attributes);
-                return new RazorpayPaymentResponse { razorpay_order_id= orderId, razorpay_payment_id= paymentId, razorpay_signature= signature, status = "success" };
+                return new RazorpayPaymentResponse { razorpay_order_id = orderId, razorpay_payment_id = paymentId, razorpay_signature = signature, status = "success" };
             }
             catch (Exception)
             {
@@ -1916,7 +1916,7 @@ namespace onescreenDAL.ProductManagement
                     }
 
                     ResponseMessage = Res[0].ToString();
-                   
+
                 }
                 return ResponseMessage;
             }
@@ -2248,7 +2248,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public string update_to_cart(Guid batch_id,Int64 user_id)
+        public string update_to_cart(Guid batch_id, Int64 user_id)
         {
             string ResponseMessage = "";
             try
@@ -2345,8 +2345,8 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public void Dispose() 
-        { 
+        public void Dispose()
+        {
         }
     }
 }

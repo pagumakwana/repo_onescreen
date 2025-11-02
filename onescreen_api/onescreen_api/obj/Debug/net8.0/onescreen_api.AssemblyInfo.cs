@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+296baec113a778d1585d56342452a23b0acf6317")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f1e93eb50dfd9f1165694343ddecdbcfdf6c934")]
 [assembly: System.Reflection.AssemblyProductAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("onescreen_api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

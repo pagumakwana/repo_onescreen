@@ -187,7 +187,7 @@ export class AddmodifyauthorityComponent implements OnInit {
         // 👉 Separate array of only checked controls
         this.lstcheckdata = this.tableConfig.tableData.filter((c: any) => c.isChecked);
         
-      
+        debugger
         // Update the form control for lstcontrol
         this.fguserAuthority.controls['lstcontrol'].setValue(this.lstcheckdata);
 

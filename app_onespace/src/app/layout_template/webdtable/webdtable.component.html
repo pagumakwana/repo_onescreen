@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let tableItem of tableRecords;let i = index">
-                        <td>{{i+1}}</td>
+                        <td>{{ (config.isCustom.current * config.isCustom.steps) + (i + 1) }}</td>
                         <td *ngIf="config?.showCheckBox">
                             <div class="form-check font-size-16">
                                 <input type="checkbox" class="form-check-input" id="contacusercheck1" name="checkALL"

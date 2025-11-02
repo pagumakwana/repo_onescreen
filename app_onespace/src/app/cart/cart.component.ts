@@ -84,9 +84,8 @@ export class CartComponent implements OnInit {
     this.initform();
     if (this.batch_id == undefined || this.batch_id == null || this.batch_id == '') {
       this.batch_id = '00000000-0000-0000-0000-000000000000';
-    }else{
-      // localStorage.setItem('batch_id',this.batch_id);
     }
+    this._base._encryptedStorage.set(enAppSession.batch_id,this.batch_id);
     this.get_cart(this.batch_id);
     this.getcoupon();
     this.loadShippingData();

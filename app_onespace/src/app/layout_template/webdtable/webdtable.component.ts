@@ -334,9 +334,9 @@ export class WebdtableComponent implements OnInit {
       if (this.config?.isCustom?.total) this.loadRecords()
       this.ishide = false
 
-      setTimeout(() => {
-        this.setCheckedData();
-      }, 100);
+      // setTimeout(() => {
+      //   this.setCheckedData();
+      // }, 100);
       this.control?.valueChanges.subscribe(res => {
         this.setCheckedData();
       })
@@ -344,12 +344,13 @@ export class WebdtableComponent implements OnInit {
   }
 
   setCheckedData() {
-
+    debugger
     if (this.control?.value && Array.isArray(this.control?.value)) {
       this.config?.tableData?.filter((res: any) => {
-        res.isChecked_DataTable = this.control.value.includes(res);
+        res.isChecked_DataTable =  this.control.value.some((item: any) => item.id === res.id);
       })
     }
+    this._cdr.detectChanges();
   }
 
   getNestedObject(data: any, path: Array<string>) {

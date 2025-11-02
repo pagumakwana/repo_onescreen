@@ -404,7 +404,7 @@
 <!-- <ng-template #formModal let-modal> -->
 <!-- <app-checkout *ngIf="this.is_payment" [payment_details]="this.razorpay_OrderAttribute"
   (pay_order)="proceeds_payment($event)"></app-checkout> -->
-<swal #paysuccessSwal [swalOptions]="swalOptions" title="Order place successfully!" text="" icon="success"
+<swal #paysuccessSwal [swalOptions]="swalOptions" title="Order placed successfully." text="" icon="success"
   [showConfirmButton]="false">
 </swal>
 <swal #failureSwal [swalOptions]="swalOptions"
@@ -413,12 +413,12 @@
 </swal>
 <!-- </ng-template> -->
 
-<swal #deleteSwal [swalOptions]="swalOptions" title="Remove product from cart?" text="This cannot be undone"
+<swal #deleteSwal [swalOptions]="swalOptions" title="Remove from Cart?" text="Are you sure you want to remove this item from cart?"
   icon="warning" [showCancelButton]="true" [focusCancel]="true"
   [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-secondary btn-sm'}">
 </swal>
 
-<swal #delsuccessSwal [swalOptions]="swalOptions" title="Product Remove from cart successfully!" text="" icon="success"
+<swal #delsuccessSwal [swalOptions]="swalOptions" title="Item removed from cart successfully." text="" icon="success"
   [showConfirmButton]="false">
 </swal>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="couponOffcanvas" aria-labelledby="couponOffcanvasLabel">
@@ -521,7 +521,7 @@
   [showConfirmButton]="false">
 </swal>
 
-<swal #deletepackageSwal [swalOptions]="swalOptions" title="Remove all product from basic package?" text="This cannot be undone"
+<swal #deletepackageSwal [swalOptions]="swalOptions" title="Remove all product from basic package?" text="Are you sure you want to remove this item from cart?"
   icon="warning" [showCancelButton]="true" [focusCancel]="true"
   [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-outline-secondary btn-sm'}">
 </swal>

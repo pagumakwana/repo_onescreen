@@ -182,15 +182,19 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this._base._scriptLoaderService.load('widget', '../../assets/js/plugins/wizard.min.js');
-    this.initform();
-    this.get_config();
-    this.gettypecategory();
+    this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
+      debugger
+      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined) ? null : batch_id;
+      this.initform();
+      this.get_config();
+      this.gettypecategory();
+    })
   }
 
   private toNgbDate(date: Date): NgbDateStruct {
     return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
   }
-  // batch_id: any;
+  batch_id: any;
   initform() {
     this.fgcategorymaster = this._fbCategoryMaster.group({
       category_id: [0],
@@ -272,14 +276,7 @@ export class ProductComponent implements OnInit {
       this._wizard_index = 1;
     }
   }
-  onSelecttype_bk($event: any, _index: number = 0) {
-    debugger
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-      this._categoryTypeMaster.category_id = ($event[0]?.category_id);
-      this._categoryTypeMaster.category = ($event[0]?.category);
-      this.getpropertycategory(this._categoryTypeMaster.category_id);
-    }
-  }
+
   onSelectproperty($event: any, _index: number = 0) {
     if ($event && $event != null && $event != '') {
       this.PropertyMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
@@ -289,14 +286,7 @@ export class ProductComponent implements OnInit {
       this._wizard_index = 2;
     }
   }
-  onSelectproperty_bk($event: any) {
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-      this._categoryPropertyMaster.category_id = ($event[0]?.category_id);
-      this._categoryPropertyMaster.category = ($event[0]?.category);
-      this.getroute(this._categoryPropertyMaster.category_id);
-      // this._wizard_index=3;
-    }
-  }
+
   onSelectroute($event: any, _index: number = 0) {
     if ($event && $event != null && $event != '') {
       this.RouteMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
@@ -306,20 +296,11 @@ export class ProductComponent implements OnInit {
       this._wizard_index = 3;
     }
   }
-  onSelectroute_bk($event: any) {
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-      this._categoryRouteMaster.category_id = ($event[0]?.category_id);
-      this._categoryRouteMaster.category = ($event[0]?.category);
-      this.getscreen(this._categoryRouteMaster.category_id);
-    }
-  }
 
   onSelectscreen($event: any, _index: number = 0) {
     if ($event && $event != null && $event != '') {
       this.ScreenMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
       const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event?.product_id);
-      console.log("$event", _item)
-      debugger
       this._categoryScreenMaster.product_id = ($event?.product_id);
       this._categoryScreenMaster.product_name = ($event?.product_name);
       this._categoryScreenMaster.base_amount = (_item ? _item[0]?.base_amount : 0.00);
@@ -348,34 +329,6 @@ export class ProductComponent implements OnInit {
         console.log(" this.Screen Interval", this.ScreenIntervalMaster)
       });
       this._wizard_index = 4;
-    }
-  }
-  onSelectscreen_bk($event: any) {
-    if ($event && $event != null && $event != '' && $event.length > 0) {
-      const _item = this.ScreenMaster.filter((x: any) => x.product_id === $event[0]?.product_id);
-      console.log("$event", _item)
-      this._categoryScreenMaster.product_id = ($event[0]?.product_id);
-      this._categoryScreenMaster.product_name = ($event[0]?.product_name);
-      this._categoryScreenMaster.base_amount = (_item ? _item[0]?.base_amount : 0.00);
-      this._totalAmount = (this._totalAmount + this._categoryScreenMaster.base_amount)
-      this.getoptionvalues('Time Slot', this._categoryScreenMaster.product_id).then((res: any) => {
-        this.TimeMaster = [];
-        this.TimeMaster = res;
-        this._cdr.detectChanges();
-        console.log(" this.TimeMaster", this.TimeMaster)
-      });
-      this.getoptionvalues('Repetition', this._categoryScreenMaster.product_id).then((res: any) => {
-        this.ScreenRepeMaster = [];
-        this.ScreenRepeMaster = res;
-        this._cdr.detectChanges();
-        console.log(" this.Screen Interval", this.ScreenRepeMaster)
-      });
-      this.getoptionvalues('Interval', this._categoryScreenMaster.product_id).then((res: any) => {
-        this.ScreenIntervalMaster = [];
-        this.ScreenIntervalMaster = res;
-        this._cdr.detectChanges();
-        console.log(" this.Screen Interval", this.ScreenIntervalMaster)
-      });
     }
   }
 
@@ -461,7 +414,6 @@ export class ProductComponent implements OnInit {
   }
 
   onSelectEvent($event: any, _index: number = 0) {
-    debugger
     if ($event && $event != null && $event != '') {
       this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
@@ -512,6 +464,7 @@ export class ProductComponent implements OnInit {
       this.timeArray.removeAt(_indexTime);
     }
   }
+
   get_product_price(product_id: number) {
     return this.ScreenMaster.filter((res: any) => {
       res.product_id == product_id
@@ -530,7 +483,6 @@ export class ProductComponent implements OnInit {
       })
     });
   }
-
 
   onRepetitionChange($event: any, _index: number) {
     const selectedValue = this.ismonthly ? $event : $event?.target?.value;
@@ -574,7 +526,6 @@ export class ProductComponent implements OnInit {
     } else if (_param == 'interval') {
       obj.controls['interval_price'].setValue(_price_delta);
     }
-    debugger
     let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
     let interval_price = (obj.controls['interval_price'].value) * this.quantity;
     let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
@@ -603,7 +554,6 @@ export class ProductComponent implements OnInit {
   from_date_alert: string = '';
   to_date_alert: string = '';
   date_select(_index: any, flag: string = 'fromdate') {
-    debugger
     let obj = this.timeArray.at(_index) as FormGroup;
     let fmdate = (obj.controls['from_date'].value);
     let todate = (obj.controls['to_date'].value);
@@ -662,17 +612,14 @@ export class ProductComponent implements OnInit {
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
   add_to_cart(flag: any = 0) {
-    debugger
     this.timemastervalid = false;
     const ischekedarray = this.TimeMaster.filter((item: any) => item.isChecked == true);
-    console.log("ischeked", ischekedarray);
     if (ischekedarray?.length > 0) {
       this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
       if (this.fgcategorymaster.valid || flag == 1) {
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
         let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
-        console.log("_objFormData", _objFormData)
         this.proceed_to_cart(_objFormData, flag);
       }
     } else {
@@ -681,106 +628,105 @@ export class ProductComponent implements OnInit {
   }
 
   proceed_to_cart(_form_data: any = null, flag: any) {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      if (user_id == '' || user_id == null || user_id == undefined) {
-        user_id = 0;
-      }
-      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        if ((!user_id || parseInt(user_id, 10) <= 0) && flag == 0) {
-          this.modalService.open(this.formModal, {
-            size: 'm',
-            backdrop: true,
-            centered: true
-          });
-          return;
-        }
+    this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id:any) => {
 
-        let _value_object: any = [];
-        _form_data?.filter((_item: any) => {
-          _value_object?.push({
-            timeslot_category_id: _item.timeslot_category_id,
-            timeslot_category: _item.timeslot_category,
-            timeslot_price: _item.timeslot_price,
-            from_date: _item.from_date,
-            to_date: _item.to_date,
-            route_category_id: _item.route_category_id,
-            route_category: _item.route_category,
-            product_id: _item.product_id,
-            product_name: _item.product_name,
-            repetition_category_id: _item.repetition_category_id,
-            repetition_category: _item.repetition_category,
-            repetition_price: _item.repetition_price,
-            interval_category_id: _item.interval_category_id,
-            interval_category: _item.interval_category,
-            interval_price: _item.interval_price,
-            attribute_amount: _item.attribute_amount,
-            total_amount: _item.total_amount,
-            base_amount: _item.base_amount,
-            date_total: _item.date_total,
-            quantity: _item.quantity,
-          });
-        });
-        debugger
-        console.log("_value_object", _value_object)
-        let _value_option: any = [];
-        _value_object.filter((_res: any) => {
-          this._usercartmappingModel = {
-            base_amount: _res?.base_amount,
-            product_id: _res?.product_id,
-            total_amount: _res?.total_amount,
-            attribute_amount: _res?.attribute_amount,
-            user_id: flag == 1 ? 0 : user_id,
-            ismonthly: this.ismonthly,
-            optionvalues: JSON.stringify(_res)
+      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined) ? null : batch_id;
+      debugger
+      this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+        if (user_id == '' || user_id == null || user_id == undefined) {
+          user_id = 0;
+        }
+        this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+          if ((!user_id || parseInt(user_id, 10) <= 0) && flag == 0) {
+            this.modalService.open(this.formModal, {
+              size: 'm',
+              backdrop: true,
+              centered: true
+            });
+            return;
           }
-          this._totalAmount = this._totalAmount + _res?.total_amount;
-          _value_option.push(this._usercartmappingModel);
-        })
 
-        let _cart_subtotal = (this._totalAmount);
-        let _cart_discount = 0.00;
-        let _cart_after_discount = (_cart_subtotal - _cart_discount);
-        let _cart_tax = (_cart_after_discount * (18 / 100));
-        let _cart_after_tax = (_cart_after_discount + _cart_tax);
-        let _cart_total = (_cart_after_tax);
+          let _value_object: any = [];
+          _form_data?.filter((_item: any) => {
+            _value_object?.push({
+              timeslot_category_id: _item.timeslot_category_id,
+              timeslot_category: _item.timeslot_category,
+              timeslot_price: _item.timeslot_price,
+              from_date: _item.from_date,
+              to_date: _item.to_date,
+              route_category_id: _item.route_category_id,
+              route_category: _item.route_category,
+              product_id: _item.product_id,
+              product_name: _item.product_name,
+              repetition_category_id: _item.repetition_category_id,
+              repetition_category: _item.repetition_category,
+              repetition_price: _item.repetition_price,
+              interval_category_id: _item.interval_category_id,
+              interval_category: _item.interval_category,
+              interval_price: _item.interval_price,
+              attribute_amount: _item.attribute_amount,
+              total_amount: _item.total_amount,
+              base_amount: _item.base_amount,
+              date_total: _item.date_total,
+              quantity: _item.quantity,
+            });
+          });
+          let _value_option: any = [];
+          _value_object.filter((_res: any) => {
+            this._usercartmappingModel = {
+              base_amount: _res?.base_amount,
+              product_id: _res?.product_id,
+              total_amount: _res?.total_amount,
+              attribute_amount: _res?.attribute_amount,
+              user_id: flag == 1 ? 0 : user_id,
+              ismonthly: this.ismonthly,
+              optionvalues: JSON.stringify(_res)
+            }
+            this._totalAmount = this._totalAmount + _res?.total_amount;
+            _value_option.push(this._usercartmappingModel);
+          })
 
+          let _cart_subtotal = (this._totalAmount);
+          let _cart_discount = 0.00;
+          let _cart_after_discount = (_cart_subtotal - _cart_discount);
+          let _cart_tax = (_cart_after_discount * (18 / 100));
+          let _cart_after_tax = (_cart_after_discount + _cart_tax);
+          let _cart_total = (_cart_after_tax);
 
+          this._usercartMaster = {
+            flag: (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? 'NEWCART' : 'MODIFYCART',
+            createdname: fullname,
+            user_id: parseInt(user_id),
+            lst_cart_product: _value_option,
+            coupon_id: 0,
+            coupon_code: '',
+            cart_total: _cart_total,
+            cart_subtotal: _cart_subtotal,
+            cart_discount: 0.00,
+            cart_tax: _cart_tax,
+            batch_id: this.batch_id,
+          }
+          console.log("this._usercartMaster", this._usercartMaster)
+          this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
+            this.modalService.dismissAll();
+            let responsemessage = response.split('~')[2];
+            this.successSwal.fire();
+            setTimeout(() => {
+              this.successSwal.close();
+              if (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined) {
+                this.batch_id = responsemessage;
+                this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
+              }
+              this._base._router.navigate([flag == 1 ? `cart/${responsemessage}` : 'cart']);
+              this._cdr.detectChanges();
+            }, 500);
 
-        this._usercartMaster = {
-          flag: 'NEWCART',
-          createdname: fullname,
-          user_id: parseInt(user_id),
-          lst_cart_product: _value_option,
-          coupon_id: 0,
-          coupon_code: '',
-          cart_total: _cart_total,
-          cart_subtotal: _cart_subtotal,
-          cart_discount: 0.00,
-          cart_tax: _cart_tax,
-          // batch_id:this.batch_id,
-        }
-        console.log("this._usercartMaster", this._usercartMaster)
-        this._webDService.add_to_cart(this._usercartMaster).subscribe((response: any) => {
-          this.modalService.dismissAll();
-          let responsemessage = response.split('~')[2];
-          this.successSwal.fire();
-          setTimeout(() => {
-            this.successSwal.close();
-            // if(this.batch_id!=null && this.batch_id!='' && this.batch_id!=undefined){
-            //   responsemessage = this.batch_id;
-            // }
-            this._base._router.navigate([flag == 1 ? `cart/${responsemessage}` : 'cart']);
-            this._cdr.detectChanges();
-          }, 500);
+          }, error => {
 
-        }, error => {
-
+          });
         });
       });
     });
-
-
-    console.log("cartModel", this.fgcategorymaster.value.lst_cart_product);
   }
 
   update_qty(flag: string = 'add', _index: number) {
@@ -803,6 +749,7 @@ export class ProductComponent implements OnInit {
     this.calculate_final_amount(_index)
     this._cdr.detectChanges();
   }
+
   reset_form() {
     setTimeout(() => {
       location.reload();
@@ -826,8 +773,6 @@ export class ProductComponent implements OnInit {
   invalidOTP: boolean = false;
   addverify() {
     this.invalidOTP = false;
-    // this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-    //   this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
     this._mobileverification.flag = this.isverifybutton ? 'VERIFY_OTP' : 'MOBILE_VERIFY';
     this._mobileverification.createdname = 'system';
     this._mobileverification.createdby = 0;
@@ -854,8 +799,6 @@ export class ProductComponent implements OnInit {
         // optional: Swal error toast here
       }
     });
-    //   });
-    // });
   }
 
   hasError: boolean = false;
@@ -869,6 +812,7 @@ export class ProductComponent implements OnInit {
           this.getUserConfig(user.user_id).then((resUserConfig: any) => {
             this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
               if (res) {
+                this._cdr.detectChanges();
                 this.add_to_cart();
               }
             });
@@ -878,6 +822,7 @@ export class ProductComponent implements OnInit {
         }
       });
   }
+
   getUserConfig(user_id: any) {
     return new Promise((resolve, reject) => {
       this._webDService.getuserconfig(user_id).subscribe((resUserModule: any) => {
@@ -985,6 +930,7 @@ export class ProductComponent implements OnInit {
 
     return totalPrice;
   }
+
   skiplogin() {
     this.add_to_cart(1);
   }
@@ -1007,7 +953,6 @@ export class ProductComponent implements OnInit {
     nextMonth.setDate(selectedDate.getDate() + 30);
 
     this.fgcategorymaster.get('from_date_month')?.updateValueAndValidity();
-
 
     this.TimeMaster?.filter((_timeslot: any, _index: any) => {
       debugger

@@ -27,6 +27,8 @@ export class AppSessionService {
             this._encryptedStorage.set(enAppSession.wing_id, '');
             this._encryptedStorage.set(enAppSession.client_id, 1);
             this._encryptedStorage.set(enAppSession.project_id, 1);
+            this._encryptedStorage.set(enAppSession.batch_id, responseData.batch_id);
+            console.log("batchid",responseData.batch_id)
             setTimeout(() => {
                 observer.next(true);
                 observer.complete();
@@ -52,6 +54,7 @@ export class AppSessionService {
         this._encryptedStorage.set(enAppSession.profilepicture, '');
         this._encryptedStorage.set(enAppSession.lstauthority, '');
         this._encryptedStorage.set(enAppSession.lstcontrol, '');
+        this._encryptedStorage.set(enAppSession.batch_id, null);
         localStorage.setItem('_user', '');
     }
 
