@@ -158,6 +158,7 @@ button.btn-down-invoice:hover {
   display:flex;
   flex-direction:column;
   gap:6px;
+  border: 1px solid #054089
 }
 
 .thanku-meta strong{
@@ -189,6 +190,13 @@ button.btn-down-invoice:hover {
   display:flex;
   align-items:center;
   gap:8px
+}
+.thanku-update-color {
+  background: #054089;
+  color: #fff;
+}
+.thanku-update-color.thanku-meta strong {
+  color: #fff;
 }
 
 /* responsive */

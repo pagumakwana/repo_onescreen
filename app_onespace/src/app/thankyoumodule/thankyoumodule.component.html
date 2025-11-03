@@ -38,11 +38,11 @@
                             <strong>{{_obj.repetition_value}}</strong>
                         </div>
 
-                        <div class="thanku-meta"
+                        <div class="thanku-meta thanku-update-color"
                             style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
                             <div>
                                 <div class="thanku-muted">Media Upload</div>
-                                <strong>Upload file</strong>
+                                <!-- <strong>Upload file</strong> -->
                             </div>
 
                             <div class="upload-tanku-contain">
@@ -56,7 +56,7 @@
                                         data-bs-title="danger" *ngIf="_obj.is_media_upload == 2"></i>
                                     <i class="ti ti-upload text-primary f-24" data-bs-toggle="tooltip"  (click)="open_upload_media(_obj.order_product_map_id)"
                                         data-bs-title="Upload Media" *ngIf="_obj.is_media_upload == null"></i>
-                                    <span class="thanku-muted" style="font-size:13px" *ngIf="_obj.is_media_upload == null">Upload</span>
+                                    <!-- <span class="thanku-muted" style="font-size:13px" *ngIf="_obj.is_media_upload == null">Upload</span> -->
                                 </label>
                             </div>
                         </div>

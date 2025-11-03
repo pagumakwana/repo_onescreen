@@ -12,6 +12,12 @@
   font-weight: 600;
   color: #1a2b4c;
   margin-bottom: 25px;
+  height: 50px;
+}
+
+.cart-title span {
+  line-height: 50px;
+      font-size: 24px;
 }
 
 .cart-list {
@@ -111,4 +117,9 @@
   color: #2c4b7a;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.cart-btn-removeall {
+  float: right;
+  margin: 0 !important;
 }

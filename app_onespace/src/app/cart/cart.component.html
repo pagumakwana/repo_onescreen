@@ -43,7 +43,7 @@
         <div class="row gy-4">
           <div class="col-xl-8">
             <section>
-              <h2 class="cart-title">Cart Item</h2> <a class="btn btn-primary mt-3 text-white" *ngIf="this.ismonthly"  (click)="removeFromCarts()" >Remove Monthly Package</a>
+              <h2 class="cart-title"><span>Cart Item</span>  <a class="btn btn-warning mt-3 text-white cart-btn-removeall" *ngIf="this.ismonthly"  (click)="removeFromCarts()" >Remove Monthly Package</a></h2>
 
               <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
 
