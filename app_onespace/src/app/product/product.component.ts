@@ -538,6 +538,8 @@ export class ProductComponent implements OnInit {
     let total_amount = (base_amount + attribute_amount);
     if (!this.ismonthly) {
       total_amount = total_amount + (total_amount * 0.3);
+    } else {
+      total_amount = total_amount * 30;
     }
     obj.controls['total_amount'].setValue(total_amount);
     obj.controls["total_amount"].updateValueAndValidity();
@@ -554,6 +556,7 @@ export class ProductComponent implements OnInit {
   from_date_alert: string = '';
   to_date_alert: string = '';
   date_select(_index: any, flag: string = 'fromdate') {
+    debugger
     let obj = this.timeArray.at(_index) as FormGroup;
     let fmdate = (obj.controls['from_date'].value);
     let todate = (obj.controls['to_date'].value);
@@ -628,7 +631,7 @@ export class ProductComponent implements OnInit {
   }
 
   proceed_to_cart(_form_data: any = null, flag: any) {
-    this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id:any) => {
+    this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
 
       this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined) ? null : batch_id;
       debugger
@@ -909,7 +912,7 @@ export class ProductComponent implements OnInit {
 
   setPriceFromConfigMaster(fromDate: string, toDate: string): number {
     if (!fromDate || !toDate) return 0;
-
+    debugger
     const start = new Date(fromDate);
     const end = new Date(toDate);
 
@@ -950,7 +953,7 @@ export class ProductComponent implements OnInit {
     // When a new date is selected, recalculate the 1-month window
     const selectedDate = new Date(date.year, date.month - 1, date.day);
     const nextMonth = new Date(selectedDate);
-    nextMonth.setDate(selectedDate.getDate() + 30);
+    nextMonth.setDate(selectedDate.getDate() + 29);
 
     this.fgcategorymaster.get('from_date_month')?.updateValueAndValidity();
 
