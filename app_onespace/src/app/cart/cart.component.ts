@@ -425,13 +425,12 @@ export class CartComponent implements OnInit {
   }
 
   calculatecart() {
-    debugger
     this.UserCart?.filter((res: any) => {
       this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
-      this.cart_total = (this.cart_total + res?.cart_total);
-      this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
-      this.cart_tax = (this.cart_tax + res?.cart_tax);
-      this.cart_discount = (this.cart_discount + res?.cart_discount);
+      this.cart_total = (this.cart_total + Math.round(res?.cart_total));
+      this.cart_subtotal = (this.cart_subtotal + Math.round(res?.cart_subtotal));
+      this.cart_tax = (this.cart_tax + Math.round(res?.cart_tax));
+      this.cart_discount = (this.cart_discount + Math.round(res?.cart_discount));
       this.Coupon_code_text = res?.coupon_code;
       this.coupon_code = res?.coupon_code;
       this.coupon_code_id = res?.coupon_id;

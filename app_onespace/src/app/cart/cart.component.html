@@ -56,16 +56,14 @@
                   <div class="card-body">
                     <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
                       <ng-container *ngFor="let _item of item?.optionvaluesParsed">
-                        <div class="card-row"><strong>Base Price:</strong> ₹{{_item?.base_amount}}</div>
+                        <!-- <div class="card-row"><strong>Base Price:</strong> ₹{{_item?.base_amount}}</div> -->
                         <div class="card-row"><strong>Time Slot:</strong> {{_item?.timeslot_category}}
                           (₹{{_item?.timeslot_price}})</div>
                         <div class="card-row"><strong>Location/Route:</strong> {{_item?.route_category}}</div>
-                        <div class="card-row"><strong>Screen Repetition:</strong> {{_item?.repetition_category}} ×
-                          ₹{{_item?.repetition_price}}</div>
-                        <div class="card-row"><strong>Screen Interval:</strong> {{_item?.interval_category}} × ₹{{
-                          _item?.interval_price}}</div>
+                        <div class="card-row"><strong>Screen Repetition:</strong> {{_item?.repetition_category}} {{ (_item?.repetition_price && _item?.repetition_price != 0) ? '(₹' + _item?.repetition_price + ')' : '' }}</div>
+                        <div class="card-row"><strong>Screen Interval:</strong> {{_item?.interval_category}} {{ (_item?.interval_price && _item?.interval_price != 0) ? '(₹' + _item?.interval_price + ')' : '' }}</div>
                         <div class="card-row"><strong>Duration:</strong> {{_item?.from_date | date:'dd/MM/yyyy'}} to
-                          {{_item?.to_date | date:'dd/MM/yyyy'}} - ₹{{ _item?.date_total }}</div>
+                          {{_item?.to_date | date:'dd/MM/yyyy'}}  {{ (_item?.date_total && _item?.date_total != 0) ? '(₹' + _item?.date_total + ')' : '' }}</div>
                       </ng-container>
                     </ng-container>
                     <ng-template #noOptions>
