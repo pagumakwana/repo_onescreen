@@ -1,4 +1,5 @@
 <div class="row">
+  <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalproducts')">
     <div class="col-xxl-3 col-md-6">
       <div class="card">
         <div class="card-body">
@@ -17,6 +18,8 @@
         </div>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_productincart')">
     <div class="col-xxl-3 col-md-6">
       <div class="card">
         <div class="card-body">
@@ -35,6 +38,8 @@
         </div>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalsale')">
     <div class="col-xxl-3 col-md-6">
       <div class="card">
         <div class="card-body">
@@ -53,6 +58,8 @@
         </div>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalorder')">
     <div class="col-xxl-3 col-md-6">
       <div class="card">
         <div class="card-body">
@@ -71,6 +78,6 @@
         </div>
       </div>
     </div>
+  </ng-container>
 
-   
 </div> <webd-table #dataTableCom [config]='tableConfig'></webd-table>

@@ -51,7 +51,7 @@
                 <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
                   <div class="card-header">
                     <h4>{{ item.product_name }}</h4>
-                    <div class="delete-btn" *ngIf="!item.ismonthly"> <span (click)="removeFromCart(item)">✕</span></div>
+                    <div class="delete-btn" *ngIf="!item.ismonthly"> <span (click)="removeFromCart(item,_ind)">✕</span></div>
                   </div>
                   <div class="card-body">
                     <ng-container *ngIf="item?.optionvaluesParsed?.length > 0; else noOptions">
@@ -239,7 +239,14 @@
                   <ng-container *ngIf="this.detailupdated">
                     <div class="mb-lg-15 alert alert-success">
                       <div class="primary-text font-weight-bold">
-                        Details Saved.
+                        User information and address has been updated.
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="this.emptycartmessage">
+                    <div class="mb-lg-15 alert alert-danger">
+                      <div class="primary-text font-weight-bold">
+                       You cart is empty!
                       </div>
                     </div>
                   </ng-container>

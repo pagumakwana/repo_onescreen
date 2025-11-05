@@ -262,6 +262,8 @@ namespace onescreenModel.ProductManagement
         public long? interval_category_id { get; set; }         // [interval_id]
         public string? interval_category { get; set; }    // [interval_value] NVARCHAR(150)
         public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
+        public long? route_category_id { get; set; }         // [interval_id]
+        public string? route_category { get; set; }    // [interval_value] NVARCHAR(150)
         public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
         public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
         public long? quantity { get; set; }                // [qty]
@@ -295,6 +297,7 @@ namespace onescreenModel.ProductManagement
         public string? order_number { get; set; }
         public string? time_slot_value { get; set; }
         public string? repetition_value { get; set; }
+        public string? route_category { get; set; }
         public string? interval_value { get; set; }
         public string? from_date { get; set; }
         public string? to_date { get; set; }

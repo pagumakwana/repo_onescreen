@@ -35,11 +35,11 @@
                         </div>
 
                         <div class="order-actions">
-                            <ng-container *ngIf="_obj.is_media_upload !== null">
+                            <!-- <ng-container *ngIf="_obj.is_media_upload !== null"> -->
                                 <button (click)="openvideo(_obj.thumbnail)" class="btn btn-outline-primary" title="View Media">
                                     <span class="ms-1">View Media</span>
                                 </button>
-                            </ng-container>
+                            <!-- </ng-container> -->
                             <ng-container
                                 *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
                                 <button (click)="media_approved(_obj.order_product_map_id,1)" class="btn primary_btn"
@@ -58,7 +58,7 @@
                     <div class="order-meta-grid" style="margin-top:10px;">
                         <div class="order-meta">
                             <div class="order-muted">Route</div>
-                            <strong>Borivali - Dahisar</strong>
+                            <strong>{{_obj.route_category}}</strong>
                         </div>
 
                         <div class="order-meta">
@@ -260,7 +260,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <div class="row mb-6">
+        <div class="row mb-12">
             <div class="col-lg-12 fv-row text-center">
                 <video width="100%" height="auto" controls *ngIf="selectedVideoUrl">
                     <source [src]="selectedVideoUrl" type="video/mp4">

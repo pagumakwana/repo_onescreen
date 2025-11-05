@@ -41,9 +41,10 @@ export class ScreenbookingComponent {
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "timeslot_category", title: "From Date", type: "text" },
-      { identifer: "from_date", title: "From Date", type: "text" },
-      { identifer: "to_date", title: "To Date", type: "text" },
-      // { identifer: "brand_name", title: "Brand", type: "text" },
+      { identifer: "from_date", title: "From Date", type: "date" },
+      { identifer: "to_date", title: "To Date", type: "date" },
+      { identifer: "interval_category", title: "Interval", type: "text" },
+      { identifer: "repetition_category", title: "Repetition", type: "text" },
       { identifer: "isactive", title: "Status", type: "status" },
       // { identifer: "product_description", title: "Description", type: "text" },
       // { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],

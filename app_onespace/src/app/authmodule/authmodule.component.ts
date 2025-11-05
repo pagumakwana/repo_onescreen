@@ -179,6 +179,9 @@ export class AuthmoduleComponent implements OnInit {
           this.isOTPsent = true;
           this.isverifybutton = true;
           this.OTPValue = parts[1];
+          this._webDService.sendOtp(this._mobileverification.mobile_number,this.OTPValue).subscribe((res:any)=>{
+            console.log("OTP",res)
+          })
           this._cdr.detectChanges();
         } else if (response.includes('otp_verify')) {
           this.OTPValue = '';

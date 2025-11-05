@@ -305,7 +305,7 @@
                                                                     ngbDatepicker #from_date="ngbDatepicker"
                                                                     id="from_date{{i+1}}" from_date.displayMonths="true"
                                                                     formControlName="from_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                                    [minDate]="_objPass.controls['minfromDate'].value" [maxDate]="_objPass.controls['maxfromDate'].value"
                                                                     (click)="from_date.toggle();"
                                                                     (dateSelect)="date_select(i,'fromdate')">
                                                                 <span class="input-group-text" required>
@@ -335,7 +335,7 @@
                                                                     ngbDatepicker #to_date="ngbDatepicker"
                                                                     id="to_date{{i+1}}" to_date.displayMonths="true"
                                                                     formControlName="to_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="mintoDate" (click)="to_date.toggle();"
+                                                                    [minDate]="_objPass.controls['mintoDate'].value" [maxDate]="_objPass.controls['maxtoDate'].value" (click)="to_date.toggle();"
                                                                     (dateSelect)="date_select(i,'todate')">
                                                                 <span class="input-group-text">
                                                                     <i class="fa fa-calendar"></i>

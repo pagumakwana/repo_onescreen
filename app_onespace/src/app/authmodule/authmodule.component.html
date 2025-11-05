@@ -142,9 +142,9 @@
               <input type="text" class="form-control" id="otp_code" name="otp_code" placeholder="Enter OTP"
                 maxlength="6" onkeypress="return /[0-9]/i.test(event.key)" formControlName="otp_code" required>
               <div
-                *ngIf="fgverify.controls['otp_code'].invalid && (fgverify.controls['otp_code'].dirty || fgverify.controls['otp_code'].touched)"
+                *ngIf="formSignIn.controls['otp_code'].invalid && (formSignIn.controls['otp_code'].dirty || formSignIn.controls['otp_code'].touched)"
                 class="text-danger">
-                <ng-container *ngIf="fgverify.controls.otp_code.errors?.['required']">
+                <ng-container *ngIf="formSignIn.controls.otp_code.errors?.['required']">
                   OTP is required.
                 </ng-container>
               </div>

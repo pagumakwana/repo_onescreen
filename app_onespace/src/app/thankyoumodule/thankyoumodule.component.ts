@@ -60,7 +60,7 @@ export class ThankyoumoduleComponent implements OnInit {
     thumbnail: {
       fileValidationInfo: {
         fileType: ['video/mp4'],
-        size: 3145728
+        size: 104857600 //100mb
       },
       isMulti: true,
       fileidentifier: 'thumbnail',
@@ -127,6 +127,7 @@ export class ThankyoumoduleComponent implements OnInit {
     });
   }
   saveModuleFile_helper() {
+    debugger
     let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
     if (fileData.length > 0)
       this.saveModuleFile_multi_helper(fileData, fileData.length, [])
@@ -176,6 +177,7 @@ export class ThankyoumoduleComponent implements OnInit {
   }
 
   upload_media() {
+    debugger
     this._base._commonService.markFormGroupTouched(this.fgmedia)
     if (this.fgmedia.valid) {
       this._media_upload.order_product_map_id = this.selectedOrderId;

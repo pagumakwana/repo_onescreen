@@ -85,7 +85,7 @@ export class CartComponent implements OnInit {
     if (this.batch_id == undefined || this.batch_id == null || this.batch_id == '') {
       this.batch_id = '00000000-0000-0000-0000-000000000000';
     }
-    this._base._encryptedStorage.set(enAppSession.batch_id,this.batch_id);
+    this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
     this.get_cart(this.batch_id);
     this.getcoupon();
     this.loadShippingData();
@@ -180,22 +180,22 @@ export class CartComponent implements OnInit {
                   this.paysuccessSwal.close();
                   this._base._router.navigate(['thankyou', order_id]);
                   this._cdr.detectChanges();
-                }, 1000);
+                }, 500);
               } else {
                 this.failureSwal.fire();
                 setTimeout(() => {
                   this.failureSwal.close();
-                }, 1000);
+                }, 500);
               }
             });
           });
         });
-      }, 1000);
+      }, 500);
     } else if (rzr_response && rzr_response.status === 'failure') {
       this.failureSwal.fire();
       setTimeout(() => {
         this.failureSwal.close();
-      }, 1000);
+      }, 500);
     }
   }
 
@@ -225,63 +225,70 @@ export class CartComponent implements OnInit {
 
   removeFromCarts() {
     this.deletepackageSwal.fire().then((clicked) => {
-      this.UserCart[0]?.lst_cart_product?.filter((item: any) => {
-        if (clicked.isConfirmed) {
-          let sub_total = (item?.base_amount + item?.attribute_amount);
-          let tax_total = sub_total * 18 / 100;
-          let total_amount = (sub_total + tax_total);
-          this.removeusercartModel = {
-            user_cart_mapping_id: item?.user_cart_mapping_id,
-            cart_master_id: item?.cart_master_id,
-            product_id: item?.product_id,
-            product_name: item?.product_name,
-            user_id: item?.user_id,
-            attribute_amount: item?.attribute_amount,
-            total_amount: total_amount,
-            sub_amount: sub_total,
-            base_amount: item?.base_amount,
-            tax_amount: tax_total,
-          }
-          this._webDService.remove_cart(this.removeusercartModel).subscribe(
-            (response: any) => {
-              if (response === 'deletesuccess') {
-                this._cdr.detectChanges();
-              }
-            },
-            (error) => {
-              console.error("Error deleting cart item:", error);
+      debugger
+      if (clicked.isConfirmed) {
+        this.UserCart[0]?.lst_cart_product?.filter((item: any) => {
+          if (item?.ismonthly) {
+            let sub_total = item?.total_amount;// (item?.base_amount + item?.attribute_amount);
+            let tax_total = (Number(sub_total) || 0) * 0.18;
+            let total_amount = (sub_total + tax_total);
+            this.removeusercartModel = {
+              user_cart_mapping_id: item?.user_cart_mapping_id,
+              cart_master_id: item?.cart_master_id,
+              product_id: item?.product_id,
+              product_name: item?.product_name,
+              user_id: item?.user_id,
+              attribute_amount: item?.attribute_amount,
+              total_amount: total_amount,
+              sub_amount: sub_total,
+              base_amount: item?.base_amount,
+              tax_amount: tax_total
             }
-          );
-        }
-      });
+            console.log("removeusercartModel", this.removeusercartModel)
+            this._webDService.remove_cart(this.removeusercartModel).subscribe(
+              (response: any) => {
+                if (response === 'deletesuccess') {
+
+                }
+              },
+              (error) => {
+                console.error("Error deleting cart item:", error);
+              }
+            );
+          }
+        });
+      }
       setTimeout(() => {
         this.deletepackageSwal.close();
         location.reload();
       }, 1000);
+      this._cdr.detectChanges();
     });
   }
 
   removeusercartModel: removeusercartModel = {};
 
-  removeFromCart(item: any) {
+  removeFromCart(item: any, _index: number) {
     // this.modifyuser(item, 'DELETECART');
-    let sub_total = (item?.base_amount + item?.attribute_amount);
-    let tax_total = sub_total * 18 / 100;
-    let total_amount = (sub_total + tax_total);
-    this.removeusercartModel = {
-      user_cart_mapping_id: item?.user_cart_mapping_id,
-      cart_master_id: item?.cart_master_id,
-      product_id: item?.product_id,
-      product_name: item?.product_name,
-      user_id: item?.user_id,
-      attribute_amount: item?.attribute_amount,
-      total_amount: total_amount,
-      sub_amount: sub_total,
-      base_amount: item?.base_amount,
-      tax_amount: tax_total,
-    }
     this.deleteSwal.fire().then((clicked) => {
       if (clicked.isConfirmed) {
+        let sub_total = item?.total_amount;
+        let tax_total = (Number(sub_total) || 0) * 0.18;
+        let total_amount = (sub_total + tax_total);
+        this.removeusercartModel = {
+          user_cart_mapping_id: item?.user_cart_mapping_id,
+          cart_master_id: item?.cart_master_id,
+          product_id: item?.product_id,
+          product_name: item?.product_name,
+          user_id: item?.user_id,
+          attribute_amount: item?.attribute_amount,
+          total_amount: total_amount,
+          sub_amount: sub_total,
+          base_amount: item?.base_amount,
+          tax_amount: tax_total,
+        }
+        console.log("removeusercartModel", this.removeusercartModel)
+
         this._webDService.remove_cart(this.removeusercartModel).subscribe(
           (response: any) => {
             if (response === 'deletesuccess') {
@@ -292,6 +299,7 @@ export class CartComponent implements OnInit {
                 location.reload();
               }, 1000);
               this._cdr.detectChanges();
+
             }
           },
           (error) => {
@@ -299,6 +307,14 @@ export class CartComponent implements OnInit {
           }
         );
       }
+      // else {
+      //   setTimeout(() => {
+      //     this.deleteSwal.close();
+      //     this._cdr.detectChanges();
+      //     location.reload();
+      //   }, 500);
+      // }
+
     });
   }
 
@@ -427,10 +443,10 @@ export class CartComponent implements OnInit {
   calculatecart() {
     this.UserCart?.filter((res: any) => {
       this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
-      this.cart_total = (this.cart_total + Math.round(res?.cart_total));
-      this.cart_subtotal = (this.cart_subtotal + Math.round(res?.cart_subtotal));
-      this.cart_tax = (this.cart_tax + Math.round(res?.cart_tax));
-      this.cart_discount = (this.cart_discount + Math.round(res?.cart_discount));
+      this.cart_total = (this.cart_total + res?.cart_total);
+      this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
+      this.cart_tax = (this.cart_tax + res?.cart_tax);
+      this.cart_discount = (this.cart_discount + res?.cart_discount);
       this.Coupon_code_text = res?.coupon_code;
       this.coupon_code = res?.coupon_code;
       this.coupon_code_id = res?.coupon_id;
@@ -477,7 +493,7 @@ export class CartComponent implements OnInit {
   verifyPayment(response: any) {
     this._webDService.verifyorder(response).subscribe((response: any) => {
       console.log('Payment success:', response);
-      if (response ?? (response?.status == 'success' || response?.status == 'failure')) {
+      if (response ?? (response?.status == 'success')) {
         this.proceeds_payment(response);
       } else {
         console.log(response);
@@ -486,6 +502,7 @@ export class CartComponent implements OnInit {
   }
 
   detailupdated: boolean = false;
+  emptycartmessage: boolean = false;
   updateUser() {
     this._base._commonService.markFormGroupTouched(this.fguser)
     if (this.fguser.valid) {
@@ -497,29 +514,31 @@ export class CartComponent implements OnInit {
   }
 
   update() {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
-        this._updateuserdetail.createdname = fullname;
-        this._updateuserdetail.user_id = parseInt(user_id);
-        this._webDService.update_userdetails(this._updateuserdetail).subscribe((response: any) => {
-          let isRedirect: boolean = true
-          if (response === 'details added') {
-            this._base._encryptedStorage.set(enAppSession.address, this._updateuserdetail.address);
-            this._base._encryptedStorage.set(enAppSession.fullname, this._updateuserdetail.fullname);
-            this._base._encryptedStorage.set(enAppSession.email_id, this._updateuserdetail.email_id);
-            this.detailupdated = true;
-            setTimeout(() => {
-              this.detailupdated = false;
-            }, 1500);
-            this.place_order();
-          }
-
-          setTimeout(() => {
+    this.emptycartmessage = false;
+    if (this.cart_total > 0) {
+      this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+        this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
+          this._updateuserdetail.createdname = fullname;
+          this._updateuserdetail.user_id = parseInt(user_id);
+          this._webDService.update_userdetails(this._updateuserdetail).subscribe((response: any) => {
+            let isRedirect: boolean = true
+            if (response === 'details added') {
+              this._base._encryptedStorage.set(enAppSession.address, this._updateuserdetail.address);
+              this._base._encryptedStorage.set(enAppSession.fullname, this._updateuserdetail.fullname);
+              this._base._encryptedStorage.set(enAppSession.email_id, this._updateuserdetail.email_id);
+              this.detailupdated = true;
+              setTimeout(() => {
+                this.detailupdated = false;
+                this.place_order();
+              }, 500);
+            }
             this._cdr.detectChanges();
-          }, 1500);
+          });
         });
       });
-    });
+    } else {
+      this.emptycartmessage = true;
+    }
   }
 
   loadShippingData() {
@@ -540,6 +559,7 @@ export class CartComponent implements OnInit {
 
 
   goToCartTab() {
+    this.emptycartmessage=false;
     const cartTab = document.querySelector('#ecomtab-tab-1');
     if (cartTab) {
       const tab = new bootstrap.Tab(cartTab);
@@ -670,6 +690,9 @@ export class CartComponent implements OnInit {
           this.isOTPsent = true;
           this.isverifybutton = true;
           this.OTPValue = parts[1];
+          this._webDService.sendOtp(this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
+            console.log("OTP", res)
+          })
           this._cdr.detectChanges();
         } else if (response.includes('otp_verify')) {
           this.OTPValue = '';

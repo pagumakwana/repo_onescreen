@@ -184,7 +184,7 @@ export class ProductComponent implements OnInit {
     this._base._scriptLoaderService.load('widget', '../../assets/js/plugins/wizard.min.js');
     this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
       debugger
-      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined) ? null : batch_id;
+      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? null : batch_id;
       this.initform();
       this.get_config();
       this.gettypecategory();
@@ -379,6 +379,7 @@ export class ProductComponent implements OnInit {
           this.removefromarray(_timeslot?.option_value_id);
         } else {
           this.timemastervalid = false;
+          const current = new Date();
           let control: FormGroup = this._fbCategoryMaster.group({
             route_category_id: [this._categoryRouteMaster.category_id],
             route_category: [this._categoryRouteMaster.category],
@@ -387,7 +388,11 @@ export class ProductComponent implements OnInit {
             timeslot_category_id: [_timeslot ? _timeslot?.option_value_id : '', [Validators.required]],
             timeslot_category: [_timeslot ? _timeslot?.option_value : '', [Validators.required]],
             from_date: ['', [Validators.required]],
+            minfromDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+            maxfromDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
             to_date: ['', [Validators.required]],
+            mintoDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+            maxtoDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
             total_amount: [this._categoryScreenMaster.base_amount],
             base_amount: [this._categoryScreenMaster.base_amount],
             timeslot_price: [_timeslot ? _timeslot?.price_delta : 0.00],
@@ -423,6 +428,7 @@ export class ProductComponent implements OnInit {
         this.removefromarray($event?.option_value_id);
       } else {
         this.timemastervalid = false;
+        const current = new Date();
         let control: FormGroup = this._fbCategoryMaster.group({
           route_category_id: [this._categoryRouteMaster.category_id],
           route_category: [this._categoryRouteMaster.category],
@@ -431,7 +437,11 @@ export class ProductComponent implements OnInit {
           timeslot_category_id: [$event ? $event?.option_value_id : '', [Validators.required]],
           timeslot_category: [$event ? $event?.option_value : '', [Validators.required]],
           from_date: ['', [Validators.required]],
+          minfromDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+          maxfromDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
           to_date: ['', [Validators.required]],
+          mintoDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+          maxtoDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
           total_amount: [this._categoryScreenMaster.base_amount],
           base_amount: [this._categoryScreenMaster.base_amount],
           timeslot_price: [_itemTime ? _itemTime[0]?.price_delta : 0.00],
@@ -447,6 +457,29 @@ export class ProductComponent implements OnInit {
           quantity: [1],
           date_total: 0.00
         });
+        if (!this.ismonthly) {
+          let repetition_price = (control.controls['repetition_price'].value) * this.quantity;
+          let interval_price = (control.controls['interval_price'].value) * this.quantity;
+          let timeslot_price = (control.controls['timeslot_price'].value) * this.quantity;
+          let date_total: any = control.controls['date_total'].value;
+
+          repetition_price = repetition_price + (repetition_price * 0.3);
+          control.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
+          control.controls["repetition_price"].updateValueAndValidity();
+
+          interval_price = interval_price + (interval_price * 0.3);
+          control.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
+          control.controls["interval_price"].updateValueAndValidity();
+
+          timeslot_price = timeslot_price + (timeslot_price * 0.3);
+          control.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
+          control.controls["timeslot_price"].updateValueAndValidity();
+
+          date_total = date_total + (date_total * 0.3);
+          control.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+          control.controls["date_total"].updateValueAndValidity();
+        }
+
         this.timeArray.push(control);
         setTimeout(() => {
           this.calculate_final_amount((this.timeArray.length - 1))
@@ -485,6 +518,7 @@ export class ProductComponent implements OnInit {
   }
 
   onRepetitionChange($event: any, _index: number) {
+    debugger
     const selectedValue = this.ismonthly ? $event : $event?.target?.value;
     if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenRepeMaster.find((x: any) => x.option_value_id == selectedValue);
@@ -502,6 +536,7 @@ export class ProductComponent implements OnInit {
   }
 
   onIntervalChange($event: any, _index: number) {
+    debugger
     const selectedValue = this.ismonthly ? $event : $event?.target?.value;
     let obj = this.timeArray.at(_index) as FormGroup;
     if (selectedValue != undefined && selectedValue != null) {
@@ -524,9 +559,11 @@ export class ProductComponent implements OnInit {
     obj.controls['total_amount'].setValue(0);
     obj.controls["total_amount"].updateValueAndValidity();
     if (_param == 'repetition') {
-      obj.controls['repetition_price'].setValue(_price_delta);
+      obj.controls['repetition_price'].setValue(this._base._commonService.formatAmount(_price_delta));
+      obj.controls["repetition_price"].updateValueAndValidity();
     } else if (_param == 'interval') {
-      obj.controls['interval_price'].setValue(_price_delta);
+      obj.controls['interval_price'].setValue(this._base._commonService.formatAmount(_price_delta));
+      obj.controls["interval_price"].updateValueAndValidity();
     }
     let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
     let interval_price = (obj.controls['interval_price'].value) * this.quantity;
@@ -536,16 +573,15 @@ export class ProductComponent implements OnInit {
     let _to_date = (obj.controls['to_date'].value);
     _from_date = this.toDateModel(_from_date);
     _to_date = this.toDateModel(_to_date);
-    debugger
     let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
-    attribute_amount = Math.round(attribute_amount);
+    attribute_amount = this._base._commonService.formatAmount(attribute_amount);
     obj.controls['attribute_amount'].setValue(attribute_amount);
     obj.controls["attribute_amount"].updateValueAndValidity();
     let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
     let total_amount = (base_amount + attribute_amount);
     if (!this.ismonthly) {
-      total_amount = total_amount + (total_amount * 0.3);
-      total_amount = Math.round(total_amount);
+      total_amount = this._base._commonService.formatAmount(total_amount);
       if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
         let day_count = this.getDaysCount(_from_date, _to_date)
         total_amount = (total_amount * day_count)
@@ -554,7 +590,7 @@ export class ProductComponent implements OnInit {
       total_amount = total_amount * 30;
 
     }
-    obj.controls['total_amount'].setValue(Math.round(total_amount));
+    obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
     obj.controls["total_amount"].updateValueAndValidity();
     this._cdr.detectChanges();
   }
@@ -594,35 +630,20 @@ export class ProductComponent implements OnInit {
       this.to_date_alert = ''
       if (flag == 'fromdate') {
         this.mintoDate = fmdate;
+        obj.controls['mintoDate'].setValue(fmdate);
+        obj.controls['mintoDate'].updateValueAndValidity();
       } else {
         this.maxfromDate = todate;
+        obj.controls['maxfromDate'].setValue(todate);
+        obj.controls['maxfromDate'].updateValueAndValidity();
       }
 
       let _from_date: any = this.toDateModel(fmdate);
       let _to_date: any = this.toDateModel(todate);
-      // let date_total: any = obj.controls['date_total'].value;
-      // let _attribute_amount: any = obj.controls['attribute_amount'].value;
-
-      // let total_amount: any = 0.00;
-      // let _total_amount = (obj.controls['total_amount'].value) * this.quantity;
-
-      // if (date_total != null && date_total != undefined && date_total != '' && date_total != 0) {
-      //   _total_amount = (_total_amount - date_total);
-      //   _attribute_amount = (_attribute_amount - date_total);
-      //   obj.controls['attribute_amount'].setValue(_attribute_amount);
-      //   obj.controls['attribute_amount'].updateValueAndValidity();
-      // }
       let _date_total = 0.00;
       _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
-      obj.controls['date_total'].setValue(_date_total);
+      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(_date_total));
       obj.controls['date_total'].updateValueAndValidity();
-      //total_amount = (_total_amount + _date_total);
-      // if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
-      //   let day_count = this.getDaysCount(_from_date, _to_date)
-      //   total_amount = (total_amount * day_count)
-      // }
-      // obj.controls['total_amount'].setValue(Math.round(total_amount));
-      // obj.controls['total_amount'].updateValueAndValidity();
       this.calculate_final_amount(_index);
     }
     this._cdr.detectChanges();
@@ -659,7 +680,7 @@ export class ProductComponent implements OnInit {
   proceed_to_cart(_form_data: any = null, flag: any) {
     this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
 
-      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined) ? null : batch_id;
+      this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? null : batch_id;
       debugger
       this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
         if (user_id == '' || user_id == null || user_id == undefined) {
@@ -715,12 +736,12 @@ export class ProductComponent implements OnInit {
             _value_option.push(this._usercartmappingModel);
           })
 
-          let _cart_subtotal = (this._totalAmount);
+          let _cart_subtotal = Number((this._totalAmount ?? 0).toFixed(2));
           let _cart_discount = 0.00;
           let _cart_after_discount = (_cart_subtotal - _cart_discount);
-          let _cart_tax = (_cart_after_discount * (18 / 100));
+          let _cart_tax = Number(((_cart_after_discount ?? 0) * 0.18).toFixed(2));
           let _cart_after_tax = (_cart_after_discount + _cart_tax);
-          let _cart_total = (_cart_after_tax);
+          let _cart_total = Number((_cart_after_tax ?? 0).toFixed(2));
 
           this._usercartMaster = {
             flag: (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? 'NEWCART' : 'MODIFYCART',
@@ -741,8 +762,9 @@ export class ProductComponent implements OnInit {
             let responsemessage = response.split('~')[2];
             this.successSwal.fire();
             setTimeout(() => {
+              debugger
               this.successSwal.close();
-              if (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined) {
+              if (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') {
                 this.batch_id = responsemessage;
                 this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
               }
@@ -812,6 +834,9 @@ export class ProductComponent implements OnInit {
           this.isOTPsent = true;
           this.isverifybutton = true;
           this.OTPValue = parts[1];
+          this._webDService.sendOtp(this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
+            console.log("OTP", res)
+          })
           this._cdr.detectChanges();
         } else if (response.includes('otp_verify')) {
           this.OTPValue = '';

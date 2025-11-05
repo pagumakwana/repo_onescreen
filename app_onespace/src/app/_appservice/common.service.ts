@@ -380,4 +380,10 @@ export class CommonService {
         return this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false;
     }
 
+    formatAmount(value: any): number {
+        return isNaN(value) || value === null || value === undefined
+            ? 0
+            : Number(parseFloat(value).toFixed(2));
+    }
+
 }

@@ -27,7 +27,7 @@ export class InvoiceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+    this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
     this.get_invoice(this.order_id);
     this._base._commonService.get_portal_config('invoice_logo').then((invoice_logo: any) => {
       this.invoice_logo = invoice_logo;

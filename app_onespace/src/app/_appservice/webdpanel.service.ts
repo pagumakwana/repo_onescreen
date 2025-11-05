@@ -619,7 +619,7 @@ export class WebDService {
     public add_to_cart(_usercartMaster: usercartMaster) {
         return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
     }
-    public getusercartdetail(batch_id:any='00000000-0000-0000-0000-000000000000', user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
+    public getusercartdetail(batch_id: any = '00000000-0000-0000-0000-000000000000', user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?batch_id=${batch_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public getvendor(flag = 'all', vendor_id = 0, start_count = 0, end_count = 0) {
@@ -687,11 +687,21 @@ export class WebDService {
     public getwalletwidget(user_id = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getwalletwidget}?user_id=${user_id}`);
     }
-    public update_to_cart(batch_id:any,user_id = 0) {
+    public update_to_cart(batch_id: any, user_id = 0) {
         return this._base._apiService.post(`${ApiConstant.product.update_to_cart}?batch_id=${batch_id}&user_id=${user_id}`);
     }
-    public getorderproduct(search_date:any) {
+    public getorderproduct(search_date: any) {
         return this._base._apiService.get(`${ApiConstant.product.getorderproduct}?search_date=${search_date}`);
+    }
+    sendOtp(mobileNo: string, otp: any): Observable<any> {
+
+        const message = `${otp} is your Onespace Verification Code for Login or to SignUp. Enjoy Making Your Dream Home Interior With Onespace`;
+
+        const urlMessage = encodeURIComponent(message);
+
+        const url = `https://sms.mobileadz.in/api/push?apikey="6348eda2cf8cf"&sender="ONESPC"&mobileno=${mobileNo}&text=${urlMessage}`;
+
+        return this._base._apiService.getExternal(url);
     }
 
 }

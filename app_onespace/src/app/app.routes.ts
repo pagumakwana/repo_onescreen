@@ -47,6 +47,8 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { DisputeAndCancellationPolicyComponent } from './dispute-and-cancellation-policy/dispute-and-cancellation-policy.component';
 import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
 import { ScreenbookingComponent } from './adminmodeules/screenbooking/screenbooking.component';
+import { OrderPolicyComponent } from './order-policy/order-policy.component';
+import { CancellationAndRefundComponent } from './cancellation-and-refund/cancellation-and-refund.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -121,7 +123,7 @@ export const routes: Routes = [
             },
             {
                 path: 'order_policy',
-                component: OrdermoduleComponent,
+                component: OrderPolicyComponent,
                 title: 'Order Policy',
             },
             {
@@ -133,7 +135,17 @@ export const routes: Routes = [
                 path: 'terms_and_condition',
                 component: TermsAndConditionComponent,
                 title: 'Terms and Conditions',
-            }
+            },
+            {
+                path: 'cancelation_and_refund',
+                component: CancellationAndRefundComponent,
+                title: 'Cancelation and Refund',
+            },
+            {
+                path: 'invoice/:order_id',
+                component: InvoiceComponent,
+                title: 'Thanks You',
+            },
         ]
     },
     {
