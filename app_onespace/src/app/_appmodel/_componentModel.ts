@@ -3,6 +3,7 @@ export class dataTableConfig {
     tableData?: any
     tableConfig?: tableConfig[]
     showCheckBox?: boolean
+    displayPaging?: boolean
     isCustom?: {
         current: number,
         total: number,

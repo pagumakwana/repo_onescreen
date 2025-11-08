@@ -64,6 +64,9 @@ export class CartComponent implements OnInit {
   _updateuserdetail: update_user = {};
   fgverify!: FormGroup;
 
+  sales_person_name: string = '';
+  sales_person_mobile: string = '';
+
   fguser!: FormGroup
   usercartdata: any = [];
   cart_master_id: number = 0;
@@ -141,6 +144,7 @@ export class CartComponent implements OnInit {
       ?.filter((p: any) => p.product_id > 0)
       .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
     console.log("rzr_response", rzr_response)
+    debugger
     if (rzr_response && rzr_response.status === 'success') {
       setTimeout(() => {
         this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
@@ -159,6 +163,8 @@ export class CartComponent implements OnInit {
               order_tax: this.cart_tax,
               order_status: 'success',
               payment_status: 'success',
+              sales_person_mobile: this.sales_person_mobile,
+              sales_person_name: this.sales_person_name,
               user_id: user_id,
               createdname: full_name,
               createdby: user_id,
@@ -381,6 +387,7 @@ export class CartComponent implements OnInit {
   is_valid: boolean = false;
   _user_coupon_model: user_coupon_model = {};
   applycoupon() {
+    debugger
     this.is_valid = false;
     if (!this.Coupon_code_text || this.Coupon_code_text.trim() === '') {
       console.warn("Please enter a coupon code");
@@ -391,16 +398,24 @@ export class CartComponent implements OnInit {
       this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
         this._webDService.getcoupon(0, this.Coupon_code_text).subscribe(
           (resCouponData: any) => {
+            debugger
             this.couponMaster = [];
-            let rescoupon = Array.isArray(resCouponData.data) ? resCouponData.data : [];
-            this.couponMaster = rescoupon;
+            this.couponMaster = Array.isArray(resCouponData.data) ? resCouponData.data : [];
 
             console.log("Coupon Applied Successfully:", this.couponMaster);
-
+            debugger
             if (this.couponMaster.length > 0) {
               let coupon_id: any = this.couponMaster[0]?.coupon_id;
-              // this.cart_discount = this.couponMaster[0]?.discount_value;
-              this.cart_discount = (this.cart_subtotal * this.couponMaster[0]?.discount_value / 100)
+              let discount: any = 0;
+              const subtotal = parseFloat(this.cart_subtotal) || 0;
+
+              if (this.couponMaster?.[0]?.discount_value.includes('%')) {
+                discount = parseFloat(this.couponMaster?.[0]?.discount_value) || 0;
+                this.cart_discount = +(subtotal * (discount / 100)).toFixed(2);
+              } else {
+                discount = parseFloat(this.couponMaster?.[0]?.discount_value) || 0;
+                this.cart_discount = +(discount).toFixed(2);
+              }
               this.coupon_code = this.Coupon_code_text;
               // this.Coupon_code_text = '';
               this.Coupon_code_btn = 'Remove';
@@ -416,19 +431,24 @@ export class CartComponent implements OnInit {
               }
               this._webDService.apply_coupon(this._user_coupon_model).subscribe((rescoupon: any) => {
                 if (rescoupon != null && rescoupon.includes('newsuccess')) {
-
                   this.successSwal.fire();
                   setTimeout(() => {
                     this.successSwal.close();
-                    location.reload();
-                  }, 1000);
+                    this.cart_master_id = 0;
+                    this.cart_total = 0.00;
+                    this.cart_subtotal = 0.00;
+                    this.cart_tax = 0.00;
+                    this.cart_discount = 0.00;
+                    this.get_cart(this.batch_id);
+                    this._cdr.detectChanges();
+                  }, 500);
                 }
               });
             } else {
               this.invalidcodeSwal.fire()
               setTimeout(() => {
                 this.invalidcodeSwal.close();
-              }, 1000);
+              }, 500);
               console.warn("Invalid or expired coupon code");
             }
           },
@@ -443,10 +463,10 @@ export class CartComponent implements OnInit {
   calculatecart() {
     this.UserCart?.filter((res: any) => {
       this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
-      this.cart_total = (this.cart_total + res?.cart_total);
-      this.cart_subtotal = (this.cart_subtotal + res?.cart_subtotal);
-      this.cart_tax = (this.cart_tax + res?.cart_tax);
-      this.cart_discount = (this.cart_discount + res?.cart_discount);
+      this.cart_total = +(this.cart_total + res?.cart_total).toFixed(2);
+      this.cart_subtotal = +(this.cart_subtotal + res?.cart_subtotal).toFixed(2);
+      this.cart_tax = +(this.cart_tax + res?.cart_tax).toFixed(2);
+      this.cart_discount = +(this.cart_discount + res?.cart_discount).toFixed(2);
       this.Coupon_code_text = res?.coupon_code;
       this.coupon_code = res?.coupon_code;
       this.coupon_code_id = res?.coupon_id;
@@ -559,7 +579,7 @@ export class CartComponent implements OnInit {
 
 
   goToCartTab() {
-    this.emptycartmessage=false;
+    this.emptycartmessage = false;
     const cartTab = document.querySelector('#ecomtab-tab-1');
     if (cartTab) {
       const tab = new bootstrap.Tab(cartTab);
@@ -643,7 +663,6 @@ export class CartComponent implements OnInit {
         } else {
           this.couponList = [];
         }
-
         this._cdr.detectChanges();
       },
       (err) => {

@@ -47,6 +47,7 @@ export class UsermoduleComponent implements OnInit {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableTitle:'Manage Users',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },

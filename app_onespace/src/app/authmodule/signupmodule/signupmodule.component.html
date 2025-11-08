@@ -47,7 +47,7 @@
                         </div>
                         <div class="mb-3">
                             <input type="tel" class="form-control" placeholder="Mobile number" id="mobilenumber"
-                                formControlName="mobilenumber" name="mobilenumber">
+                                formControlName="mobilenumber" name="mobilenumber" autocomplete="off" autocorrect="off" spellcheck="false">
                             <span class="text-danger"
                                 *ngIf="fgUser.controls['mobilenumber'].invalid && (fgUser.controls['mobilenumber'].dirty || fgUser.controls['mobilenumber'].touched)">
                                 Mobile Number is required.
@@ -55,7 +55,7 @@
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" placeholder="Password" id="password"
-                                formControlName="password" name="password">
+                                formControlName="password" name="password" autocomplete="off" autocorrect="off" spellcheck="false">
                             <span class="text-danger"
                                 *ngIf="fgUser.controls['password'].invalid && (fgUser.controls['password'].dirty || fgUser.controls['password'].touched)">
                                 Password is required.

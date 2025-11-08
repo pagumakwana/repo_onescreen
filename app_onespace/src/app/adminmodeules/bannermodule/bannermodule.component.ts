@@ -47,6 +47,7 @@ export class BannermoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableTitle:'Manage Banners',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },

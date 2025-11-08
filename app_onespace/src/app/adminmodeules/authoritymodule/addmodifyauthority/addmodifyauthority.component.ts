@@ -62,6 +62,7 @@ export class AddmodifyauthorityComponent implements OnInit {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:false,
     tableConfig: [
       { identifer: "modulename", title: "Module", type: "text" },
       { identifer: "title", title: "Name", type: "text" },
@@ -152,7 +153,6 @@ export class AddmodifyauthorityComponent implements OnInit {
   }
 
   treeEvent(event: any) {
-    debugger
     let obj: any = [];
     event?.checkedObj.filter((res: any) => {
       if (!obj.includes(res.data))
@@ -175,7 +175,7 @@ export class AddmodifyauthorityComponent implements OnInit {
 
         // Set checked state in treeConfig
         this.treeConfig.selectedNodes = this._userAuthority.lstmodule;
-        this.fguserAuthority.controls['lstmodule']?.setValue(this._base._commonService.plunk(this._userAuthority.lstmodule, 'module_id').split(','));
+        this.fguserAuthority.controls['lstmodule']?.setValue(this._userAuthority.lstmodule);
         // ** Update checkboxes based on the assigned controls **
         const assignedControlIds = this._base._commonService.plunk(this._userAuthority.lstcontrol, 'control_id').split(',');
 
@@ -200,6 +200,7 @@ export class AddmodifyauthorityComponent implements OnInit {
   setuserAuthority(flag: any) {
     this.flagType = flag;
     this.isLoading$.next(true);
+    debugger
     this._base._commonService.markFormGroupTouched(this.fguserAuthority)
     if (this.fguserAuthority.valid) {
       this._userAuthority.authority = this.fguserAuthority.value.authority;

@@ -1,13 +1,14 @@
-<div class="d-flex justify-content-end" *ngIf="this._base._commonService.hasAccessofcontrol('admin_managevalues_newbtn')">
+<div class="d-flex justify-content-end"
+    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_managevalues_newbtn')">
     <a class="btn btn-primary btn-sm" [routerLink]="['/app/managevalues/0']">
         New Values
     </a>
 </div>
 <br>
 
-<ng-container *ngIf="this._base._commonService.hasAccessofcontrol('admin_managevalues_valueslist')">
-<webd-table #dataTableCom [config]='tableConfigoptionvalue' (tableEvent)="tableClick($event)"></webd-table>
-</ng-container> 
+<div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_managevalues_valueslist')">
+    <webd-table #dataTableCom [config]='tableConfigoptionvalue' (tableEvent)="tableClick($event)"></webd-table>
+</div>
 
 <swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
     icon="warning" [showCancelButton]="true" [focusCancel]="true"

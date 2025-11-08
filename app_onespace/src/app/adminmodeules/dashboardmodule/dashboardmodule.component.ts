@@ -28,6 +28,7 @@ export class DashboardmoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableTitle:'Recent Orders',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },

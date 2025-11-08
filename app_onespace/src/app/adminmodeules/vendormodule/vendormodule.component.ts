@@ -46,6 +46,7 @@ export class VendormoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "contact_person_name", title: "Vendor Name", type: "text" },

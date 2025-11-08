@@ -40,8 +40,7 @@
                                     <span class="ms-1">View Media</span>
                                 </button>
                             <!-- </ng-container> -->
-                            <ng-container
-                                *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
+                            <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved!= 1">
                                 <button (click)="media_approved(_obj.order_product_map_id,1)" class="btn primary_btn"
                                     title="Approve">
                                     <span class="ms-1">Approve</span>
@@ -51,7 +50,7 @@
                                     title="Reject">
                                     <span class="ms-1">Reject</span>
                                 </button>
-                            </ng-container>
+                            </div>
                         </div>
                     </div>
 

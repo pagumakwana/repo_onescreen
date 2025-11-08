@@ -36,9 +36,9 @@ export class AuthmoduleComponent implements OnInit {
       this.redirectUrl = params['q'] ?? null;
     });
     // redirect to home if already logged in
-    if (this.authService.currentUserValue) {
-      this._base._router.navigate(['/']);
-    }
+    // if (this.authService.currentUserValue) {
+    //   this._base._router.navigate(['/']);
+    // }
   }
 
   public formSignIn!: FormGroup;

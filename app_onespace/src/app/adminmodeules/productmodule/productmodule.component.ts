@@ -75,6 +75,7 @@ export class ProductmoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableTitle:'Manage Products',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
@@ -95,6 +96,7 @@ export class ProductmoduleComponent {
 
   coupontableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "coupon_code", title: "Coupon Code", type: "text"},

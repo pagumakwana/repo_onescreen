@@ -41,6 +41,7 @@ export class LabelmoduleComponent {
   _labelMaster: labelMaster = {};
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "label", title: "Label Name", type: "text" },

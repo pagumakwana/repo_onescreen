@@ -6,6 +6,7 @@ import { enAppSession } from '../../../_appmodel/sessionstorage';
 import { menuStructure } from '../../../_appmodel/_model';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { AuthService } from '../../../authmodule/_authservice/auth.service';
 declare var feather: any;
 
 @Component({
@@ -16,16 +17,30 @@ declare var feather: any;
   styleUrl: './admin-sidebar.component.scss'
 })
 export class AdminSidebarComponent implements OnInit {
-  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef) { }
+  constructor(public _base: BaseServiceHelper, private _cdr: ChangeDetectorRef, private _auth: AuthService) { }
 
   userModule: any[] = [];
   menuStructure: Array<any> = [];
   _menuStructure: menuStructure = {};
+
+  _profilepicture: string = '/FileStorage/avatar-1.jpg';
+  _fullname: string = '';
   public fullname: string = '';
   @Output() allMenu: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
     this.getAuthorityModule();
+    this._base._encryptedStorage.get(enAppSession.profilepicture).then((resPicture) => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then((resfullname) => {
+        if (resPicture != null && resPicture != '' && resPicture != undefined) {
+          this._profilepicture = resPicture;
+        }
+        if (resfullname != null && resfullname != '' && resfullname != undefined) {
+          this._fullname = resfullname;
+        }
+        this._cdr.detectChanges();
+      });
+    });
   }
 
   ngAfterViewInit() {
@@ -133,5 +148,11 @@ export class AdminSidebarComponent implements OnInit {
     } else {
       this._base._router.navigate(['app', menu.modulename]);
     }
+  }
+
+
+  logout() {
+    this._auth.logout();
+    this._cdr.detectChanges();
   }
 }

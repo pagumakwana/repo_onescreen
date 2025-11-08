@@ -15,6 +15,13 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
+                        <th *ngIf="config?.showCheckBox">
+                            <div class="form-check font-size-16">
+                                <input type="checkbox" class="form-check-input" id="contacusercheck1" name="checkALL"
+                                    [(ngModel)]="isCheckAll" (change)="checkALlItems($event)">
+                                <label class="form-check-label" for="contacusercheck1"></label>
+                            </div>
+                        </th>
                         <th *ngFor="let title of config?.tableConfig">{{title.title}}</th>
                     </tr>
                 </thead>
@@ -90,7 +97,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="paginating-container pagination-solid">
+            <div class="paginating-container pagination-solid" *ngIf="this.config.displayPaging">
                 <ul class="pagination">
                     <li class="page-item" [ngClass]="{ 'disabled' : this.config.isCustom?.current == 0}"><a
                             (click)="previous()">Prev</a></li>

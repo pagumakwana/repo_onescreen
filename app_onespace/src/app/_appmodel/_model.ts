@@ -56,7 +56,7 @@ export interface userModel {
     lstproject?: any,
     lstauthority?: any,
     lstvendor?: any,
-    lstproduct?:any,
+    lstproduct?: any,
     lstcategory?: any,
     user_id?: number,
     client_id?: number,
@@ -2098,6 +2098,8 @@ export interface orderDetails {
     payment_status?: any,
     lst_orderdetail?: any,
     lst_orderproduct?: any,
+    sales_person_name?: any,
+    sales_person_mobile?: any,
     isdisable?: any,
     isactive?: any,
     client_id?: number,
@@ -2219,7 +2221,7 @@ export interface media_status {
     media_comments?: any,
     createdby?: number,
     createdname?: string,
-    thumbnail?:string,
+    thumbnail?: string,
     filemanager?: Array<{
         ref_id?: number,
         file_id?: number,
@@ -2254,7 +2256,7 @@ export interface media_upload {
     createdname?: string
 }
 
-export interface removeusercartModel{
+export interface removeusercartModel {
     user_cart_mapping_id?: any,
     cart_master_id?: any,
     user_id?: any,
@@ -2319,7 +2321,7 @@ export interface wallet_master {
     balance_amount?: any
 }
 
-export interface userorderproductModel{
+export interface userorderproductModel {
     order_product_map_id?: any,
     order_id?: any,
     cart_master_id?: any,
