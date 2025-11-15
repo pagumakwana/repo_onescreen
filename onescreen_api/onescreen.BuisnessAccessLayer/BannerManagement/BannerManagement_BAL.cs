@@ -21,7 +21,7 @@ namespace onescreenBAL.BannerManagement
         {
             using (BannerManagement_DAL _objBannerManagement_DAL = new BannerManagement_DAL(_httpContextAccessor))
             {
-                return _objBannerManagement_DAL.getbanner(flag, banner_id, category_id, category, label_id, label, search, start_count, end_count);
+                return _objBannerManagement_DAL.getbanner(flag, banner_id, category, search, start_count, end_count);
             }
         }
         public string managebanner(bannerModel objbannerModel)

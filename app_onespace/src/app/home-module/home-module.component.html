@@ -118,6 +118,15 @@
         </div>
     </section>
 
+    <section class="client_log">
+        <swiper class="swiper-container" [config]="ClientSwiper">
+            <div *ngFor="let slide of clientList" class="swiper-slide">
+                <img [src]="this._base._commonService.cdnURL+slide.thumbnail" [alt]="slide" />
+            </div>
+        </swiper>
+    </section>
+
+
     <section class="grow_business">
         <div class="inner_container">
             <div class="grow_sections">

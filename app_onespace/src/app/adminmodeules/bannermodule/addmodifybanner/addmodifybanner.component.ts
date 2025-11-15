@@ -110,11 +110,23 @@ export class AddmodifybannerComponent {
     this.initiForm();
     this.banner_id = this._activatedRouter.snapshot.paramMap.get('banner_id');
     debugger
-    if (this.banner_id != '0') {
-      this.getbannerdetails(this.banner_id);
-    }
-    this.gettypemasterdetails();
-    this.getlabeldetails();
+
+    this.gettypemasterdetails().then((restype: any) => {
+      if (restype) {
+        this.getcategorydetails(0).then((restype: any) => {
+          if (restype) {
+            this.getlabeldetails().then((reslabel: any) => {
+              if (reslabel) {
+                if (this.banner_id != '0') {
+                  this.getbannerdetails(this.banner_id);
+                }
+              }
+            })
+          }
+        });
+      }
+    });
+
   }
 
   initiForm() {
@@ -327,25 +339,40 @@ export class AddmodifybannerComponent {
   }
 
   gettypemasterdetails() {
-    this._webDService.gettypemaster().subscribe((restypeMaster: any) => {
-      this.TypeMaster = [];
-      this.TypeMaster = Array.isArray(restypeMaster.data) ? restypeMaster.data : [];
-      this._cdr.detectChanges();
+    return new Promise((resolve, rejects) => {
+      this._webDService.gettypemaster().subscribe((restypeMaster: any) => {
+        this.TypeMaster = [];
+        this.TypeMaster = Array.isArray(restypeMaster.data) ? restypeMaster.data : [];
+        resolve(true)
+        this._cdr.detectChanges();
+      }, error => {
+        resolve(false)
+      });
     });
   }
   getlabeldetails() {
-    this._webDService.getlabelmaster('all').subscribe((reslabelMaster: any) => {
-      this.LabelMaster = [];
-      this.LabelMaster = Array.isArray(reslabelMaster.data) ? reslabelMaster.data : [];
-      this._cdr.detectChanges();
+    return new Promise((resolve, rejects) => {
+      this._webDService.getlabelmaster('all').subscribe((reslabelMaster: any) => {
+        this.LabelMaster = [];
+        this.LabelMaster = Array.isArray(reslabelMaster.data) ? reslabelMaster.data : [];
+        resolve(true)
+        this._cdr.detectChanges();
+      }, error => {
+        resolve(false)
+      });
     });
   }
 
   getcategorydetails(typemaster_id: any) {
-    this._webDService.getcategory('all', typemaster_id).subscribe((rescategoryMaster: any) => {
-      this.CategoryMaster = [];
-      this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-      this._cdr.detectChanges();
+    return new Promise((resolve, rejects) => {
+      this._webDService.getcategory('all', typemaster_id).subscribe((rescategoryMaster: any) => {
+        this.CategoryMaster = [];
+        this.CategoryMaster = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
+        resolve(true)
+        this._cdr.detectChanges();
+      }, error => {
+        resolve(false)
+      });
     });
   }
   onSelectionChange($event: any) {
