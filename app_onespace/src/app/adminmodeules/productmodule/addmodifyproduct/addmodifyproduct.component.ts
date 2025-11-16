@@ -487,6 +487,7 @@ export class AddmodifyproductComponent {
         option_value_id: [$event ? $event.option_value_id : 0],
         option_value: [$event ? $event.option_value : ''],
         price_delta: [$event ? $event?.price_delta :0],
+        is_prime: [$event ? $event?.is_prime :false],
       });
       this.timeArray.push(control);
     }
@@ -581,7 +582,6 @@ export class AddmodifyproductComponent {
       this._webDService.getoptionvalue(flag).subscribe((rescategoryMaster: any) => {
         let _optionvalues = [];
         _optionvalues = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-
         resolve(_optionvalues)
       }, error => {
         resolve(false)

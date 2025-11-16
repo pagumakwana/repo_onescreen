@@ -144,7 +144,7 @@
                                     <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
                                             <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
-                                                [ngClass]="{'disabled':ismonthly}">
+                                                [ngClass]="{'disabled':ismonthly||isdaily}">
                                                 <a class="nav-link nav-outline"
                                                     [ngClass]="{'active': _obj.isChecked,'disabled':_obj.isDisabled}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
@@ -154,6 +154,10 @@
                                                     [ngClass]="{'active':ismonthly}" style="cursor:pointer"
                                                     (click)="onSelectPackageEvent()">
                                                     Basic Monthly</a></li>
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':isdaily}" style="cursor:pointer"
+                                                    (click)="onSelectDailyPackageEvent()">
+                                                    Basic Daily</a></li>
                                         </ul>
 
                                     </div>
@@ -275,7 +279,7 @@
                                                                 </ng-container>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-2   mb-2" style="display: none;">
+                                                        <div class="col-lg-2 mb-2" style="display: none;">
                                                             <label for="quantity_{{i+1}}" class="form-label">Quantity
                                                                 :</label>
                                                             <br>
@@ -292,21 +296,21 @@
                                                                         class="ti ti-plus"></i></button>
                                                             </div>
                                                         </div>
-                                                        
+
 
                                                         <div class="form-group">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="Ad Start date"
-                                                                triggers="click" placement="right"
-                                                                popoverClass="custom-popover">
+                                                                ngbPopover="Ad Start date" triggers="click"
+                                                                placement="right" popoverClass="custom-popover">
                                                             </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #from_date="ngbDatepicker"
                                                                     id="from_date{{i+1}}" from_date.displayMonths="true"
                                                                     formControlName="from_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="_objPass.controls['minfromDate'].value" [maxDate]="_objPass.controls['maxfromDate'].value"
+                                                                    [minDate]="_objPass.controls['minfromDate'].value"
+                                                                    [maxDate]="_objPass.controls['maxfromDate'].value"
                                                                     (click)="from_date.toggle();"
                                                                     (dateSelect)="date_select(i,'fromdate')">
                                                                 <span class="input-group-text" required>
@@ -327,16 +331,17 @@
                                                         <div class="form-group">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="Ad End date"
-                                                                triggers="click" placement="right"
-                                                                popoverClass="custom-popover">
+                                                                ngbPopover="Ad End date" triggers="click"
+                                                                placement="right" popoverClass="custom-popover">
                                                             </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #to_date="ngbDatepicker"
                                                                     id="to_date{{i+1}}" to_date.displayMonths="true"
                                                                     formControlName="to_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="_objPass.controls['mintoDate'].value" [maxDate]="_objPass.controls['maxtoDate'].value" (click)="to_date.toggle();"
+                                                                    [minDate]="_objPass.controls['mintoDate'].value"
+                                                                    [maxDate]="_objPass.controls['maxtoDate'].value"
+                                                                    (click)="to_date.toggle();"
                                                                     (dateSelect)="date_select(i,'todate')">
                                                                 <span class="input-group-text">
                                                                     <i class="fa fa-calendar"></i>

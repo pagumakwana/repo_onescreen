@@ -89,6 +89,7 @@ namespace onescreenModel.ProductManagement
         public string? title { get; set; }
         public string option_value { get; set; }
         public decimal? price_delta { get; set; }
+        public bool? is_prime { get; set; }
         public Int64 display_order { get; set; }
         public List<productOptionTypesModel>? lstoptiontype { get; set; }
     }

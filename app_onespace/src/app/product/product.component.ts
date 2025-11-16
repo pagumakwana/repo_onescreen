@@ -180,6 +180,9 @@ export class ProductComponent implements OnInit {
     { config_name: 'Saturday' }
   ];
 
+  private _general_percentage: any = 0.2;
+  private _general_daily_percentage: any = 0.1;
+
   ngOnInit(): void {
     this._base._scriptLoaderService.load('widget', '../../assets/js/plugins/wizard.min.js');
     this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
@@ -355,6 +358,71 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  isdaily: boolean = false;
+  onSelectDailyPackageEvent() {
+    const today = new Date();
+
+    this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+      this.TimeMaster[_index].isChecked = false;
+      if (this.isRepetitionExists(_timeslot?.option_value_id)) {
+        this.removefromarray(_timeslot?.option_value_id);
+      }
+    });
+    // initial restriction (today + 1 month)
+    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+
+    this.isdaily = !this.isdaily;
+    this.ismonthly = false;
+
+    if (this.isdaily) {
+      this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+        this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
+        // const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
+        const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value === "Repetition 4");
+        const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value === "Upto 30 Seconds");
+        if (this.isRepetitionExists(_timeslot?.option_value_id)) {
+          this.removefromarray(_timeslot?.option_value_id);
+        } else {
+          this.timemastervalid = false;
+          const current = new Date();
+          let control: FormGroup = this._fbCategoryMaster.group({
+            route_category_id: [this._categoryRouteMaster.category_id],
+            route_category: [this._categoryRouteMaster.category],
+            product_id: [this._categoryScreenMaster.product_id],
+            product_name: [this._categoryScreenMaster.product_name],
+            timeslot_category_id: [_timeslot ? _timeslot?.option_value_id : '', [Validators.required]],
+            timeslot_category: [_timeslot ? _timeslot?.option_value : '', [Validators.required]],
+            from_date: ['', [Validators.required]],
+            minfromDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+            maxfromDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
+            to_date: ['', [Validators.required]],
+            mintoDate: { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() },
+            maxtoDate: { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() },
+            total_amount: [this._categoryScreenMaster.base_amount],
+            base_amount: [this._categoryScreenMaster.base_amount],
+            timeslot_price: [_timeslot ? _timeslot?.price_delta : 0.00],
+            repetition_category_id: [_itemRepe[0]?.option_value_id],
+            repetition_category: [_itemRepe[0]?.option_value],
+            selectedReptitionddl: [_itemRepe[0]?.option_value_id],
+            repetition_price: [_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]],
+            interval_category_id: [_itemInterval[0]?.option_value_id],
+            interval_category: [_itemInterval[0]?.option_value],
+            selectedIntervalddl: [_itemInterval[0]?.option_value_id],
+            interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
+            attribute_amount: 0.00,
+            quantity: [1],
+            date_total: 0.00
+          });
+
+          this.timeArray.push(control);
+          this.onRepetitionChange(this.ScreenRepeMaster[0]?.option_value_id, 0)
+          this.onIntervalChange(this.ScreenIntervalMaster[0]?.option_value_id, 0)
+          this.calculate_final_amount((this.timeArray.length - 1))
+        }
+      })
+    }
+  }
+
   ismonthly: boolean = false;
   onSelectPackageEvent() {
     const today = new Date();
@@ -369,6 +437,7 @@ export class ProductComponent implements OnInit {
     this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
 
     this.ismonthly = !this.ismonthly;
+    this.isdaily = false;
     if (this.ismonthly) {
       this.TimeMaster?.filter((_timeslot: any, _index: any) => {
         this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
@@ -463,19 +532,19 @@ export class ProductComponent implements OnInit {
           let timeslot_price = (control.controls['timeslot_price'].value) * this.quantity;
           let date_total: any = control.controls['date_total'].value;
 
-          repetition_price = repetition_price + (repetition_price * 0.3);
+          repetition_price = repetition_price + (repetition_price * this._general_percentage);
           control.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
           control.controls["repetition_price"].updateValueAndValidity();
 
-          interval_price = interval_price + (interval_price * 0.3);
+          interval_price = interval_price + (interval_price * this._general_percentage);
           control.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
           control.controls["interval_price"].updateValueAndValidity();
 
-          timeslot_price = timeslot_price + (timeslot_price * 0.3);
+          timeslot_price = timeslot_price + (timeslot_price * this._general_percentage);
           control.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
           control.controls["timeslot_price"].updateValueAndValidity();
 
-          date_total = date_total + (date_total * 0.3);
+          date_total = date_total + (date_total * this._general_percentage);
           control.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
           control.controls["date_total"].updateValueAndValidity();
         }
@@ -580,15 +649,46 @@ export class ProductComponent implements OnInit {
     let base_amount = (obj.controls['base_amount'].value) * this.quantity;
 
     let total_amount = (base_amount + attribute_amount);
-    if (!this.ismonthly) {
+    debugger
+    if (this.isdaily) {
+      let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+      let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+      let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+      let date_total: any = obj.controls['date_total'].value;
+
+      repetition_price = repetition_price + (repetition_price * this._general_daily_percentage);
+      obj.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
+      obj.controls["repetition_price"].updateValueAndValidity();
+
+      interval_price = interval_price + (interval_price * this._general_daily_percentage);
+      obj.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
+      obj.controls["interval_price"].updateValueAndValidity();
+
+      timeslot_price = timeslot_price + (timeslot_price * this._general_daily_percentage);
+      obj.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
+      obj.controls["timeslot_price"].updateValueAndValidity();
+
+      date_total = date_total + (date_total * this._general_daily_percentage);
+      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+      obj.controls["date_total"].updateValueAndValidity();
+
+      let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
+      attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+      obj.controls['attribute_amount'].setValue(attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+      let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+  
+      total_amount = (base_amount + attribute_amount);
+
+
+    } else if (this.ismonthly) {
+      total_amount = total_amount * 30;
+    } else {
       total_amount = this._base._commonService.formatAmount(total_amount);
       if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
         let day_count = this.getDaysCount(_from_date, _to_date)
         total_amount = (total_amount * day_count)
       }
-    } else {
-      total_amount = total_amount * 30;
-
     }
     obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
     obj.controls["total_amount"].updateValueAndValidity();

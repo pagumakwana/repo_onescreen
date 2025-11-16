@@ -118,11 +118,47 @@
                                 <ng-container formArray="lsttimeattr">
                                     <ng-container [formGroup]='_objPass'
                                         *ngFor="let _objPass of timeArray?.controls;let i =index">
-                                        <div class="row mb-3">
+                                        <div class="row">
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_id{{i+1}}"
                                                     class="form-control form-control-sm" readonly
                                                     placeholder="Time Slot" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                            <div class="col-lg-2 mb-3 form-check">
+                                                <label class="form-label"></label>
+                                                <label>Is Prime</label>
+                                                <input type="checkbox" class="form-check-input" id="isPublished"
+                                                    formControlName="is_prime">
+                                                <span class="new-control-indicator"></span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="form-label">Screen Interval Attribute</label>
+                                <webd-multiselect [data]="IntervalAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lstintervalattribute"
+                                    placeholder="Select Interval" [config]="_configInterval"
+                                    (onSelectEvent)="onSelectInterval($event)"
+                                    (onDeSelectEvent)="onDeSelectInterval($event)">
+                                </webd-multiselect>
+                            </div>
+                            <div class="card-body">
+                                <ng-container formArray="lstinterattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of intervalArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Screen Interval" formControlName="option_value">
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="option_value_price{{i+1}}"
@@ -161,35 +197,7 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
-                            <div class="col-lg-4 mb-3">
-                                <label class="form-label">Screen Interval Attribute</label>
-                                <webd-multiselect [data]="IntervalAttr" class="col-sm-3 col-form-label"
-                                    textField='option_value' valueField='option_value_id'
-                                    [formControl]="fgproductmaster?.controls?.lstintervalattribute"
-                                    placeholder="Select Interval" [config]="_configInterval"
-                                    (onSelectEvent)="onSelectInterval($event)"
-                                    (onDeSelectEvent)="onDeSelectInterval($event)">
-                                </webd-multiselect>
-                            </div>
-                            <div class="card-body">
-                                <ng-container formArray="lstinterattr">
-                                    <ng-container [formGroup]='_objPass'
-                                        *ngFor="let _objPass of intervalArray?.controls;let i =index">
-                                        <div class="row mb-3">
-                                            <div class="col-lg-2 mb-3">
-                                                <input type="text" id="option_value_id{{i+1}}"
-                                                    class="form-control form-control-sm" readonly
-                                                    placeholder="Screen Interval" formControlName="option_value">
-                                            </div>
-                                            <div class="col-lg-2 mb-3">
-                                                <input type="text" id="option_value_price{{i+1}}"
-                                                    class="form-control form-control-sm" placeholder="Price"
-                                                    formControlName="price_delta" minlength="0" maxlength="7">
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                            </div>
+                           
                             <div class="col-lg-4 mb-3">
                                 <label class="form-label">Assign User Commision </label>
                                 <webd-multiselect [data]="userMaster" class="col-sm-3 col-form-label"

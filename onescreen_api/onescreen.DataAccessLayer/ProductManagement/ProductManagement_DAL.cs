@@ -1018,6 +1018,7 @@ namespace onescreenDAL.ProductManagement
                               option_value_id = Row.Field<Int64>("option_value_id"),
                               option_value = Row.Field<string>("option_value"),
                               price_delta = Row.Field<decimal?>("price_delta"),
+                              is_prime = Row.Field<bool?>("is_prime"),
                           }).ToList();
                 }
                 if (ds.Tables[1].Rows.Count > 0)

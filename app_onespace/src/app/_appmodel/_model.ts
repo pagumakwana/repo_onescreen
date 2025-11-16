@@ -2027,6 +2027,7 @@ export interface productoptionvalue {
     option_type_id?: any,
     title?: any,
     lstoptiontype?: any,
+    lstoptiontypevalue?: any,
     isactive?: any,
     client_id?: number,
     project_id?: number,
