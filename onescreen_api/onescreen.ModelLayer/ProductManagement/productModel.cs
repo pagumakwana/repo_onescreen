@@ -30,6 +30,16 @@ namespace onescreenModel.ProductManagement
         public List<productAttributeModel>? lsttimeattribute { get; set; }
         public List<productAttributeModel>? lstintervalattribute { get; set; }
         public List<userproductcommissionModel>? lstuserproductcommission { get; set; }
+        public List<productintrepmap>? lst_latest_attr { get; set; }
+    }
+
+    public class productintrepmap : commonModel
+    {
+        public Int64? interval_id { get; set; }
+        public decimal? interval_price { get; set; }
+        public Int64? repetition_id { get; set; }
+        public decimal repetition_price { get; set; }
+        public Int64? product_id { get; set; }
     }
 
     public class productAttributeModel : commonModel
@@ -38,8 +48,11 @@ namespace onescreenModel.ProductManagement
         public Int64? option_value_id { get; set; }
         public string? option_value { get; set; }
         public decimal price_delta { get; set; }
+        public decimal? price_delta_prime { get; set; }
         public Int64? product_id { get; set; }
-    }
+        public Int64? option_value_parent_id { get; set; }
+
+}
 
 
     public class userproductcommissionModel : commonModel
@@ -89,8 +102,9 @@ namespace onescreenModel.ProductManagement
         public string? title { get; set; }
         public string option_value { get; set; }
         public decimal? price_delta { get; set; }
-        public bool? is_prime { get; set; }
+        public decimal? price_delta_prime { get; set; }
         public Int64 display_order { get; set; }
+        public Int64? option_value_parent_id { get; set; }
         public List<productOptionTypesModel>? lstoptiontype { get; set; }
     }
 

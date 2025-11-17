@@ -134,7 +134,9 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    price_delta_prime = Row.Field<decimal>("price_delta_prime"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
                                 }).ToList();
                         }
                         if (ds.Tables[6].Rows.Count > 0)
@@ -144,7 +146,8 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
                                 }).ToList();
                         }
                         if (ds.Tables[7].Rows.Count > 0)
@@ -154,7 +157,8 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
                                 }).ToList();
                         }
                         if (ds.Tables[8].Rows.Count > 0)
@@ -278,6 +282,8 @@ namespace onescreenDAL.ProductManagement
                                     objDBParameter = new DBParameter("@option_value", _item.option_value, DbType.String);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@price_delta", _item.price_delta, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@price_delta_prime", _item.price_delta_prime, DbType.Decimal);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@product_id", objproductModel.product_id, DbType.Int64);
                                     ObJParameterCOl.Add(objDBParameter);
@@ -1018,7 +1024,8 @@ namespace onescreenDAL.ProductManagement
                               option_value_id = Row.Field<Int64>("option_value_id"),
                               option_value = Row.Field<string>("option_value"),
                               price_delta = Row.Field<decimal?>("price_delta"),
-                              is_prime = Row.Field<bool?>("is_prime"),
+                              price_delta_prime = Row.Field<decimal?>("price_delta_prime"),
+                              option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
                           }).ToList();
                 }
                 if (ds.Tables[1].Rows.Count > 0)

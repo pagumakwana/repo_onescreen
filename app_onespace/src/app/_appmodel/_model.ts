@@ -1972,6 +1972,7 @@ export interface productMaster {
     lstintervalattribute?: any,
     lsttimeattribute?: any,
     lstuserproductcommission?: any,
+    lst_latest_attr?: any,
     lstbrand?: any,
     thumbnail?: any,
     client_id?: number,

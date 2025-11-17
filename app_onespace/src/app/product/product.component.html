@@ -265,7 +265,7 @@
                                                                     Select
                                                                     Repetition</option>
                                                                 <option
-                                                                    *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
+                                                                    *ngFor="let _item of  _objPass.get('repetitionarray')?.value; let _ind=index"
                                                                     id="repet_value_id_{{_ind}}"
                                                                     [value]="_item.option_value_id">
                                                                     {{_item.option_value}}
