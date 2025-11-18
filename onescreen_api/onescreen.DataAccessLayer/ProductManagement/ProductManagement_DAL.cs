@@ -136,7 +136,8 @@ namespace onescreenDAL.ProductManagement
                                     option_value = Row.Field<string>("option_value"),
                                     price_delta = Row.Field<decimal>("price_delta"),
                                     price_delta_prime = Row.Field<decimal>("price_delta_prime"),
-                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
                                 }).ToList();
                         }
                         if (ds.Tables[6].Rows.Count > 0)
@@ -147,7 +148,11 @@ namespace onescreenDAL.ProductManagement
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
                                     price_delta = Row.Field<decimal>("price_delta"),
-                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id"),
+                                    rep_option_value_id = Row.Field<Int64>("rep_option_value_id"),
+                                    rep_option_value = Row.Field<string>("rep_option_value"),
+                                    rep_price_delta = Row.Field<decimal>("rep_price_delta")
                                 }).ToList();
                         }
                         if (ds.Tables[7].Rows.Count > 0)
@@ -158,7 +163,8 @@ namespace onescreenDAL.ProductManagement
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
                                     price_delta = Row.Field<decimal>("price_delta"),
-                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
                                 }).ToList();
                         }
                         if (ds.Tables[8].Rows.Count > 0)
@@ -284,6 +290,14 @@ namespace onescreenDAL.ProductManagement
                                     objDBParameter = new DBParameter("@price_delta", _item.price_delta, DbType.Decimal);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@price_delta_prime", _item.price_delta_prime, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_option_value_id", _item.rep_option_value_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_option_value", _item.rep_option_value, DbType.String);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_price_delta", _item.rep_price_delta, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_price_delta_prime", _item.rep_price_delta_prime, DbType.Decimal);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@product_id", objproductModel.product_id, DbType.Int64);
                                     ObJParameterCOl.Add(objDBParameter);

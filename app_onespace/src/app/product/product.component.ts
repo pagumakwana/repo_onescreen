@@ -191,6 +191,7 @@ export class ProductComponent implements OnInit {
       this.initform();
       this.get_config();
       this.gettypecategory();
+      this.getprimedate();
     })
   }
 
@@ -415,6 +416,7 @@ export class ProductComponent implements OnInit {
             quantity: [1],
             date_total: 0.00,
             repetitionarray: [_itemRepedata],
+            prime_date_price:[0.00]
           });
           const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
           control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -492,6 +494,7 @@ export class ProductComponent implements OnInit {
             quantity: [1],
             date_total: 0.00,
             repetitionarray: [_itemRepedata],
+            prime_date_price:[0.00]
           });
           const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
           control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -556,6 +559,7 @@ export class ProductComponent implements OnInit {
           date_total: 0.00,
           intervalarray: [[]],
           repetitionarray: [_itemRepedata],
+          prime_date_price:[0.00]
         });
         const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
         control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -661,6 +665,32 @@ export class ProductComponent implements OnInit {
       this._cdr.detectChanges();
     }
 
+  }
+
+  calculate_date_pricing() {
+    let totalPrice = 0;
+    for (let index = 0; index < this.timeArray.length; index++) {
+      const element = this.timeArray.at(index) as FormGroup;
+      let fmdate = (element?.controls['from_date'].value);
+      let todate = (element?.controls['to_date'].value);
+      let total_amount = (element?.controls['total_amount'].value);
+      let date_total = (element?.controls['date_total'].value);
+      let prime_date_price = (element?.controls['prime_date_price'].value);
+
+      console.log("calculate_date_pricing > ",fmdate,todate,total_amount,date_total,prime_date_price)
+      // this.primedateMaster.forEach((item: any) => {
+      //   for (let d = new Date(fmdate); d <= todate; d.setDate(d.getDate() + 1)) {
+      //     if (d.toISOString().split('T')[0] == item.prime_date) {
+      //       totalPrice = (item.date_price / this.timeArray.length);
+      //       element?.controls['prime_date_price'].setValue(totalPrice);
+      //       element?.controls['prime_date_price'].updateValueAndValidity();
+
+      //       console.log("_date", new Date(item.prime_date),totalPrice);
+      //     }
+
+      //   }
+      // });
+    }
   }
 
   quantity: number = 1;
@@ -1160,6 +1190,15 @@ export class ProductComponent implements OnInit {
       obj.controls["to_date"].setValue(this.toNgbDate(nextMonth));
       obj.controls["to_date"]?.updateValueAndValidity()
       console.log("index", index)
+    });
+  }
+
+  primedateMaster: any = [];
+  getprimedate() {
+    this._webDService.getprimedate().subscribe((resprimedateMaster: any) => {
+      this.primedateMaster = [];
+      this.primedateMaster = Array.isArray(resprimedateMaster.data) ? resprimedateMaster.data : [];
+
     });
   }
 }

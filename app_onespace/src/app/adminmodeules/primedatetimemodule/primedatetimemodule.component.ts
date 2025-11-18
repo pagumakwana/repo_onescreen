@@ -83,7 +83,7 @@ export class PrimedatetimemoduleComponent implements OnInit {
 
   readonly DELIMITER = '-';
   toDateModel(date: NgbDateStruct | null): string | null {
-    return date ? date.month + this.DELIMITER + date.day + this.DELIMITER + date.year : null;
+    return date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null;
   }
 
   ngOnInit(): void {
@@ -153,6 +153,7 @@ export class PrimedatetimemoduleComponent implements OnInit {
     this.isLoading$.next(true);
     this._base._commonService.markFormGroupTouched(this.fgprimedate)
     if (this.fgprimedate.valid) {
+      debugger
       this._datetimedetails.date_price = this.fgprimedate.value.date_price;
       this._datetimedetails.prime_date = this.toDateModel(this.fgprimedate.value.prime_date);
       this.addmodifyprimedate(flag);

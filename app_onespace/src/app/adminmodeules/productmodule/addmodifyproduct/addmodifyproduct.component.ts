@@ -83,7 +83,8 @@ export class AddmodifyproductComponent {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
 
   public _configRouteCategory: IDropdownSettings = {
@@ -299,21 +300,27 @@ export class AddmodifyproductComponent {
 
           this._productMaster.lstrepeattribute?.filter((_resrep: any) => {
             if (_resrep && (_resrep?.option_value_parent_id == _resint.option_value_id)) {
-              let _repecontrol: FormGroup = this._fbproductMaster.group({
-                product_option_adj_id: [0],
-                product_id: [0],
-                option_value_id: [_resrep ? _resrep.option_value_id : 0],
-                option_value: [_resrep ? _resrep.option_value : ''],
-                price_delta: [_resrep ? _resrep.price_delta : 0],
-                option_value_parent_id: [_resrep ? _resrep.option_value_parent_id : 0],
+              const exists = this.repetitionArray.controls.some((ctrl: AbstractControl) => {
+                return (ctrl.get('product_option_adj_id')?.value === (_resrep?.product_option_adj_id && ctrl.get('option_value_id')?.value === (_resrep?.option_value_id)) ?? 0);
               });
-              this.repetitionArray.push(_repecontrol);
-              control?.controls['repetition_id'].setValue(_resrep?.option_value_id);
-              control?.controls['repetition_id'].updateValueAndValidity();
-              control?.controls['repetition_value'].setValue(_resrep?.option_value);
-              control?.controls['repetition_value'].updateValueAndValidity();
-              control?.controls['repetition_price'].setValue(_resrep?.price_delta);
-              control?.controls['repetition_price'].updateValueAndValidity();
+
+              if (!exists) {
+                let _repecontrol: FormGroup = this._fbproductMaster.group({
+                  product_option_adj_id: [_resrep ? _resrep.product_option_adj_id : 0],
+                  product_id: [0],
+                  option_value_id: [_resrep ? _resrep.option_value_id : 0],
+                  option_value: [_resrep ? _resrep.option_value : ''],
+                  price_delta: [_resrep ? _resrep.price_delta : 0],
+                  option_value_parent_id: [_resrep ? _resrep.option_value_parent_id : 0],
+                });
+                this.repetitionArray.push(_repecontrol);
+                control?.controls['repetition_id'].setValue(_resrep?.option_value_id);
+                control?.controls['repetition_id'].updateValueAndValidity();
+                control?.controls['repetition_value'].setValue(_resrep?.option_value);
+                control?.controls['repetition_value'].updateValueAndValidity();
+                control?.controls['repetition_price'].setValue(_resrep?.price_delta);
+                control?.controls['repetition_price'].updateValueAndValidity();
+              }
             }
           });
           this.latestArray.insert(index, control);
@@ -321,7 +328,7 @@ export class AddmodifyproductComponent {
           row.get('interval_price')?.valueChanges.subscribe(value => {
             const intervalId = row.get('interval_id')?.value;
             const index = this.intervalArray.controls.findIndex((group: AbstractControl) =>
-            String((group as FormGroup).get('option_value_id')?.value) === String(intervalId)
+              String((group as FormGroup).get('option_value_id')?.value) === String(intervalId)
             );
             if (index !== -1) {
               this.intervalArray.at(index).get('price_delta')?.setValue(value, {
@@ -334,7 +341,7 @@ export class AddmodifyproductComponent {
           row.get('repetition_price')?.valueChanges.subscribe(value => {
             const repetitionId = row.get('repetition_id')?.value;
             const index = this.repetitionArray.controls.findIndex((group: AbstractControl) =>
-            String((group as FormGroup).get('option_value_id')?.value) === String(repetitionId)
+              String((group as FormGroup).get('option_value_id')?.value) === String(repetitionId)
             );
             if (index !== -1) {
               this.repetitionArray.at(index).get('price_delta')?.setValue(value, {
@@ -629,7 +636,7 @@ export class AddmodifyproductComponent {
 
   onSelectUser($event: any) {
     if ($event && $event != null && $event != '') {
-      debugger
+
       const _user = this.userMaster.filter((res: any) => res.user_id == $event.user_id)
       let control: FormGroup = this._fbproductMaster.group({
         user_product_comm_id: [0],
@@ -668,7 +675,7 @@ export class AddmodifyproductComponent {
   }
 
   addattribute(index: number, isAdd: boolean, item: any = null) {
-    debugger
+
     if (isAdd) {
       let control: FormGroup = this._fbproductMaster.group({
         interval_id: [''],
@@ -684,10 +691,10 @@ export class AddmodifyproductComponent {
       const row = this.latestArray.at(index) as FormGroup;
 
       row.get('interval_price')?.valueChanges.subscribe(value => {
-        debugger
+
         const intervalId = row.get('interval_id')?.value;
         const index = this.intervalArray.controls.findIndex((group: AbstractControl) =>
-        String((group as FormGroup).get('option_value_id')?.value) === String(intervalId)
+          String((group as FormGroup).get('option_value_id')?.value) === String(intervalId)
         );
         if (index !== -1) {
           this.intervalArray.at(index).get('price_delta')?.setValue(value, {
@@ -697,7 +704,7 @@ export class AddmodifyproductComponent {
       });
 
       row.get('repetition_price')?.valueChanges.subscribe(value => {
-        debugger
+
         const repetitionId = row.get('repetition_id')?.value;
         const index = this.repetitionArray.controls.findIndex((group: AbstractControl) =>
           String((group as FormGroup).get('option_value_id')?.value) === String(repetitionId)
