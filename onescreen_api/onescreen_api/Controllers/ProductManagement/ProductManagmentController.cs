@@ -569,5 +569,36 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.getorderproduct(search_date);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_objdatetimedetails"></param>
+        /// <returns></returns>
+        [Route("primedatdetails")]
+        [HttpPost]
+        public string primedatdetails(datetimedetails _objdatetimedetails)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.primedatdetails(_objdatetimedetails);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="date_id"></param>
+        /// <returns></returns>
+        [Route("getprimedate")]
+        [HttpGet]
+        public responseModel getprimedate(string flag="all", Int64 date_id = 0 ,Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getprimedate(flag, date_id, start_count, end_count);
+            }
+        }
     }
 }

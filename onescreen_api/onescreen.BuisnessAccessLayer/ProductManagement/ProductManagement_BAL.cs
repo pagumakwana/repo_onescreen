@@ -288,6 +288,23 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getorderproduct(search_date);
             }
         }
+
+        public string primedatdetails(datetimedetails _objdatetimedetails)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.primedatdetails(_objdatetimedetails);
+            }
+        }
+
+        public responseModel getprimedate(string flag, Int64 date_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getprimedate(flag, date_id, start_count, end_count);
+            }
+        }
+
         public void Dispose() 
         { 
         }

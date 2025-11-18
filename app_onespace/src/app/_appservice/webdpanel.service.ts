@@ -703,5 +703,10 @@ export class WebDService {
 
         return this._base._apiService.getExternal(url);
     }
-
+    public primedatdetails(_objdatetimedetails: any) {
+        return this._base._apiService.post(ApiConstant.product.primedatdetails,_objdatetimedetails);
+    }
+    public getprimedate(flag: any = '', date_id: any = 0,start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getprimedate}?flag=${flag}&date_id=${date_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
 }

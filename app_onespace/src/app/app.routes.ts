@@ -49,6 +49,7 @@ import { TermsAndConditionComponent } from './terms-and-condition/terms-and-cond
 import { ScreenbookingComponent } from './adminmodeules/screenbooking/screenbooking.component';
 import { OrderPolicyComponent } from './order-policy/order-policy.component';
 import { CancellationAndRefundComponent } from './cancellation-and-refund/cancellation-and-refund.component';
+import { PrimedatetimemoduleComponent } from './adminmodeules/primedatetimemodule/primedatetimemodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -303,6 +304,11 @@ export const routes: Routes = [
                 path: 'booking',
                 component: ScreenbookingComponent,
                 title: 'ScreenBooking | Onescreen',
+            },
+            {
+                path: 'primedate',
+                component: PrimedatetimemoduleComponent,
+                title: 'Prime Date | Onescreen',
             },
         ]
     },

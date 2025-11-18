@@ -220,9 +220,8 @@ export class ProductComponent implements OnInit {
   }
   get_config() {
     this._webDService.getportalconfig('all', 0, 'null', 'day').subscribe((resCategory: any) => {
-      this.ConfigMaster = resCategory.data;
+      this.ConfigMaster = [];
       this.ConfigMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
-      console.log("ConfigMaster", this.ConfigMaster);
       this._cdr.detectChanges();
     });
   }

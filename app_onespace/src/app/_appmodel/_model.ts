@@ -2344,3 +2344,11 @@ export interface userorderproductModel {
     attribute_amount?: any,
     total_amount?: any,
 }
+export interface datetimedetails {
+    date_id?: any,
+    flag?: any,
+    prime_date?: any,
+    date_price?: any,
+    createdname?: any,
+    user_id?: any
+}

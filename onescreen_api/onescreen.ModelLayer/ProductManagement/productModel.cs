@@ -407,5 +407,13 @@ namespace onescreenModel.ProductManagement
         public string? fullname { get;set; }
         public string? address { get;set; }
     }
+
+    public class datetimedetails : commonModel
+    {
+        public long? date_id { get; set; }
+        public string? prime_date { get; set; }
+        public decimal? date_price { get; set; }
+
+    }
 }
 

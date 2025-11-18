@@ -291,6 +291,8 @@ export class ApiConstant {
         getwalletmaster: "product/getwalletmaster",
         getinvoicedetails: "product/getinvoicedetails",
         update_to_cart: "product/update_to_cart",
-        getorderproduct:"product/getorderproduct"
+        getorderproduct:"product/getorderproduct",
+        primedatdetails:"product/primedatdetails",
+        getprimedate:"product/getprimedate"
     }
 }
