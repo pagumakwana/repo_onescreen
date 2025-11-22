@@ -151,8 +151,8 @@
                                         <div class="row">
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Interval Attribute</label>
-                                                <select class="form-control" formControlName="interval_id"
-                                                    id="interval_id{{i+1}}" name="interval_id" required
+                                                <select class="form-control" formControlName="option_value_id"
+                                                    id="option_value_id{{i+1}}" name="option_value_id" required
                                                     style="cursor: pointer;" (change)="onSelectInterval($event,i)">
                                                     <option value="">Select Interval</option>
                                                     <option *ngFor="let objCategory of IntervalAttr"
@@ -163,12 +163,12 @@
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Interval Price</label>
                                                 <input type="text" id="option_value_id{{i+1}}" class="form-control"
-                                                    placeholder="Screen Interval" formControlName="interval_price">
+                                                    placeholder="Screen Interval" formControlName="price_delta">
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Repetition Attribute</label>
-                                                <select class="form-control" formControlName="repetition_id"
-                                                    id="repetition_id{{i+1}}" name="repetition_id" required
+                                                <select class="form-control" formControlName="rep_option_value_id"
+                                                    id="rep_option_value_id{{i+1}}" name="repetition_id" required
                                                     style="cursor: pointer;" (change)="onSelectRepe($event,i)">
                                                     <option value="">Select Repetition</option>
                                                     <option
@@ -179,14 +179,9 @@
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Repetition Price</label>
-                                                <input type="text" id="option_value_id{{i+1}}" class="form-control"
-                                                    placeholder="Screen Interval" formControlName="repetition_price">
+                                                <input type="text" id="rep_option_value_id{{i+1}}" class="form-control"
+                                                    placeholder="Screen Interval" formControlName="rep_price_delta">
                                             </div>
-                                            <!-- <div class="col-lg-2 mb-3">
-                                                <label class="form-label">Total Amount</label>
-                                                <input type="text" id="total_price{{i+1}}" class="form-control"
-                                                    placeholder="Screen Interval" formControlName="total_price">
-                                            </div> -->
                                             <div class="col-lg-2" data-repeater-create>
                                                 <ng-container *ngIf="i === latestArray.length - 1">
                                                     <button type="button" class="btn btn-primary"

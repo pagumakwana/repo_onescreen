@@ -65,7 +65,7 @@ export class PrimedatetimemoduleComponent implements OnInit {
     displayPaging: true,
     tableTitle: 'Manage Prime Date',
     tableConfig: [
-      { identifer: "createddatetime", title: "Date", type: "date" },
+      // { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "prime_date", title: "Prime Date", type: "date" },
       { identifer: "date_price", title: "Date Price", type: "text" },
       { identifer: "isactive", title: "Status", type: "status" },

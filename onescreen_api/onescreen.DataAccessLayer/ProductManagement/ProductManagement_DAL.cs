@@ -149,10 +149,7 @@ namespace onescreenDAL.ProductManagement
                                     option_value = Row.Field<string>("option_value"),
                                     price_delta = Row.Field<decimal>("price_delta"),
                                     option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
-                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id"),
-                                    rep_option_value_id = Row.Field<Int64>("rep_option_value_id"),
-                                    rep_option_value = Row.Field<string>("rep_option_value"),
-                                    rep_price_delta = Row.Field<decimal>("rep_price_delta")
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
                                 }).ToList();
                         }
                         if (ds.Tables[7].Rows.Count > 0)
@@ -164,7 +161,10 @@ namespace onescreenDAL.ProductManagement
                                     option_value = Row.Field<string>("option_value"),
                                     price_delta = Row.Field<decimal>("price_delta"),
                                     option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
-                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id"),
+                                    rep_option_value_id = Row.Field<Int64>("rep_option_value_id"),
+                                    rep_option_value = Row.Field<string>("rep_option_value"),
+                                    rep_price_delta = Row.Field<decimal>("rep_price_delta")
                                 }).ToList();
                         }
                         if (ds.Tables[8].Rows.Count > 0)
@@ -1006,7 +1006,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 parent_option_value_id=0, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -1014,6 +1014,8 @@ namespace onescreenDAL.ProductManagement
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@option_type", option_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@parent_option_value_id", parent_option_value_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@product_id", product_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

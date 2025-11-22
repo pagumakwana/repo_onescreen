@@ -180,7 +180,7 @@ export class ProductComponent implements OnInit {
     { config_name: 'Saturday' }
   ];
 
-  private _general_percentage: any = 0.2;
+  private _general_percentage: any = 0.0;
   private _general_daily_percentage: any = 0.1;
 
   ngOnInit(): void {
@@ -323,11 +323,16 @@ export class ProductComponent implements OnInit {
         this.ScreenRepeMaster = [];
         this.ScreenRepeMaster = res;
         this._cdr.detectChanges();
-        console.log(" this.Screen Interval", this.ScreenRepeMaster)
+        console.log(" this.Repetition", this.ScreenRepeMaster)
       });
       this.getoptionvalues('Interval', this._categoryScreenMaster.product_id).then((res: any) => {
         this.ScreenIntervalMaster = [];
-        this.ScreenIntervalMaster = res;
+        this.ScreenIntervalMaster = [
+          ...new Map(
+            res.map((item: any) =>
+              [`${item.option_value_id}-${item.option_value}`, item]
+            )
+          ).values()];
         this._cdr.detectChanges();
         console.log(" this.Screen Interval", this.ScreenIntervalMaster)
       });
@@ -416,7 +421,7 @@ export class ProductComponent implements OnInit {
             quantity: [1],
             date_total: 0.00,
             repetitionarray: [_itemRepedata],
-            prime_date_price:[0.00]
+            prime_date_price: [0.00]
           });
           const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
           control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -494,7 +499,7 @@ export class ProductComponent implements OnInit {
             quantity: [1],
             date_total: 0.00,
             repetitionarray: [_itemRepedata],
-            prime_date_price:[0.00]
+            prime_date_price: [0.00]
           });
           const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
           control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -520,11 +525,14 @@ export class ProductComponent implements OnInit {
     if ($event && $event != null && $event != '') {
       this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
       const _itemTime = this.TimeMaster.filter((x: any) => x.option_value_id === $event?.option_value_id);
-      // const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value === "Repetition 4");
-      // const _itemInterval = this.ScreenIntervalMaster.filter((x: any) => x.option_value === "Upto 30 Seconds");
       const _itemInterval = this.ScreenIntervalMaster.filter((res: any, index: any) => index === 0);
+      this.ScreenRepeMaster = [
+        ...new Map(
+          this.ScreenRepeMaster.map((item: any) =>
+            [`${item.option_value_id}-${item.option_value}`, item]
+          )
+        ).values()];
       const _itemRepedata = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
-      // const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
       if (this.isRepetitionExists($event?.option_value_id)) {
         this.removefromarray($event?.option_value_id);
       } else {
@@ -559,7 +567,7 @@ export class ProductComponent implements OnInit {
           date_total: 0.00,
           intervalarray: [[]],
           repetitionarray: [_itemRepedata],
-          prime_date_price:[0.00]
+          prime_date_price: [0.00]
         });
         const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
         control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
@@ -571,11 +579,10 @@ export class ProductComponent implements OnInit {
         control.controls['repetition_price'].setValue(_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]);
         control.controls["repetition_price"].updateValueAndValidity();
         this._cdr.detectChanges();
-        if (!this.ismonthly) {
+        if (!this.ismonthly && !this.isdaily) {
           let repetition_price = (control.controls['repetition_price'].value) * this.quantity;
           let interval_price = (control.controls['interval_price'].value) * this.quantity;
           let timeslot_price = (control.controls['timeslot_price'].value) * this.quantity;
-          let date_total: any = control.controls['date_total'].value;
 
           repetition_price = repetition_price + (repetition_price * this._general_percentage);
           control.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
@@ -589,15 +596,11 @@ export class ProductComponent implements OnInit {
           control.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
           control.controls["timeslot_price"].updateValueAndValidity();
 
-          date_total = date_total + (date_total * this._general_percentage);
-          control.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
-          control.controls["date_total"].updateValueAndValidity();
         }
 
         this.timeArray.push(control);
-        setTimeout(() => {
-          this.calculate_final_amount((this.timeArray.length - 1))
-        }, 500);
+        this.calcluate_Prime_pricing((this.timeArray.length - 1));
+        this.calculate_final_amount((this.timeArray.length - 1));
       }
     }
   }
@@ -618,9 +621,9 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  getoptionvalues(flag: string = 'Time Slot', product_id: number = 0) {
+  getoptionvalues(flag: string = 'Time Slot', product_id: number = 0, parent_option_value_id: number = 0) {
     return new Promise((resolve, rejects) => {
-      this._webDService.getoptionvalue(flag, product_id).subscribe((rescategoryMaster: any) => {
+      this._webDService.getoptionvalue(flag, product_id, parent_option_value_id).subscribe((rescategoryMaster: any) => {
         let _optionvalues = [];
         _optionvalues = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
 
@@ -652,45 +655,31 @@ export class ProductComponent implements OnInit {
   onIntervalChange($event: any, _index: number) {
     debugger
     const selectedValue = this.ismonthly ? $event : $event?.target?.value;
+
     let obj = this.timeArray.at(_index) as FormGroup;
     if (selectedValue != undefined && selectedValue != null) {
       const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
+      const _itemRepedata = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id == selectedValue);
       obj.controls["interval_category"].setValue(selectedItem ? selectedItem?.option_value : '');
       obj.controls["interval_category"].updateValueAndValidity();
       obj.controls["interval_category_id"].setValue(selectedItem ? selectedItem?.option_value_id : 0);
       obj.controls["interval_category_id"].updateValueAndValidity();
       obj.controls["selectedIntervalddl"].setValue(selectedItem ? selectedItem?.option_value_id.toString() : '0');
       obj.controls["selectedIntervalddl"].updateValueAndValidity();
+      obj.controls['repetitionarray'].setValue(_itemRepedata);
+      obj.controls["repetitionarray"].updateValueAndValidity();
+      obj.controls['repetition_category_id'].setValue(_itemRepedata ? _itemRepedata[0]?.option_value_id : 0);
+      obj.controls["repetition_category_id"].updateValueAndValidity();
+      obj.controls['repetition_category'].setValue(_itemRepedata ? _itemRepedata[0]?.option_value : '');
+      obj.controls["repetition_category"].updateValueAndValidity();
+      obj.controls['selectedReptitionddl'].setValue(_itemRepedata ? _itemRepedata[0]?.option_value_id : 0);
+      obj.controls["selectedReptitionddl"].updateValueAndValidity();
+      obj.controls['repetition_price'].setValue(_itemRepedata ? _itemRepedata[0]?.price_delta : 0.00);
+      obj.controls["repetition_price"].updateValueAndValidity();
       this.calculate_final_amount(_index, 'interval', selectedItem ? selectedItem?.price_delta : 0.00);
       this._cdr.detectChanges();
     }
 
-  }
-
-  calculate_date_pricing() {
-    let totalPrice = 0;
-    for (let index = 0; index < this.timeArray.length; index++) {
-      const element = this.timeArray.at(index) as FormGroup;
-      let fmdate = (element?.controls['from_date'].value);
-      let todate = (element?.controls['to_date'].value);
-      let total_amount = (element?.controls['total_amount'].value);
-      let date_total = (element?.controls['date_total'].value);
-      let prime_date_price = (element?.controls['prime_date_price'].value);
-
-      console.log("calculate_date_pricing > ",fmdate,todate,total_amount,date_total,prime_date_price)
-      // this.primedateMaster.forEach((item: any) => {
-      //   for (let d = new Date(fmdate); d <= todate; d.setDate(d.getDate() + 1)) {
-      //     if (d.toISOString().split('T')[0] == item.prime_date) {
-      //       totalPrice = (item.date_price / this.timeArray.length);
-      //       element?.controls['prime_date_price'].setValue(totalPrice);
-      //       element?.controls['prime_date_price'].updateValueAndValidity();
-
-      //       console.log("_date", new Date(item.prime_date),totalPrice);
-      //     }
-
-      //   }
-      // });
-    }
   }
 
   quantity: number = 1;
@@ -705,21 +694,8 @@ export class ProductComponent implements OnInit {
       obj.controls['interval_price'].setValue(this._base._commonService.formatAmount(_price_delta));
       obj.controls["interval_price"].updateValueAndValidity();
     }
-    let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
-    let interval_price = (obj.controls['interval_price'].value) * this.quantity;
-    let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
-    let date_total: any = obj.controls['date_total'].value;
-    let _from_date = (obj.controls['from_date'].value);
-    let _to_date = (obj.controls['to_date'].value);
-    _from_date = this.toDateModel(_from_date);
-    _to_date = this.toDateModel(_to_date);
-    let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
-    attribute_amount = this._base._commonService.formatAmount(attribute_amount);
-    obj.controls['attribute_amount'].setValue(attribute_amount);
-    obj.controls["attribute_amount"].updateValueAndValidity();
-    let base_amount = (obj.controls['base_amount'].value) * this.quantity;
 
-    let total_amount = (base_amount + attribute_amount);
+    let total_amount = 0.00;
     debugger
     if (this.isdaily) {
       let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
@@ -753,21 +729,169 @@ export class ProductComponent implements OnInit {
 
 
     } else if (this.ismonthly) {
+      let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+      let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+      let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+      let date_total: any = obj.controls['date_total'].value;
+      let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
+      attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+      obj.controls['attribute_amount'].setValue(attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+      let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
+      total_amount = (base_amount + attribute_amount);
       total_amount = total_amount * 30;
     } else {
-      total_amount = this._base._commonService.formatAmount(total_amount);
+      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
+      obj.controls["date_total"].updateValueAndValidity();
+      obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
+      obj.controls["total_amount"].updateValueAndValidity();
+      let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+      let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+      let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+      let date_total: any = obj.controls['date_total'].value;
+      let _from_date = (obj.controls['from_date'].value);
+      let _to_date = (obj.controls['to_date'].value);
+      let attribute_amount = (repetition_price + interval_price + timeslot_price)
+      attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+      obj.controls['attribute_amount'].setValue(attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+      let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
+      const primeMap = new Map(
+        this.primedateMaster.map((x: any) => [x.prime_date, x.date_price])
+      );
+      debugger
+      let _date_total = 0.00;
+      _from_date = this.toDatePModel(_from_date);
+      _to_date = this.toDatePModel(_to_date);
       if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
-        let day_count = this.getDaysCount(_from_date, _to_date)
-        total_amount = (total_amount * day_count)
+        for (let d = _from_date; d <= _to_date; d = this.addOneDay(d)) {
+          let currentDate = d;
+          if (primeMap.has(currentDate)) {
+            let price: any = primeMap.get(currentDate);
+            _date_total += price / this.timeArray.length;
+          }
+        }
+        _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
+        date_total = (date_total + _date_total);
+        date_total = date_total + (date_total * this._general_percentage);
+        obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+        obj.controls["date_total"].updateValueAndValidity();
+
+        total_amount = total_amount + attribute_amount + base_amount;
+        let _days = this.getDaysCount(_from_date, _to_date);
+        total_amount = total_amount * _days;
+        attribute_amount = this._base._commonService.formatAmount(attribute_amount + date_total + base_amount);
+        obj.controls['attribute_amount'].setValue(attribute_amount);
+        obj.controls["attribute_amount"].updateValueAndValidity();
+      } else {
+        total_amount = (base_amount + attribute_amount);
       }
+      total_amount = (total_amount + date_total)
+      total_amount = this._base._commonService.formatAmount(total_amount);
     }
     obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
     obj.controls["total_amount"].updateValueAndValidity();
     this._cdr.detectChanges();
   }
+
+  calcluate_Prime_pricing(_ind: any) {
+    debugger
+    for (let index = 0; index < this.timeArray.length; index++) {
+      if (_ind != index) {
+        let obj = this.timeArray.at(index) as FormGroup;
+        let fmdate = (obj.controls['from_date'].value);
+        let todate = (obj.controls['to_date'].value);
+        let _from_date: any = this.toDatePModel(fmdate);
+        let _to_date: any = this.toDatePModel(todate);
+        const primeMap = new Map(
+          this.primedateMaster.map((x: any) => [x.prime_date, x.date_price])
+        );
+        let _date_total = 0.00;
+        let total_amount = 0.00;
+        if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
+          for (let d = _from_date; d <= _to_date; d = this.addOneDay(d)) {
+            let currentDate = d;
+
+            if (primeMap.has(currentDate)) {
+              let price: any = primeMap.get(currentDate);
+
+              // check if the currentDate belongs to ANY slot
+              let usedInSlots = 0;
+
+              this.timeArray.controls.forEach((slot: any) => {
+                let sFrom = this.toDatePModel(slot.controls['from_date'].value);
+                let sTo = this.toDatePModel(slot.controls['to_date'].value);
+
+                if (this.isDateInSlotRange(currentDate, sFrom || '', sTo || '')) {
+                  usedInSlots++;
+                }
+              });
+
+              // IF used in ANY time slot → divide
+              if (usedInSlots > 0) {
+                _date_total += price / usedInSlots;
+              }
+              else {
+                // Not used in any slot → full amount
+                _date_total += price;
+              }
+            }
+          }
+
+          obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
+          obj.controls["date_total"].updateValueAndValidity();
+          obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
+          obj.controls["total_amount"].updateValueAndValidity();
+          let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+          let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+          let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+          let date_total: any = obj.controls['date_total'].value;
+          let attribute_amount = (repetition_price + interval_price + timeslot_price)
+          attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+          obj.controls['attribute_amount'].setValue(attribute_amount);
+          obj.controls["attribute_amount"].updateValueAndValidity();
+          let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
+          _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
+          date_total = (date_total + _date_total);
+          date_total = date_total + (date_total * this._general_percentage);
+          obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+          obj.controls["date_total"].updateValueAndValidity();
+
+          total_amount = total_amount + attribute_amount + base_amount;
+          let _days = this.getDaysCount(_from_date, _to_date);
+          total_amount = total_amount * _days;
+          attribute_amount = this._base._commonService.formatAmount(attribute_amount + date_total + base_amount);
+          obj.controls['attribute_amount'].setValue(attribute_amount);
+          obj.controls["attribute_amount"].updateValueAndValidity();
+
+          total_amount = (total_amount + date_total)
+          total_amount = this._base._commonService.formatAmount(total_amount);
+
+          obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
+          obj.controls["total_amount"].updateValueAndValidity();
+          this._cdr.detectChanges();
+        }
+      }
+
+    }
+  }
+
+  isDateInSlotRange(date: string, slotFrom: string, slotTo: string) {
+    const d = new Date(date);
+    const f = new Date(slotFrom);
+    const t = new Date(slotTo);
+    return d >= f && d <= t;
+  }
+
   readonly DELIMITER = '-';
   toDateModel(date: NgbDateStruct | null): string | null {
     return date ? date.month + this.DELIMITER + date.day + this.DELIMITER + date.year : null;
+  }
+  toDatePModel(date: NgbDateStruct | null): string | null {
+    return date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null;
   }
 
   toJSDate(d: NgbDateStruct): Date {
@@ -776,7 +900,6 @@ export class ProductComponent implements OnInit {
   from_date_alert: string = '';
   to_date_alert: string = '';
   date_select(_index: any, flag: string = 'fromdate') {
-    debugger
     let obj = this.timeArray.at(_index) as FormGroup;
     let fmdate = (obj.controls['from_date'].value);
     let todate = (obj.controls['to_date'].value);
@@ -809,15 +932,21 @@ export class ProductComponent implements OnInit {
         obj.controls['maxfromDate'].updateValueAndValidity();
       }
 
-      let _from_date: any = this.toDateModel(fmdate);
-      let _to_date: any = this.toDateModel(todate);
+      let _from_date: any = this.toDatePModel(fmdate);
+      let _to_date: any = this.toDatePModel(todate);
       let _date_total = 0.00;
-      _date_total = this.setPriceFromConfigMaster(_from_date, _to_date);
-      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(_date_total));
-      obj.controls['date_total'].updateValueAndValidity();
-      this.calculate_final_amount(_index);
+      if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
+        this.calcluate_Prime_pricing(_index);
+        this.calculate_final_amount(_index);
+      }
     }
     this._cdr.detectChanges();
+  }
+
+  addOneDay(dateStr: string): string {
+    let d = new Date(dateStr);           // convert string → Date
+    d.setDate(d.getDate() + 1);          // add 1 day
+    return d.toISOString().split("T")[0]; // convert back → YYYY-MM-DD
   }
 
   getDaysCount(fromDate: string | Date, toDate: string | Date): number {
