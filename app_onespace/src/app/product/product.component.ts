@@ -180,7 +180,7 @@ export class ProductComponent implements OnInit {
     { config_name: 'Saturday' }
   ];
 
-  private _general_percentage: any = 0.0;
+  private _general_percentage: any = 0.2;
   private _general_daily_percentage: any = 0.1;
 
   ngOnInit(): void {
