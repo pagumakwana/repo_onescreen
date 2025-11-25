@@ -162,6 +162,7 @@
 
                                     </div>
                                 </ng-container>
+                                <div class="row">
                                 <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
                                     <div class="form-group">
                                         <label for="from_date_month" class="form-label">Start Date
@@ -190,6 +191,61 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                    <div class="form-group">
+                                        <label for="interval_id" class="form-label">Advertise
+                                            length
+                                            <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                        </label>
+                                        <select class="form-control" id="screen_interval" formControlName="bs_interval" (change)="onbsIntervalChange($event)">
+                                            <option id="interval_value_id_" value="" class="disabled">Select
+                                                Interval</option>
+                                            <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                {{_item.option_value}}
+                                            </option>
+                                        </select>
+                                        <!-- <div *ngIf="_objPass.controls.interval_price.invalid && (_objPass.controls.interval_price.dirty || _objPass.controls.interval_price.touched)"
+                                            class="error_msg">
+                                            <ng-container
+                                                *ngIf="_objPass.controls.interval_price.errors?.['required']">
+                                                Interval is required.
+                                            </ng-container>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                    <div class="form-group">
+                                        <label for="screen_repetition_id" class="form-label">Advertise
+                                            Repetition
+                                            <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                            <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                        </label>
+                                        <select class="form-control" id="screen_repetition"
+                                            formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
+                                            <option id="repet_value_id" value="" class="disabled">
+                                                Select
+                                                Repetition</option>
+                                            <option
+                                                *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
+                                                id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                {{_item.option_value}}
+                                            </option>
+                                        </select>
+                                        <!-- <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
+                                            class="error_msg">
+                                            <ng-container
+                                                *ngIf="_objPass.controls.repetition_price.errors?.['required']">
+                                                Repetition is required.
+                                            </ng-container>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
                                 <br>
                                 <div class="slot-container">
                                     <ng-container formArray="lst_cart_product">
@@ -231,7 +287,8 @@
                                                                 (change)="onIntervalChange($event,i)"
                                                                 formControlName="selectedIntervalddl">
                                                                 <option id="interval_value_id_" value=""
-                                                                    class="disabled">Select
+                                                                    class="disabled">
+                                                                    Select
                                                                     Interval</option>
                                                                 <option
                                                                     *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
