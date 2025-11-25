@@ -5,7 +5,10 @@
     border-radius: 0.375rem;
     margin-right: 5px;
     transition: all 0.2s ease-in-out; /* Smooth effect */
-  }
+}
+.product_slot_list .nav-pills .nav-link.nav-outline {
+  height: 50px
+}
   
   .nav-pills .nav-link.nav-outline:hover {
     background-color: #054089;   /* Blue background on hover */
@@ -80,8 +83,31 @@
       font-size: 14px;
     }
 }
+.form-wizard .product_lists .nav-pills .nav-link {
+  flex-direction: column;
+  text-align: center;
+}
+.product_lists ul li a p {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
 
+@media only screen and (max-width: 768px) {
+  #timeslotsection .product_lists:nth-child(1) {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #054089;
+    margin-bottom: 20px;
+  }
+}
 @media only screen and (max-width: 575px) {
+  .product_lists ul {
+    width: 100%;
+    gap: 10px !important;
+  }
+  .product_lists ul li {
+    width: 100%;
+  }
   .product_lists {
     .nav-pills .nav-link.nav-outline {
       font-size: 13px;
