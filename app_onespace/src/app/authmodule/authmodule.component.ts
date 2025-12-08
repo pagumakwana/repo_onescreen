@@ -154,6 +154,21 @@ export class AuthmoduleComponent implements OnInit {
 
   verify_number(flag: string = 'MOBILE_VERIFY') {
     this._base._commonService.markFormGroupTouched(this.formSignIn);
+    debugger
+    if (this.formSignIn.valid) {
+      this._mobileverification.mobile_number = this.formSignIn.value.mobile_number;
+      this._mobileverification.otp_code = this.formSignIn.value.otp_code;
+      this.addverify();
+    }
+  }
+
+  resent_verify_number(flag: string = 'MOBILE_VERIFY') {
+    this.isOTPsent=false;
+    this.isverifybutton=false;
+    this.formSignIn.get('otp_code')?.clearValidators();
+    this.formSignIn.get('otp_code')?.updateValueAndValidity();
+    this._base._commonService.markFormGroupTouched(this.formSignIn);
+    debugger
     if (this.formSignIn.valid) {
       this._mobileverification.mobile_number = this.formSignIn.value.mobile_number;
       this._mobileverification.otp_code = this.formSignIn.value.otp_code;
@@ -188,8 +203,10 @@ export class AuthmoduleComponent implements OnInit {
           // this.modalService.dismissAll();
           this.SignInCustomer(this._mobileverification.mobile_number, this._mobileverification.otp_code);
           console.warn('otp_verify response:', response);
+          this._cdr.detectChanges();
         } else {
           this.invalidOTP = true;
+          this._cdr.detectChanges();
         }
       },
       complete: () => { },

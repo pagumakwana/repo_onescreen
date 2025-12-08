@@ -151,10 +151,14 @@
             </div>
 
             <!-- OTP Value (Debug / Display) -->
-            <div class="mb-3" *ngIf="this.OTPValue">
+            <div class="mb-3">
+              <a style="cursor: pointer;" class="text-center mt-3" (click)="resent_verify_number('MOBILE_VERIFY')">Resend OTP</a>
+              <!-- <span class="text-primary">{{this.OTPValue}}</span> -->
+            </div>
+            <!-- <div class="mb-3" *ngIf="this.OTPValue">
               <label class="form-label fw-bold">Your OTP:</label>
               <span class="text-primary">{{this.OTPValue}}</span>
-            </div>
+            </div> -->
 
             <!-- Buttons -->
             <div class="d-grid mb-3">

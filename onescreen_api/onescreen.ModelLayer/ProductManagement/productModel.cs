@@ -47,7 +47,7 @@ namespace onescreenModel.ProductManagement
         public Int64? product_option_adj_id { get; set; }
         public Int64? option_value_id { get; set; }
         public string? option_value { get; set; }
-        public decimal price_delta { get; set; }
+        public decimal? price_delta { get; set; }
         public decimal? price_delta_prime { get; set; }
         public Int64? rep_option_value_id { get; set; }
         public string? rep_option_value { get; set; }

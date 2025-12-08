@@ -901,20 +901,24 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getcoupon(Int64 coupon_id, string coupon_code = "", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(string flag = "null", Int64 coupon_id=0, string coupon_code = "", Int64 user_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@coupon_id", coupon_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", coupon_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@coupon_code", coupon_code, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

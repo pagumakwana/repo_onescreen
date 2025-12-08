@@ -31,6 +31,8 @@ export class ProductComponent implements OnInit {
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
   @ViewChild("from_date_month", { static: true }) from_date_month!: NgbInputDatepicker;
+  @ViewChild("from_date_daily", { static: true }) from_date_daily!: NgbInputDatepicker;
+  @ViewChild("to_date_daily", { static: true }) to_date_daily!: NgbInputDatepicker;
 
   // ngAfterViewInit(): void {
   //   const popoverTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -53,7 +55,7 @@ export class ProductComponent implements OnInit {
   }
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
-
+  isCustom: boolean = false;
   _categoryRouteMaster: categoryMaster = {};
   _categoryScreenMaster: productMaster = {};
   _categoryTimeMaster: categoryMaster = {};
@@ -192,6 +194,7 @@ export class ProductComponent implements OnInit {
       this.get_config();
       this.gettypecategory();
       this.getprimedate();
+      this.getcoupon();
     })
   }
 
@@ -210,6 +213,8 @@ export class ProductComponent implements OnInit {
       lst_cart_product: this._fbCategoryMaster.array([]),
       final_price: [''],
       from_date_month: [''],
+      from_date_daily: [''],
+      to_date_daily: [''],
       bs_interval: [''],
       bs_repetition: [''],
       bs_repetitiondata: [''],
@@ -320,7 +325,7 @@ export class ProductComponent implements OnInit {
           isDisabled: false  // add new key
         }));
         this._cdr.detectChanges();
-        console.log(" this.TimeMaster", this.TimeMaster)
+        console.log("this.TimeMaster", this.TimeMaster)
       });
       this.getoptionvalues('Repetition', this._categoryScreenMaster.product_id).then((res: any) => {
         this.ScreenRepeMaster = [];
@@ -376,6 +381,27 @@ export class ProductComponent implements OnInit {
         this.removefromarray(_timeslot?.option_value_id);
       }
     });
+
+    this.ScreenRepeMaster = [
+      ...new Map(
+        this.ScreenRepeMaster.map((item: any) =>
+          [`${item.option_value_id}-${item.option_value}`, item]
+        )
+      ).values()];
+
+    const bs_itemInterval = this.ScreenIntervalMaster.filter((res: any, index: any) => index === 0);
+    this.fgcategorymaster.controls['bs_interval'].setValue(bs_itemInterval[0]?.option_value_id);
+    this.fgcategorymaster.controls['bs_interval'].updateValueAndValidity();
+    const bs_itemRepedata = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === bs_itemInterval[0]?.option_value_id);
+    this.fgcategorymaster.controls['bs_repetition'].setValue(bs_itemRepedata[0]?.option_value_id);
+    this.fgcategorymaster.controls['bs_repetition'].updateValueAndValidity();
+    // this.ScreenRepeMaster = bs_itemRepedata;
+    this.fgcategorymaster.controls['bs_repetitiondata'].setValue(bs_itemRepedata);
+    this.fgcategorymaster.controls['bs_repetitiondata'].updateValueAndValidity();
+
+    // initial restriction (today + 1 month)
+    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+
     // initial restriction (today + 1 month)
     this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
 
@@ -445,6 +471,17 @@ export class ProductComponent implements OnInit {
           this._cdr.detectChanges();
         }
       })
+    }
+  }
+
+  removecustom() {
+    if (!this.isCustom) {
+      this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+        this.TimeMaster[_index].isChecked = false;
+        if (this.isRepetitionExists(_timeslot?.option_value_id)) {
+          this.removefromarray(_timeslot?.option_value_id);
+        }
+      });
     }
   }
 
@@ -1128,19 +1165,19 @@ export class ProductComponent implements OnInit {
               total_amount: _res?.total_amount,
               attribute_amount: _res?.attribute_amount,
               user_id: flag == 1 ? 0 : user_id,
-              ismonthly: this.ismonthly,
+              ismonthly: this.ismonthly ? this.ismonthly : this.isdaily,
               optionvalues: JSON.stringify(_res)
             }
             this._totalAmount = this._totalAmount + _res?.total_amount;
             _value_option.push(this._usercartmappingModel);
           })
 
-          let _cart_subtotal = Number((this._totalAmount ?? 0).toFixed(2));
+          let _cart_subtotal = this._base._commonService.formatAmount((this._totalAmount ?? 0));
           let _cart_discount = 0.00;
-          let _cart_after_discount = (_cart_subtotal - _cart_discount);
-          let _cart_tax = Number(((_cart_after_discount ?? 0) * 0.18).toFixed(2));
+          let _cart_after_discount = this._base._commonService.formatAmount((_cart_subtotal - _cart_discount));
+          let _cart_tax = this._base._commonService.formatAmount(((_cart_after_discount ?? 0) * 0.18));
           let _cart_after_tax = (_cart_after_discount + _cart_tax);
-          let _cart_total = Number((_cart_after_tax ?? 0).toFixed(2));
+          let _cart_total = this._base._commonService.formatAmount((_cart_after_tax ?? 0));
 
           this._usercartMaster = {
             flag: (this.batch_id == null || this.batch_id == '' || this.batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? 'NEWCART' : 'MODIFYCART',
@@ -1369,7 +1406,7 @@ export class ProductComponent implements OnInit {
     // Build map { dayName: price }
     const configMap: { [key: string]: number } = {};
     this.ConfigMaster.forEach((item: any) => {
-      configMap[item.config_name.toLowerCase()] = Number(item.config_value);
+      configMap[item.config_name.toLowerCase()] = this._base._commonService.formatAmount(item.config_value);
     });
 
     let totalPrice = 0;
@@ -1399,6 +1436,66 @@ export class ProductComponent implements OnInit {
     return selected < min || selected > max ? { outOfRange: true } : null;
   };
 
+  both_date_select(date: NgbDateStruct, flag: String = 'from_date') {
+    this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+      debugger
+      let obj = this.timeArray.at(_index) as FormGroup;
+      let fmdate = date;
+      let todate = date;
+      // flag == 'from_date' ? (fmdate = date) : (todate = date);
+      if (flag == 'from_date') {
+        this.mintoDate = fmdate;
+        obj.controls['mintoDate'].setValue(fmdate);
+        obj.controls['mintoDate'].updateValueAndValidity();
+        obj.controls['from_date'].setValue(fmdate);
+        obj.controls['from_date'].updateValueAndValidity();
+      } else {
+        this.maxfromDate = todate;
+        obj.controls['maxfromDate'].setValue(todate);
+        obj.controls['maxfromDate'].updateValueAndValidity();
+        obj.controls['to_date'].setValue(todate);
+        obj.controls['to_date'].updateValueAndValidity();
+      }
+
+      let _from_date: any = this.toDatePModel(fmdate);
+      let _to_date: any = this.toDatePModel(todate);
+      if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
+        if (!this.isdaily && !this.ismonthly) {
+          this.calcluate_Prime_pricing(_index);
+        }
+        this.calculate_final_amount(_index);
+      }
+      this._cdr.detectChanges();
+    });
+    this._cdr.detectChanges();
+  }
+  // isSelected(date: any): boolean {
+  //   const selected = this.fgcategorymaster.get('from_date_daily')?.value;
+  //   if (!selected) return false;
+
+  //   return (
+  //     selected.year === date.year &&
+  //     selected.month === date.month &&
+  //     selected.day === date.day
+  //   );
+  // }
+  // highlightDates = [
+  //   { date: new Date(2025, 10, 25), color: 'lightblue' },      // 25 Nov 2025
+  //   { date: new Date(2025, 10, 28), color: 'lightblue' },       // 28 Nov 2025
+  //   { date: new Date(2026, 10, 5), color: 'lightblue' }       // 5 Dec 2025
+  // ];
+
+  // getHighlightColor(date: any) {
+  //   const jsDate = new Date(date.year, date.month - 1, date.day);
+
+  //   const found = this.highlightDates.find(
+  //     d => d.date.toDateString() === jsDate.toDateString()
+  //   );
+
+  //   return found ? found.color : null;
+  // }
+
+
   onDateSelect(date: NgbDateStruct) {
     // When a new date is selected, recalculate the 1-month window
     const selectedDate = new Date(date.year, date.month - 1, date.day);
@@ -1427,6 +1524,25 @@ export class ProductComponent implements OnInit {
       this.primedateMaster = [];
       this.primedateMaster = Array.isArray(resprimedateMaster.data) ? resprimedateMaster.data : [];
 
+    });
+  }
+
+  get totalPriceSum() {
+    return this.timeArray.controls
+      .map(x => +x.get('total_amount')?.value || 0)
+      .reduce((a, b) => a + b, 0);
+  }
+
+  couponMaster: any = [];
+  coupon_code: string = '-';
+  coupon_code_id: number = 0;
+  getcoupon() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._webDService.getcoupon('Details',this.coupon_code_id, this.coupon_code, user_id).subscribe(
+        (res: any) => {
+          this.couponMaster = Array.isArray(res?.data) ? res.data : [];
+
+        });
     });
   }
 }

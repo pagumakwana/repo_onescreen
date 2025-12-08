@@ -4,10 +4,13 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>start selecting your screen params!</h5>
-                     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#slotInfoModal">
-                        Slot Info
-                    </button>
+                    <h5>Start selecting your screen params!</h5>
+                    <ng-container *ngIf="this.primedateMaster.length > 0">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#slotInfoModal">
+                            Prime Date Details
+                        </button>
+                    </ng-container>
                 </div>
                 <div class="card-body">
                     <div id="basicwizard" class="form-wizard row justify-content-center">
@@ -144,20 +147,24 @@
                                     <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time
                                         Slot is required.</p>
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
-                                     <div class="product_lists">
+                                    <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
                                             <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':isCustom}" style="cursor:pointer"
+                                                    (click)="this.removecustom();this.isCustom=!this.isCustom;this.ismonthly=false;this.isdaily=false;">
+                                                    Custom</a></li>
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
                                                     [ngClass]="{'active':ismonthly}" style="cursor:pointer"
-                                                    (click)="onSelectPackageEvent()">
+                                                    (click)="onSelectPackageEvent();this.isCustom=false;">
                                                     Basic Monthly</a></li>
                                             <li class="nav-item"> <a class="nav-link nav-outline"
                                                     [ngClass]="{'active':isdaily}" style="cursor:pointer"
-                                                    (click)="onSelectDailyPackageEvent()">
+                                                    (click)="onSelectDailyPackageEvent();this.isCustom=false;">
                                                     Basic Daily</a></li>
                                         </ul>
 
                                     </div>
-                                    <div class="product_lists product_slot_list">
+                                    <div class="product_lists product_slot_list" *ngIf="isCustom">
                                         <ul class="nav nav-pills" style="gap: 5px;">
                                             <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
                                                 [ngClass]="{'disabled':ismonthly||isdaily}">
@@ -165,104 +172,189 @@
                                                     [ngClass]="{'active': _obj.isChecked,'disabled':_obj.isDisabled}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
                                                     <p>{{_obj.option_value}}</p>
-                                                     <p>Prime Slot</p>
+                                                    <p [hidden]="!_obj.price_delta_prime > 0" class="timer_animation">
+                                                        Prime Slot</p>
                                                 </a>
-                                               
+
                                             </li>
                                         </ul>
 
                                     </div>
                                 </ng-container>
-                                <div class="row">
-                                <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
-                                    <div class="form-group">
-                                        <label for="from_date_month" class="form-label">Start Date
-                                            :</label> <i class="ph-duotone ph-info"
-                                            ngbPopover="Ad start date for package" triggers="click" placement="right"
-                                            popoverClass="custom-popover">
-                                        </i>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-sm" ngbDatepicker
-                                                #from_date_month="ngbDatepicker" id="from_date_month"
-                                                from_date_month.displayMonths="true" formControlName="from_date_month"
-                                                placeholder="dd-mm-yyyy" [minDate]="minmonth"
-                                                (click)="from_date_month.toggle();" (dateSelect)="onDateSelect($event)">
-                                            <span class="input-group-text" required>
-                                                <i class="fa fa-calendar"></i>
+                                <div class="row" [hidden]="!this.ismonthly">
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="from_date_month" class="form-label">Start Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #from_date_month="ngbDatepicker" id="from_date_month"
+                                                    from_date_month.displayMonths="true"
+                                                    formControlName="from_date_month" placeholder="dd-mm-yyyy"
+                                                    [minDate]="minmonth" (click)="from_date_month.toggle();"
+                                                    (dateSelect)="onDateSelect($event)">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <div *ngIf="from_date_month.invalid && (from_date_month.dirty || from_date_month.touched) || from_date_alert!=''"
+                                                class="error_msg">
+                                                <ng-container *ngIf="from_date_month.errors?.['required']">
+                                                    Start Date is required.
+                                                </ng-container>
+                                                <ng-container *ngIf="from_date_month?.hasError('outOfRange')">
+                                                    Please select a date within 1 month range.
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="interval_id" class="form-label">Advertise
+                                                length
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_interval"
+                                                formControlName="bs_interval" (change)="onbsIntervalChange($event)">
+                                                <option id="interval_value_id_" value="" class="disabled">Select
+                                                    Interval</option>
+                                                <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                    id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="screen_repetition_id" class="form-label">Advertise
+                                                Repetition
+                                                <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_repetition"
+                                                formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
+                                                <option id="repet_value_id" value="" class="disabled">
+                                                    Select
+                                                    Repetition</option>
+                                                <option
+                                                    *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
+                                                    id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" class="row" [hidden]="!this.isdaily">
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="from_date_daily" class="form-label">Start Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #from_date_daily="ngbDatepicker" id="from_date_daily"
+                                                    from_date_daily.displayMonths="true"
+                                                    formControlName="from_date_daily" placeholder="dd-mm-yyyy"
+                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                    (click)="from_date_daily.toggle();"
+                                                    (dateSelect)="both_date_select($event,'from_date')">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Day Template -->
+                                        <!--  [dayTemplate]="t"
+                                                    [dayTemplateData]="getHighlightColor.bind(this)" <ng-template #t let-date="date" let-color="data">
+                                            <span class="custom-day" [class.selected]="isSelected(date)" [ngStyle]="{
+            'background-color': color ? color : 'transparent',
+            'color': color ? '#000' : null
+        }">
+                                                {{ date.day }}
                                             </span>
-                                        </div>
-                                        <div *ngIf="from_date_month.invalid && (from_date_month.dirty || from_date_month.touched) || from_date_alert!=''"
-                                            class="error_msg">
-                                            <ng-container *ngIf="from_date_month.errors?.['required']">
-                                                Start Date is required.
-                                            </ng-container>
-                                            <ng-container *ngIf="from_date_month?.hasError('outOfRange')">
-                                                Please select a date within 1 month range.
-                                            </ng-container>
-                                        </div>
+                                        </ng-template> -->
                                     </div>
-                                </div>
-                                <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
-                                    <div class="form-group">
-                                        <label for="interval_id" class="form-label">Advertise
-                                            length
-                                            <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="to_date_daily" class="form-label">End Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
                                                 placement="right" popoverClass="custom-popover">
                                             </i>
-                                        </label>
-                                        <select class="form-control" id="screen_interval" formControlName="bs_interval" (change)="onbsIntervalChange($event)">
-                                            <option id="interval_value_id_" value="" class="disabled">Select
-                                                Interval</option>
-                                            <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
-                                                id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
-                                                {{_item.option_value}}
-                                            </option>
-                                        </select>
-                                        <!-- <div *ngIf="_objPass.controls.interval_price.invalid && (_objPass.controls.interval_price.dirty || _objPass.controls.interval_price.touched)"
-                                            class="error_msg">
-                                            <ng-container
-                                                *ngIf="_objPass.controls.interval_price.errors?.['required']">
-                                                Interval is required.
-                                            </ng-container>
-                                        </div> -->
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #to_date_daily="ngbDatepicker" id="to_date_daily"
+                                                    to_date_daily.displayMonths="true" formControlName="to_date_daily"
+                                                    placeholder="dd-mm-yyyy" [minDate]="mintoDate" [maxDate]="maxtoDate"
+                                                    (click)="to_date_daily.toggle();"
+                                                    (dateSelect)="both_date_select($event,'to_date')">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="interval_id" class="form-label">Advertise
+                                                length
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_interval"
+                                                formControlName="bs_interval" (change)="onbsIntervalChange($event)">
+                                                <option id="interval_value_id_" value="" class="disabled">Select
+                                                    Interval</option>
+                                                <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                    id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="screen_repetition_id" class="form-label">Advertise
+                                                Repetition
+                                                <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_repetition"
+                                                formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
+                                                <option id="repet_value_id" value="" class="disabled">
+                                                    Select
+                                                    Repetition</option>
+                                                <option
+                                                    *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
+                                                    id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
-                                    <div class="form-group">
-                                        <label for="screen_repetition_id" class="form-label">Advertise
-                                            Repetition
-                                            <!-- {{_objPass.controls['repetition_price'].value}} -->
-                                            <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
-                                                placement="right" popoverClass="custom-popover">
-                                            </i>
-                                        </label>
-                                        <select class="form-control" id="screen_repetition"
-                                            formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
-                                            <option id="repet_value_id" value="" class="disabled">
-                                                Select
-                                                Repetition</option>
-                                            <option
-                                                *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
-                                                id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
-                                                {{_item.option_value}}
-                                            </option>
-                                        </select>
-                                        <!-- <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
-                                            class="error_msg">
-                                            <ng-container
-                                                *ngIf="_objPass.controls.repetition_price.errors?.['required']">
-                                                Repetition is required.
-                                            </ng-container>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
                                 <br>
                                 <div class="slot-container">
                                     <ng-container formArray="lst_cart_product">
                                         <!-- [ngClass]="{'disabled':this.ismonthly}" -->
                                         <div class="slot-card" [formGroup]='_objPass'
-                                            [ngClass]="{'disabled':this.ismonthly}"
+                                            [ngClass]="{'disabled':this.ismonthly || this.isdaily}"
                                             *ngFor="let _objPass of timeArray?.controls;let i =index">
                                             <div class="card">
                                                 <div class="card-header">
@@ -428,7 +520,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="total-card-bottom">Total Price:
+                                                    <div class="total-card-bottom">Price:
                                                         <strong>{{_objPass.controls['total_amount'].value}}</strong>
                                                     </div>
                                                 </div>
@@ -438,6 +530,11 @@
                                     </ng-container>
                                 </div>
                             </div>
+                            <section class="about-deal-section" *ngIf="_wizard_index == 4 && totalPriceSum>0">
+                                <div class="about-contact-strip">Total Price :</div>
+                                <div class="about-contact-info">
+                                    {{this._base._commonService.formatAmount(totalPriceSum)}}</div>
+                            </section>
                             <div class="d-sm-flex wizard justify-content-between mt-3" style="text-align: center;">
                                 <div class="first">
                                     <a style="text-decoration: none;" class="btn btn-outline-primary"
@@ -543,19 +640,37 @@
 </ng-template>
 <!-- Slot Info Modal -->
 <div class="modal fade" id="slotInfoModal" tabindex="-1" aria-labelledby="slotInfoModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="slotInfoModalLabel">Slot Information</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Your slot info content goes here -->
-        <p>Here you can provide additional details about available slots, timings, or selection rules.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="slotInfoModalLabel">Prime Date Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your slot info content goes here -->
+                <p>Below are the prime date with its pricing.</p>
+                <table class="table table-striped fixed-header">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Prime Date</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let _obj of this.primedateMaster;let i =index">
+                            <td>{{i+1}}</td>
+                            <td>{{_obj.prime_date | date:'dd-MM-yyyy'}}</td>
+                            <td>{{_obj.date_price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

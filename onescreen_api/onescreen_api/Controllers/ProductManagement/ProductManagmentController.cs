@@ -177,21 +177,23 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="coupon_id"></param>
-       /// <param name="coupon_code"></param>
-       /// <param name="start_count"></param>
-       /// <param name="end_count"></param>
-       /// <returns></returns>
+      /// <summary>
+      ///   
+      /// </summary>
+      /// <param name="flag"></param>
+      /// <param name="coupon_id"></param>
+      /// <param name="coupon_code"></param>
+      /// <param name="user_id"></param>
+      /// <param name="start_count"></param>
+      /// <param name="end_count"></param>
+      /// <returns></returns>
         [Route("getcoupon")]
         [HttpGet]
-        public responseModel getcoupon(Int64 coupon_id, string coupon_code="", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(string flag = "null", Int64 coupon_id=0, string coupon_code="", Int64 user_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getcoupon(coupon_id, coupon_code, start_count, end_count);
+                return objProductManagement_BAL.getcoupon(flag,coupon_id, coupon_code, user_id,start_count, end_count);
             }
         }
 

@@ -303,7 +303,8 @@ export class CheckoutComponent implements OnInit {
     }
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
-        this._webDService.getcoupon(0, this.Coupon_code_text).subscribe(
+        debugger
+        this._webDService.getcoupon('Details',0, this.Coupon_code_text,user_id).subscribe(
           (resCouponData: any) => {
             this.couponMaster = [];
             let rescoupon = Array.isArray(resCouponData.data) ? resCouponData.data : [];
@@ -521,7 +522,7 @@ export class CheckoutComponent implements OnInit {
   ];
 
   getcoupon() {
-    this._webDService.getcoupon(0, '', 0, 0).subscribe(
+    this._webDService.getcoupon('all',0, '', 0, 0).subscribe(
       (res: any) => {
         console.log("API Response:", res);
         this.couponList = [];

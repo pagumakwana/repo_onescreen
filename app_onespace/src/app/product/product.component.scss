@@ -116,3 +116,105 @@
     }
   }
 }
+// .custom-day.selected {
+//   background-color: inherit !important;   /* keep your highlight color */
+//   border-radius: 50% !important;
+//   color: #000 !important;
+// }
+
+// .ngb-dp-day .bg-primary,
+// .ngb-dp-day .text-white {
+//     background-color: inherit !important;
+//     color: inherit !important;
+// }
+
+@keyframes timer_animation {
+  0% {
+      text-shadow: 0 0 0 #FFF;
+      color: #FFF;
+  }
+
+  50% {
+      text-shadow: 0 0 1px red;
+      color: red;
+  }
+
+  100% {
+      text-shadow: 0 0 0 #FFF;
+      color: #FFF;
+  }
+}
+
+.timer_animation {
+  animation-name: timer_animation;
+  animation-duration: 1s;
+  animation-delay: 0;
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.about-deal-section {
+  // background-color: #054089;
+  background-color: rgb(5,64,137,0.80);
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  gap: 20px;
+  max-width: 1200px;
+}
+.about-contact-strip {
+  float: left;
+  text-align: left;
+  width: calc(100% - 140px);
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .about-deal-section {
+      align-items: center;
+      padding: 20px 5px;
+      gap: 5px;
+  }
+  .about-deal-item {
+      max-width: 100px;
+      margin-bottom: 15px;
+  }
+  .about-count-header p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+  }
+  .about-count-header h1 {
+      font-size: 1.2rem;
+  }
+  .about-count-section {
+      padding: 30px 0 10px;
+  }
+  .about-contact-strip {
+      width: 100%;
+      text-align: center;
+  }
+}
+.fixed-header tbody {
+  display: block;
+  max-height: 250px;   /* scrolling height */
+  overflow-y: auto;
+}
+
+.fixed-header thead,
+.fixed-header tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; /* keeps columns aligned */
+}
+
+.fixed-header thead th {
+  background-color: #343a40;
+  color: white;
+  position: sticky;
+  top: 0;
+}

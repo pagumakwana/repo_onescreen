@@ -8,7 +8,7 @@ import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaste
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
-import { first, take } from 'rxjs';
+import { concatMap, delay, finalize, first, forkJoin, from, take } from 'rxjs';
 import { NgbDateParserFormatter, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { AuthService } from '../authmodule/_authservice/auth.service';
@@ -82,6 +82,11 @@ export class CartComponent implements OnInit {
   }
 
   batch_id: any = null;
+  reloadfreshdata() {
+    this.resetCartValues().then(() => this.get_cart(this.batch_id))
+      .then(() => this.loadShippingData());
+  }
+
   ngOnInit(): void {
     this.batch_id = this._activatedRouter.snapshot.paramMap.get('batch_id');
     this.initform();
@@ -89,9 +94,16 @@ export class CartComponent implements OnInit {
       this.batch_id = '00000000-0000-0000-0000-000000000000';
     }
     this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
-    this.get_cart(this.batch_id);
-    this.getcoupon();
-    this.loadShippingData();
+    this.getcoupon().then((_rescoupon: any) => {
+      if (_rescoupon) {
+        this.get_cart(this.batch_id).then((_rescart: any) => {
+          if (_rescart) {
+            // this.calculatecart();
+            this.loadShippingData();
+          }
+        })
+      }
+    })
   }
 
   initform() {
@@ -110,27 +122,54 @@ export class CartComponent implements OnInit {
 
   ismonthly: boolean = false;
   get_cart(batch_id: any = '00000000-0000-0000-0000-000000000000') {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      debugger
-      this._webDService.getusercartdetail(batch_id, (batch_id != undefined && batch_id != null && batch_id != '00000000-0000-0000-0000-000000000000') ? 0 : user_id, 0, 0, 0).subscribe((resUserCart: any) => {
-        this.UserCart = [];
-        this.UserCart = Array.isArray(resUserCart.data) ? resUserCart.data : [];
-        this.calculatecart();
-        this.ismonthly = this.UserCart[0]?.lst_cart_product?.some((res: any) => res.ismonthly === true) || false;
-        this.UserCart[0]?.lst_cart_product?.forEach((res: any) => {
-          if (res.optionvalues && typeof res.optionvalues === 'string') {
-            try {
-              const parsed = JSON.parse(res.optionvalues);
-              res.optionvaluesParsed = [JSON.parse(parsed)];
-            } catch (e) {
-              console.warn('Invalid JSON for optionvalues:', res.optionvalues);
-              res.optionvaluesParsed = [];
-            }
-          } else {
-            res.optionvaluesParsed = [];
-          }
-        });
-        this._cdr.detectChanges();
+    return new Promise((resolve, reject) => {
+
+      // this.resetCartValues();  // IMPORTANT FIX
+
+      this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+
+        const useridOrBatch =
+          (batch_id && batch_id !== '00000000-0000-0000-0000-000000000000')
+            ? 0
+            : user_id;
+
+        this._webDService
+          .getusercartdetail(batch_id, useridOrBatch, 0, 0, 0)
+          .subscribe((resUserCart: any) => {
+
+            this.UserCart = Array.isArray(resUserCart?.data)
+              ? resUserCart.data
+              : [];
+
+            const products = this.UserCart[0]?.lst_cart_product ?? [];
+
+            this.ismonthly = products.some((p: any) => p.ismonthly === true);
+
+            products?.forEach((res: any) => { if (res.optionvalues && typeof res.optionvalues === 'string') { try { const parsed = JSON.parse(res.optionvalues); res.optionvaluesParsed = [JSON.parse(parsed)]; } catch (e) { console.warn('Invalid JSON for optionvalues:', res.optionvalues); res.optionvaluesParsed = []; } } else { res.optionvaluesParsed = []; } });
+
+            setTimeout(() => {
+
+              this.UserCart.forEach((item: any) => {
+                this.cart_master_id = item.cart_master_id;
+                this.cart_total += item.cart_total;
+                this.cart_subtotal += item.cart_subtotal;
+                this.cart_tax += item.cart_tax;
+                this.cart_discount += item.cart_discount;
+
+                this.Coupon_code_text = item.coupon_code || "";
+                this.coupon_code = this.Coupon_code_text;
+                this.coupon_code_id = item.coupon_id;
+
+                this.Coupon_code_btn = this.coupon_code ? "Remove" : "Apply";
+              });
+              this._cdr.detectChanges();
+            }, 1000);
+
+
+            resolve(true);
+          }, err => {
+            resolve(true);
+          });
       });
     });
   }
@@ -157,10 +196,10 @@ export class CartComponent implements OnInit {
               payment_type: 'razorpay',
               payment_order_id: rzr_response?.razorpay_order_id || '',
               payment_response: JSON.stringify(rzr_response) || '',
-              order_total: this.cart_total,
-              order_subtotal: this.cart_subtotal,
-              order_discount: this.cart_discount,
-              order_tax: this.cart_tax,
+              order_total: this._base._commonService.formatAmount(this.cart_total),
+              order_subtotal: this._base._commonService.formatAmount(this.cart_subtotal),
+              order_discount: this._base._commonService.formatAmount(this.cart_discount),
+              order_tax: this._base._commonService.formatAmount(this.cart_tax),
               order_status: 'success',
               payment_status: 'success',
               sales_person_mobile: this.sales_person_mobile,
@@ -229,105 +268,149 @@ export class CartComponent implements OnInit {
 
   }
 
-  removeFromCarts() {
-    this.deletepackageSwal.fire().then((clicked) => {
-      debugger
-      if (clicked.isConfirmed) {
-        this.UserCart[0]?.lst_cart_product?.filter((item: any) => {
-          if (item?.ismonthly) {
-            let sub_total = item?.total_amount;// (item?.base_amount + item?.attribute_amount);
-            let tax_total = (Number(sub_total) || 0) * 0.18;
-            let total_amount = (sub_total + tax_total);
-            this.removeusercartModel = {
-              user_cart_mapping_id: item?.user_cart_mapping_id,
-              cart_master_id: item?.cart_master_id,
-              product_id: item?.product_id,
-              product_name: item?.product_name,
-              user_id: item?.user_id,
-              attribute_amount: item?.attribute_amount,
-              total_amount: total_amount,
-              sub_amount: sub_total,
-              base_amount: item?.base_amount,
-              tax_amount: tax_total
-            }
-            console.log("removeusercartModel", this.removeusercartModel)
-            this._webDService.remove_cart(this.removeusercartModel).subscribe(
-              (response: any) => {
-                if (response === 'deletesuccess') {
+  calculateOrderSummary() {
+    let subtotal = 0;
+    debugger
+    // 1. sum all product totals
+    this.UserCart[0]?.lst_cart_product?.forEach((item: any) => {
+      subtotal += Number(item.total_amount) || 0;
+    });
 
-                }
-              },
-              (error) => {
-                console.error("Error deleting cart item:", error);
-              }
+    this.cart_subtotal = this._base._commonService.formatAmount(subtotal);
+
+    // 2. Apply coupon discount (if any)
+    // this.cart_discount = this.appliedCoupon?.discount_amount || 0;
+
+    // 3. Tax calculation (ex. 18%)
+    const amountAfterDiscount = this._base._commonService.formatAmount(subtotal - this.cart_discount);
+    this.cart_tax = this._base._commonService.formatAmount(amountAfterDiscount * 0.18);
+
+    // 4. Total payable
+    this.cart_total = this._base._commonService.formatAmount(amountAfterDiscount + this.cart_tax);
+
+    this._cdr.detectChanges();
+  }
+
+
+  removeFromCarts() {
+    this.deletepackageSwal.fire().then(clicked => {
+
+      if (!clicked.isConfirmed) return;
+
+      this.deletepackageSwal.close();
+
+      const monthlyItems = this.UserCart[0]?.lst_cart_product?.filter(
+        (x: any) => x?.ismonthly
+      );
+
+      if (!monthlyItems?.length) return;
+
+      // Convert array → stream (to run sequentially)
+      from(monthlyItems)
+        .pipe(
+          concatMap((item: any) => {
+
+            const sub_total = item.total_amount;
+            const tax_total = sub_total * 0.18;
+            const total_amount = sub_total + tax_total;
+
+            const model = {
+              user_cart_mapping_id: item.user_cart_mapping_id,
+              cart_master_id: item.cart_master_id,
+              product_id: item.product_id,
+              product_name: item.product_name,
+              user_id: item.user_id,
+              attribute_amount: item.attribute_amount,
+              total_amount,
+              sub_amount: sub_total,
+              base_amount: item.base_amount,
+              tax_amount: this._base._commonService.formatAmount(tax_total)
+            };
+
+            return this._webDService.remove_cart(model).pipe(
+              delay(500) // 👉 delay between each API call
             );
+          }),
+
+          finalize(() => {
+            // 👉 Called AFTER all API requests finish (success or fail)
+            setTimeout(() => {
+              location.reload();
+            }, 800);
+          })
+        )
+        .subscribe(
+          (response: any) => {
+            console.log("Each delete response:", response);
+          }, (error: any) => {
+            console.error("Error deleting cart items:", error);
           }
-        });
-      }
-      setTimeout(() => {
-        this.deletepackageSwal.close();
-        location.reload();
-      }, 1000);
-      this._cdr.detectChanges();
+        );
+
     });
   }
 
   removeusercartModel: removeusercartModel = {};
 
   removeFromCart(item: any, _index: number) {
-    // this.modifyuser(item, 'DELETECART');
+
     this.deleteSwal.fire().then((clicked) => {
-      if (clicked.isConfirmed) {
-        let sub_total = item?.total_amount;
-        let tax_total = (Number(sub_total) || 0) * 0.18;
-        let total_amount = (sub_total + tax_total);
-        this.removeusercartModel = {
-          user_cart_mapping_id: item?.user_cart_mapping_id,
-          cart_master_id: item?.cart_master_id,
-          product_id: item?.product_id,
-          product_name: item?.product_name,
-          user_id: item?.user_id,
-          attribute_amount: item?.attribute_amount,
-          total_amount: total_amount,
-          sub_amount: sub_total,
-          base_amount: item?.base_amount,
-          tax_amount: tax_total,
-        }
-        console.log("removeusercartModel", this.removeusercartModel)
 
-        this._webDService.remove_cart(this.removeusercartModel).subscribe(
-          (response: any) => {
-            if (response === 'deletesuccess') {
-              this.delsuccessSwal.fire();
+      if (!clicked.isConfirmed) return; // clean exit if cancelled
 
-              setTimeout(() => {
-                this.delsuccessSwal.close();
-                location.reload();
-              }, 1000);
+      const sub_total = Number(item?.total_amount) || 0;
+      const tax_total = sub_total * 0.18;
+      const total_amount = sub_total + tax_total;
+
+      const removeModel = {
+        user_cart_mapping_id: item?.user_cart_mapping_id,
+        cart_master_id: item?.cart_master_id,
+        product_id: item?.product_id,
+        product_name: item?.product_name,
+        user_id: item?.user_id,
+        attribute_amount: item?.attribute_amount,
+        total_amount: total_amount,
+        sub_amount: sub_total,
+        base_amount: item?.base_amount,
+        tax_amount: this._base._commonService.formatAmount(tax_total),
+      };
+
+      console.log("removeusercartModel", removeModel);
+
+      this._webDService.remove_cart(removeModel).subscribe(
+        (response: any) => {
+          if (response === 'deletesuccess') {
+            this.delsuccessSwal.fire();
+
+            // Recommended: update UI without reload
+            this.removeItemFromLocalList(item);
+
+            setTimeout(() => {
+              this.delsuccessSwal.close();
               this._cdr.detectChanges();
-
-            }
-          },
-          (error) => {
-            console.error("Error deleting cart item:", error);
+            }, 700);
           }
-        );
-      }
-      // else {
-      //   setTimeout(() => {
-      //     this.deleteSwal.close();
-      //     this._cdr.detectChanges();
-      //     location.reload();
-      //   }, 500);
-      // }
+        },
+        (error) => {
+          console.error("Error deleting cart item:", error);
+        }
+      );
 
     });
+
   }
+  removeItemFromLocalList(item: any) {
+    this.UserCart[0].lst_cart_product = this.UserCart[0].lst_cart_product
+      .filter((x: any) => x.user_cart_mapping_id !== item.user_cart_mapping_id);
+
+    this.calculateOrderSummary(); // If you have subtotal/tax/discount recalc
+  }
+
 
   modifyuser(data: any, flag: any) {
     this._usercartMaster = { ...data };
     this._usercartMaster.flag = flag;
-
+    debugger
     if (flag === 'DELETECART') {
       this.deleteSwal.fire().then((clicked) => {
         if (clicked.isConfirmed) {
@@ -335,13 +418,13 @@ export class CartComponent implements OnInit {
             (response: any) => {
               if (response === 'deletesuccess') {
                 this.UserCart = this.UserCart.filter(
-                  (item: any) => item.cart_master_id !== data.cart_master_id
+                  (item: any) => String(item.cart_master_id) !== String(data.cart_master_id)
                 );
                 this._cdr.detectChanges();
                 this.delsuccessSwal.fire();
                 setTimeout(() => {
                   this.delsuccessSwal.close();
-                }, 1500);
+                }, 1000);
               }
             },
             (error) => {
@@ -353,125 +436,132 @@ export class CartComponent implements OnInit {
     }
   }
 
-  removecouponcode() {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
-        this._user_coupon_model = {
-          flag: 'REMOVECOUPON',
-          coupon_id: this.coupon_code_id,
-          coupon_cart_mapid: 0,
-          product_ids: '',
-          user_id: user_id,
-          cart_id: this.cart_master_id,
-          createdname: full_name,
-          createdby: user_id
-        }
-        this._webDService.apply_coupon(this._user_coupon_model).subscribe((rescoupon: any) => {
-          if (rescoupon != null && rescoupon.includes('removesuccess')) {
-            this.coupon_code = '';
-            this.Coupon_code_btn = 'Apply';
-            this.Coupon_code_text = '';
-            this.coupon_code_id = 0;
-            this.cart_discount = '';
-            this.removecouponSwal.fire();
-            setTimeout(() => {
-              this.removecouponSwal.close();
-              location.reload();
-            }, 1000);
-          }
-        });
-      });
-    });
-  }
+  // private reloadCart() {
+  //   this.get_cart(this.batch_id);
+  //   // this.calculatecart();
+  //   this._cdr.detectChanges();
+  // }
 
-  is_valid: boolean = false;
-  _user_coupon_model: user_coupon_model = {};
   applycoupon() {
-    debugger
     this.is_valid = false;
-    if (!this.Coupon_code_text || this.Coupon_code_text.trim() === '') {
+
+    if (!this.Coupon_code_text?.trim()) {
       console.warn("Please enter a coupon code");
       this.is_valid = true;
       return;
     }
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
-        this._webDService.getcoupon(0, this.Coupon_code_text).subscribe(
-          (resCouponData: any) => {
-            debugger
-            this.couponMaster = [];
-            this.couponMaster = Array.isArray(resCouponData.data) ? resCouponData.data : [];
 
-            console.log("Coupon Applied Successfully:", this.couponMaster);
-            debugger
-            if (this.couponMaster.length > 0) {
-              let coupon_id: any = this.couponMaster[0]?.coupon_id;
-              let discount: any = 0;
-              const subtotal = parseFloat(this.cart_subtotal) || 0;
+    Promise.all([
+      this._base._encryptedStorage.get(enAppSession.user_id),
+      this._base._encryptedStorage.get(enAppSession.fullname)
+    ]).then(([user_id, full_name]) => {
 
-              if (this.couponMaster?.[0]?.discount_value.includes('%')) {
-                discount = parseFloat(this.couponMaster?.[0]?.discount_value) || 0;
-                this.cart_discount = +(subtotal * (discount / 100)).toFixed(2);
-              } else {
-                discount = parseFloat(this.couponMaster?.[0]?.discount_value) || 0;
-                this.cart_discount = +(discount).toFixed(2);
-              }
-              this.coupon_code = this.Coupon_code_text;
-              // this.Coupon_code_text = '';
-              this.Coupon_code_btn = 'Remove';
-              this._user_coupon_model = {
-                flag: 'NEWCOUPONCART',
-                coupon_id: coupon_id,
-                coupon_cart_mapid: 0,
-                product_ids: '',
-                user_id: user_id,
-                cart_id: this.cart_master_id,
-                createdname: full_name,
-                createdby: user_id
-              }
-              this._webDService.apply_coupon(this._user_coupon_model).subscribe((rescoupon: any) => {
-                if (rescoupon != null && rescoupon.includes('newsuccess')) {
-                  this.successSwal.fire();
-                  setTimeout(() => {
-                    this.successSwal.close();
-                    this.cart_master_id = 0;
-                    this.cart_total = 0.00;
-                    this.cart_subtotal = 0.00;
-                    this.cart_tax = 0.00;
-                    this.cart_discount = 0.00;
-                    this.get_cart(this.batch_id);
-                    this._cdr.detectChanges();
-                  }, 500);
-                }
-              });
-            } else {
-              this.invalidcodeSwal.fire()
-              setTimeout(() => {
-                this.invalidcodeSwal.close();
-              }, 500);
-              console.warn("Invalid or expired coupon code");
-            }
-          },
-          error => {
-            console.error("Error applying coupon:", error);
+      const coupon = this.couponList.find(
+        x => x?.coupon_code?.trim() === this.Coupon_code_text.trim()
+      );
+
+      if (!coupon) {
+        this.invalidcodeSwal.fire();
+        setTimeout(() => this.invalidcodeSwal.close(), 800);
+        return;
+      }
+
+      this._user_coupon_model = {
+        flag: "NEWCOUPONCART",
+        coupon_id: coupon.coupon_id,
+        coupon_cart_mapid: 0,
+        product_ids: "",
+        user_id: user_id,
+        cart_id: this.cart_master_id,
+        createdname: full_name,
+        createdby: user_id
+      };
+
+      this._webDService.apply_coupon(this._user_coupon_model)
+        .subscribe((res: any) => {
+
+          if (res?.includes("newsuccess")) {
+            this.successSwal.fire();
+
+            setTimeout(() => { this.reloadfreshdata(); this.successSwal.close(),this._cdr.detectChanges() }, 1000);
+            // setTimeout(() => location.reload(), 2000);
           }
-        );
-      });
+        });
+    });
+  }
+
+
+
+  removecouponcode() {
+
+    Promise.all([
+      this._base._encryptedStorage.get(enAppSession.user_id),
+      this._base._encryptedStorage.get(enAppSession.fullname)
+    ]).then(([user_id, full_name]) => {
+
+      this._user_coupon_model = {
+        flag: "REMOVECOUPON",
+        coupon_id: this.coupon_code_id,
+        coupon_cart_mapid: 0,
+        product_ids: "",
+        user_id: 1,
+        cart_id: this.cart_master_id,
+        createdname: full_name,
+        createdby: user_id
+      };
+
+      this._webDService.apply_coupon(this._user_coupon_model)
+        .subscribe((resp: any) => {
+          this.removecouponSwal.fire();
+
+          if (resp?.includes("removesuccess")) {
+            this.coupon_code = "";
+            this.Coupon_code_btn = "Apply";
+            this.Coupon_code_text = "";
+            this.coupon_code_id = 0;
+            this.resetCartValues();
+            setTimeout(() => { this.reloadfreshdata(); this.removecouponSwal.close() ,this._cdr.detectChanges()}, 1000);
+            
+          }
+
+        });
+    });
+  }
+
+
+  is_valid: boolean = false;
+  _user_coupon_model: user_coupon_model = {};
+
+  resetCartValues() {
+    return new Promise((resolve, reject) => {
+
+      this.cart_master_id = 0;
+      this.cart_total = 0;
+      this.cart_subtotal = 0;
+      this.cart_tax = 0;
+      this.cart_discount = 0;
+      // this.coupon_code = "";
+      // this.Coupon_code_btn = "Apply";
+      // this.Coupon_code_text = "";
+      // this.coupon_code_id = 0;
+      resolve(true);
     });
   }
 
   calculatecart() {
-    this.UserCart?.filter((res: any) => {
-      this.cart_master_id = (this.cart_master_id + res?.cart_master_id);
-      this.cart_total = +(this.cart_total + res?.cart_total).toFixed(2);
-      this.cart_subtotal = +(this.cart_subtotal + res?.cart_subtotal).toFixed(2);
-      this.cart_tax = +(this.cart_tax + res?.cart_tax).toFixed(2);
-      this.cart_discount = +(this.cart_discount + res?.cart_discount).toFixed(2);
+    this.UserCart?.forEach((res: any) => {
+      debugger
+      this.cart_master_id = res?.cart_master_id;
+      this.cart_total = +this._base._commonService.formatAmount((this.cart_total + res?.cart_total));
+      this.cart_subtotal = +this._base._commonService.formatAmount((this.cart_subtotal + res?.cart_subtotal));
+      this.cart_tax = +this._base._commonService.formatAmount((this.cart_tax + res?.cart_tax));
+      this.cart_discount = +this._base._commonService.formatAmount((this.cart_discount + res?.cart_discount));
       this.Coupon_code_text = res?.coupon_code;
       this.coupon_code = res?.coupon_code;
       this.coupon_code_id = res?.coupon_id;
       this.Coupon_code_btn = (res?.coupon_code != '' && res?.coupon_code != undefined && res?.coupon_code != null) ? 'Remove' : 'Apply';
     });
+    this._cdr.detectChanges();
   }
 
 
@@ -651,32 +741,35 @@ export class CartComponent implements OnInit {
   ];
 
   getcoupon() {
-    this._webDService.getcoupon(0, '', 0, 0).subscribe(
-      (res: any) => {
-        console.log("API Response:", res);
-        this.couponList = [];
-        if (res && Array.isArray(res.data)) {
-          this.couponList = res.data.map((c: any, index: number) => {
-            const colorSet = this.couponColors[index % this.couponColors.length];
-            return { ...c, colorSet };
-          });
-        } else {
+    return new Promise((resolve) => {
+      this._webDService.getcoupon('all', 0, 'null', 0, 0, 0).subscribe(
+        (res: any) => {
           this.couponList = [];
+          if (res && Array.isArray(res.data)) {
+            this.couponList = res.data.map((c: any, index: number) => {
+              const colorSet = this.couponColors[index % this.couponColors.length];
+              return { ...c, colorSet };
+            });
+          } else {
+            this.couponList = [];
+          }
+          resolve(true);
+        },
+        (err) => {
+          this.couponList = [];
+          resolve(true);
         }
-        this._cdr.detectChanges();
-      },
-      (err) => {
-        console.error("Coupon API Error:", err);
-        this.couponList = [];
-      }
-    );
+      );
+    });
   }
 
   // Coupon_code_text: string = '';
   // Coupon_code_btn: string = 'Apply';
 
-  applySuggestedCoupon(code: string) {
+  applySuggestedCoupon(coupon_id: any, code: string) {
     this.Coupon_code_text = code;
+    this.coupon_code_id = coupon_id;
+    // this.coupon_code = code;
     // this.applycoupon();
   }
 

@@ -44,8 +44,8 @@
           <div class="col-xl-8">
             <section>
               <h2 class="cart-title"><span>Cart Item</span> <a
-                  class="btn btn-warning mt-3 text-white cart-btn-removeall" *ngIf="this.ismonthly"
-                  (click)="removeFromCarts()">Remove Monthly Package</a></h2>
+                  class="btn btn-warning mt-3 text-white cart-btn-removeall" *ngIf="this.ismonthly && (UserCart && UserCart.length > 0)"
+                  (click)="removeFromCarts()">Remove Monthly/Daily Package</a></h2>
 
               <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
 
@@ -53,7 +53,7 @@
                 <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
                   <div class="card-header">
                     <h4>{{ item.product_name }}</h4>
-                    <div class="delete-btn" *ngIf="!item.ismonthly"> <span (click)="removeFromCart(item,_ind)">✕</span>
+                    <div class="delete-btn" *ngIf="!item.ismonthly && !item.isdaily"> <span (click)="removeFromCart(item,_ind)">✕</span>
                     </div>
                   </div>
                   <div class="card-body">
@@ -81,7 +81,7 @@
                   <div class="card-footer">
                     <div><strong>{{ item.product_name }} Total</strong></div>
                     <div class="price-tag">₹<ng-container *ngFor="let opt of item.optionvaluesParsed; let last = last">
-                        {{ (opt.total_amount)}}{{ last ? '' : ', ' }}
+                        {{ (this._base._commonService.formatAmount(opt.total_amount))}}{{ last ? '' : ', ' }}
                       </ng-container></div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@
                   <input type="text" class="form-control" [ngClass]="{'disabled': (Coupon_code_btn == 'Remove')}"
                     placeholder="Discount Coupon" [(ngModel)]="Coupon_code_text" #couponCode="ngModel">
 
-                  <button class="btn btn-outline-secondary" type="button"
+                  <button class="btn btn-outline-secondary" type="submit"
                     (click)="this.Coupon_code_btn =='Apply' ? applycoupon():removecouponcode();">
                     {{this.Coupon_code_btn}}
                   </button>
@@ -484,7 +484,7 @@
       <!-- Right: Apply Button -->
       <div class="text-end">
         <button class="btn btn-sm mt-2" [ngClass]="coupon.colorSet.btn" data-bs-dismiss="offcanvas" aria-label="Close"
-          (click)="applySuggestedCoupon(coupon.coupon_code)">Apply</button>
+          (click)="applySuggestedCoupon(coupon.coupon_id,coupon.coupon_code)">Apply</button>
       </div>
     </div>
 

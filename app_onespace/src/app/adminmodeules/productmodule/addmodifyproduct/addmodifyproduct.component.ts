@@ -189,6 +189,10 @@ export class AddmodifyproductComponent {
     this.getuser();
     this.getoptionvalues('Time Slot').then((res: any) => {
       this.TimeSlotAttr = res;
+      this.TimeSlotAttr = this.TimeSlotAttr.map((item: any) => ({
+        ...item,          // keep existing properties
+        price_delta_prime: 0.00  // add new key
+      }));
       this.getoptionvalues('Repetition').then((res: any) => {
         this.RepeAttr = res;
         this.getoptionvalues('Interval').then((res: any) => {
@@ -374,6 +378,7 @@ export class AddmodifyproductComponent {
     if (this.fgproductmaster.valid) {
       this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
         this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
+          debugger
           this._productMaster.product_name = this.fgproductmaster.value.product_name;
           this._productMaster.product_description = this.fgproductmaster.value.textarea.description;
           this._productMaster.lstcategory = this.fgproductmaster.value.lstcategory;
@@ -591,6 +596,7 @@ export class AddmodifyproductComponent {
         option_value_id: [_repre ? _repre[0]?.option_value_id : 0],
         option_value: [_repre ? _repre[0]?.option_value : ''],
         price_delta: [_repre ? _repre[0]?.price_delta : 0],
+        price_delta_prime: [_repre ? _repre[0]?.price_delta_prime : 0],
         option_value_parent_id: [_repre ? _repre[0]?.option_value_parent_id : 0],
       });
       this.repetitionArray.push(control);
@@ -616,6 +622,7 @@ export class AddmodifyproductComponent {
           option_value_id: [_intrvl ? _intrvl[0]?.option_value_id : 0],
           option_value: [_intrvl ? _intrvl[0]?.option_value : ''],
           price_delta: [_intrvl ? _intrvl[0]?.price_delta : 0],
+          price_delta_prime: [_intrvl ? _intrvl[0]?.price_delta_prime : 0],
           option_value_parent_id: [_intrvl ? _intrvl[0]?.option_value_parent_id : 0],
         });
         this.intervalArray.push(control);

@@ -101,11 +101,11 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
-        public responseModel getcoupon(Int64 coupon_id, string coupon_code ="", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(string flag = "null", Int64 coupon_id=0, string coupon_code ="", Int64 user_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
             {
-                return objProductManagement_DAL.getcoupon(coupon_id, coupon_code,start_count, end_count);
+                return objProductManagement_DAL.getcoupon(flag,coupon_id, coupon_code, user_id,start_count, end_count);
             }
         }
 
