@@ -905,7 +905,28 @@ export class ProductComponent implements OnInit {
           let currentDate = d;
           if (primeMap.has(currentDate)) {
             let price: any = primeMap.get(currentDate);
-            _date_total += price / this.timeArray.length;
+
+            // check if the currentDate belongs to ANY slot
+            let usedInSlots = 0;
+
+            this.timeArray.controls.forEach((slot: any) => {
+              let sFrom = this.toDatePModel(slot.controls['from_date'].value);
+              let sTo = this.toDatePModel(slot.controls['to_date'].value);
+
+              if (this.isDateInSlotRange(currentDate, sFrom || '', sTo || '')) {
+                usedInSlots++;
+              }
+            });
+
+            // IF used in ANY time slot → divide
+            if (usedInSlots > 0) {
+              _date_total += price / usedInSlots;
+            }
+            else {
+              // Not used in any slot → full amount
+              _date_total += price;
+            }
+            // _date_total += price / this.timeArray.length;
           }
         }
         _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
@@ -1469,31 +1490,45 @@ export class ProductComponent implements OnInit {
     });
     this._cdr.detectChanges();
   }
-  // isSelected(date: any): boolean {
-  //   const selected = this.fgcategorymaster.get('from_date_daily')?.value;
-  //   if (!selected) return false;
+  isSelected(date: any): boolean {
+    const selected = this.fgcategorymaster.get('from_date_daily')?.value;
+    if (!selected) return false;
 
-  //   return (
-  //     selected.year === date.year &&
-  //     selected.month === date.month &&
-  //     selected.day === date.day
-  //   );
-  // }
-  // highlightDates = [
-  //   { date: new Date(2025, 10, 25), color: 'lightblue' },      // 25 Nov 2025
-  //   { date: new Date(2025, 10, 28), color: 'lightblue' },       // 28 Nov 2025
-  //   { date: new Date(2026, 10, 5), color: 'lightblue' }       // 5 Dec 2025
-  // ];
+    return (
+      selected.year === date.year &&
+      selected.month === date.month &&
+      selected.day === date.day
+    );
+  }
+  highlightDates = [
+    { date: new Date(2025, 12, 25), color: 'lightblue' },      // 25 Nov 2025
+    { date: new Date(2025, 12, 28), color: 'lightblue' },       // 28 Nov 2025
+    { date: new Date(2026, 12, 5), color: 'lightblue' }       // 5 Dec 2025
+  ];
 
-  // getHighlightColor(date: any) {
-  //   const jsDate = new Date(date.year, date.month - 1, date.day);
+  highlightedDates = [
+    { year: 2025, month: 12, day: 20 },
+    { year: 2025, month: 12, day: 25 }
+  ];
+  
+  isHighlighted(date: any): boolean {
+    return this.highlightedDates.some(d =>
+      d.year === date.year &&
+      d.month === date.month &&
+      d.day === date.day
+    );
+  }
+  
+  
+  getHighlightColor(date: any) {
+    const jsDate = new Date(date.year, date.month - 1, date.day);
 
-  //   const found = this.highlightDates.find(
-  //     d => d.date.toDateString() === jsDate.toDateString()
-  //   );
+    const found = this.highlightDates.find(
+      d => d.date.toDateString() === jsDate.toDateString()
+    );
 
-  //   return found ? found.color : null;
-  // }
+    return found ? found.color : null;
+  }
 
 
   onDateSelect(date: NgbDateStruct) {
@@ -1523,6 +1558,7 @@ export class ProductComponent implements OnInit {
     this._webDService.getprimedate().subscribe((resprimedateMaster: any) => {
       this.primedateMaster = [];
       this.primedateMaster = Array.isArray(resprimedateMaster.data) ? resprimedateMaster.data : [];
+      console.log("this.primedateMaster",this.primedateMaster)
 
     });
   }
@@ -1538,7 +1574,7 @@ export class ProductComponent implements OnInit {
   coupon_code_id: number = 0;
   getcoupon() {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._webDService.getcoupon('Details',this.coupon_code_id, this.coupon_code, user_id).subscribe(
+      this._webDService.getcoupon('all', this.coupon_code_id, this.coupon_code, user_id).subscribe(
         (res: any) => {
           this.couponMaster = Array.isArray(res?.data) ? res.data : [];
 

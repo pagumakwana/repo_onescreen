@@ -111,7 +111,7 @@
                                     textField='option_value' valueField='option_value_id'
                                     [formControl]="fgproductmaster?.controls?.lsttimeattribute"
                                     placeholder="Select Time Slot" [config]="_configTime"
-                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)">
+                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)" (onDeSelectAll)="onDeSelectAll($event)"  (onSelectAll)="onSelectAll($event)">
                                 </webd-multiselect>
                             </div>
                             <div class="card-body">

@@ -2102,6 +2102,8 @@ export interface orderDetails {
     lst_orderproduct?: any,
     sales_person_name?: any,
     sales_person_mobile?: any,
+    referal_person_name?: any,
+    referal_person_mobile?: any,
     isdisable?: any,
     isactive?: any,
     client_id?: number,

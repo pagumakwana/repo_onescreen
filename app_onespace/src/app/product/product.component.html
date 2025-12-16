@@ -5,6 +5,12 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Start selecting your screen params!</h5>
+                    <ng-container>
+                        <a class="btn btn-sm btn-primary">
+                            View Route Details
+                        </a>
+                    </ng-container>
+                    &nbsp;
                     <ng-container *ngIf="this.primedateMaster.length > 0">
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                             data-bs-target="#slotInfoModal">
@@ -116,6 +122,8 @@
                                                 <div class="product_name">
                                                     {{_obj.category}}
                                                 </div>
+                                                <span class="text-muted" style="text-align: center;"
+                                                    [innerHTML]="_obj.description"></span>
                                             </div>
                                         </ng-container>
                                     </div>
@@ -649,20 +657,20 @@
             <div class="modal-body">
                 <!-- Your slot info content goes here -->
                 <p>Below are the prime date with its pricing.</p>
-                <table class="table table-striped fixed-header">
+                <table class="table table-striped fixed-header table-responsive">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Prime Date</th>
-                            <th>Price</th>
+                            <th style="width: 15%;">#</th>
+                            <th style="width: 25%;">Prime Date</th>
+                            <th style="width: 60%;">Description</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let _obj of this.primedateMaster;let i =index">
-                            <td>{{i+1}}</td>
-                            <td>{{_obj.prime_date | date:'dd-MM-yyyy'}}</td>
-                            <td>{{_obj.date_price}}</td>
+                            <td style="width: 15%;">{{i+1}}</td>
+                            <td style="width: 25%;">{{_obj.prime_date | date:'dd-MM-yyyy'}}</td>
+                            <td style="width: 60%;" class="wrap-text">{{_obj.prime_description}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -218,3 +218,22 @@
   position: sticky;
   top: 0;
 }
+
+
+.wrap-text {
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+/* Hover effect similar to ngb default */
+.ngb-dp-day.custom-hover:hover {
+  background-color: rgba(13, 110, 253, 0.15); /* bootstrap primary hover */
+  border-radius: 0.25rem;
+}
+
+/* Selected day – same as ngb style */
+.ngb-dp-day.bg-primary {
+  border-radius: 0.25rem;
+}

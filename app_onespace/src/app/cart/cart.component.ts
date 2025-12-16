@@ -66,6 +66,8 @@ export class CartComponent implements OnInit {
 
   sales_person_name: string = '';
   sales_person_mobile: string = '';
+  referal_person_name: string = '';
+  referal_person_mobile: string = '';
 
   fguser!: FormGroup
   usercartdata: any = [];
@@ -204,6 +206,8 @@ export class CartComponent implements OnInit {
               payment_status: 'success',
               sales_person_mobile: this.sales_person_mobile,
               sales_person_name: this.sales_person_name,
+              referal_person_mobile: this.referal_person_mobile,
+              referal_person_name: this.referal_person_name,
               user_id: user_id,
               createdname: full_name,
               createdby: user_id,
@@ -321,8 +325,9 @@ export class CartComponent implements OnInit {
               product_name: item.product_name,
               user_id: item.user_id,
               attribute_amount: item.attribute_amount,
-              total_amount,
-              sub_amount: sub_total,
+              total_amount: this._base._commonService.formatAmount(total_amount),
+              cart_total: this._base._commonService.formatAmount(total_amount),
+              sub_amount: this._base._commonService.formatAmount(sub_total),
               base_amount: item.base_amount,
               tax_amount: this._base._commonService.formatAmount(tax_total)
             };
@@ -335,7 +340,7 @@ export class CartComponent implements OnInit {
           finalize(() => {
             // 👉 Called AFTER all API requests finish (success or fail)
             setTimeout(() => {
-              location.reload();
+              this.reloadfreshdata();
             }, 800);
           })
         )
@@ -369,8 +374,9 @@ export class CartComponent implements OnInit {
         product_name: item?.product_name,
         user_id: item?.user_id,
         attribute_amount: item?.attribute_amount,
-        total_amount: total_amount,
-        sub_amount: sub_total,
+        total_amount: this._base._commonService.formatAmount(total_amount),
+        cart_total: this._base._commonService.formatAmount(total_amount),
+        sub_amount: this._base._commonService.formatAmount(sub_total),
         base_amount: item?.base_amount,
         tax_amount: this._base._commonService.formatAmount(tax_total),
       };
@@ -403,7 +409,8 @@ export class CartComponent implements OnInit {
     this.UserCart[0].lst_cart_product = this.UserCart[0].lst_cart_product
       .filter((x: any) => x.user_cart_mapping_id !== item.user_cart_mapping_id);
 
-    this.calculateOrderSummary(); // If you have subtotal/tax/discount recalc
+      this.reloadfreshdata();
+    //this.calculateOrderSummary(); // If you have subtotal/tax/discount recalc
   }
 
 
@@ -483,7 +490,7 @@ export class CartComponent implements OnInit {
           if (res?.includes("newsuccess")) {
             this.successSwal.fire();
 
-            setTimeout(() => { this.reloadfreshdata(); this.successSwal.close(),this._cdr.detectChanges() }, 1000);
+            setTimeout(() => { this.reloadfreshdata(); this.successSwal.close(), this._cdr.detectChanges() }, 1000);
             // setTimeout(() => location.reload(), 2000);
           }
         });
@@ -520,8 +527,8 @@ export class CartComponent implements OnInit {
             this.Coupon_code_text = "";
             this.coupon_code_id = 0;
             this.resetCartValues();
-            setTimeout(() => { this.reloadfreshdata(); this.removecouponSwal.close() ,this._cdr.detectChanges()}, 1000);
-            
+            setTimeout(() => { this.reloadfreshdata(); this.removecouponSwal.close(), this._cdr.detectChanges() }, 1000);
+
           }
 
         });

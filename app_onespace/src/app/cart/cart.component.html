@@ -44,8 +44,9 @@
           <div class="col-xl-8">
             <section>
               <h2 class="cart-title"><span>Cart Item</span> <a
-                  class="btn btn-warning mt-3 text-white cart-btn-removeall" *ngIf="this.ismonthly && (UserCart && UserCart.length > 0)"
-                  (click)="removeFromCarts()">Remove Monthly/Daily Package</a></h2>
+                  class="btn btn-warning mt-3 text-white cart-btn-removeall"
+                  *ngIf="this.ismonthly && (UserCart && UserCart.length > 0)" (click)="removeFromCarts()">Remove
+                  Monthly/Daily Package</a></h2>
 
               <div class="cart-list" *ngIf="UserCart && UserCart.length > 0">
 
@@ -53,7 +54,8 @@
                 <div class="cart-card" *ngFor="let item of UserCart[0]?.lst_cart_product; let _ind=index">
                   <div class="card-header">
                     <h4>{{ item.product_name }}</h4>
-                    <div class="delete-btn" *ngIf="!item.ismonthly && !item.isdaily"> <span (click)="removeFromCart(item,_ind)">✕</span>
+                    <div class="delete-btn" *ngIf="!item.ismonthly && !item.isdaily"> <span
+                        (click)="removeFromCart(item,_ind)">✕</span>
                     </div>
                   </div>
                   <div class="card-body">
@@ -97,7 +99,7 @@
                   <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                   data-bs-target=".multi-collapse" aria-expanded="false"
                   aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
-                  <button class="btn btn-primary" (click)="goToShipping()" type="button">Continue to
+                  <button class="btn btn-primary" (click)="goToShipping()" type="button" [ngClass]="{'disabled':this.cart_subtotal==0}">Continue to
                     checkout</button>
                 </div>
               </div>
@@ -113,17 +115,33 @@
 
 
               <div class="card-body">
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Sales Person</label>
-                  <input type="text" class="form-control" placeholder="Enter sales person name" autocomplete="off"
-                    autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_name" #salespersonname="ngModel">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Sales Person</label>
+                    <input type="text" class="form-control" placeholder="Enter name" autocomplete="off"
+                      autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_name" #salespersonname="ngModel">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Mobile Number</label>
+                    <input type="text" class="form-control" placeholder="Enter mobile number" pattern="^[0-9]\d{9}$"
+                      maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off"
+                      spellcheck="false" [(ngModel)]="sales_person_mobile" #salespersonmobile="ngModel">
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Mobile Number</label>
-                  <input type="text" class="form-control" placeholder="Enter sales person mobile number"
-                    pattern="^[0-9]\d{9}$" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
-                    autocomplete="off" autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_mobile" #salespersonmobile="ngModel">
+                <div class="border-bottom"></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Referal Person</label>
+                    <input type="text" class="form-control" placeholder="Enter name" autocomplete="off"
+                      autocorrect="off" spellcheck="false" [(ngModel)]="referal_person_name"
+                      #referalpersonname="ngModel">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Mobile Number</label>
+                    <input type="text" class="form-control" placeholder="Enter mobile number" pattern="^[0-9]\d{9}$"
+                      maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off"
+                      spellcheck="false" [(ngModel)]="referal_person_mobile" #referalpersonmobile="ngModel">
+                  </div>
                 </div>
               </div>
             </div>
@@ -330,16 +348,33 @@
 
               <div class="card-body">
 
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Sales Person</label>
-                  <input type="text" class="form-control" placeholder="Enter sales person name" autocomplete="off"
-                    autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_name" #salespersonname="ngModel">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Sales Person</label>
+                    <input type="text" class="form-control" placeholder="Enter name" autocomplete="off"
+                      autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_name" #salespersonname="ngModel">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Mobile Number</label>
+                    <input type="text" class="form-control" placeholder="Enter mobile number" pattern="^[0-9]\d{9}$"
+                      maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off"
+                      spellcheck="false" [(ngModel)]="sales_person_mobile" #salespersonmobile="ngModel">
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Mobile Number</label>
-                  <input type="text" class="form-control" placeholder="Enter sales person mobile number"
-                    pattern="^[0-9]\d{9}$" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
-                    autocomplete="off" autocorrect="off" spellcheck="false" [(ngModel)]="sales_person_mobile" #salespersonmobile="ngModel">
+                <div class="border-bottom"></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Referal Person</label>
+                    <input type="text" class="form-control" placeholder="Enter name" autocomplete="off"
+                      autocorrect="off" spellcheck="false" [(ngModel)]="referal_person_name"
+                      #referalpersonname="ngModel">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">Mobile Number</label>
+                    <input type="text" class="form-control" placeholder="Enter mobile number" pattern="^[0-9]\d{9}$"
+                      maxlength="10" onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off"
+                      spellcheck="false" [(ngModel)]="referal_person_mobile" #referalpersonmobile="ngModel">
+                  </div>
                 </div>
               </div>
             </div>

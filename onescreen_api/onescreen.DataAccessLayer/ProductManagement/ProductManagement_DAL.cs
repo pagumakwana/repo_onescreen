@@ -1107,6 +1107,8 @@ namespace onescreenDAL.ProductManagement
                               order_tax = Row.Field<Decimal>("order_tax"),
                               order_status = Row.Field<string>("order_status"),
                               payment_status = Row.Field<string>("payment_status"),
+                              sales_person_details = Row.Field<string>("sales_person_details"),
+                              referal_person_details = Row.Field<string>("referal_person_details"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -1616,6 +1618,10 @@ namespace onescreenDAL.ProductManagement
                 objDBParameter = new DBParameter("@sales_person_name", objuserorderMaster.sales_person_name, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@sales_person_mobile", objuserorderMaster.sales_person_mobile, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_name", objuserorderMaster.referal_person_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_mobile", objuserorderMaster.referal_person_mobile, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objuserorderMaster.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
@@ -2394,6 +2400,8 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@date_price", _objdatetimedetails.date_price, DbType.Decimal);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@prime_description", _objdatetimedetails.prime_description, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@createdby", _objdatetimedetails.createdby, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@createdname", _objdatetimedetails.createdname, DbType.String);
@@ -2452,6 +2460,7 @@ namespace onescreenDAL.ProductManagement
                           {
                               date_id = Row.Field<Int64>("date_id"),
                               prime_date = Row.Field<string>("prime_date"),
+                              prime_description = Row.Field<string>("prime_description"),
                               date_price = Row.Field<decimal>("date_price"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),

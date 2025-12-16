@@ -50,6 +50,7 @@ import { ScreenbookingComponent } from './adminmodeules/screenbooking/screenbook
 import { OrderPolicyComponent } from './order-policy/order-policy.component';
 import { CancellationAndRefundComponent } from './cancellation-and-refund/cancellation-and-refund.component';
 import { PrimedatetimemoduleComponent } from './adminmodeules/primedatetimemodule/primedatetimemodule.component';
+import { ContactusmoduleComponent } from './adminmodeules/contactusmodule/contactusmodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -309,6 +310,11 @@ export const routes: Routes = [
                 path: 'primedate',
                 component: PrimedatetimemoduleComponent,
                 title: 'Prime Date | Onescreen',
+            },
+            {
+                path: 'enquiry',
+                component: ContactusmoduleComponent,
+                title: 'Contact Enquiry Date | Onescreen',
             },
         ]
     },

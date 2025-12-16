@@ -40,6 +40,7 @@ export class LabelmoduleComponent {
   LabelMaster: any = [];
   _labelMaster: labelMaster = {};
   tableConfig: dataTableConfig = {
+    tableTitle:'Manage Label',
     tableData: [],
     displayPaging:true,
     tableConfig: [

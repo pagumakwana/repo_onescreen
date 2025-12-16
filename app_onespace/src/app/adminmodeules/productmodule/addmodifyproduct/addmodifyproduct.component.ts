@@ -161,19 +161,19 @@ export class AddmodifyproductComponent {
       product_name: ['', [Validators.required]],
       isactive: [true],
       thumbnail: [''],
-      lstcategory: ['', [Validators.required]],
+      lstcategory: [[], [Validators.required]],
       lstbrand: [''],
       base_amount: [''],
-      lsttimeattribute: [''],
-      lstrepeattribute: [''],
-      lstintervalattribute: [''],
+      lsttimeattribute: [this._fbproductMaster.array([])],
+      lstrepeattribute: [this._fbproductMaster.array([])],
+      lstintervalattribute: [this._fbproductMaster.array([])],
       lsttimeattr: this._fbproductMaster.array([]),
       lstrepeattr: this._fbproductMaster.array([]),
       lstinterattr: this._fbproductMaster.array([]),
       lstuserproduct: this._fbproductMaster.array([]),
-      lstcategoryroute: ['', [Validators.required]],
-      lstpropertycategoryroute: ['', [Validators.required]],
-      lstuserproductcommission: [''],
+      lstcategoryroute: [this._fbproductMaster.array([]), [Validators.required]],
+      lstpropertycategoryroute: [this._fbproductMaster.array([]), [Validators.required]],
+      lstuserproductcommission: [this._fbproductMaster.array([])],
       textarea: this._fbproductMaster.group({
         description: [''],
       }),
@@ -279,7 +279,7 @@ export class AddmodifyproductComponent {
           this.onSelectTime(_res);
         })
         debugger
-        this._productMaster.lstintervalattribute?.filter((_resint: any, index: any) => {
+        this._productMaster.lstintervalattribute?.forEach((_resint: any, index: any) => {
           let control: FormGroup = this._fbproductMaster.group({
             option_value_id: [_resint ? _resint.option_value_id : 0],
             option_value: [_resint ? _resint.option_value : ''],
@@ -578,6 +578,16 @@ export class AddmodifyproductComponent {
       this.timeArray.push(control);
     }
   }
+
+
+  onSelectAll(items: any) {
+    console.log("Select All Fired:", items);
+  }
+
+  onDeSelectAll(items: any) {
+    console.log("Unselect All Fired");
+  }
+
   onDeSelectTime($event: any) {
     if ($event && $event != null && $event != '') {
       const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {

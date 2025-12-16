@@ -195,6 +195,8 @@ namespace onescreenModel.ProductManagement
         public decimal order_tax { get; set; }
         public string order_status { get; set; }
         public string payment_status { get; set; }
+        public string? sales_person_details { get; set; }
+        public string? referal_person_details { get; set; }
 
     }
 
@@ -252,6 +254,8 @@ namespace onescreenModel.ProductManagement
         public string? payment_status { get; set; }
         public string? sales_person_name { get; set; }
         public string? sales_person_mobile { get; set; }
+        public string? referal_person_name { get; set; }
+        public string? referal_person_mobile { get; set; }
         public List<userorderhistoryModel> lst_orderdetail { get; set; }
         public List<userorderproductModel> lst_orderproduct { get; set; }
     }
@@ -417,6 +421,7 @@ namespace onescreenModel.ProductManagement
         public long? date_id { get; set; }
         public string? prime_date { get; set; }
         public decimal? date_price { get; set; }
+        public string? prime_description { get; set; }
 
     }
 }

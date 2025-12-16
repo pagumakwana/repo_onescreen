@@ -38,7 +38,7 @@ export class ScreenbookingComponent {
   tableConfig: dataTableConfig = {
     tableData: [],
     displayPaging:true,
-    tableTitle: 'Manage Products',
+    tableTitle: 'Booking Details',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "timeslot_category", title: "From Date", type: "text" },
