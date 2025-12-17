@@ -151,6 +151,8 @@ export interface categoryMaster {
     project_id?: number,
     user_id?: number,
     createdname?: string,
+    thumbnail?: any,
+    route_file?: any,
     filemanager?: Array<{
         ref_id: number,
         file_id: number,

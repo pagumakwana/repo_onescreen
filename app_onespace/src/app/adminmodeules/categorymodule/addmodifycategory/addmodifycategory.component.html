@@ -16,9 +16,11 @@
                             <div class="row mb-6">
                                 <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
                                     [controlObject]="fgcategorymaster.controls['thumbnail']"
-                                    [fileConfig]="this.fileConfig['thumbnail']">
+                                    [fileConfig]="this.fileConfig['thumbnail']" [FileArrayIdentifier]="'thumbnail'"
+                                    [FileUploaderIndex]="0" [subidentifier]="'category'">
                                 </webd-mediauploader>
                             </div>
+
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">TypeMaster</label>
@@ -57,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="mb-6">
+                            <div class="mb-6">
                                 <div class="mb-12">
                                     <label class="form-label">Short Description</label>
                                     <webd-texteditor [formGroupTextArea]="this.fgcategorymaster.controls['textarea']">
@@ -85,10 +87,16 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
+                            <div class="row mb-6">
+                                <webd-mediauploader #route_file [fileChoosenData]="fileChoosenData['route_file']"
+                                    [controlObject]="fgcategorymaster.controls['route_file']"
+                                    [fileConfig]="this.fileConfig['route_file']" [FileArrayIdentifier]="'route_file'"
+                                    [FileUploaderIndex]="1" [subidentifier]="'category'">
+                                </webd-mediauploader>
+                            </div>
                             <a class="btn btn-outline-secondary mb-4" routerLink="/app/managecategory">Back</a>
                             &nbsp;
-                            <button class="btn btn-primary mb-4"
-                                (click)="setcategoryMaster(true)">Submit</button>
+                            <button class="btn btn-primary mb-4" (click)="setcategoryMaster(true)">Submit</button>
 
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">

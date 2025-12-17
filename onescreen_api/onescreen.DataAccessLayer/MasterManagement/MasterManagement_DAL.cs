@@ -603,6 +603,7 @@ namespace onescreenDAL.MasterManagement
                                 category = Row.Field<string>("category"),
                                 aliasname = Row.Field<string>("aliasname"),
                                 thumbnail = Row.Field<string>("thumbnail"),
+                                route_file = Row.Field<string>("route_file"),
                                 description = Row.Field<string>("description"),
                                 isfeatured = Row.Field<bool>("isfeatured"),
                                 displayorder = Row.Field<Int64>("displayorder"),

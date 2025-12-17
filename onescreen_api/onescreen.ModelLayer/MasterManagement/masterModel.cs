@@ -17,6 +17,7 @@ namespace onescreenModel.MasterManagement
         //public string category_url { get; set; }
         public Int64 displayorder { get; set; }
         public string aliasname { get; set; }
+        public string route_file { get; set; }
         public string description { get; set; }
         public bool isfeatured { get; set; }
         public Int64 count { get; set; }
