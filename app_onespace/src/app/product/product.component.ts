@@ -13,7 +13,7 @@ import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AuthService } from '../authmodule/_authservice/auth.service';
-import { first } from 'rxjs';
+import { first, throwError } from 'rxjs';
 // import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -78,6 +78,7 @@ export class ProductComponent implements OnInit {
   minmonth: NgbDateStruct | null = null;
   maxmonth: NgbDateStruct | null = null;
   ConfigMaster: any = [];
+  view_route_link: any;
 
   fgverify!: FormGroup;
 
@@ -235,12 +236,20 @@ export class ProductComponent implements OnInit {
     });
   }
 
-
+  openRoutePdf() {
+    if (this.view_route_link) {
+      window.open(this.view_route_link, '_blank');
+    }
+  }
 
   getroute(parent_category_id: number = 0) {
     this._webDService.getcategory('all', 0, 'selected_area', 0, 'null', false, parent_category_id, 'null', 0, 0).subscribe((resCategory: any) => {
-      this.RouteMaster = resCategory.data;
+      // this.RouteMaster = resCategory.data;
       this.RouteMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+      this.view_route_link = this.RouteMaster.length
+        ? `${this._base._commonService.cdnURL}${this.RouteMaster[0].route_file}`
+        : null;
+      console.log('route', this.view_route_link);
       this._cdr.detectChanges();
     });
   }
@@ -1510,7 +1519,7 @@ export class ProductComponent implements OnInit {
     { year: 2025, month: 12, day: 20 },
     { year: 2025, month: 12, day: 25 }
   ];
-  
+
   isHighlighted(date: any): boolean {
     return this.highlightedDates.some(d =>
       d.year === date.year &&
@@ -1518,8 +1527,8 @@ export class ProductComponent implements OnInit {
       d.day === date.day
     );
   }
-  
-  
+
+
   getHighlightColor(date: any) {
     const jsDate = new Date(date.year, date.month - 1, date.day);
 
@@ -1558,7 +1567,7 @@ export class ProductComponent implements OnInit {
     this._webDService.getprimedate().subscribe((resprimedateMaster: any) => {
       this.primedateMaster = [];
       this.primedateMaster = Array.isArray(resprimedateMaster.data) ? resprimedateMaster.data : [];
-      console.log("this.primedateMaster",this.primedateMaster)
+      console.log("this.primedateMaster", this.primedateMaster)
 
     });
   }

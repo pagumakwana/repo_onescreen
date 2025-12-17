@@ -3,7 +3,7 @@
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <!-- <div class="card-header d-flex justify-content-between align-items-end">
                     <h5>Start selecting your screen params!</h5>
                     <ng-container>
                         <a class="btn btn-sm btn-primary">
@@ -17,6 +17,25 @@
                             Prime Date Details
                         </button>
                     </ng-container>
+                </div> -->
+                <div class="card-header d-flex align-items-center">
+                    <h5 class="mb-0">Start selecting your screen params!</h5>
+
+                    <!-- RIGHT SIDE BUTTONS -->
+                    <div class="ms-auto d-flex gap-2">
+                        <!-- <a class="btn btn-sm btn-primary" (click)="openRoutePdf()">
+                            View Route Details
+                        </a> -->
+                        <a class="btn btn-sm btn-primary" [href]="view_route_link" target="_blank"
+                            rel="noopener noreferrer">
+                            View Route Details
+                        </a>
+
+                        <button *ngIf="primedateMaster.length > 0" type="button" class="btn btn-sm btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#slotInfoModal">
+                            Prime Date Details
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div id="basicwizard" class="form-wizard row justify-content-center">
