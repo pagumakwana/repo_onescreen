@@ -26,11 +26,13 @@
                         <!-- <a class="btn btn-sm btn-primary" (click)="openRoutePdf()">
                             View Route Details
                         </a> -->
-                        <a class="btn btn-sm btn-primary" [href]="view_route_link" target="_blank"
-                            rel="noopener noreferrer">
-                            View Route Details
-                        </a>
-
+                        <ng-container *ngIf="view_route_link!='' && view_route_link!=null">
+                            <a class="btn btn-sm btn-primary"
+                                [href]="(this._base._commonService.cdnURL + view_route_link)" target="_blank"
+                                rel="noopener noreferrer">
+                                View Route Details
+                            </a>
+                        </ng-container>
                         <button *ngIf="primedateMaster.length > 0" type="button" class="btn btn-sm btn-primary"
                             data-bs-toggle="modal" data-bs-target="#slotInfoModal">
                             Prime Date Details
@@ -141,8 +143,8 @@
                                                 <div class="product_name">
                                                     {{_obj.category}}
                                                 </div>
-                                                <span class="text-muted" style="text-align: center;"
-                                                    [innerHTML]="_obj.description"></span>
+                                                <!-- <span class="text-muted" style="text-align: center;"
+                                                    [innerHTML]="_obj.description"></span> -->
                                             </div>
                                         </ng-container>
                                     </div>
@@ -154,6 +156,10 @@
                                     <p class="text-danger" *ngIf="this.screenmastervalid" style="text-align: center;">
                                         Screen/ Product is required.</p>
                                     <h3 class="section_head" style="text-align: center;">Screen/ Product</h3>
+                                    <div [hidden]="view_route_description=='' || view_route_description==null">
+                                        <span style="text-align: center;" class="category_description"
+                                            [innerHTML]="view_route_description"></span>
+                                    </div>
                                     <div class="product_lists">
                                         <ng-container *ngFor="let _obj of this.ScreenMaster; let _ind = index">
                                             <div class="products" [ngClass]="{'selected': _obj.isChecked}"
@@ -222,6 +228,7 @@
                                                     from_date_month.displayMonths="true"
                                                     formControlName="from_date_month" placeholder="dd-mm-yyyy"
                                                     [minDate]="minmonth" (click)="from_date_month.toggle();"
+                                                    [dayTemplate]="customfrom_monthly"
                                                     (dateSelect)="onDateSelect($event)">
                                                 <span class="input-group-text" required>
                                                     <i class="fa fa-calendar"></i>
@@ -236,6 +243,20 @@
                                                     Please select a date within 1 month range.
                                                 </ng-container>
                                             </div>
+
+                                            <ng-template #customfrom_monthly let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
@@ -294,25 +315,26 @@
                                                     from_date_daily.displayMonths="true"
                                                     formControlName="from_date_daily" placeholder="dd-mm-yyyy"
                                                     [minDate]="minfromDate" [maxDate]="maxfromDate"
-                                                    (click)="from_date_daily.toggle();"
+                                                    [dayTemplate]="customfrom_daily" (click)="from_date_daily.toggle();"
                                                     (dateSelect)="both_date_select($event,'from_date')">
                                                 <span class="input-group-text" required>
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
                                             </div>
+                                            <ng-template #customfrom_daily let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
                                         </div>
-
-
-                                        <!-- Day Template -->
-                                        <!--  [dayTemplate]="t"
-                                                    [dayTemplateData]="getHighlightColor.bind(this)" <ng-template #t let-date="date" let-color="data">
-                                            <span class="custom-day" [class.selected]="isSelected(date)" [ngStyle]="{
-            'background-color': color ? color : 'transparent',
-            'color': color ? '#000' : null
-        }">
-                                                {{ date.day }}
-                                            </span>
-                                        </ng-template> -->
                                     </div>
                                     <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
                                         <div class="form-group">
@@ -326,12 +348,25 @@
                                                     #to_date_daily="ngbDatepicker" id="to_date_daily"
                                                     to_date_daily.displayMonths="true" formControlName="to_date_daily"
                                                     placeholder="dd-mm-yyyy" [minDate]="mintoDate" [maxDate]="maxtoDate"
-                                                    (click)="to_date_daily.toggle();"
+                                                    (click)="to_date_daily.toggle();" [dayTemplate]="customto_daily"
                                                     (dateSelect)="both_date_select($event,'to_date')">
                                                 <span class="input-group-text" required>
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
                                             </div>
+                                            <ng-template #customto_daily let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
@@ -499,7 +534,7 @@
                                                                     [minDate]="_objPass.controls['minfromDate'].value"
                                                                     [maxDate]="_objPass.controls['maxfromDate'].value"
                                                                     (click)="from_date.toggle();"
-                                                                    [dayTemplate]="customDay"
+                                                                    [dayTemplate]="customFromdate"
                                                                     (dateSelect)="date_select(i,'fromdate')">
                                                                 <span class="input-group-text" required>
                                                                     <i class="fa fa-calendar"></i>
@@ -517,14 +552,18 @@
                                                             </div>
 
 
-                                                            <ng-template #customDay let-date
+                                                            <ng-template #customFromdate let-date
                                                                 let-currentMonth="currentMonth" let-selected="selected"
                                                                 let-disabled="disabled" let-focused="focused">
                                                                 <span class="custom-day" [class.focused]="focused"
-                                                                    [ngClass]="{'btn-light bg-primary text-white': isHighlighted(date)}"
-                                                                    [class.text-muted]="
-      (!selected && !isHighlighted(date))
-    ">
+                                                                    [ngClass]="{
+                                                                    'bg-danger text-white': isHighlighted(date),
+                                                                    'bg-primary text-white': selected
+                                                                  }" [class.text-muted]="
+                                                                    date.month === (currentMonth % 12) + 1 &&
+                                                                    !selected &&
+                                                                    !isHighlighted(date)
+                                                                  ">
                                                                     {{ date.day }}
                                                                 </span>
                                                             </ng-template>
@@ -544,6 +583,7 @@
                                                                     [minDate]="_objPass.controls['mintoDate'].value"
                                                                     [maxDate]="_objPass.controls['maxtoDate'].value"
                                                                     (click)="to_date.toggle();"
+                                                                    [dayTemplate]="customTodate"
                                                                     (dateSelect)="date_select(i,'todate')">
                                                                 <span class="input-group-text">
                                                                     <i class="fa fa-calendar"></i>
@@ -559,6 +599,21 @@
                                                                     {{to_date_alert}}
                                                                 </ng-container>
                                                             </div>
+                                                            <ng-template #customTodate let-date
+                                                                let-currentMonth="currentMonth" let-selected="selected"
+                                                                let-disabled="disabled" let-focused="focused">
+                                                                <span class="custom-day" [class.focused]="focused"
+                                                                    [ngClass]="{
+                                                                'bg-danger text-white': isHighlighted(date),
+                                                                'bg-primary text-white': selected
+                                                              }" [class.text-muted]="
+                                                                date.month === (currentMonth % 12) + 1 &&
+                                                                !selected &&
+                                                                !isHighlighted(date)
+                                                              ">
+                                                                    {{ date.day }}
+                                                                </span>
+                                                            </ng-template>
                                                         </div>
                                                     </div>
 

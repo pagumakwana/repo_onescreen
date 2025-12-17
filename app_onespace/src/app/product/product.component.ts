@@ -19,13 +19,14 @@ import { first, throwError } from 'rxjs';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [MultiselectComponent, ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }, AuthService
   ],
 })
+
 export class ProductComponent implements OnInit {
 
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
@@ -78,7 +79,8 @@ export class ProductComponent implements OnInit {
   minmonth: NgbDateStruct | null = null;
   maxmonth: NgbDateStruct | null = null;
   ConfigMaster: any = [];
-  view_route_link: any;
+  view_route_link: any = '';
+  view_route_description: any = '';
 
   fgverify!: FormGroup;
 
@@ -99,6 +101,7 @@ export class ProductComponent implements OnInit {
     this.maxtoDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
     console.log('from_date', this.minfromDate, this.maxfromDate)
   }
+
 
   public _screentype: IDropdownSettings = {
     singleSelection: true,
@@ -246,9 +249,7 @@ export class ProductComponent implements OnInit {
     this._webDService.getcategory('all', 0, 'selected_area', 0, 'null', false, parent_category_id, 'null', 0, 0).subscribe((resCategory: any) => {
       // this.RouteMaster = resCategory.data;
       this.RouteMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
-      this.view_route_link = this.RouteMaster.length
-        ? `${this._base._commonService.cdnURL}${this.RouteMaster[0].route_file}`
-        : null;
+
       console.log('route', this.view_route_link);
       this._cdr.detectChanges();
     });
@@ -308,11 +309,14 @@ export class ProductComponent implements OnInit {
   }
 
   onSelectroute($event: any, _index: number = 0) {
+    debugger
     if ($event && $event != null && $event != '') {
       this.RouteMaster.forEach((item: any, i: number) => item.isChecked = i === _index);
       this._categoryRouteMaster.category_id = ($event?.category_id);
       this._categoryRouteMaster.category = ($event?.category);
       this.getscreen(this._categoryRouteMaster.category_id);
+      this.view_route_link = $event?.route_file ? $event?.route_file : '';
+      this.view_route_description = $event?.description ? $event?.description : '';
       this._wizard_index = 3;
     }
   }
@@ -1373,6 +1377,8 @@ export class ProductComponent implements OnInit {
         } else if (this._wizard_index == 2) {
           this.RouteMaster.forEach((item: any, i: number) => item.isChecked = false);
           this.ScreenMaster = [];
+          this.view_route_link = '';
+          this.view_route_description = '';
         }
         else if (this._wizard_index == 1) {
           this.PropertyMaster.forEach((item: any, i: number) => item.isChecked = false);
@@ -1515,13 +1521,10 @@ export class ProductComponent implements OnInit {
     { date: new Date(2026, 12, 5), color: 'lightblue' }       // 5 Dec 2025
   ];
 
-  highlightedDates = [
-    { year: 2025, month: 12, day: 20 },
-    { year: 2025, month: 12, day: 25 }
-  ];
+  highlightedDates:any=[];
 
   isHighlighted(date: any): boolean {
-    return this.highlightedDates.some(d =>
+    return this.highlightedDates.some((d:any) =>
       d.year === date.year &&
       d.month === date.month &&
       d.day === date.day
@@ -1567,7 +1570,18 @@ export class ProductComponent implements OnInit {
     this._webDService.getprimedate().subscribe((resprimedateMaster: any) => {
       this.primedateMaster = [];
       this.primedateMaster = Array.isArray(resprimedateMaster.data) ? resprimedateMaster.data : [];
-      console.log("this.primedateMaster", this.primedateMaster)
+      this.primedateMaster = this.primedateMaster.map((item: any) => {
+        if (item?.prime_date) {
+          const d = new Date(item?.prime_date);
+          item.prime_date = {
+            year: d.getFullYear(),
+            month: d.getMonth() + 1,
+            day: d.getDate()
+          };
+          this.highlightedDates.push(item.prime_date);
+        }
+        return item;
+      });
 
     });
   }
