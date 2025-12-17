@@ -480,6 +480,7 @@
                                                                     [minDate]="_objPass.controls['minfromDate'].value"
                                                                     [maxDate]="_objPass.controls['maxfromDate'].value"
                                                                     (click)="from_date.toggle();"
+                                                                    [dayTemplate]="customDay"
                                                                     (dateSelect)="date_select(i,'fromdate')">
                                                                 <span class="input-group-text" required>
                                                                     <i class="fa fa-calendar"></i>
@@ -495,6 +496,20 @@
                                                                     {{from_date_alert}}
                                                                 </ng-container>
                                                             </div>
+
+
+                                                            <ng-template #customDay let-date
+                                                                let-currentMonth="currentMonth" let-selected="selected"
+                                                                let-disabled="disabled" let-focused="focused">
+                                                                <span class="custom-day" [class.focused]="focused"
+                                                                    [ngClass]="{'btn-light bg-primary text-white': isHighlighted(date)}"
+                                                                    [class.text-muted]="
+      (!selected && !isHighlighted(date))
+    ">
+                                                                    {{ date.day }}
+                                                                </span>
+                                                            </ng-template>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
