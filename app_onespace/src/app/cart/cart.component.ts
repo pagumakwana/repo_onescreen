@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -28,6 +28,18 @@ declare var bootstrap: any;
 })
 export class CartComponent implements OnInit {
 
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+      event.preventDefault();
+      // alert('Printing is disabled on this page.');
+    }
+  }
+
+  @HostListener('document:contextmenu', ['$event'])
+  disableRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
 
@@ -409,7 +421,7 @@ export class CartComponent implements OnInit {
     this.UserCart[0].lst_cart_product = this.UserCart[0].lst_cart_product
       .filter((x: any) => x.user_cart_mapping_id !== item.user_cart_mapping_id);
 
-      this.reloadfreshdata();
+    this.reloadfreshdata();
     //this.calculateOrderSummary(); // If you have subtotal/tax/discount recalc
   }
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { WebDService } from '../_appservice/webdpanel.service';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { MultiselectComponent } from '../layout_template/multiselect/multiselect.component';
@@ -28,6 +28,18 @@ import { first, throwError } from 'rxjs';
 })
 
 export class ProductComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+      event.preventDefault();
+      // alert('Printing is disabled on this page.');
+    }
+  }
+
+  @HostListener('document:contextmenu', ['$event'])
+  disableRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
 
   @ViewChild("from_date", { static: true }) from_date!: NgbInputDatepicker;
   @ViewChild("to_date", { static: true }) to_date!: NgbInputDatepicker;
