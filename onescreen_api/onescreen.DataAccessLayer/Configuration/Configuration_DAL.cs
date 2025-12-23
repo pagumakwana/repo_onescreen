@@ -647,6 +647,86 @@ namespace onescreenDAL.Configuration
             }
         }
 
+        public string manageportalconfig(portalconfigModel objportalconfigModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objportalconfigModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@config_id", objportalconfigModel.config_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@config_value", objportalconfigModel.config_value, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@config_name", objportalconfigModel.config_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@description", objportalconfigModel.description, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@config_data", objportalconfigModel.config_data, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@category_id", objportalconfigModel.category_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@config_type", objportalconfigModel.config_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@isactive", objportalconfigModel.isactive, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objportalconfigModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objportalconfigModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageportalconfig, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                        //if (objfinancialYearModel.flag.Contains("NEWFINANCIALYEAR") || objfinancialYearModel.flag.Contains("MODIFYFINANCIALYEAR"))
+                        //{
+                        //    ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                        //    var Res = ResponseMessage.Split('~');
+                        //    objfinancialYearModel.financialyear_id = Convert.ToInt64(Res[1].ToString());
+                        //    if ((objfinancialYearModel.lstsociety != null && objfinancialYearModel.lstsociety.Count > 0))
+                        //    {
+                        //        objfinancialYearModel.lstsociety.ForEach(society =>
+                        //        {
+                        //            society.society_id = society.society_id;
+                        //            society.financialyear_id = objfinancialYearModel.financialyear_id;
+                        //            society.project_id = project_id;
+                        //            society.createdby = objfinancialYearModel.user_id;
+                        //            society.createdname = objfinancialYearModel.createdname;
+                        //        });
+                        //        Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                        //        DataTable dtrecipedata = objCommon_DAL.GetDataTableFromList(objfinancialYearModel.lstsociety);
+                        //        DBHelper objDbHelperModule = new DBHelper();
+                        //        string tablename = objDbHelperModule.BulkImport("WebD_FinancialYearSocietyMapping", dtrecipedata);
+                        //        objDbHelperModule = new DBHelper();
+                        //        DBParameterCollection ObJParameterCOl5 = new DBParameterCollection();
+                        //        DBParameter objDBParameter5 = new DBParameter("@tablename", tablename, DbType.String);
+                        //        ObJParameterCOl5.Add(objDBParameter5);
+                        //        objDbHelperModule.ExecuteNonQuery(Constant.mapfinancialyearsociety, ObJParameterCOl5, CommandType.StoredProcedure);
+                        //    }
+
+                        //    ResponseMessage = Res[0].ToString();
+                        //}
+                        //else
+                        //{
+                        //    ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        //}
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void Dispose() 
         { 
         }

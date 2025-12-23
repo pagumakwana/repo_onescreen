@@ -185,5 +185,20 @@ namespace onescreen_api.Controllers.Configuration
                 return objConfiguration_BAL.getportalconfig(flag, config_id, config_name, search, start_count, end_count);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objportalconfigModel"></param>
+        /// <returns></returns>
+        [Route("getportalconfig")]
+        [HttpPost]
+        public string manageportalconfig(portalconfigModel objportalconfigModel)
+        {
+            using (Configuration_BAL objConfiguration_BAL = new Configuration_BAL(_httpContextAccessor))
+            {
+                return objConfiguration_BAL.manageportalconfig(objportalconfigModel);
+            }
+        }
     }
 }

@@ -89,7 +89,14 @@ namespace onescreenBAL.Configuration
         {
             using (Configuration_DAL _objConfiguration_DAL = new Configuration_DAL(_httpContextAccessor))
             {
-                return _objConfiguration_DAL.getportalconfig(flag, config_id, config_name, search,start_count, end_count);
+                return _objConfiguration_DAL.getportalconfig(flag, config_id, config_name, search, start_count, end_count);
+            }
+        }
+        public string manageportalconfig(portalconfigModel objportalconfigModel)
+        {
+            using (Configuration_DAL _objConfiguration_DAL = new Configuration_DAL(_httpContextAccessor))
+            {
+                return _objConfiguration_DAL.manageportalconfig(objportalconfigModel);
             }
         }
         public void Dispose() 
