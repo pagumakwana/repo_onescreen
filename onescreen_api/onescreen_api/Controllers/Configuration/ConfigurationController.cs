@@ -191,7 +191,7 @@ namespace onescreen_api.Controllers.Configuration
         /// </summary>
         /// <param name="objportalconfigModel"></param>
         /// <returns></returns>
-        [Route("getportalconfig")]
+        [Route("manageportalconfig")]
         [HttpPost]
         public string manageportalconfig(portalconfigModel objportalconfigModel)
         {
