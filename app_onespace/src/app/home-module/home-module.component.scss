@@ -50,7 +50,7 @@
     width: 31%;
     background: rgb(22 34 51 / 8%);
     position: relative;
-    margin-top: 110px;
+    margin-top: 130px;
     border-radius: 25px;
     padding: 87px 38px 23px 38px;
     text-align: center;
@@ -208,7 +208,13 @@
     line-height: 26px;
     margin-bottom: 8px;
 }
-
+.tablet-step {
+    display: none;
+}
+.desktop-step {
+    justify-content: center;
+    gap: 30px;
+}
 // Responsive CSS
 @media only screen and (min-width: 1201px) {
     .categories {
@@ -323,6 +329,12 @@
     }
     .testimonial_designation {
         font-size: 13px;
+    }
+    .tablet-step {
+        display: block;
+    }
+    .desktop-step {
+        display: none;
     }
 }
 

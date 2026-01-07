@@ -44,7 +44,7 @@ export class TypemastermoduleComponent {
   _typeMaster: typeMaster = {};
 
   tableConfig: dataTableConfig = {
-    tableTitle: "",
+    tableTitle: "Manage Types",
     tableData: [],
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },

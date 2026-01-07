@@ -30,12 +30,21 @@
                                     </webd-multiselect>
                                     <div *ngIf="fgoptionvalue.controls['lstoptiontype'].touched && fgoptionvalue.controls['lstoptiontype'].invalid"
                                         class="text-danger">
-                                        <ng-container
-                                            *ngIf="fgoptionvalue.controls.lstoptiontype.errors?.['required']">
+                                        <ng-container *ngIf="fgoptionvalue.controls.lstoptiontype.errors?.['required']">
                                             Option Type is required.
                                         </ng-container>
                                     </div>
                                 </div>
+                                <!-- <div class="col-lg-4 mb-3">
+                                    <label class="form-label">Parent Option Type Value</label>
+                                    <webd-multiselect [data]="OptionTypeValue" class="col-sm-3 col-form-label"
+                                        textField='title' valueField='option_type_id'
+                                        [formControl]="fgoptionvalue?.controls?.lstoptiontypevalue"
+                                        placeholder="Select option type" [config]="_configTypeValue"
+                                        (onSelection)="onItemSelect($event)">
+                                    </webd-multiselect>
+                                    <label class="text-danger">* Only select for Reptation.</label>
+                                </div> -->
                             </div>
 
                             <div class="row mb-6">
@@ -53,12 +62,13 @@
                                     <span class="new-control-indicator"></span>
                                 </div>
                             </div>
-                            
-                            <a type="submit" class="btn btn-outline-secondary mb-4" [routerLink]="['/app/managevalues']">Back</a>
-                                &nbsp;
+
+                            <a type="submit" class="btn btn-outline-secondary mb-4"
+                                [routerLink]="['/app/managevalues']">Back</a>
+                            &nbsp;
                             <button type="submit" class="btn btn-primary mb-4"
                                 (click)="setoptionValue(true)">Submit</button>
-                            
+
                             <swal #successSwal [swalOptions]="swalOptions" title="Save successfully!" text=""
                                 icon="success" [showConfirmButton]="false">
                             </swal>

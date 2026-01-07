@@ -4694,8 +4694,8 @@ h2 {
 [data-pc-theme=dark] .table[class*=bg-] > :not(caption) > * > * {
   color: #fff;
 }
-[data-pc-theme=dark] .datatable-table::not([class*="bg-"]) > :not(caption) > * > *,
-[data-pc-theme=dark] .table::not([class*="bg-"]) > :not(caption) > * > * {
+[data-pc-theme=dark] .datatable-table:not([class*="bg-"]) > :not(caption) > * > *,
+[data-pc-theme=dark] .table:not([class*="bg-"]) > :not(caption) > * > * {
   background-color: transparent;
   color: var(--bs-body-color);
 }

@@ -56,7 +56,7 @@ export interface userModel {
     lstproject?: any,
     lstauthority?: any,
     lstvendor?: any,
-    lstproduct?:any,
+    lstproduct?: any,
     lstcategory?: any,
     user_id?: number,
     client_id?: number,
@@ -151,6 +151,8 @@ export interface categoryMaster {
     project_id?: number,
     user_id?: number,
     createdname?: string,
+    thumbnail?: any,
+    route_file?: any,
     filemanager?: Array<{
         ref_id: number,
         file_id: number,
@@ -1972,6 +1974,7 @@ export interface productMaster {
     lstintervalattribute?: any,
     lsttimeattribute?: any,
     lstuserproductcommission?: any,
+    lst_latest_attr?: any,
     lstbrand?: any,
     thumbnail?: any,
     client_id?: number,
@@ -2027,6 +2030,7 @@ export interface productoptionvalue {
     option_type_id?: any,
     title?: any,
     lstoptiontype?: any,
+    lstoptiontypevalue?: any,
     isactive?: any,
     client_id?: number,
     project_id?: number,
@@ -2098,6 +2102,10 @@ export interface orderDetails {
     payment_status?: any,
     lst_orderdetail?: any,
     lst_orderproduct?: any,
+    sales_person_name?: any,
+    sales_person_mobile?: any,
+    referal_person_name?: any,
+    referal_person_mobile?: any,
     isdisable?: any,
     isactive?: any,
     client_id?: number,
@@ -2126,6 +2134,7 @@ export interface usercartMaster {
     user_id?: any,
     coupon_id?: number,
     coupon_code?: string,
+    batch_id?: string,
     cart_total?: any,
     cart_subtotal?: any,
     cart_discount?: any,
@@ -2142,6 +2151,7 @@ export interface usercartmappingModel {
     cart_master_id?: any,
     user_id?: any,
     fullname?: any,
+    ismonthly?: any,
     product_id?: any,
     product_name?: any,
     optionvalues?: any,
@@ -2217,7 +2227,7 @@ export interface media_status {
     media_comments?: any,
     createdby?: number,
     createdname?: string,
-    thumbnail?:string,
+    thumbnail?: string,
     filemanager?: Array<{
         ref_id?: number,
         file_id?: number,
@@ -2252,7 +2262,7 @@ export interface media_upload {
     createdname?: string
 }
 
-export interface removeusercartModel{
+export interface removeusercartModel {
     user_cart_mapping_id?: any,
     cart_master_id?: any,
     user_id?: any,
@@ -2315,4 +2325,34 @@ export interface wallet_master {
     wallet_master_id?: any,
     user_id?: any,
     balance_amount?: any
+}
+
+export interface userorderproductModel {
+    order_product_map_id?: any,
+    order_id?: any,
+    cart_master_id?: any,
+    product_id?: any,
+    timeslot_category_id?: any,
+    timeslot_category?: any,
+    timeslot_price?: any,
+    repetition_category_id?: any,
+    repetition_category?: any,
+    repetition_price?: any,
+    interval_category_id?: any,
+    interval_category?: any,
+    interval_price?: any,
+    from_date?: any,
+    to_date?: any,
+    quantity?: any,
+    base_amount?: any,
+    attribute_amount?: any,
+    total_amount?: any,
+}
+export interface datetimedetails {
+    date_id?: any,
+    flag?: any,
+    prime_date?: any,
+    date_price?: any,
+    createdname?: any,
+    user_id?: any
 }

@@ -121,6 +121,7 @@ namespace onescreenDAL.UserManagement
                               mobilenumber = Row.Field<string>("mobilenumber"),
                               password = Row.Field<string>("password"),
                               address = Row.Field<string>("address"),
+                              batch_id = Row.Field<Guid?>("batch_id"),
                               profilepicture = Row.Field<string>("profilepicture"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),

@@ -27,7 +27,7 @@ namespace onescreenDAL.BannerManagement
             project_id = Convert.ToInt32(_httpContextAccessor.HttpContext.Request.Headers["project_id"].ToString());
         }
 
-        public responseModel getbanner(string flag, Int64 banner_id, Int64 category_id = 0, string category = "", Int64 label_id = 0, string label = "", string search = "null", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getbanner(string flag, Int64 banner_id, string category = "", string search = "null", Int64 start_count = 0, Int64 end_count = 0)
         {
             try
             {
@@ -37,13 +37,7 @@ namespace onescreenDAL.BannerManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@banner_id", banner_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@category_id", category_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@category", category, DbType.String);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@label_id", label_id, DbType.Int64);
-                ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@label", label, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@search", search, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);

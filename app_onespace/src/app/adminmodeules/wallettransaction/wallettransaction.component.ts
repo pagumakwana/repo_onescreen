@@ -102,7 +102,9 @@ export class WallettransactionComponent {
   }
 
   tableConfig: dataTableConfig = {
+    tableTitle:'Wallet Transactions',
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "previous_balance", title: "Previous Balance", type: "text" },
@@ -129,6 +131,7 @@ export class WallettransactionComponent {
   }
   wallettableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "Fullname", title: "Fullname", type: "text" },

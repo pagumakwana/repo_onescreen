@@ -49,11 +49,15 @@ export class OrdermoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
+    tableTitle:'Manage Orders',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "order_number", title: "Order#", type: "link"},
-      { identifer: "payment_type", title: "Payment Type", type: "text" },
+      // { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
+      { identifer: "sales_person_details", title: "Sales Person Details", type: "text" },
+      { identifer: "referal_person_details", title: "Referal Person Details", type: "text" },
       { identifer: "order_total", title: "Total Amount", type: "text" },
       { identifer: "order_subtotal", title: "SubTotal Amount", type: "text" },
       { identifer: "order_discount", title: "Discount Amount", type: "text" },

@@ -52,7 +52,22 @@ export class AddmodifyvaluesComponent  implements OnInit{
   OptionType: any = [];
   private isvalueModify: boolean = false;
 
+  OptionTypeValue:any=[]
+  op_value_id: any;
+  op_type_id: any;
+
+
   public _configType: IDropdownSettings = {
+    singleSelection: true,
+    idField: 'option_type_id',
+    textField: 'title',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+
+  public _configTypeValue: IDropdownSettings = {
     singleSelection: true,
     idField: 'option_type_id',
     textField: 'title',
@@ -65,6 +80,7 @@ export class AddmodifyvaluesComponent  implements OnInit{
   ngOnInit(): void {
     this.initForm();
     this.option_value_id = this._activatedRouter.snapshot.paramMap.get('option_value_id');
+    this.gettype();
     this.gettype();
     if (this.option_value_id != '0') {
       this.getoptionValue(this.option_value_id);
@@ -81,6 +97,7 @@ export class AddmodifyvaluesComponent  implements OnInit{
       display_order: [''],
       isactive: [true],
       lstoptiontype: ['', [Validators.required]],
+      lstoptiontypevalue: [''],
     })
   }
 
@@ -93,6 +110,7 @@ export class AddmodifyvaluesComponent  implements OnInit{
         this.fgoptionvalue.controls['option_value'].setValue(this._optionValue.option_value);
         this.fgoptionvalue.controls['display_order'].setValue(this._optionValue.display_order);
         this.fgoptionvalue.controls['lstoptiontype'].setValue(this._optionValue.lstoptiontype);
+        this.fgoptionvalue.controls['lstoptiontypevalue'].setValue(this._optionValue.lstoptiontypevalue);
         this.fgoptionvalue.controls['isactive'].setValue(this._optionValue.isactive);
         resolve(true)
       }, error => {
@@ -162,6 +180,19 @@ export class AddmodifyvaluesComponent  implements OnInit{
       });
     });
   }
+
+  // getoptionvalue() {
+  //   return new Promise((resolve, reject) => {
+  //     this._webDService.productoptionvalues().subscribe((resOptionType: any) => {
+  //       this.OptionType = [];
+  //       this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
+  //       resolve(this.OptionType)
+  //     }, error => {
+  //       resolve(false);
+  //     });
+  //   });
+  // }
+
   onItemSelect($event: any) {
     console.log("$event[0]",$event[0]);
     if ($event && $event != null && $event.length > 0) {

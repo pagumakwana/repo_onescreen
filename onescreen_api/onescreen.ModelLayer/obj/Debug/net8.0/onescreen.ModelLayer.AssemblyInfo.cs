@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("onescreen.ModelLayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2da53c7e5c744d07ccab656b642fb79e1de9202")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c62acc1e1d3c2f0fbc2a6441ba16755389b8498d")]
 [assembly: System.Reflection.AssemblyProductAttribute("onescreen.ModelLayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("onescreen.ModelLayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,14 @@
+{
+    "apiBaseURL": "https://api.onescreen.in/api",
+    "apiBaseURLUAT": "https://api.onescreen.in/api",
+    "apiBaseURL0": "https://localhost:7278/api",
+    "apiHubURL": "https://api.onescreen.in/apnaHUB",
+    "cdnURL": "https://api.onescreen.in",
+    "cdnAPPURL": "https://uat.apnasociety.com",
+    "ipifyUrl": "https://api.ipify.org/?format=json",
+    "client_id": "1",
+    "clientname": "Webdroids",
+    "project_id": "1",
+    "projectname": "Webdroids",
+    "maintenancemode": "false"
+}

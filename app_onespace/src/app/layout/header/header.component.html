@@ -37,7 +37,7 @@
             <span class="pc-mtext">Contact Us</span>
           </a>
         </li>
-        <li class="pc-item" routerLinkActive="active">
+        <!-- <li class="pc-item" routerLinkActive="active">
 
           <a routerLink="/faqs" class="pc-link">
             <span class="pc-micon">
@@ -45,13 +45,21 @@
             </span>
             <span class="pc-mtext">FAQs</span>
           </a>
-        </li>
+        </li> -->
         <li class="pc-item" routerLinkActive="active">
           <a class="pc-link" routerLink="/product" style="cursor: pointer;">
             <span class="pc-micon">
               <i class="ph-duotone ph-monitor"></i>
             </span>
             <span class="pc-mtext">Product</span>
+          </a>
+        </li>
+        <li class="pc-item" routerLinkActive="active">
+          <a class="pc-link" routerLink="/pricing" style="cursor: pointer;">
+            <span class="pc-micon">
+              <i class="ph-duotone ph-monitor"></i>
+            </span>
+            <span class="pc-mtext">Pricing</span>
           </a>
         </li>
         <!-- <li class="pc-item">
@@ -64,13 +72,13 @@
           </a>
         </li> -->
       </ul>
-      <div class="card nav-action-card bg-brand-color-4">
+      <!-- <div class="card nav-action-card bg-brand-color-4">
         <div class="card-body" style="background-image: url('../assets/images/layout/nav-card-bg.svg')">
           <h5 class="text-dark">Help Center</h5>
           <p class="text-dark text-opacity-75">Please contact us for more questions.</p>
           <a href="https://phoenixcoded.support-hub.io/" class="btn btn-primary" target="_blank">Go to help Center</a>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="card pc-user-card">
       <div class="card-body">
@@ -84,8 +92,8 @@
                 data-bs-offset="0,20">
                 <div class="d-flex align-items-center">
                   <div class="flex-grow-1 me-2">
-                    <h6 class="mb-0">Jonh Smith</h6>
-                    <small>Administrator</small>
+                    <h6 class="mb-0">{{_fullname}}</h6>
+                    <!-- <small>Administrator</small> -->
                   </div>
                   <div class="flex-shrink-0">
                     <div class="btn btn-icon btn-link-secondary avtar">
@@ -97,7 +105,7 @@
               <div class="dropdown-menu">
                 <ul>
                   <li>
-                    <a class="pc-user-links">
+                    <a class="pc-user-links" routerLink="/app/profile">
                       <i class="ph-duotone ph-user"></i>
                       <span>My Account</span>
                     </a>

@@ -26,6 +26,7 @@ export enum enAppSession {
     portal_config,
     address,
     lstauthority,
-    lstcontrol
+    lstcontrol,
+    batch_id
     // userData,
 }

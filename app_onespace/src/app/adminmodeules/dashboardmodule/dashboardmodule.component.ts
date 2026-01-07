@@ -28,11 +28,15 @@ export class DashboardmoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
+    tableTitle:'Recent Orders',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "order_number", title: "Order#", type: "text" },
       { identifer: "payment_type", title: "Payment Type", type: "text" },
       { identifer: "payment_order_id", title: "Payment OrderId", type: "text" },
+      { identifer: "sales_person_details", title: "Sales Person Details", type: "text" },
+      { identifer: "referal_person_details", title: "Referal Person Details", type: "text" },
       { identifer: "payment_response", title: "Response", type: "text" },
       //  { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],],
     ],

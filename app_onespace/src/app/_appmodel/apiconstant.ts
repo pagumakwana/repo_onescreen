@@ -290,6 +290,9 @@ export class ApiConstant {
         wallet_withdrawal_req: "product/wallet_withdrawal_req",
         getwalletmaster: "product/getwalletmaster",
         getinvoicedetails: "product/getinvoicedetails",
-        update_to_cart: "product/update_to_cart"
+        update_to_cart: "product/update_to_cart",
+        getorderproduct:"product/getorderproduct",
+        primedatdetails:"product/primedatdetails",
+        getprimedate:"product/getprimedate"
     }
 }

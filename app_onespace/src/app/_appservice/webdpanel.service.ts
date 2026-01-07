@@ -3,6 +3,7 @@ import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
 import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable(
     { providedIn: 'root' }
@@ -598,15 +599,15 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.manageproductoptions}`, _productOption);
     }
 
-    public getcoupon(coupon_id = 0, coupon_code = '', start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getcoupon}?coupon_id=${coupon_id}&coupon_code=${coupon_code}&start_count=${start_count}&end_count=${end_count}`);
+    public getcoupon(flag = 'all',coupon_id = 0, coupon_code = '',user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getcoupon}?flag=${flag}&coupon_id=${coupon_id}&coupon_code=${coupon_code}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managecoupon(_couponModel: couponModel) {
         return this._base._apiService.post(`${ApiConstant.product.managecoupon}`, _couponModel);
     }
 
-    public getoptionvalue(option_type = '', product_id = 0, start_count = 0, end_count = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.getoptionvalue}?option_type=${option_type}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
+    public getoptionvalue(option_type = '', product_id = 0, parent_option_value_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getoptionvalue}?option_type=${option_type}&product_id=${product_id}&parent_option_value_id=${parent_option_value_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
 
@@ -619,7 +620,7 @@ export class WebDService {
     public add_to_cart(_usercartMaster: usercartMaster) {
         return this._base._apiService.post(`${ApiConstant.product.add_to_cart}`, _usercartMaster);
     }
-    public getusercartdetail(batch_id:any='00000000-0000-0000-0000-000000000000', user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
+    public getusercartdetail(batch_id: any = '00000000-0000-0000-0000-000000000000', user_id = 0, product_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getusercartdetail}?batch_id=${batch_id}&user_id=${user_id}&product_id=${product_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public getvendor(flag = 'all', vendor_id = 0, start_count = 0, end_count = 0) {
@@ -687,8 +688,45 @@ export class WebDService {
     public getwalletwidget(user_id = 0) {
         return this._base._apiService.get(`${ApiConstant.common.getwalletwidget}?user_id=${user_id}`);
     }
-    public update_to_cart(batch_id:any,user_id = 0) {
+    public update_to_cart(batch_id: any, user_id = 0) {
         return this._base._apiService.post(`${ApiConstant.product.update_to_cart}?batch_id=${batch_id}&user_id=${user_id}`);
     }
+    public getorderproduct(search_date: any) {
+        return this._base._apiService.get(`${ApiConstant.product.getorderproduct}?search_date=${search_date}`);
+    }
+    // sendOtp(mobileNo: string, otp: any): Observable<any> {
 
+    //     const message = `${otp} is your Onespace Verification Code for Login or to SignUp. Enjoy Making Your Dream Home Interior With Onespace`;
+
+    //    let urlmessage =  message.replace(/\u00A0/g, " ");
+    //     let params = new HttpParams()
+    //   .set("apikey", "6348eda2cf8cf")
+    //   .set("sender", "ONESPC")
+    //   .set("mobileno", mobileNo)
+    //   .set("text", urlmessage);
+
+    //     const url = `https://sms.mobileadz.in/api/push`;
+
+    //     return this._base._apiService.getOtp(url,{params});
+    // }
+
+    sendOtp(mobileNo: string,otp: any): Observable<any> {
+        // const otp = Math.floor(100000 + Math.random() * 900000);
+        const message = `${otp}%20is%20your%20Onespace%20Verification%20Code%20for%20Login%20or%20to%20SignUp.%20Enjoy%20Making%20Your%20Dream%20Home%20Interior%C2%A0With%C2%A0Onespace`;
+    
+        const url = `https://sms.mobileadz.in/api/push?apikey=6348eda2cf8cf&sender=ONESPC&mobileno=${mobileNo}&text=${message}`;
+    
+        return this._base._apiService.getOtp(url);
+    }
+
+    public primedatdetails(_objdatetimedetails: any) {
+        return this._base._apiService.post(ApiConstant.product.primedatdetails,_objdatetimedetails);
+    }
+    public getprimedate(flag: any = '', date_id: any = 0,start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getprimedate}?flag=${flag}&date_id=${date_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public remove_cart_all(_removeusercartModel: removeusercartModel) {
+        return this._base._apiService.post(`${ApiConstant.product.remove_cart}`, _removeusercartModel);
+    }
 }

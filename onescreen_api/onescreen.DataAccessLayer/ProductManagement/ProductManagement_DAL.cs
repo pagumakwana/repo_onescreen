@@ -134,7 +134,10 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    price_delta_prime = Row.Field<decimal>("price_delta_prime"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
                                 }).ToList();
                         }
                         if (ds.Tables[6].Rows.Count > 0)
@@ -144,7 +147,9 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id")
                                 }).ToList();
                         }
                         if (ds.Tables[7].Rows.Count > 0)
@@ -154,7 +159,12 @@ namespace onescreenDAL.ProductManagement
                                 {
                                     option_value_id = Row.Field<Int64>("option_value_id"),
                                     option_value = Row.Field<string>("option_value"),
-                                    price_delta = Row.Field<decimal>("price_delta")
+                                    price_delta = Row.Field<decimal>("price_delta"),
+                                    option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
+                                    product_option_adj_id = Row.Field<Int64>("product_option_adj_id"),
+                                    rep_option_value_id = Row.Field<Int64>("rep_option_value_id"),
+                                    rep_option_value = Row.Field<string>("rep_option_value"),
+                                    rep_price_delta = Row.Field<decimal>("rep_price_delta")
                                 }).ToList();
                         }
                         if (ds.Tables[8].Rows.Count > 0)
@@ -278,6 +288,16 @@ namespace onescreenDAL.ProductManagement
                                     objDBParameter = new DBParameter("@option_value", _item.option_value, DbType.String);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@price_delta", _item.price_delta, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@price_delta_prime", _item.price_delta_prime, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_option_value_id", _item.rep_option_value_id, DbType.Int64);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_option_value", _item.rep_option_value, DbType.String);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_price_delta", _item.rep_price_delta, DbType.Decimal);
+                                    ObJParameterCOl.Add(objDBParameter);
+                                    objDBParameter = new DBParameter("@rep_price_delta_prime", _item.rep_price_delta_prime, DbType.Decimal);
                                     ObJParameterCOl.Add(objDBParameter);
                                     objDBParameter = new DBParameter("@product_id", objproductModel.product_id, DbType.Int64);
                                     ObJParameterCOl.Add(objDBParameter);
@@ -580,13 +600,13 @@ namespace onescreenDAL.ProductManagement
                               isactive = Row.Field<bool>("isactive"),
                               isdeleted = Row.Field<bool>("isdeleted")
                           }).ToList();
-                    }
-                    if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
-                    {
-                        response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
-                    }
-                    response.data = lstoptiontype;
-               
+                }
+                if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstoptiontype;
+
                 return response;
             }
             catch (Exception ex)
@@ -626,7 +646,7 @@ namespace onescreenDAL.ProductManagement
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                       ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                     }
                 }
                 return ResponseMessage;
@@ -850,7 +870,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 string ResponseMessage = "success";
-                if(objproductOptionsModel.optiontype_list.Count > 0)
+                if (objproductOptionsModel.optiontype_list.Count > 0)
                 {
                     objproductOptionsModel.optiontype_list.ForEach(item =>
                     {
@@ -881,20 +901,24 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getcoupon(Int64 coupon_id, string coupon_code = "", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(string flag = "null", Int64 coupon_id=0, string coupon_code = "", Int64 user_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
             {
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-                DBParameter objDBParameter = new DBParameter("@coupon_id", coupon_id, DbType.Int64);
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", coupon_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@coupon_code", coupon_code, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -986,7 +1010,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getoptionvalue(string option_type, Int64 product_id, Int64 parent_option_value_id=0, Int64 start_count = 0, Int64 end_count = 0)
         {
             responseModel response = new responseModel();
             try
@@ -994,6 +1018,8 @@ namespace onescreenDAL.ProductManagement
 
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@option_type", option_type, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@parent_option_value_id", parent_option_value_id, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@product_id", product_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
@@ -1018,6 +1044,8 @@ namespace onescreenDAL.ProductManagement
                               option_value_id = Row.Field<Int64>("option_value_id"),
                               option_value = Row.Field<string>("option_value"),
                               price_delta = Row.Field<decimal?>("price_delta"),
+                              price_delta_prime = Row.Field<decimal?>("price_delta_prime"),
+                              option_value_parent_id = Row.Field<Int64>("option_value_parent_id")
                           }).ToList();
                 }
                 if (ds.Tables[1].Rows.Count > 0)
@@ -1079,6 +1107,8 @@ namespace onescreenDAL.ProductManagement
                               order_tax = Row.Field<Decimal>("order_tax"),
                               order_status = Row.Field<string>("order_status"),
                               payment_status = Row.Field<string>("payment_status"),
+                              sales_person_details = Row.Field<string>("sales_person_details"),
+                              referal_person_details = Row.Field<string>("referal_person_details"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -1159,6 +1189,7 @@ namespace onescreenDAL.ProductManagement
                                     item.base_amount = item.base_amount;
                                     item.total_amount = item.total_amount;
                                     item.attribute_amount = item.attribute_amount;
+                                    item.ismonthly = item.ismonthly;
                                     item.client_id = client_id;
                                     item.project_id = project_id;
                                     item.createdby = objusercartmaster.user_id;
@@ -1234,7 +1265,9 @@ namespace onescreenDAL.ProductManagement
                               cart_master_id = Row.Field<Int64>("cart_master_id"),
                               optionvalues = Row.Field<string>("optionvalues"),
                               attribute_amount = Row.Field<decimal>("attribute_amount"),
+                              ismonthly = Row.Field<bool>("ismonthly"),
                               base_amount = Row.Field<decimal>("base_amount"),
+                              total_amount = Row.Field<decimal>("total_amount"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -1288,7 +1321,7 @@ namespace onescreenDAL.ProductManagement
         }
 
         public string remove_cart(removeusercartModel objremoveusercartModel)
-            {
+        {
             try
             {
                 string ResponseMessage = "";
@@ -1324,7 +1357,7 @@ namespace onescreenDAL.ProductManagement
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
                     }
 
                 }
@@ -1517,7 +1550,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 Razorpay_OrderAttribute response = JsonConvert.DeserializeObject<Razorpay_OrderAttribute>(json);
-            return response;
+                return response;
             }
             catch (Exception)
             {
@@ -1541,7 +1574,7 @@ namespace onescreenDAL.ProductManagement
             try
             {
                 Utils.verifyPaymentSignature(attributes);
-                return new RazorpayPaymentResponse { razorpay_order_id= orderId, razorpay_payment_id= paymentId, razorpay_signature= signature, status = "success" };
+                return new RazorpayPaymentResponse { razorpay_order_id = orderId, razorpay_payment_id = paymentId, razorpay_signature = signature, status = "success" };
             }
             catch (Exception)
             {
@@ -1582,6 +1615,14 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@payment_status", objuserorderMaster.payment_status, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sales_person_name", objuserorderMaster.sales_person_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sales_person_mobile", objuserorderMaster.sales_person_mobile, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_name", objuserorderMaster.referal_person_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_mobile", objuserorderMaster.referal_person_mobile, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objuserorderMaster.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
@@ -1611,6 +1652,7 @@ namespace onescreenDAL.ProductManagement
                                     item.order_id = objuserorderMaster.order_id;
                                     item.cart_master_id = objuserorderMaster.cart_master_id;
                                     item.product_id = item.product_id;
+                                    item.ismonthly = item.ismonthly;
                                     item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
                                     item.user_id = objuserorderMaster.user_id;
                                     item.client_id = client_id;
@@ -1786,6 +1828,7 @@ namespace onescreenDAL.ProductManagement
                               time_slot_value = Row.Field<string>("time_slot_value"),
                               repetition_value = Row.Field<string>("repetition_value"),
                               interval_value = Row.Field<string>("interval_value"),
+                              route_category = Row.Field<string>("route_category"),
                               from_date = Row.Field<string>("from_date"),
                               to_date = Row.Field<string>("to_date"),
                               is_media_approved = Row.Field<long?>("is_media_approved"),
@@ -1913,7 +1956,7 @@ namespace onescreenDAL.ProductManagement
                     }
 
                     ResponseMessage = Res[0].ToString();
-                   
+
                 }
                 return ResponseMessage;
             }
@@ -2245,7 +2288,7 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
-        public string update_to_cart(Guid batch_id,Int64 user_id)
+        public string update_to_cart(Guid batch_id, Int64 user_id)
         {
             string ResponseMessage = "";
             try
@@ -2275,8 +2318,311 @@ namespace onescreenDAL.ProductManagement
 
         }
 
-        public void Dispose() 
-        { 
+        public responseModel getorderproduct(string search_date = "null")
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@search_date", search_date, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getorderproduct, ObJParameterCOl, CommandType.StoredProcedure);
+                List<userorderproductModel> lstorderproduct = new List<userorderproductModel>();
+                if (ds != null)
+                {
+
+                    lstorderproduct = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new userorderproductModel
+                          {
+                              order_product_map_id = Row.Field<Int64>("order_product_map_id"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              order_id = Row.Field<Int64>("order_id"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              product_id = Row.Field<Int64>("product_id"),
+                              timeslot_category_id = Row.Field<Int64>("time_slot_id"),
+                              timeslot_category = Row.Field<string>("time_slot_value"),
+                              timeslot_price = Row.Field<decimal>("time_slot_price"),
+                              repetition_category_id = Row.Field<Int64>("repetition_id"),
+                              repetition_category = Row.Field<string>("repetition_value"),
+                              repetition_price = Row.Field<decimal>("repetition_price"),
+                              interval_category_id = Row.Field<Int64>("interval_id"),
+                              interval_category = Row.Field<string>("interval_value"),
+                              interval_price = Row.Field<decimal>("interval_price"),
+                              from_date = Row.Field<string>("from_date"),
+                              to_date = Row.Field<string>("to_date"),
+                              quantity = Row.Field<Int64>("quantity"),
+                              base_amount = Row.Field<decimal>("base_amount"),
+                              attribute_amount = Row.Field<decimal>("attribute_amount"),
+                              total_amount = Row.Field<decimal>("total_amount"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstorderproduct;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string primedatdetails(datetimedetails _objdatetimedetails)
+        {
+            string ResponseMessage = "";
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", _objdatetimedetails.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@date_id", _objdatetimedetails.date_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@prime_date", _objdatetimedetails.prime_date, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@date_price", _objdatetimedetails.date_price, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@prime_description", _objdatetimedetails.prime_description, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _objdatetimedetails.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _objdatetimedetails.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageprimedate, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+
+        }
+
+        public responseModel getprimedate(string flag,Int64 date_id=0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@date_id", date_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getprimedate, ObJParameterCOl, CommandType.StoredProcedure);
+                List<datetimedetails> lstdatetime = new List<datetimedetails>();
+                if (ds != null)
+                {
+
+                    lstdatetime = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new datetimedetails
+                          {
+                              date_id = Row.Field<Int64>("date_id"),
+                              prime_date = Row.Field<string>("prime_date"),
+                              prime_description = Row.Field<string>("prime_description"),
+                              date_price = Row.Field<decimal>("date_price"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstdatetime;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string raise_quote(quotation_model _quotation_model)
+        {
+            string ResponseMessage = "";
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", _quotation_model.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quote_id", _quotation_model.quote_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quote_number", _quotation_model.quote_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@total_amount", _quotation_model.total_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sub_amount", _quotation_model.sub_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@discounted_amount", _quotation_model.discounted_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@discount_id", _quotation_model.discount_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@fullname", _quotation_model.fullname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@mobile_number", _quotation_model.mobile_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@email_id", _quotation_model.email_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@address", _quotation_model.address, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_id", _quotation_model.product_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_id", _quotation_model.cart_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _quotation_model.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _quotation_model.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.raise_quote, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objuserorderMaster.flag.Contains("NEWORDER") || objuserorderMaster.flag.Contains("MODIFYORDER"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objuserorderMaster.order_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objordermaster.lst_orderdetail != null && objordermaster.lst_orderdetail.Count > 0))
+                            {
+                                objordermaster.lst_orderdetail.ForEach(item =>
+                                {
+                                    item.order_id = objuserorderMaster.order_id;
+                                    item.cart_master_id = objuserorderMaster.cart_master_id;
+                                    item.product_id = item.product_id;
+                                    item.ismonthly = item.ismonthly;
+                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
+                                    item.user_id = objuserorderMaster.user_id;
+                                    item.client_id = client_id;
+                                    item.project_id = project_id;
+                                    item.createdby = objuserorderMaster.user_id;
+                                    item.createdname = objuserorderMaster.createdname;
+                                    item.isactive = true;
+                                    item.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderdetail);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+                            if ((objordermaster.lst_orderproduct != null && objordermaster.lst_orderproduct.Count > 0))
+                            {
+                                objordermaster.lst_orderproduct.ForEach(_item =>
+                                {
+                                    // Master level mappings
+                                    _item.order_id = objuserorderMaster.order_id;
+                                    _item.user_id = objuserorderMaster.user_id;
+                                    _item.client_id = client_id;
+                                    _item.project_id = project_id;
+                                    _item.createdby = objuserorderMaster.user_id;
+                                    _item.createdname = objuserorderMaster.createdname;
+                                    _item.isactive = true;
+                                    _item.isdeleted = false;
+
+                                    // Product details (coming from cart/frontend)
+                                    _item.cart_master_id = objuserorderMaster.cart_master_id;
+                                    _item.product_id = _item.product_id;
+                                    _item.timeslot_category_id = _item.timeslot_category_id;
+                                    _item.timeslot_category = _item.timeslot_category;
+                                    _item.timeslot_price = _item.timeslot_price;
+                                    _item.repetition_category_id = _item.repetition_category_id;
+                                    _item.repetition_category = _item.repetition_category;
+                                    _item.repetition_price = _item.repetition_price;
+                                    _item.interval_category_id = _item.interval_category_id;
+                                    _item.interval_category = _item.interval_category;
+                                    _item.interval_price = _item.interval_price;
+                                    _item.from_date = _item.from_date;
+                                    _item.to_date = _item.to_date;
+                                    _item.quantity = _item.quantity;
+                                    _item.base_amount = _item.base_amount;
+                                    _item.attribute_amount = _item.attribute_amount;
+                                    _item.total_amount = _item.total_amount;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderproduct);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderProductMapping", dtfilemanagercategory);
+                                DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
+                                DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl3.Add(objDBParameter3);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
+                            }
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

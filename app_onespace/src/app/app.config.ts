@@ -1,4 +1,4 @@
-import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,9 +7,14 @@ import { provideRouter, withHashLocation, withRouterConfig } from '@angular/rout
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routes';
+import { noCacheInterceptor } from './_appservice/NoCacheInterceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes, withHashLocation(),withRouterConfig({ onSameUrlNavigation: 'reload' })),importProvidersFrom (
+  providers: [ provideHttpClient(
+    withInterceptors([
+      noCacheInterceptor
+    ])
+  ),provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes,withRouterConfig({ onSameUrlNavigation: 'reload' })),importProvidersFrom (
     BrowserAnimationsModule, // required by Toastr
     BrowserModule,
     BrowserAnimationsModule,

@@ -75,6 +75,8 @@ export class ProductmoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
+    tableTitle:'Manage Products',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "100px" } },
@@ -94,6 +96,7 @@ export class ProductmoduleComponent {
 
   coupontableConfig: dataTableConfig = {
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "coupon_code", title: "Coupon Code", type: "text"},
@@ -227,7 +230,7 @@ export class ProductmoduleComponent {
     let obj = this._base._commonService.getcatalogrange(this.coupontableConfig?.isCustom?.steps, (this.coupontableConfig?.isCustom?.current ?? 0) + 1)
     let start = obj[obj.length - 1].replace(/ /g, '').split('-')[0];
     let end = obj[obj.length - 1].replace(/ /g, '').split('-')[1];
-    this._webDService.getcoupon(0,'' ,parseInt(start), parseInt(end)).subscribe((rescouponMaster: any) => {
+    this._webDService.getcoupon('all',0,'' ,0,parseInt(start), parseInt(end)).subscribe((rescouponMaster: any) => {
       this.couponMaster = rescouponMaster.data;
       this.couponMaster = Array.isArray(rescouponMaster.data) ? rescouponMaster.data : [];
       if (this.coupontableConfig?.isCustom) {

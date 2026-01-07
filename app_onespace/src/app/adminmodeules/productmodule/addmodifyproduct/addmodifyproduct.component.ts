@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -83,7 +83,8 @@ export class AddmodifyproductComponent {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
 
   public _configRouteCategory: IDropdownSettings = {
@@ -160,22 +161,23 @@ export class AddmodifyproductComponent {
       product_name: ['', [Validators.required]],
       isactive: [true],
       thumbnail: [''],
-      lstcategory: ['', [Validators.required]],
-      // lstbrand: [''],
-      base_amount:[''],
-      lsttimeattribute: [''],
-      lstrepeattribute: [''],
-      lstintervalattribute: [''],
+      lstcategory: [[], [Validators.required]],
+      lstbrand: [''],
+      base_amount: [''],
+      lsttimeattribute: [this._fbproductMaster.array([])],
+      lstrepeattribute: [this._fbproductMaster.array([])],
+      lstintervalattribute: [this._fbproductMaster.array([])],
       lsttimeattr: this._fbproductMaster.array([]),
       lstrepeattr: this._fbproductMaster.array([]),
       lstinterattr: this._fbproductMaster.array([]),
       lstuserproduct: this._fbproductMaster.array([]),
-      lstcategoryroute: ['', [Validators.required]],
-      lstpropertycategoryroute: ['', [Validators.required]],
-      lstuserproductcommission: [''],
+      lstcategoryroute: [this._fbproductMaster.array([]), [Validators.required]],
+      lstpropertycategoryroute: [this._fbproductMaster.array([]), [Validators.required]],
+      lstuserproductcommission: [this._fbproductMaster.array([])],
       textarea: this._fbproductMaster.group({
         description: [''],
-      })
+      }),
+      lst_latest_attr: this._fbproductMaster.array([])
     })
   }
   ngOnInit(): void {
@@ -187,19 +189,22 @@ export class AddmodifyproductComponent {
     this.getuser();
     this.getoptionvalues('Time Slot').then((res: any) => {
       this.TimeSlotAttr = res;
+      this.TimeSlotAttr = this.TimeSlotAttr.map((item: any) => ({
+        ...item,          // keep existing properties
+        price_delta_prime: 0.00  // add new key
+      }));
+      this.getoptionvalues('Repetition').then((res: any) => {
+        this.RepeAttr = res;
+        this.getoptionvalues('Interval').then((res: any) => {
+          this.IntervalAttr = res;
+          if (this.product_id != '0') {
+            this.getproductmaster(this.product_id);
+          } else {
+            this.addattribute(0, true, null);
+          }
+        });
+      });
     });
-    this.getoptionvalues('Repetition').then((res: any) => {
-      this.RepeAttr = res;
-    });
-    this.getoptionvalues('Interval').then((res: any) => {
-      this.IntervalAttr = res;
-    });
-    // this.getuser().then((res: any) => {
-    //   this.userMaster = res;
-    // });
-    if (this.product_id != '0') {
-      this.getproductmaster(this.product_id);
-    }
   }
 
   saveModuleFile_helper() {
@@ -254,8 +259,8 @@ export class AddmodifyproductComponent {
     return new Promise((resolve, reject) => {
       this._webDService.getproduct('Details', product_id).subscribe((resproductMaster: any) => {
         let productMaster = Array.isArray(resproductMaster.data) ? resproductMaster.data : [];
-        debugger
         this._productMaster = productMaster[0];
+        debugger
         this.isProductModify = true;
         this.fgproductmaster.controls['product_name'].setValue(this._productMaster.product_name);
         this.fgproductmaster.get('textarea.description')?.setValue(this._productMaster.product_description);
@@ -270,16 +275,91 @@ export class AddmodifyproductComponent {
         this.fgproductmaster.controls['base_amount'].setValue(this._productMaster.base_amount);
         this.fgproductmaster.controls['isactive'].setValue(this._productMaster.isactive);
         this._productMaster.filemanager = Array.isArray(this._productMaster.filemanager) ? this._productMaster.filemanager : [];
-        this._productMaster.lsttimeattribute?.filter((_res:any)=>{
+        this._productMaster.lsttimeattribute?.filter((_res: any) => {
           this.onSelectTime(_res);
         })
-        this._productMaster.lstrepeattribute?.filter((_res:any)=>{
-          this.onSelectRepe(_res);
+        debugger
+        this._productMaster.lstintervalattribute?.forEach((_resint: any, index: any) => {
+          let control: FormGroup = this._fbproductMaster.group({
+            option_value_id: [_resint ? _resint.option_value_id : 0],
+            option_value: [_resint ? _resint.option_value : ''],
+            price_delta: [_resint ? _resint.price_delta : 0.00],
+            rep_option_value_id: [_resint ? _resint.rep_option_value_id : 0],
+            rep_option_value: [_resint ? _resint.rep_option_value : ''],
+            rep_price_delta: [_resint ? _resint.rep_price_delta : 0.00],
+            repetitiondata: [[]]
+          });
+          let _rep = this.RepeAttr.filter((x: any) => x.option_value_parent_id === _resint?.option_value_id);
+          control?.controls['repetitiondata'].setValue(_rep);
+          control?.controls['repetitiondata'].updateValueAndValidity();
+
+          let _intercontrol: FormGroup = this._fbproductMaster.group({
+            product_option_adj_id: [0],
+            product_id: [0],
+            option_value_id: [_resint ? _resint.option_value_id : 0],
+            option_value: [_resint ? _resint.option_value : ''],
+            price_delta: [_resint ? _resint.price_delta : 0],
+            option_value_parent_id: [_resint ? _resint.option_value_parent_id : 0],
+          });
+          this.intervalArray.push(_intercontrol);
+
+          this._productMaster.lstrepeattribute?.filter((_resrep: any) => {
+            if (_resrep && (_resrep?.option_value_parent_id == _resint.option_value_id)) {
+              const exists = this.repetitionArray.controls.some((ctrl: AbstractControl) => {
+                return (ctrl.get('product_option_adj_id')?.value === (_resrep?.product_option_adj_id && ctrl.get('option_value_id')?.value === (_resrep?.option_value_id)) ?? 0);
+              });
+
+              if (!exists) {
+                let _repecontrol: FormGroup = this._fbproductMaster.group({
+                  product_option_adj_id: [_resrep ? _resrep.product_option_adj_id : 0],
+                  product_id: [0],
+                  option_value_id: [_resrep ? _resrep.option_value_id : 0],
+                  option_value: [_resrep ? _resrep.option_value : ''],
+                  price_delta: [_resrep ? _resrep.price_delta : 0],
+                  option_value_parent_id: [_resrep ? _resrep.option_value_parent_id : 0],
+                });
+                this.repetitionArray.push(_repecontrol);
+                // control?.controls['repetition_id'].setValue(_resrep?.option_value_id);
+                // control?.controls['repetition_id'].updateValueAndValidity();
+                // control?.controls['repetition_value'].setValue(_resrep?.option_value);
+                // control?.controls['repetition_value'].updateValueAndValidity();
+                // control?.controls['repetition_price'].setValue(_resrep?.price_delta);
+                // control?.controls['repetition_price'].updateValueAndValidity();
+              }
+            }
+          });
+          this.latestArray.insert(index, control);
+          const row = this.latestArray.at(index) as FormGroup;
+          row.get('interval_price')?.valueChanges.subscribe(value => {
+            const intervalId = row.get('interval_id')?.value;
+            const index = this.intervalArray.controls.findIndex((group: AbstractControl) =>
+              String((group as FormGroup).get('option_value_id')?.value) === String(intervalId)
+            );
+            if (index !== -1) {
+              this.intervalArray.at(index).get('price_delta')?.setValue(value, {
+                emitEvent: false
+              });
+            }
+          });
+
+
+          row.get('repetition_price')?.valueChanges.subscribe(value => {
+            const repetitionId = row.get('repetition_id')?.value;
+            const index = this.repetitionArray.controls.findIndex((group: AbstractControl) =>
+              String((group as FormGroup).get('option_value_id')?.value) === String(repetitionId)
+            );
+            if (index !== -1) {
+              this.repetitionArray.at(index).get('price_delta')?.setValue(value, {
+                emitEvent: false
+              });
+            }
+
+          });
+          // this.onSelectInterval(_resint, index, true);
         })
-        this._productMaster.lstintervalattribute?.filter((_res:any)=>{
-          this.onSelectInterval(_res);
-        })
-        this._productMaster.lstuserproductcommission?.filter((_res:any)=>{
+
+
+        this._productMaster.lstuserproductcommission?.filter((_res: any) => {
           this.onSelectUser(_res);
         })
         this.initFilesUrl(this._productMaster.filemanager)
@@ -309,11 +389,14 @@ export class AddmodifyproductComponent {
           this._productMaster.lstintervalattribute = this.fgproductmaster.value.lstinterattr;
           this._productMaster.base_amount = this.fgproductmaster.value.base_amount;
           this._productMaster.lstuserproductcommission = this.fgproductmaster.value.lstuserproduct;
-          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lstintervalattribute)
+          this._productMaster.lst_latest_attr = this.fgproductmaster.value.lst_latest_attr;
+          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lst_latest_attr)
           // this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
           this._productMaster.project_id = parseInt(project_id);
+
+          console.log("this._productMaster", this._productMaster)
           // this.addmodifyproductmaster(this.flagType);
           this.saveModuleFile_helper();
         });
@@ -322,7 +405,7 @@ export class AddmodifyproductComponent {
       setTimeout(() => {
         this.isLoading$.next(false);
         this._cdr.detectChanges();
-      }, 1500);
+      }, 500);
     }
   }
 
@@ -460,6 +543,9 @@ export class AddmodifyproductComponent {
     return arrayReturn
   }
 
+  get latestArray(): FormArray {
+    return this.fgproductmaster.get("lst_latest_attr") as FormArray
+  }
 
   get timeArray(): FormArray {
     return this.fgproductmaster.get("lsttimeattr") as FormArray
@@ -479,44 +565,56 @@ export class AddmodifyproductComponent {
 
   onSelectTime($event: any) {
     if ($event && $event != null && $event != '') {
-      debugger
-      const _repre = this.TimeSlotAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
-      let control: FormGroup = this._fbproductMaster.group({
-        product_option_adj_id: [0],
-        product_id: [0],
-        option_value_id: [$event ? $event.option_value_id : 0],
-        option_value: [$event ? $event.option_value : ''],
-        price_delta: [$event ? $event?.price_delta :0],
-      });
-      this.timeArray.push(control);
-    }
-  }
-  onDeSelectTime($event: any) {
-    if ($event && $event != null && $event != '') {
-      console.log("Deselect : ", $event);
-      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
-        return ctrl.value.option_value_id === $event?.option_value_id;
-      });
-      this.timeArray.removeAt(_indexTime);
-    }
-  }
-  onSelectRepe($event: any) {
-    if ($event && $event != null && $event != '') {
-      debugger
-      const _repre = this.RepeAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
+      // const _repre = this.TimeSlotAttr.filter((res: any) => res.option_value_id == $event.option_value_id)
       let control: FormGroup = this._fbproductMaster.group({
         product_option_adj_id: [0],
         product_id: [0],
         option_value_id: [$event ? $event.option_value_id : 0],
         option_value: [$event ? $event.option_value : ''],
         price_delta: [$event ? $event?.price_delta : 0],
+        price_delta_prime: [$event ? $event?.price_delta_prime : 0],
+        option_value_parent_id: [$event ? $event?.option_value_parent_id : 0],
+      });
+      this.timeArray.push(control);
+    }
+  }
+
+
+  onSelectAll(items: any) {
+    console.log("Select All Fired:", items);
+  }
+
+  onDeSelectAll(items: any) {
+    console.log("Unselect All Fired");
+  }
+
+  onDeSelectTime($event: any) {
+    if ($event && $event != null && $event != '') {
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.option_value_id === $event?.option_value_id;
+      });
+      this.timeArray.removeAt(_indexTime);
+    }
+  }
+  onSelectRepe($event: any, _index: any = 0, ismodify: boolean = false) {
+    if ($event && $event != null && $event != '') {
+      debugger
+      const _repre = this.RepeAttr.filter((res: any) => res.option_value_id == (ismodify ? $event?.option_value_id : $event.target.value))
+      let control: FormGroup = this._fbproductMaster.group({
+        product_option_adj_id: [0],
+        product_id: [0],
+        option_value_id: [_repre ? _repre[0]?.option_value_id : 0],
+        option_value: [_repre ? _repre[0]?.option_value : ''],
+        price_delta: [_repre ? _repre[0]?.price_delta : 0],
+        price_delta_prime: [_repre ? _repre[0]?.price_delta_prime : 0],
+        option_value_parent_id: [_repre ? _repre[0]?.option_value_parent_id : 0],
       });
       this.repetitionArray.push(control);
+      this._cdr.detectChanges();
     }
   }
   onDeSelectRepe($event: any) {
     if ($event && $event != null && $event != '') {
-      console.log("Deselect : ", $event);
       const _indexTime = this.repetitionArray.controls.findIndex((ctrl: any) => {
         return ctrl.value.option_value_id === $event?.option_value_id;
       });
@@ -524,18 +622,30 @@ export class AddmodifyproductComponent {
     }
   }
 
-  onSelectInterval($event: any) {
+  onSelectInterval($event: any, _index: any = 0, ismodify: boolean = false) {
     if ($event && $event != null && $event != '') {
-      debugger
-      const _intrvl = this.IntervalAttr.filter((res:any)=> res.option_value_id == $event.option_value_id)
-      let control: FormGroup = this._fbproductMaster.group({
-        product_option_adj_id: [0],
-        product_id: [0],
-        option_value_id: [$event ? $event.option_value_id : 0],
-        option_value: [$event ? $event.option_value : ''],
-        price_delta: [$event ? $event?.price_delta : 0],
-      });
-      this.intervalArray.push(control);
+      const _intrvl = this.IntervalAttr.filter((res: any) => res.option_value_id == (ismodify ? $event?.option_value_id : $event.target.value));
+      if (_intrvl.length > 0) {
+        let control: FormGroup = this._fbproductMaster.group({
+          product_option_adj_id: [0],
+          product_id: [0],
+          option_value_id: [_intrvl ? _intrvl[0]?.option_value_id : 0],
+          option_value: [_intrvl ? _intrvl[0]?.option_value : ''],
+          price_delta: [_intrvl ? _intrvl[0]?.price_delta : 0],
+          price_delta_prime: [_intrvl ? _intrvl[0]?.price_delta_prime : 0],
+          option_value_parent_id: [_intrvl ? _intrvl[0]?.option_value_parent_id : 0],
+        });
+        this.intervalArray.push(control);
+        let obj = this.latestArray.at(_index) as FormGroup;
+        let _rep = this.RepeAttr.filter((x: any) => x.option_value_parent_id === _intrvl[0]?.option_value_id);
+        obj.controls['option_value_id'].setValue(_intrvl ? _intrvl[0]?.option_value_id : 0);
+        obj.controls['option_value_id'].updateValueAndValidity();
+        obj.controls['option_value'].setValue(_intrvl ? _intrvl[0]?.option_value : '');
+        obj.controls['option_value'].updateValueAndValidity();
+        obj.controls['repetitiondata'].setValue(_rep);
+        obj.controls['repetitiondata'].updateValueAndValidity();
+        this._cdr.detectChanges();
+      }
     }
   }
   onDeSelectInterval($event: any) {
@@ -550,8 +660,8 @@ export class AddmodifyproductComponent {
 
   onSelectUser($event: any) {
     if ($event && $event != null && $event != '') {
-      debugger
-      const _user = this.userMaster.filter((res:any)=> res.user_id == $event.user_id)
+
+      const _user = this.userMaster.filter((res: any) => res.user_id == $event.user_id)
       let control: FormGroup = this._fbproductMaster.group({
         user_product_comm_id: [0],
         product_id: [0],
@@ -581,11 +691,64 @@ export class AddmodifyproductComponent {
       this._webDService.getoptionvalue(flag).subscribe((rescategoryMaster: any) => {
         let _optionvalues = [];
         _optionvalues = Array.isArray(rescategoryMaster.data) ? rescategoryMaster.data : [];
-
         resolve(_optionvalues)
       }, error => {
         resolve(false)
       })
     });
+  }
+
+  addattribute(index: number, isAdd: boolean, item: any = null) {
+
+    if (isAdd) {
+      let control: FormGroup = this._fbproductMaster.group({
+        option_value_id: [''],
+        option_value: [''],
+        price_delta: [0.00],
+        rep_option_value_id: [''],
+        rep_option_value: [''],
+        rep_price_delta: [0.00],
+        repetitiondata: [[]]
+      });
+      this.latestArray.insert(index, control);
+
+      const row = this.latestArray.at(index) as FormGroup;
+
+      row.get('price_delta')?.valueChanges.subscribe(value => {
+        const optionvalueid = row.get('option_value_id')?.value;
+        const index = this.intervalArray.controls.findIndex((group: AbstractControl) =>
+          String((group as FormGroup).get('option_value_id')?.value) === String(optionvalueid)
+        );
+        if (index !== -1) {
+          this.intervalArray.at(index).get('price_delta')?.setValue(value, {
+            emitEvent: false
+          });
+          let _obj = this.intervalArray.at(index).get('option_value')
+          row.controls['option_value'].setValue(_obj?.value);
+          row.controls['option_value'].updateValueAndValidity();
+        }
+      });
+
+      row.get('rep_price_delta')?.valueChanges.subscribe(value => {
+        const repoptionvalueid = row.get('rep_option_value_id')?.value;
+        const index = this.repetitionArray.controls.findIndex((group: AbstractControl) =>
+          String((group as FormGroup).get('option_value_id')?.value) === String(repoptionvalueid)
+        );
+        if (index !== -1) {
+          this.repetitionArray.at(index).get('price_delta')?.setValue(value, {
+            emitEvent: false
+          });
+          let _obj = this.repetitionArray.at(index).get('option_value')
+          row.controls['rep_option_value'].setValue(_obj?.value);
+          row.controls['rep_option_value'].updateValueAndValidity();
+        }
+      });
+
+    } else {
+      this.latestArray.removeAt(index);
+      this.repetitionArray.removeAt(index);
+      this.intervalArray.removeAt(index);
+    }
+    this._cdr.detectChanges();
   }
 }

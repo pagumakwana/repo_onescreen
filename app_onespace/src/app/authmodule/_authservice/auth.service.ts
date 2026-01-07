@@ -75,7 +75,7 @@ export class AuthService implements OnDestroy {
     this._base._encryptedStorage.set(enAppSession.haslogin,false);
     localStorage.setItem('isLoginUser','false');
     this._base._commonService.isLoginUserSubject.next(false);
-    this.currentUserSubject.next(null)
+    this.currentUserSubject.next(null);
   }
 
   getUserByToken(): Observable<userModel | undefined> {

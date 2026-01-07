@@ -3,8 +3,45 @@
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header">
-                    <h5>start selecting your screen params!</h5>
+                <!-- <div class="card-header d-flex justify-content-between align-items-end">
+                    <h5>Start selecting your screen params!</h5>
+                    <ng-container>
+                        <a class="btn btn-sm btn-primary">
+                            View Route Details
+                        </a>
+                    </ng-container>
+                    &nbsp;
+                    <ng-container *ngIf="this.primedateMaster.length > 0">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#slotInfoModal">
+                            Prime Date Details
+                        </button>
+                    </ng-container>
+                </div> -->
+                <div class="card-header d-flex align-items-center">
+                    <h5 class="mb-0">Start selecting your screen params!</h5>
+
+                    <!-- RIGHT SIDE BUTTONS -->
+                    <div class="ms-auto d-flex gap-2">
+                        <!-- <a class="btn btn-sm btn-primary" (click)="openRoutePdf()">
+                            View Route Details  data-bs-target="#routepdfviwer"
+                        </a> -->
+                        <ng-container *ngIf="view_route_link!='' && view_route_link!=null">
+                            <button type="button" class="btn btn-sm btn-primary" (click)="openpdfview()"
+                                >
+                                View Route Details
+                            </button>
+                            <!-- <a class="btn btn-sm btn-primary"
+                                [href]="(this._base._commonService.cdnURL + view_route_link)" target="_blank"
+                                rel="noopener noreferrer">
+                                View Route Details
+                            </a> -->
+                        </ng-container>
+                        <button *ngIf="primedateMaster.length > 0" type="button" class="btn btn-sm btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#slotInfoModal">
+                            Prime Date Details
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div id="basicwizard" class="form-wizard row justify-content-center">
@@ -60,7 +97,8 @@
                                     type is required.</p>
                                 <div class="product_lists">
                                     <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
-                                        <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                        <div class="products"
+                                            [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
                                             (click)="onSelecttype(_obj,_ind)">
                                             <div class="product_img">
                                                 <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
@@ -70,6 +108,7 @@
                                             </div>
                                         </div>
                                     </ng-container>
+
                                 </div>
                             </div>
                             <div class="tab-pane" id="vehiclesection" [ngClass]="{'show active':_wizard_index == 1}">
@@ -79,7 +118,8 @@
                                     <h3 class="section_head" style="text-align: center;">Vehicle/ Property</h3>
                                     <div class="product_lists">
                                         <ng-container *ngFor="let _obj of this.PropertyMaster; let _ind = index">
-                                            <div class="products" [ngClass]="{'selected': _obj.isChecked}"
+                                            <div class="products"
+                                                [ngClass]="{'selected': _obj.isChecked,'disabled': _obj.isfeatured}"
                                                 (click)="onSelectproperty(_obj,_ind)">
                                                 <div class="product_img">
                                                     <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
@@ -107,6 +147,8 @@
                                                 <div class="product_name">
                                                     {{_obj.category}}
                                                 </div>
+                                                <!-- <span class="text-muted" style="text-align: center;"
+                                                    [innerHTML]="_obj.description"></span> -->
                                             </div>
                                         </ng-container>
                                     </div>
@@ -118,6 +160,10 @@
                                     <p class="text-danger" *ngIf="this.screenmastervalid" style="text-align: center;">
                                         Screen/ Product is required.</p>
                                     <h3 class="section_head" style="text-align: center;">Screen/ Product</h3>
+                                    <div [hidden]="view_route_description=='' || view_route_description==null">
+                                        <span style="text-align: center;" class="category_description"
+                                            [innerHTML]="view_route_description"></span>
+                                    </div>
                                     <div class="product_lists">
                                         <ng-container *ngFor="let _obj of this.ScreenMaster; let _ind = index">
                                             <div class="products" [ngClass]="{'selected': _obj.isChecked}"
@@ -135,24 +181,246 @@
                             </div>
                             <div class="tab-pane" id="timeslotsection" [ngClass]="{'show active':_wizard_index == 4}">
                                 <ng-container *ngIf="this.TimeMaster.length>0">
-                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time Slot is required.</p>
+                                    <p class="text-danger" style="text-align: center;" *ngIf="this.timemastervalid">Time
+                                        Slot is required.</p>
                                     <!-- <h3 class="section_head" style="text-align: center;">Time Slot Selection</h3> -->
                                     <div class="product_lists">
                                         <ul class="nav nav-pills" style="gap: 5px;">
-                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index">
-                                                <a class="nav-link nav-outline" [ngClass]="{'active': _obj.isChecked}"
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':isCustom}" style="cursor:pointer"
+                                                    (click)="this.removecustom();this.isCustom=!this.isCustom;this.ismonthly=false;this.isdaily=false;">
+                                                    Custom</a></li>
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':ismonthly}" style="cursor:pointer"
+                                                    (click)="onSelectPackageEvent();this.isCustom=false;">
+                                                    Basic Monthly</a></li>
+                                            <li class="nav-item"> <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active':isdaily}" style="cursor:pointer"
+                                                    (click)="onSelectDailyPackageEvent();this.isCustom=false;">
+                                                    Basic Daily</a></li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="product_lists product_slot_list" *ngIf="isCustom">
+                                        <ul class="nav nav-pills" style="gap: 5px;">
+                                            <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
+                                                [ngClass]="{'disabled':ismonthly||isdaily}">
+                                                <a class="nav-link nav-outline"
+                                                    [ngClass]="{'active': _obj.isChecked,'disabled':_obj.isDisabled}"
                                                     style="cursor:pointer" (click)="onSelectEvent(_obj,_ind)">
-                                                    {{_obj.option_value}}</a>
+                                                    <p>{{_obj.option_value}}</p>
+                                                    <p [hidden]="!_obj.price_delta_prime > 0" class="timer_animation">
+                                                        Prime Slot</p>
+                                                </a>
+
                                             </li>
                                         </ul>
 
                                     </div>
                                 </ng-container>
+                                <div class="row" [hidden]="!this.ismonthly">
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="from_date_month" class="form-label">Start Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #from_date_month="ngbDatepicker" id="from_date_month"
+                                                    from_date_month.displayMonths="true"
+                                                    formControlName="from_date_month" placeholder="dd-mm-yyyy"
+                                                    [minDate]="minmonth" (click)="from_date_month.toggle();"
+                                                    [dayTemplate]="customfrom_monthly"
+                                                    (dateSelect)="onDateSelect($event)">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <div *ngIf="from_date_month.invalid && (from_date_month.dirty || from_date_month.touched) || from_date_alert!=''"
+                                                class="error_msg">
+                                                <ng-container *ngIf="from_date_month.errors?.['required']">
+                                                    Start Date is required.
+                                                </ng-container>
+                                                <ng-container *ngIf="from_date_month?.hasError('outOfRange')">
+                                                    Please select a date within 1 month range.
+                                                </ng-container>
+                                            </div>
+
+                                            <ng-template #customfrom_monthly let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="interval_id" class="form-label">Advertise
+                                                length
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_interval"
+                                                formControlName="bs_interval" (change)="onbsIntervalChange($event)">
+                                                <option id="interval_value_id_" value="" class="disabled">Select
+                                                    Interval</option>
+                                                <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                    id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
+                                        <div class="form-group">
+                                            <label for="screen_repetition_id" class="form-label">Advertise
+                                                Repetition
+                                                <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_repetition"
+                                                formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
+                                                <option id="repet_value_id" value="" class="disabled">
+                                                    Select
+                                                    Repetition</option>
+                                                <option
+                                                    *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
+                                                    id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" class="row" [hidden]="!this.isdaily">
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="from_date_daily" class="form-label">Start Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #from_date_daily="ngbDatepicker" id="from_date_daily"
+                                                    from_date_daily.displayMonths="true"
+                                                    formControlName="from_date_daily" placeholder="dd-mm-yyyy"
+                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                    [dayTemplate]="customfrom_daily" (click)="from_date_daily.toggle();"
+                                                    (dateSelect)="both_date_select($event,'from_date')">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <ng-template #customfrom_daily let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="to_date_daily" class="form-label">End Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #to_date_daily="ngbDatepicker" id="to_date_daily"
+                                                    to_date_daily.displayMonths="true" formControlName="to_date_daily"
+                                                    placeholder="dd-mm-yyyy" [minDate]="mintoDate" [maxDate]="maxtoDate"
+                                                    (click)="to_date_daily.toggle();" [dayTemplate]="customto_daily"
+                                                    (dateSelect)="both_date_select($event,'to_date')">
+                                                <span class="input-group-text" required>
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <ng-template #customto_daily let-date let-currentMonth="currentMonth"
+                                                let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                            'bg-danger text-white': isHighlighted(date),
+                                            'bg-primary text-white': selected
+                                          }" [class.text-muted]="
+                                            date.month === (currentMonth % 12) + 1 &&
+                                            !selected &&
+                                            !isHighlighted(date)
+                                          ">
+                                                    {{ date.day }}
+                                                </span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="interval_id" class="form-label">Advertise
+                                                length
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_interval"
+                                                formControlName="bs_interval" (change)="onbsIntervalChange($event)">
+                                                <option id="interval_value_id_" value="" class="disabled">Select
+                                                    Interval</option>
+                                                <option *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
+                                                    id="interval_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                        <div class="form-group">
+                                            <label for="screen_repetition_id" class="form-label">Advertise
+                                                Repetition
+                                                <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                            </label>
+                                            <select class="form-control" id="screen_repetition"
+                                                formControlName="bs_repetition" (change)="onbsRepetitionChange($event)">
+                                                <option id="repet_value_id" value="" class="disabled">
+                                                    Select
+                                                    Repetition</option>
+                                                <option
+                                                    *ngFor="let _item of  this.fgcategorymaster.get('bs_repetitiondata')?.value; let _ind=index"
+                                                    id="repet_value_id_{{_ind}}" [value]="_item.option_value_id">
+                                                    {{_item.option_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <br>
                                 <div class="slot-container">
                                     <ng-container formArray="lst_cart_product">
-
+                                        <!-- [ngClass]="{'disabled':this.ismonthly}" -->
                                         <div class="slot-card" [formGroup]='_objPass'
+                                            [ngClass]="{'disabled':this.ismonthly || this.isdaily}"
                                             *ngFor="let _objPass of timeArray?.controls;let i =index">
                                             <div class="card">
                                                 <div class="card-header">
@@ -160,8 +428,13 @@
                                                         <h3>Time Slot : {{_objPass.controls['timeslot_category'].value}}
                                                         </h3>
                                                         <div class="slot-top-tag">
-                                                            <p>Property: <strong>{{_objPass.controls['product_name'].value}}</strong> |</p>  
-                                                            <p>Base Price: <strong>{{_objPass.controls['base_amount'].value}}</strong></p>
+                                                            <p>Property:
+                                                                <strong>{{_objPass.controls['product_name'].value}}</strong>
+                                                                <!-- | -->
+                                                            </p>
+                                                            <!-- <p>Base Price:
+                                                                <strong>{{_objPass.controls['base_amount'].value}}</strong>
+                                                            </p> -->
                                                         </div>
 
                                                     </div>
@@ -170,67 +443,21 @@
                                                 <div class="card-body">
                                                     <div class="form-row">
                                                         <div class="form-group">
-                                                            <label for="screen_repetition_id_{{i+1}}"
-                                                                class="form-label">Screen
-                                                                Repetition : INR
-                                                                {{_objPass.controls['repetition_price'].value}}
-                                                                <i class="ph-duotone ph-info"
-                                                                    ngbPopover="This is the popover content"
+                                                            <label for="interval_id_{{i+1}}"
+                                                                class="form-label">Advertise
+                                                                length
+                                                                <!-- {{_objPass.controls['interval_price'].value}} -->
+                                                                <i class="ph-duotone ph-info" ngbPopover="Ad Duration"
                                                                     triggers="click" placement="right"
                                                                     popoverClass="custom-popover">
                                                                 </i>
-                                                                </label>
+                                                            </label>
                                                             <select class="form-control" id="screen_interval"
-                                                                (change)="onRepetitionChange($event,i)">
-                                                                <option id="repet_value_id_" value="" class="disabled">
-                                                                    Select
-                                                                    Repetition</option>
-                                                                <option
-                                                                    *ngFor="let _item of this.ScreenRepeMaster; let _ind=index"
-                                                                    id="repet_value_id_{{_ind}}"
-                                                                    [value]="_item.option_value_id">
-                                                                    {{_item.option_value}}
-                                                                </option>
-                                                            </select>
-                                                            <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
-                                                                class="error_msg">
-                                                                <ng-container
-                                                                    *ngIf="_objPass.controls.repetition_price.errors?.['required']">
-                                                                    Repetition is required.
-                                                                </ng-container>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-2   mb-2" style="display: none;">
-                                                            <label for="quantity_{{i+1}}" class="form-label">Quantity
-                                                                :</label>
-                                                            <br>
-                                                            <div class="btn-group btn-group-sm mb-2 border"
-                                                                role="group">
-                                                                <button type="button" (click)="update_qty('minus',i)"
-                                                                    class="btn btn-link-secondary"><i
-                                                                        class="ti ti-minus"></i></button>
-                                                                <input id="quantity_{{i+1}}"
-                                                                    class="wid-35 text-center border-0 m-0 form-control rounded-0 shadow-none"
-                                                                    type="text" formControlName="quantity" value="0">
-                                                                <button type="button" (click)="update_qty('add',i)"
-                                                                    class="btn btn-link-secondary"><i
-                                                                        class="ti ti-plus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="interval_id_{{i+1}}" class="form-label">Screen
-                                                                Interval : INR
-                                                                {{_objPass.controls['interval_price'].value}}
-                                                                <i class="ph-duotone ph-info"
-                                                                    ngbPopover="This is the popover content"
-                                                                    triggers="click" placement="right"
-                                                                    popoverClass="custom-popover">
-                                                                </i>
-                                                                </label>
-                                                            <select class="form-control" id="screen_interval"
-                                                                (change)="onIntervalChange($event,i)">
+                                                                (change)="onIntervalChange($event,i)"
+                                                                formControlName="selectedIntervalddl">
                                                                 <option id="interval_value_id_" value=""
-                                                                    class="disabled">Select
+                                                                    class="disabled">
+                                                                    Select
                                                                     Interval</option>
                                                                 <option
                                                                     *ngFor="let _item of this.ScreenIntervalMaster; let _ind=index"
@@ -247,21 +474,71 @@
                                                                 </ng-container>
                                                             </div>
                                                         </div>
-                                                    
+                                                        <div class="form-group">
+                                                            <label for="screen_repetition_id_{{i+1}}"
+                                                                class="form-label">Advertise
+                                                                Repetition
+                                                                <!-- {{_objPass.controls['repetition_price'].value}} -->
+                                                                <i class="ph-duotone ph-info" ngbPopover="Ad Frequency"
+                                                                    triggers="click" placement="right"
+                                                                    popoverClass="custom-popover">
+                                                                </i>
+                                                            </label>
+                                                            <select class="form-control" id="screen_repetition"
+                                                                (change)="onRepetitionChange($event,i)"
+                                                                formControlName="selectedReptitionddl">
+                                                                <option id="repet_value_id_" value="" class="disabled">
+                                                                    Select
+                                                                    Repetition</option>
+                                                                <option
+                                                                    *ngFor="let _item of  _objPass.get('repetitionarray')?.value; let _ind=index"
+                                                                    id="repet_value_id_{{_ind}}"
+                                                                    [value]="_item.option_value_id">
+                                                                    {{_item.option_value}}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="_objPass.controls.repetition_price.invalid && (_objPass.controls.repetition_price.dirty || _objPass.controls.repetition_price.touched)"
+                                                                class="error_msg">
+                                                                <ng-container
+                                                                    *ngIf="_objPass.controls.repetition_price.errors?.['required']">
+                                                                    Repetition is required.
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 mb-2" style="display: none;">
+                                                            <label for="quantity_{{i+1}}" class="form-label">Quantity
+                                                                :</label>
+                                                            <br>
+                                                            <div class="btn-group btn-group-sm mb-2 border"
+                                                                role="group">
+                                                                <button type="button" (click)="update_qty('minus',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-minus"></i></button>
+                                                                <input id="quantity_{{i+1}}"
+                                                                    class="wid-35 text-center border-0 m-0 form-control rounded-0 shadow-none"
+                                                                    type="text" formControlName="quantity" value="0">
+                                                                <button type="button" (click)="update_qty('add',i)"
+                                                                    class="btn btn-link-secondary"><i
+                                                                        class="ti ti-plus"></i></button>
+                                                            </div>
+                                                        </div>
+
+
                                                         <div class="form-group">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="This is the popover content"
-                                                                triggers="click" placement="right"
-                                                                popoverClass="custom-popover">
+                                                                ngbPopover="Ad Start date" triggers="click"
+                                                                placement="right" popoverClass="custom-popover">
                                                             </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #from_date="ngbDatepicker"
                                                                     id="from_date{{i+1}}" from_date.displayMonths="true"
                                                                     formControlName="from_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                                    [minDate]="_objPass.controls['minfromDate'].value"
+                                                                    [maxDate]="_objPass.controls['maxfromDate'].value"
                                                                     (click)="from_date.toggle();"
+                                                                    [dayTemplate]="customFromdate"
                                                                     (dateSelect)="date_select(i,'fromdate')">
                                                                 <span class="input-group-text" required>
                                                                     <i class="fa fa-calendar"></i>
@@ -277,20 +554,40 @@
                                                                     {{from_date_alert}}
                                                                 </ng-container>
                                                             </div>
+
+
+                                                            <ng-template #customFromdate let-date
+                                                                let-currentMonth="currentMonth" let-selected="selected"
+                                                                let-disabled="disabled" let-focused="focused">
+                                                                <span class="custom-day" [class.focused]="focused"
+                                                                    [ngClass]="{
+                                                                    'bg-danger text-white': isHighlighted(date),
+                                                                    'bg-primary text-white': selected
+                                                                  }" [class.text-muted]="
+                                                                    date.month === (currentMonth % 12) + 1 &&
+                                                                    !selected &&
+                                                                    !isHighlighted(date)
+                                                                  ">
+                                                                    {{ date.day }}
+                                                                </span>
+                                                            </ng-template>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
                                                                 :</label> <i class="ph-duotone ph-info"
-                                                                ngbPopover="This is the popover content"
-                                                                triggers="click" placement="right"
-                                                                popoverClass="custom-popover">
+                                                                ngbPopover="Ad End date" triggers="click"
+                                                                placement="right" popoverClass="custom-popover">
                                                             </i>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                     ngbDatepicker #to_date="ngbDatepicker"
                                                                     id="to_date{{i+1}}" to_date.displayMonths="true"
                                                                     formControlName="to_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="mintoDate" (click)="to_date.toggle();"
+                                                                    [minDate]="_objPass.controls['mintoDate'].value"
+                                                                    [maxDate]="_objPass.controls['maxtoDate'].value"
+                                                                    (click)="to_date.toggle();"
+                                                                    [dayTemplate]="customTodate"
                                                                     (dateSelect)="date_select(i,'todate')">
                                                                 <span class="input-group-text">
                                                                     <i class="fa fa-calendar"></i>
@@ -306,10 +603,27 @@
                                                                     {{to_date_alert}}
                                                                 </ng-container>
                                                             </div>
+                                                            <ng-template #customTodate let-date
+                                                                let-currentMonth="currentMonth" let-selected="selected"
+                                                                let-disabled="disabled" let-focused="focused">
+                                                                <span class="custom-day" [class.focused]="focused"
+                                                                    [ngClass]="{
+                                                                'bg-danger text-white': isHighlighted(date),
+                                                                'bg-primary text-white': selected
+                                                              }" [class.text-muted]="
+                                                                date.month === (currentMonth % 12) + 1 &&
+                                                                !selected &&
+                                                                !isHighlighted(date)
+                                                              ">
+                                                                    {{ date.day }}
+                                                                </span>
+                                                            </ng-template>
                                                         </div>
                                                     </div>
 
-                                                    <div class="total-card-bottom">Total Price: <strong>{{_objPass.controls['total_amount'].value}}</strong></div>
+                                                    <div class="total-card-bottom">Price:
+                                                        <strong>{{_objPass.controls['total_amount'].value}}</strong>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -317,6 +631,11 @@
                                     </ng-container>
                                 </div>
                             </div>
+                            <section class="about-deal-section" *ngIf="_wizard_index == 4 && totalPriceSum>0">
+                                <div class="about-contact-strip">Total Price :</div>
+                                <div class="about-contact-info">
+                                    {{this._base._commonService.formatAmount(totalPriceSum)}}</div>
+                            </section>
                             <div class="d-sm-flex wizard justify-content-between mt-3" style="text-align: center;">
                                 <div class="first">
                                     <a style="text-decoration: none;" class="btn btn-outline-primary"
@@ -326,24 +645,22 @@
                                 </div>
                                 <div class="d-sm-flex">
                                     <div class="previous me-2" [ngClass]="{'disabled':_wizard_index == 0}">
-                                        <a style="text-decoration: none;"
-                                            (click)="change_wizard_index('minus')"
+                                        <a style="text-decoration: none;" (click)="change_wizard_index('minus')"
                                             class="btn  btn-outline-primary mt-3 mt-md-0">
                                             Back To Previous
                                         </a>
                                     </div>
                                     <div class="next" [ngClass]="{'disabled':_wizard_index == 4}">
                                         <a style="text-decoration: none; color: white;"
-                                            (click)="change_wizard_index('plus')"
-                                            class="btn primary_btn mt-3 mt-md-0">
+                                            (click)="change_wizard_index('plus')" class="btn primary_btn mt-3 mt-md-0">
                                             Next Step
                                         </a>
                                     </div>
 
                                 </div>
-                                <div class="last"  [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
+                                <div class="last"
+                                    [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
                                     <a style="text-decoration: none; color: white;"
-                                       
                                         class="btn btn-secondary mt-3 mt-md-0" (click)="add_to_cart()">
                                         Add to cart
                                     </a>
@@ -403,9 +720,9 @@
                     </ng-container>
                 </div>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label class="form-label fw-bold">{{this.OTPValue}}</label>
-            </div>
+            </div> -->
 
             <div class="d-grid mb-3">
                 <ng-container *ngIf="!this.isOTPsen && !this.isverifybutton">
@@ -421,4 +738,86 @@
             </div>
         </div>
     </form>
+</ng-template>
+<!-- Slot Info Modal -->
+<div class="modal fade" id="slotInfoModal" tabindex="-1" aria-labelledby="slotInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="slotInfoModalLabel">Prime Date Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your slot info content goes here -->
+                <p>Below are the prime date with its pricing.</p>
+                <table class="table table-striped fixed-header table-responsive">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">#</th>
+                            <th style="width: 25%;">Prime Date</th>
+                            <th style="width: 60%;">Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let _obj of this.primedateMaster;let i =index">
+                            <td style="width: 15%;">{{i+1}}</td>
+                            <td style="width: 25%;">{{_obj.prime_date | date:'dd-MM-yyyy'}}</td>
+                            <td style="width: 60%;" class="wrap-text">{{_obj.prime_description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+<div class="modal fade" id="routepdfviwer" tabindex="-1" aria-labelledby="routepdfviwerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="routepdfviwerLabel">Prime Date Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div id="outerContainer">
+                    <div class="pdf-container">
+                        <pdf-viewer [src]="this._base._commonService.cdnURL + this.view_route_link" [rotation]="0"
+                            *ngIf="this.view_file" [original-size]="false" [show-all]="true" [fit-to-page]="false"
+                            [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="false" [render-text]="true"
+                            [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false"
+                            style="width: 100%; height: 100vh;"></pdf-viewer>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<ng-template #formpdfviewerModal let-modal >
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+  
+    <div class="modal-body pdf-modal-body">
+        <pdf-viewer
+          *ngIf="view_file"
+          [src]="_base._commonService.cdnURL + view_route_link"
+          [original-size]="false"
+          [zoom-scale]="'page-width'"
+          [render-text]="true"
+          [autoresize]="false"
+          style="width:100%; height:100%;">
+        </pdf-viewer>
+      </div>
 </ng-template>

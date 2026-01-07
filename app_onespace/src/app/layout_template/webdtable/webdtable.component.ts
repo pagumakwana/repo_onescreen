@@ -344,12 +344,16 @@ export class WebdtableComponent implements OnInit {
   }
 
   setCheckedData() {
-
     if (this.control?.value && Array.isArray(this.control?.value)) {
-      this.config?.tableData?.filter((res: any) => {
-        res.isChecked_DataTable = this.control.value.includes(res);
-      })
+      this.config?.tableData?.forEach((row: any) => {
+        row.isChecked_DataTable = this.control.value.some(
+          (selected: any) => selected.control_id === row.control_id
+        );
+      });
     }
+    let checkedItems = this.config?.tableData?.filter((item: any) => item.isChecked_DataTable)
+    this.isCheckAll = checkedItems?.length == this.config?.tableData?.length
+    this._cdr.detectChanges();
   }
 
   getNestedObject(data: any, path: Array<string>) {

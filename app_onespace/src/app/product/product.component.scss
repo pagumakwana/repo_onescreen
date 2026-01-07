@@ -5,7 +5,10 @@
     border-radius: 0.375rem;
     margin-right: 5px;
     transition: all 0.2s ease-in-out; /* Smooth effect */
-  }
+}
+.product_slot_list .nav-pills .nav-link.nav-outline {
+  height: 50px
+}
   
   .nav-pills .nav-link.nav-outline:hover {
     background-color: #054089;   /* Blue background on hover */
@@ -80,13 +83,186 @@
       font-size: 14px;
     }
 }
+.form-wizard .product_lists .nav-pills .nav-link {
+  flex-direction: column;
+  text-align: center;
+}
+.product_lists ul li a p {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
 
+@media only screen and (max-width: 768px) {
+  #timeslotsection .product_lists:nth-child(1) {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #054089;
+    margin-bottom: 20px;
+  }
+}
 @media only screen and (max-width: 575px) {
+  .product_lists ul {
+    width: 100%;
+    gap: 10px !important;
+  }
+  .product_lists ul li {
+    width: 100%;
+  }
   .product_lists {
     .nav-pills .nav-link.nav-outline {
       font-size: 13px;
       padding: 10px;
       margin: 0 4px;
     }
+  }
+}
+// .custom-day.selected {
+//   background-color: inherit !important;   /* keep your highlight color */
+//   border-radius: 50% !important;
+//   color: #000 !important;
+// }
+
+// .ngb-dp-day .bg-primary,
+// .ngb-dp-day .text-white {
+//     background-color: inherit !important;
+//     color: inherit !important;
+// }
+
+@keyframes timer_animation {
+  0% {
+      text-shadow: 0 0 0 #FFF;
+      color: #FFF;
+  }
+
+  50% {
+      text-shadow: 0 0 1px red;
+      color: red;
+  }
+
+  100% {
+      text-shadow: 0 0 0 #FFF;
+      color: #FFF;
+  }
+}
+
+.timer_animation {
+  animation-name: timer_animation;
+  animation-duration: 1s;
+  animation-delay: 0;
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.about-deal-section {
+  // background-color: #054089;
+  background-color: rgb(5,64,137,0.80);
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  gap: 20px;
+  max-width: 1200px;
+}
+.about-contact-strip {
+  float: left;
+  text-align: left;
+  width: calc(100% - 140px);
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .about-deal-section {
+      align-items: center;
+      padding: 20px 5px;
+      gap: 5px;
+  }
+  .about-deal-item {
+      max-width: 100px;
+      margin-bottom: 15px;
+  }
+  .about-count-header p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+  }
+  .about-count-header h1 {
+      font-size: 1.2rem;
+  }
+  .about-count-section {
+      padding: 30px 0 10px;
+  }
+  .about-contact-strip {
+      width: 100%;
+      text-align: center;
+  }
+}
+.fixed-header tbody {
+  display: block;
+  max-height: 250px;   /* scrolling height */
+  overflow-y: auto;
+}
+
+.fixed-header thead,
+.fixed-header tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; /* keeps columns aligned */
+}
+
+.fixed-header thead th {
+  background-color: #343a40;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+
+.wrap-text {
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  width: 2rem;
+}
+.custom-day:hover,
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.weekend {
+  background-color: #f0ad4e;
+  border-radius: 1rem;
+  color: white;
+}
+.hidden {
+  display: none;
+}
+
+.category_description span p{
+  font-size: 15px !important;
+}
+
+.pdf-modal-body {
+  height: calc(90vh - 60px); /* header height */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-height: 100vh;
+  }
+
+  .pdf-modal-body {
+    height: calc(100vh - 60px);
   }
 }

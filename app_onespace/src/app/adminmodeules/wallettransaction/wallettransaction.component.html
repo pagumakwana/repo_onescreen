@@ -90,7 +90,7 @@
                             <div class="card-body border-bottom">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h5 class="mb-0">Wallet</h5>
+                                        <h4 class="mb-0">Withdrawal Transactions</h4>
                                     </div>
                                     <div class="col-auto">
                                         <button class="btn btn-primary btn-sm" (click)="openModal()">Withdraw
@@ -109,7 +109,7 @@
                                                 <!-- <th>Requested Name</th> -->
                                                 <th>Updated Name</th>
                                                 <th
-                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
                                                     Action</th>
                                             </tr>
                                         </thead>
@@ -130,16 +130,15 @@
                                                 <!-- <td>{{_obj.createdname}}</td> -->
                                                 <td>{{_obj.updatedname}}</td>
                                                 <td class="text-center"
-                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
-                                                    <div class="d-flex justify-content-center align-items-center gap-2" *ngIf = "_obj.is_approved == 0" >
-                                                        <button
-                                                            (click)="approveRequest(_obj, 'approved')"
+                                                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    <div class="d-flex justify-content-center align-items-center gap-2"
+                                                        *ngIf="_obj.is_approved == 0">
+                                                        <button (click)="approveRequest(_obj, 'approved')"
                                                             class="btn btn-sm btn-success d-flex align-items-center"
                                                             title="Approve">
                                                             <span class="ms-1">Approve</span>
                                                         </button>
-                                                        <button
-                                                            (click)="approveRequest(_obj, 'rejected')"
+                                                        <button (click)="approveRequest(_obj, 'rejected')"
                                                             class="btn btn-sm btn-outline-danger d-flex align-items-center"
                                                             title="Reject">
                                                             <span class="ms-1">Reject</span>
@@ -215,13 +214,15 @@
                     </button>
                 </div>
             </form>
-            <swal #requestsuccSwal [swalOptions]="swalOptions" title="Your withdrawal request has been submitted successfully!" text="" icon="success"
+            <swal #requestsuccSwal [swalOptions]="swalOptions"
+                title="Your withdrawal request has been submitted successfully!" text="" icon="success"
                 [showConfirmButton]="false">
             </swal>
             <swal #failureSwal [swalOptions]="swalOptions" title="Insufficient Balance!" text="Insufficient Balance"
                 icon="warning" [showConfirmButton]="false">
             </swal>
-            <swal #pendingSwal [swalOptions]="swalOptions" title="Your previous withdrawal request is pending, Please try after sometime!" text="" icon="warning"
+            <swal #pendingSwal [swalOptions]="swalOptions"
+                title="Your previous withdrawal request is pending, Please try after sometime!" text="" icon="warning"
                 [showConfirmButton]="false">
             </swal>
         </div>

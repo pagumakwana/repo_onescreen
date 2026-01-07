@@ -11,16 +11,16 @@ namespace onescreenModel.Configuration
 {
     public class userModuleModel : commonModel
     {
-        public Int64 module_id { get; set; }
-        public Int64 module_parent_id { get; set; }
-        public string moduleicon { get; set; }
+        public Int64? module_id { get; set; }
+        public Int64? module_parent_id { get; set; }
+        public string? moduleicon { get; set; }
         public string? modulename { get; set; }
-        public string module_identifier { get; set; }
-        public string modulerouting { get; set; }
-        public string modulepath { get; set; }
-        public Int64 authority_id { get; set; }
-        public Int64 category_id { get; set; }
-        public List<userModuleCategoryModel> lstcategory { get; set; }
+        public string? module_identifier { get; set; }
+        public string? modulerouting { get; set; }
+        public string? modulepath { get; set; }
+        public Int64? authority_id { get; set; }
+        public Int64? category_id { get; set; }
+        public List<userModuleCategoryModel>? lstcategory { get; set; }
         public List<userParentModuleModel>? lstparentmodule { get; set; }
     }
 

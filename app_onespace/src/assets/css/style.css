@@ -31232,6 +31232,7 @@ body .section_gap {
 }
 .grow_business_right .btn {
     margin-bottom: 24px;
+    color: #fff;
 }
 .grow_business_right p {
     font-size: 18px;
@@ -31649,6 +31650,9 @@ body.modal_open {
     }
     .top_gap {
         margin-top: 100px;
+    }
+    .grow_business {
+      padding-bottom: 30px;
     }
 }
 

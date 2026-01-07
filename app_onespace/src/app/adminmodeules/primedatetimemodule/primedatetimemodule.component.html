@@ -1,0 +1,58 @@
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="fgprimedate">
+                <div class="row">
+                    <div class="col-lg-3 mb-3">
+                        <label class="form-label">Prime Date</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ngbDatepicker #prime_date="ngbDatepicker"
+                                id="prime_date" prime_date.displayMonths="true" [minDate]="minDate"
+                                formControlName="prime_date" placeholder="dd-mm-yyyy" (click)="prime_date.toggle();">
+                            <span class="input-group-text" required>
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="fgprimedate.controls['prime_date'].invalid && (fgprimedate.controls['prime_date'].dirty || fgprimedate.controls['prime_date'].touched)"
+                        class="error_msg">
+                        <ng-container
+                            *ngIf="fgprimedate.controls['prime_date'].errors?.['required']">
+                            Prime Date is required.
+                        </ng-container>
+                    </div>
+                    </div>
+                  
+                    <div class="col-lg-3 mb-3">
+                        <label class="form-label">Date Price</label>
+                        <input type="text" class="form-control " id="date_price" name="date_price"
+                            placeholder="Date Price" formControlName="date_price" required>
+                        <div *ngIf="fgprimedate.controls['date_price'].invalid && (fgprimedate.controls['date_price'].dirty || fgprimedate.controls['date_price'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgprimedate.controls.date_price.errors?.['required']">
+                                Product Name is required.
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-3">
+                        <button (click)="setprimedate('ADDPRIMEDATE')" class="btn btn-primary btn-sm">
+                            New Date
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+</div>
+<!-- [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_productlist')" -->
+<swal #successSwal [swalOptions]="swalOptions" title="Delete successfully!" text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
+
+<swal #deleteSwal [swalOptions]="swalOptions" title="Are you sure to delete?" text="This cannot be undone"
+    icon="warning" [showCancelButton]="true" [focusCancel]="true"
+    [customClass]="{confirmButton: 'btn btn-danger btn-sm', cancelButton: 'btn btn-active-light btn-sm'}">
+</swal>

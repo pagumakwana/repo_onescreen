@@ -40,7 +40,9 @@ export class LabelmoduleComponent {
   LabelMaster: any = [];
   _labelMaster: labelMaster = {};
   tableConfig: dataTableConfig = {
+    tableTitle:'Manage Label',
     tableData: [],
+    displayPaging:true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "label", title: "Label Name", type: "text" },

@@ -30,6 +30,16 @@ namespace onescreenModel.ProductManagement
         public List<productAttributeModel>? lsttimeattribute { get; set; }
         public List<productAttributeModel>? lstintervalattribute { get; set; }
         public List<userproductcommissionModel>? lstuserproductcommission { get; set; }
+        public List<productintrepmap>? lst_latest_attr { get; set; }
+    }
+
+    public class productintrepmap : commonModel
+    {
+        public Int64? interval_id { get; set; }
+        public decimal? interval_price { get; set; }
+        public Int64? repetition_id { get; set; }
+        public decimal repetition_price { get; set; }
+        public Int64? product_id { get; set; }
     }
 
     public class productAttributeModel : commonModel
@@ -37,9 +47,16 @@ namespace onescreenModel.ProductManagement
         public Int64? product_option_adj_id { get; set; }
         public Int64? option_value_id { get; set; }
         public string? option_value { get; set; }
-        public decimal price_delta { get; set; }
+        public decimal? price_delta { get; set; }
+        public decimal? price_delta_prime { get; set; }
+        public Int64? rep_option_value_id { get; set; }
+        public string? rep_option_value { get; set; }
+        public decimal? rep_price_delta { get; set; }
+        public decimal? rep_price_delta_prime { get; set; }
         public Int64? product_id { get; set; }
-    }
+        public Int64? option_value_parent_id { get; set; }
+
+}
 
 
     public class userproductcommissionModel : commonModel
@@ -89,7 +106,9 @@ namespace onescreenModel.ProductManagement
         public string? title { get; set; }
         public string option_value { get; set; }
         public decimal? price_delta { get; set; }
+        public decimal? price_delta_prime { get; set; }
         public Int64 display_order { get; set; }
+        public Int64? option_value_parent_id { get; set; }
         public List<productOptionTypesModel>? lstoptiontype { get; set; }
     }
 
@@ -133,6 +152,7 @@ namespace onescreenModel.ProductManagement
         public Int64? user_id { get; set; }
         public Guid? batch_id { get; set; }
         public Int64? coupon_id { get; set; }
+        public bool? ismonthly { get; set; }
         public string? coupon_code { get; set; }
         public decimal cart_total { get; set; }
         public decimal cart_subtotal { get; set; }
@@ -148,6 +168,7 @@ namespace onescreenModel.ProductManagement
         public Int64? product_id { get; set; }
         public string? product_name { get; set; }
         public Int64? user_id { get; set; }
+        public bool? ismonthly { get; set; }
         public string? fullname { get; set; }
         public string? optionvalues { get; set; }
         public decimal attribute_amount { get; set; }
@@ -174,6 +195,8 @@ namespace onescreenModel.ProductManagement
         public decimal order_tax { get; set; }
         public string order_status { get; set; }
         public string payment_status { get; set; }
+        public string? sales_person_details { get; set; }
+        public string? referal_person_details { get; set; }
 
     }
 
@@ -220,6 +243,7 @@ namespace onescreenModel.ProductManagement
         public Int64 coupon_id { get; set; }
         public string? order_number { get; set; }
         public string? payment_type { get; set; }
+        public bool? ismonthly { get; set; }
         public string? payment_order_id { get; set; }
         public string? payment_response { get; set; }
         public decimal? order_total { get; set; }
@@ -228,6 +252,10 @@ namespace onescreenModel.ProductManagement
         public decimal? order_tax { get; set; }
         public string? order_status { get; set; }
         public string? payment_status { get; set; }
+        public string? sales_person_name { get; set; }
+        public string? sales_person_mobile { get; set; }
+        public string? referal_person_name { get; set; }
+        public string? referal_person_mobile { get; set; }
         public List<userorderhistoryModel> lst_orderdetail { get; set; }
         public List<userorderproductModel> lst_orderproduct { get; set; }
     }
@@ -237,6 +265,7 @@ namespace onescreenModel.ProductManagement
         public long order_id { get; set; }
         public long order_history_id { get; set; }
         public long product_id { get; set; }
+        public bool? ismonthly { get; set; }
         public long cart_master_id { get; set; }
         public string? optionvalues { get; set; }
         public List<userorderproductModel> optionvaluesParsed { get; set; }
@@ -248,6 +277,7 @@ namespace onescreenModel.ProductManagement
         public long? order_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
+        public bool? ismonthly { get; set; }
         public long? timeslot_category_id { get; set; }         // [time_slot_id]
         public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
         public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
@@ -257,6 +287,8 @@ namespace onescreenModel.ProductManagement
         public long? interval_category_id { get; set; }         // [interval_id]
         public string? interval_category { get; set; }    // [interval_value] NVARCHAR(150)
         public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
+        public long? route_category_id { get; set; }         // [interval_id]
+        public string? route_category { get; set; }    // [interval_value] NVARCHAR(150)
         public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
         public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
         public long? quantity { get; set; }                // [qty]
@@ -290,6 +322,7 @@ namespace onescreenModel.ProductManagement
         public string? order_number { get; set; }
         public string? time_slot_value { get; set; }
         public string? repetition_value { get; set; }
+        public string? route_category { get; set; }
         public string? interval_value { get; set; }
         public string? from_date { get; set; }
         public string? to_date { get; set; }
@@ -381,6 +414,65 @@ namespace onescreenModel.ProductManagement
         public string? product_name { get;set; }
         public string? fullname { get;set; }
         public string? address { get;set; }
+    }
+
+    public class datetimedetails : commonModel
+    {
+        public long? date_id { get; set; }
+        public string? prime_date { get; set; }
+        public decimal? date_price { get; set; }
+        public string? prime_description { get; set; }
+
+    }
+
+    public class quotation_model : commonModel
+    {
+        public Int64 quotation_id { get; set; }
+        public Int64 cart_master_id { get; set; }
+        public Int64 coupon_id { get; set; }
+        public string? quotation_number { get; set; }
+        public bool? ismonthly { get; set; }
+        public decimal? quotation_total { get; set; }
+        public decimal? quotation_subtotal { get; set; }
+        public decimal? quotation_discount { get; set; }
+        public decimal? quotation_tax { get; set; }
+        public string? quotation_status { get; set; }
+        public string? sales_person_name { get; set; }
+        public string? sales_person_mobile { get; set; }
+        public string? referal_person_name { get; set; }
+        public string? referal_person_mobile { get; set; }
+        public string? fullname { get; set; }
+        public string? email_id { get; set; }
+        public string? mobile_number { get; set; }
+        public string? address { get; set; }
+        public List<quoteproductModel> lst_quoteproduct { get; set; }
+    }
+
+    public class quoteproductModel : commonModel
+    {
+        public long quotation_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
+        public long? quotation_id { get; set; }            // [order_id]
+        public long? cart_master_id { get; set; }       // [cart_master_id]
+        public long? product_id { get; set; }          // [product_id]
+        public bool? ismonthly { get; set; }
+        public long? timeslot_category_id { get; set; }         // [time_slot_id]
+        public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
+        public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
+        public long? repetition_category_id { get; set; }       // [repetition_id]
+        public string? repetition_category { get; set; }  // [repetition_value] NVARCHAR(150)
+        public decimal? repetition_price { get; set; } // [repetition_price] DECIMAL(7,2)
+        public long? interval_category_id { get; set; }         // [interval_id]
+        public string? interval_category { get; set; }    // [interval_value] NVARCHAR(150)
+        public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
+        public long? route_category_id { get; set; }         // [interval_id]
+        public string? route_category { get; set; }    // [interval_value] NVARCHAR(150)
+        public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
+        public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
+        public long? quantity { get; set; }                // [qty]
+        public decimal? base_amount { get; set; }       // [base_amount] DECIMAL(7,2)
+        public decimal? attribute_amount { get; set; }  // [attribute_price] DECIMAL(7,2)
+        public decimal? total_amount { get; set; }
+
     }
 }
 

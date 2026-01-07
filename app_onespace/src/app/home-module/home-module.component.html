@@ -8,14 +8,12 @@
 
         <section class="container_section categories">
             <div class="inner_container">
-                <div class="category" (click)="goToProduct()">
-                    <img src="../../../assets/images/moving.png" alt="Moving" />
-                    <!-- <span>Moving</span> -->
-                </div>
-                <div class="category" (click)="goToProduct()">
-                    <img src="../../../assets/images/fixed.png" alt="Fixed" />
-                    <!-- <span>Fixed</span> -->
-                </div>
+                <ng-container *ngFor="let _obj of this.TypeMaster; let _ind = index">
+                    <div class="category" [ngClass]="{'disabled': _obj.isfeatured}" style="cursor: pointer;"
+                        routerLink="/product">
+                        <img [src]="this._base._commonService.cdnURL + _obj.thumbnail" />
+                    </div>
+                </ng-container>
             </div>
         </section>
 
@@ -26,33 +24,49 @@
             <h2 class="primary_heading">How One Screen works ?</h2>
             <div class="steps">
                 <div class="step">
-                    <img src="../../../assets/images/quote.png" alt="Get Quote Image" />
+                    <img src="../../../assets/images/how it works 1.png" alt="Get Quote Image" />
                     <span class="step_count">1</span>
                     <h3 class="secondary_heading">Pick Your Ad Ride</h3>
                     <p class="step_description">Select the perfect vehicle for your brand display.</p>
                 </div>
                 <div class="step">
-                    <img src="../../../assets/images/pick_up.png" alt="Schedule Pick Up Image" />
+                    <img src="../../../assets/images/how it works 2.png" alt="Schedule Pick Up Image" />
                     <span class="step_count">2</span>
                     <h3 class="secondary_heading">Plan Your Route</h3>
                     <p class="step_description"> Choose targeted routes for maximum audience reach.</p>
                 </div>
                 <div class="step">
-                    <img src="../../../assets/images/get_paid.png" alt="Get Paid Image" />
+                    <img src="../../../assets/images/how it works 3.png" alt="Get Paid Image" />
                     <span class="step_count">3</span>
                     <h3 class="secondary_heading">Select Your Screen</h3>
                     <p class="step_description">Pick dynamic LED screens that fit your campaign style.
                     </p>
                 </div>
-                <div class="step">
-                    <img src="../../../assets/images/get_paid.png" alt="Get Paid Image" />
+                <div class="step tablet-step">
+                    <img src="../../../assets/images/how it works 4.png" alt="Get Paid Image" />
                     <span class="step_count">4</span>
                     <h3 class="secondary_heading">Set Your Schedule</h3>
                     <p class="step_description">Choose ideal time slots to display your ad.
                     </p>
                 </div>
+                <div class="step tablet-step">
+                    <img src="../../../assets/images/how it works 5.png" alt="Get Paid Image" />
+                    <span class="step_count">5</span>
+                    <h3 class="secondary_heading">Confirm & Go Live</h3>
+                    <p class="step_description">Finalize your booking and start your campaign.
+                    </p>
+                </div>
+            </div>
+            <div class="steps desktop-step">
                 <div class="step">
-                    <img src="../../../assets/images/get_paid.png" alt="Get Paid Image" />
+                    <img src="../../../assets/images/how it works 4.png" alt="Get Paid Image" />
+                    <span class="step_count">4</span>
+                    <h3 class="secondary_heading">Set Your Schedule</h3>
+                    <p class="step_description">Choose ideal time slots to display your ad.
+                    </p>
+                </div>
+                <div class="step desktop-step">
+                    <img src="../../../assets/images/how it works 5.png" alt="Get Paid Image" />
                     <span class="step_count">5</span>
                     <h3 class="secondary_heading">Confirm & Go Live</h3>
                     <p class="step_description">Finalize your booking and start your campaign.
@@ -68,7 +82,7 @@
                 <h2 class="primary_heading">Why Choose Us?</h2>
                 <div class="whyus">
                     <div class="whyus_thumbnail">
-                        <img src="../../../assets/images/whychoose.svg" alt="Why Us Image" />
+                        <img src="../../../assets/images/why choose us.png" alt="Why Us Image" />
                     </div>
                     <div class="whyus_points">
                         <div class="whyus_point">
@@ -90,18 +104,28 @@
                         <div class="whyus_point">
                             <img src="../../../assets/images/free_pickup.svg" alt="Free Pickup Image" />
                             <h3 class="whyus_name">Advanced LED Technology</h3>
-                            <p class="whyus_description">Deliver bright, high-quality visuals that capture attention.</p>
+                            <p class="whyus_description">Deliver bright, high-quality visuals that capture attention.
+                            </p>
                         </div>
-                        <div class="whyus_point">
+                        <!-- <div class="whyus_point">
                             <img src="../../../assets/images/invoice.svg" alt="Valid Purchase Invoice Image" />
                             <h3 class="whyus_name">Flexible Booking Options</h3>
                             <p class="whyus_description">Choose vehicle, route, screen, and time—your way.</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <section class="client_log">
+        <swiper class="swiper-container" [config]="ClientSwiper">
+            <div *ngFor="let slide of clientList" class="swiper-slide">
+                <img [src]="this._base._commonService.cdnURL+slide.thumbnail" [alt]="slide" />
+            </div>
+        </swiper>
+    </section>
+
 
     <section class="grow_business">
         <div class="inner_container">
@@ -113,10 +137,10 @@
                     <h3>Join thousands who trust ScreenToSell for the best deals!</h3>
                 </div>
                 <div class="grow_business_right">
-                    <button class="btn primary_btn">
+                    <a class="btn primary_btn" routerLink="/product">
                         <span>Find your screen</span>
                         <img src="../../../assets/images/user.svg" alt="User Icon" />
-                    </button>
+                    </a>
                     <p>Trusted by thousands across India!</p>
                 </div>
             </div>

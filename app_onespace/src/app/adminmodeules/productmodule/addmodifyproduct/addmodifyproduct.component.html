@@ -111,57 +111,92 @@
                                     textField='option_value' valueField='option_value_id'
                                     [formControl]="fgproductmaster?.controls?.lsttimeattribute"
                                     placeholder="Select Time Slot" [config]="_configTime"
-                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)">
+                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)" (onDeSelectAll)="onDeSelectAll($event)"  (onSelectAll)="onSelectAll($event)">
                                 </webd-multiselect>
                             </div>
                             <div class="card-body">
                                 <ng-container formArray="lsttimeattr">
                                     <ng-container [formGroup]='_objPass'
                                         *ngFor="let _objPass of timeArray?.controls;let i =index">
-                                        <div class="row mb-3">
+                                        <div class="row">
                                             <div class="col-lg-2 mb-3">
-                                                <input type="text" id="option_value_id{{i+1}}"
+                                                <label class="form-label" for="option_value_id{{i+1}}">Time Slot</label>
+                                                <input type="text" id="option_value_id{{i+1}}" name="option_value_id{{i+1}}"
                                                     class="form-control form-control-sm" readonly
                                                     placeholder="Time Slot" formControlName="option_value">
                                             </div>
                                             <div class="col-lg-2 mb-3">
+                                                <label class="form-label" for="option_value_price{{i}}">Price</label>
                                                 <input type="text" id="option_value_price{{i+1}}"
                                                     class="form-control form-control-sm" placeholder="Price"
+                                                    id="option_value_price{{i}}" name="option_value_price{{i}}"
                                                     formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                            <div class="col-lg-2 mb-3 form-check">
+                                                <label class="form-label" for="optionvalue_price{{i}}">Prime Price</label>
+                                                <input type="text" id="optionvalue_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Prime Price"
+                                                    id="optionvalue_price{{i}}" name="optionvalue_price{{i}}"
+                                                    formControlName="price_delta_prime" minlength="0" maxlength="7">
                                             </div>
                                         </div>
                                     </ng-container>
                                 </ng-container>
                             </div>
-                            <div class="col-lg-4 mb-3">
-                                <label class="form-label">Screen Repetition Attribute</label>
-                                <webd-multiselect [data]="RepeAttr" class="col-sm-3 col-form-label"
-                                    textField='option_value' valueField='option_value_id'
-                                    [formControl]="fgproductmaster?.controls?.lstrepeattribute"
-                                    placeholder="Select Repetition" [config]="_configRepe"
-                                    (onSelectEvent)="onSelectRepe($event)" (onDeSelectEvent)="onDeSelectRepe($event)">
-                                </webd-multiselect>
-                            </div>
-                            <div class="card-body">
-                                <ng-container formArray="lstrepeattr">
+                            <br>
+                            <div class="col-lg-12 mb-3">
+                                <ng-container formArray="lst_latest_attr">
                                     <ng-container [formGroup]='_objPass'
-                                        *ngFor="let _objPass of repetitionArray?.controls;let i =index">
-                                        <div class="row mb-3">
+                                        *ngFor="let _objPass of latestArray?.controls;let i =index">
+                                        <div class="row">
                                             <div class="col-lg-2 mb-3">
-                                                <input type="text" id="option_value_id{{i+1}}"
-                                                    class="form-control form-control-sm" readonly
-                                                    placeholder="Screen Repetition" formControlName="option_value">
+                                                <label class="form-label">Interval Attribute</label>
+                                                <select class="form-control" formControlName="option_value_id"
+                                                    id="option_value_id{{i+1}}" name="option_value_id" required
+                                                    style="cursor: pointer;" (change)="onSelectInterval($event,i)">
+                                                    <option value="">Select Interval</option>
+                                                    <option *ngFor="let objCategory of IntervalAttr"
+                                                        value="{{objCategory.option_value_id}}">
+                                                        {{objCategory.option_value}}</option>
+                                                </select>
                                             </div>
                                             <div class="col-lg-2 mb-3">
-                                                <input type="text" id="option_value_price{{i+1}}"
-                                                    class="form-control form-control-sm" placeholder="Price"
-                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                                <label class="form-label">Interval Price</label>
+                                                <input type="text" id="option_value_id{{i+1}}" class="form-control"
+                                                    placeholder="Screen Interval" formControlName="price_delta">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <label class="form-label">Repetition Attribute</label>
+                                                <select class="form-control" formControlName="rep_option_value_id"
+                                                    id="rep_option_value_id{{i+1}}" name="repetition_id" required
+                                                    style="cursor: pointer;" (change)="onSelectRepe($event,i)">
+                                                    <option value="">Select Repetition</option>
+                                                    <option
+                                                        *ngFor="let objCategory of _objPass.get('repetitiondata')?.value"
+                                                        value="{{objCategory.option_value_id}}">
+                                                        {{objCategory.option_value}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <label class="form-label">Repetition Price</label>
+                                                <input type="text" id="rep_option_value_id{{i+1}}" class="form-control"
+                                                    placeholder="Screen Interval" formControlName="rep_price_delta">
+                                            </div>
+                                            <div class="col-lg-2" data-repeater-create>
+                                                <ng-container *ngIf="i === latestArray.length - 1">
+                                                    <button type="button" class="btn btn-primary"
+                                                        (click)="addattribute(i+1,true,null)"><i
+                                                            class="fa fa-user-plus"></i> New
+                                                        Attributes</button></ng-container>&nbsp;
+                                                <button class="btn btn-outline-danger"
+                                                    [disabled]="i==0 && latestArray?.length==1"
+                                                    (click)="addattribute(i,false,null)">Remove</button>
                                             </div>
                                         </div>
                                     </ng-container>
                                 </ng-container>
                             </div>
-                            <div class="col-lg-4 mb-3">
+                            <!-- <div class="col-lg-4 mb-3">
                                 <label class="form-label">Screen Interval Attribute</label>
                                 <webd-multiselect [data]="IntervalAttr" class="col-sm-3 col-form-label"
                                     textField='option_value' valueField='option_value_id'
@@ -189,15 +224,43 @@
                                         </div>
                                     </ng-container>
                                 </ng-container>
+                            </div> -->
+                            <!-- <div class="col-lg-4 mb-3">
+                                <label class="form-label">Screen Repetition Attribute</label>
+                                <webd-multiselect [data]="RepeAttr" class="col-sm-3 col-form-label"
+                                    textField='option_value' valueField='option_value_id'
+                                    [formControl]="fgproductmaster?.controls?.lstrepeattribute"
+                                    placeholder="Select Repetition" [config]="_configRepe"
+                                    (onSelectEvent)="onSelectRepe($event)" (onDeSelectEvent)="onDeSelectRepe($event)">
+                                </webd-multiselect>
                             </div>
+                            <div class="card-body">
+                                <ng-container formArray="lstrepeattr">
+                                    <ng-container [formGroup]='_objPass'
+                                        *ngFor="let _objPass of repetitionArray?.controls;let i =index">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" readonly
+                                                    placeholder="Screen Repetition" formControlName="option_value">
+                                            </div>
+                                            <div class="col-lg-2 mb-3">
+                                                <input type="text" id="option_value_price{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Price"
+                                                    formControlName="price_delta" minlength="0" maxlength="7">
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div> -->
+
                             <div class="col-lg-4 mb-3">
                                 <label class="form-label">Assign User Commision </label>
                                 <webd-multiselect [data]="userMaster" class="col-sm-3 col-form-label"
                                     textField='fullname' valueField='user_id'
                                     [formControl]="fgproductmaster?.controls?.lstuserproductcommission"
                                     placeholder="Select User" [config]="_configUser"
-                                    (onSelectEvent)="onSelectUser($event)"
-                                    (onDeSelectEvent)="onDeSelectUser($event)">
+                                    (onSelectEvent)="onSelectUser($event)" (onDeSelectEvent)="onDeSelectUser($event)">
                                 </webd-multiselect>
                             </div>
                             <div class="card-body">
@@ -206,9 +269,8 @@
                                         *ngFor="let _objPass of userArray?.controls;let i =index">
                                         <div class="row mb-3">
                                             <div class="col-lg-2 mb-3">
-                                                <input type="text" id="user{{i+1}}"
-                                                    class="form-control form-control-sm" readonly
-                                                    placeholder="Users" formControlName="fullname">
+                                                <input type="text" id="user{{i+1}}" class="form-control form-control-sm"
+                                                    readonly placeholder="Users" formControlName="fullname">
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <input type="text" id="commission{{i+1}}"

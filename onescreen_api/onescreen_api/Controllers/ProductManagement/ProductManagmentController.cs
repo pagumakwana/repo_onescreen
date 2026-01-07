@@ -177,21 +177,23 @@ namespace onescreen_api.Controllers.ProductManagement
             }
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="coupon_id"></param>
-       /// <param name="coupon_code"></param>
-       /// <param name="start_count"></param>
-       /// <param name="end_count"></param>
-       /// <returns></returns>
+      /// <summary>
+      ///   
+      /// </summary>
+      /// <param name="flag"></param>
+      /// <param name="coupon_id"></param>
+      /// <param name="coupon_code"></param>
+      /// <param name="user_id"></param>
+      /// <param name="start_count"></param>
+      /// <param name="end_count"></param>
+      /// <returns></returns>
         [Route("getcoupon")]
         [HttpGet]
-        public responseModel getcoupon(Int64 coupon_id, string coupon_code="", Int64 start_count = 0, Int64 end_count = 0)
+        public responseModel getcoupon(string flag = "null", Int64 coupon_id=0, string coupon_code="", Int64 user_id = 0, Int64 start_count = 0, Int64 end_count = 0)
         {
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
-                return objProductManagement_BAL.getcoupon(coupon_id, coupon_code, start_count, end_count);
+                return objProductManagement_BAL.getcoupon(flag,coupon_id, coupon_code, user_id,start_count, end_count);
             }
         }
 
@@ -552,6 +554,67 @@ namespace onescreen_api.Controllers.ProductManagement
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
                 return objProductManagement_BAL.update_to_cart(batch_id, user_id);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="search_date"></param>
+        /// <returns></returns>
+        [Route("getorderproduct")]
+        [HttpGet]
+        public responseModel getorderproduct(string search_date = "null")
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getorderproduct(search_date);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_objdatetimedetails"></param>
+        /// <returns></returns>
+        [Route("primedatdetails")]
+        [HttpPost]
+        public string primedatdetails(datetimedetails _objdatetimedetails)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.primedatdetails(_objdatetimedetails);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="date_id"></param>
+        /// <returns></returns>
+        [Route("getprimedate")]
+        [HttpGet]
+        public responseModel getprimedate(string flag="all", Int64 date_id = 0 ,Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getprimedate(flag, date_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_quotation_model"></param>
+        /// <returns></returns>
+        [Route("raise_quote")]
+        [HttpPost]
+        public string raise_quote(quotation_model _quotation_model)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.raise_quote(_quotation_model);
             }
         }
     }

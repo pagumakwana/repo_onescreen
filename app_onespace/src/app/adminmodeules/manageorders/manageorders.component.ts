@@ -111,6 +111,7 @@ export class ManageordersComponent implements OnInit {
 
   selectedVideoUrl: string | null = null;
   openvideo(videoUrl: string) {
+    debugger
     this.selectedVideoUrl = videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';
     this.modalRef = this.modalService.open(this.VideoModal, {
       size: 'l',

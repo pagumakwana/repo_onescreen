@@ -28,17 +28,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   _profilepicture: string = '/FileStorage/avatar-1.jpg';
+  _fullname: string = '';
 
   ngOnInit() {
     this.sub = this._base._commonService.isLoginUser$.subscribe((event: boolean) => {
       this._base._commonService.isLoggedIn = event;
-      console.log("isLoggedIn1",this._base._commonService.isLoggedIn)
     });
     this._base._encryptedStorage.get(enAppSession.profilepicture).then((resPicture) => {
+    this._base._encryptedStorage.get(enAppSession.fullname).then((resfullname) => {
       if (resPicture != null && resPicture != '' && resPicture != undefined) {
         this._profilepicture = resPicture;
       }
+      if (resfullname != null && resfullname != '' && resfullname != undefined) {
+        this._fullname = resfullname;
+      }
       this._cdr.detectChanges();
+    });
     });
   }
 

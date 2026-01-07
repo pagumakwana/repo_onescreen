@@ -75,8 +75,10 @@ export class AddmodifycategoryComponent {
     allowSearchFilter: true
   };
 
+  public moduleType: any = 'category';
   fileChoosenData: { [key: string]: Array<fileChoosenDataModel> } = {
-    thumbnail: []
+    thumbnail: [],
+    route_file: []
   }
 
   fileConfig: { [key: string]: fileConfigModel } = {
@@ -87,9 +89,20 @@ export class AddmodifycategoryComponent {
       },
       isMulti: true,
       fileidentifier: 'thumbnail',
-      ModuleType: 'category',
+      ModuleType: this.moduleType,
       ModuleID: 0,
-      fileextension: undefined
+      fileextension: ''
+    },
+    route_file: {
+      fileValidationInfo: {
+        fileType: ['application/pdf'],
+        size: 3145728
+      },
+      isMulti: true,
+      fileidentifier: 'route_file',
+      ModuleType: this.moduleType,
+      ModuleID: 0,
+      fileextension: 'pdf'
     }
   }
 
@@ -104,6 +117,7 @@ export class AddmodifycategoryComponent {
       aliasname: [''],
       isfeatured: [false],
       thumbnail: [''],
+      route_file: [''],
       isactive: [true],
       displayorder: [0],
       category: ['', [Validators.required]],
@@ -139,54 +153,95 @@ export class AddmodifycategoryComponent {
     }, 250);
   }
 
-  saveModuleFile_helper() {
+  saveModuleFile_helper(media: any = []) {
     debugger
-    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
+    let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(
+      this.getFilesInfo('thumbnail'),
+      this.getFilesInfo('route_file'))
     if (fileData.length > 0)
-      this.saveModuleFile_multi_helper(fileData, fileData.length, [])
+      this.saveModuleFile_multi_helper(fileData, fileData.length, [], media)
     else {
+      this._categoryMaster.filemanager?.filter((resFile: any) => {
+        let index = _.findIndex(media, (o: any) => {
+          return o["subidentifier"] == resFile.subidentifier
+        });
+        if (index > -1)
+          resFile.ref_id = media[index].passenger_id;
+      });
       this.addmodifycategoryMaster(this.flagType);
     }
   }
 
-  saveModuleFile_multi_helper(
-    arrayData: Array<SaveModuleFileModel>,
-    counter: number,
-    resolveData: Array<any>
-  ) {
-    const currentItem: SaveModuleFileModel = arrayData[counter - 1];
-
-    const fileIdentifier: string = currentItem.fileidentifier ?? '';
-    const rawValue = this.fgcategorymaster.controls[fileIdentifier]?.value;
-    const controlValue: string | undefined =
-      typeof rawValue === 'string' ? rawValue : undefined;
-    const files: string | any[] | FileList = currentItem.files ?? '';
-
-    this._base._commonService
-      .saveModuleFile(files, currentItem, controlValue)
-      .then((uploadResponse: any) => {
-        const responseArray: any[] = Array.isArray(uploadResponse)
-          ? uploadResponse
-          : [];
-
-        for (let uploadedFile of responseArray) {
-          uploadedFile.fileidentifier = fileIdentifier;
-        }
-
-        resolveData = this._base._commonService.joinArray(
-          resolveData,
-          responseArray
-        );
-
-        if (counter > 1) {
-          counter--;
-          this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
-        } else {
-          this._categoryMaster.filemanager = resolveData;
-          this.addmodifycategoryMaster(this.flagType);
-        }
-      });
+  saveModuleFile_multi_helper(arrayData: Array<SaveModuleFileModel>, counter: number, resolveData: Array<any>, media: any) {
+    this._base._commonService.saveModuleFile(arrayData[counter - 1].files!, arrayData[counter - 1], this.fgcategorymaster.controls[arrayData[counter - 1].fileidentifier!].value).then((uploadResponse: any) => {
+      if (Array.isArray(uploadResponse)) {
+        this.returnPassengerID(media, arrayData[counter - 1].subidentifier).then((res_ref_id) => {
+          for (let uploadedFile of uploadResponse) {
+            uploadedFile.fileidentifier = arrayData[counter - 1].fileidentifier
+            uploadedFile.subidentifier = arrayData[counter - 1].subidentifier
+            uploadedFile.itemidentifier = arrayData[counter - 1].itemidentifier
+            uploadedFile.ref_id = res_ref_id
+          }
+          resolveData = this._base._commonService.joinArray(resolveData, uploadResponse)
+          if (counter > 1) {
+            counter--
+            this.saveModuleFile_multi_helper(arrayData, counter, resolveData, media)
+          } else {
+            this._categoryMaster.filemanager = resolveData
+            this.addmodifycategoryMaster(this.flagType);
+          }
+        })
+      }
+    })
   }
+  returnPassengerID(passengerData:any, subidentifier:any) {
+    return new Promise((resolve, reject) => {
+      let index = _.findIndex(passengerData, (o: any) => {
+        return o["subidentifier"] == subidentifier
+      });
+      let ref_id = index > -1 ? parseInt(passengerData[index].passenger_id) : 0;
+      resolve(ref_id);
+    });
+  }
+  // saveModuleFile_multi_helper(
+  //   arrayData: Array<SaveModuleFileModel>,
+  //   counter: number,
+  //   resolveData: Array<any>,
+  //   media: any
+  // ) {
+  //   const currentItem: SaveModuleFileModel = arrayData[counter - 1];
+
+  //   const fileIdentifier: string = currentItem.fileidentifier ?? '';
+  //   const rawValue = this.fgcategorymaster.controls[fileIdentifier]?.value;
+  //   const controlValue: string | undefined =
+  //     typeof rawValue === 'string' ? rawValue : undefined;
+  //   const files: string | any[] | FileList = currentItem.files ?? '';
+
+  //   this._base._commonService
+  //     .saveModuleFile(files, currentItem, controlValue)
+  //     .then((uploadResponse: any) => {
+  //       const responseArray: any[] = Array.isArray(uploadResponse)
+  //         ? uploadResponse
+  //         : [];
+
+  //       for (let uploadedFile of responseArray) {
+  //         uploadedFile.fileidentifier = fileIdentifier;
+  //       }
+
+  //       resolveData = this._base._commonService.joinArray(
+  //         resolveData,
+  //         responseArray
+  //       );
+
+  //       if (counter > 1) {
+  //         counter--;
+  //         this.saveModuleFile_multi_helper(arrayData, counter, resolveData);
+  //       } else {
+  //         this._categoryMaster.filemanager = resolveData;
+  //         this.addmodifycategoryMaster(this.flagType);
+  //       }
+  //     });
+  // }
 
   getcategory(category_id: any) {
     return new Promise((resolve, reject) => {
@@ -205,9 +260,11 @@ export class AddmodifycategoryComponent {
         this.fgcategorymaster.controls['typemaster_id'].setValue(this._categoryMaster.typemaster_id);
         this.fgcategorymaster.controls['typemaster'].setValue(this._categoryMaster.typemaster);
         this.fgcategorymaster.controls['displayorder'].setValue(this._categoryMaster.displayorder);
-        this._categoryMaster.filemanager = Array.isArray(this._categoryMaster.filemanager) ? this._categoryMaster.filemanager : []
+        // this._categoryMaster.filemanager = Array.isArray(this._categoryMaster.filemanager) ? this._categoryMaster.filemanager : []
         this.fgcategorymaster.controls['lsttypemaster'].setValue(this._categoryMaster.lsttypemaster);
         this.fgcategorymaster.controls['lstparentcategory'].setValue(this._categoryMaster.lstparentcategory);
+        this.fgcategorymaster.controls['thumbnail'].setValue(this._categoryMaster.thumbnail);
+        this.fgcategorymaster.controls['route_file'].setValue(this._categoryMaster.route_file);
         this._categoryMaster.filemanager = Array.isArray(this._categoryMaster.filemanager) ? this._categoryMaster.filemanager : [];
         this.initFilesUrl(this._categoryMaster.filemanager)
         resolve(true)
@@ -258,7 +315,7 @@ export class AddmodifycategoryComponent {
           });
           this._categoryMaster.filemanager = []
           // this.addmodifycategoryMaster(flag);
-          this.saveModuleFile_helper()
+          this.saveModuleFile_helper('media')
         });
       });
     }
@@ -355,6 +412,9 @@ export class AddmodifycategoryComponent {
           fileidentifier: FileManager[i].fileidentifier,
           ModuleType: 'category',
           fileextension: FileManager[i].fileextension,
+          fileArrayIdentifier: FileManager[i].itemidentifier,
+          subidentifier: FileManager[i].subidentifier,
+          itemidentifier: FileManager[i].itemidentifier,
         }
         this.fileChoosenData[FileManager[i].fileidentifier].push(filesData)
         this.fgcategorymaster.controls[FileManager[i].fileidentifier].setValue('uploaded')
@@ -363,9 +423,11 @@ export class AddmodifycategoryComponent {
     }
   }
 
-  getFilesInfo(fileidentifier: string): SaveModuleFileModel {
-
+  getFilesInfo(fileidentifier: string): SaveModuleFileModel[] {
     let arrayReturn: any = []
+    if (!this.fileChoosenData[fileidentifier]) {
+      return arrayReturn;
+    }
     for (let i in this.fileChoosenData[fileidentifier]) {
       this.fileChoosenData[fileidentifier][i].displayorder = (1 + parseInt(i))
       if (this.fileChoosenData[fileidentifier][i].file_id == 0) {
@@ -376,6 +438,9 @@ export class AddmodifycategoryComponent {
           fileidentifier: this.fileChoosenData[fileidentifier][i].fileidentifier,
           displayorder: this.fileChoosenData[fileidentifier][i].displayorder,
           files: this.fileChoosenData[fileidentifier][i].file,
+          indexidentifier: ((this.fileChoosenData[fileidentifier][i].FileUploaderIndex?? 0) - 1),
+        subidentifier: this.fileChoosenData[fileidentifier][i].subidentifier,
+        itemidentifier: this.fileChoosenData[fileidentifier][i].itemidentifier
         }
         arrayReturn.push(filesData)
       }

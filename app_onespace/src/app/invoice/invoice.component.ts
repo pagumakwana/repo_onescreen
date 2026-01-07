@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseServiceHelper } from '../_appservice/baseHelper.service';
 import { WebDService } from '../_appservice/webdpanel.service';
 import html2pdf from 'html2pdf.js';
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-invoice',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './invoice.component.html',
   styleUrl: './invoice.component.scss'
 })
@@ -27,7 +27,7 @@ export class InvoiceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+    this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
     this.get_invoice(this.order_id);
     this._base._commonService.get_portal_config('invoice_logo').then((invoice_logo: any) => {
       this.invoice_logo = invoice_logo;

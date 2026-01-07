@@ -6,6 +6,9 @@
     align-items: flex-start;
     gap: 30px;
 }
+.container_section.aboutus {
+    margin-bottom: 30px;
+}
 .aboutus_thumbnail img {
     max-width: 450px;
     height: auto;
@@ -15,7 +18,7 @@
     width: 49%;
 }
 .aboutus_content {
-    width: 38%;
+    width: 100%;
 }
 .aboutus_content ul {
     list-style: none;
@@ -41,6 +44,7 @@
     background: rgb(232 236 241 / 20%);
     padding: 62px 0;
     margin-bottom: 108px;
+    display: none;
 }
 .ourstory .inner_container {
     display: flex;
@@ -79,6 +83,358 @@
     margin-bottom: 0;
 }
 
+// New Section added as per requirements start
+.about-deal-section {
+    background-color: #054089;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 10px;
+    color: white;
+    gap: 20px;
+    max-width: 1200px;
+}
+.about-deal-item {
+    text-align: center;
+    flex: 1 1 120px;
+    max-width: 150px;
+}
+.about-deal-icon {
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.about-deal-label {
+    font-size: 14px;
+}
+
+.about-count-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 10px;
+    text-align: center;
+}
+
+.about-count-header h1 {
+    font-size: 2rem;
+    color: #1A3E74;
+    margin-bottom: 10px;
+}
+
+.about-count-header p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.about-stat-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.about-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1A3E74;
+    margin-bottom: 10px;
+}
+
+.about-stat-title {
+    font-size: 1rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.service-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    align-items: flex-start;
+}
+.services-text {
+    flex: 1 1 250px;
+    text-align: left
+}
+.services-text h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.services-text p {
+    color: #555;
+    font-size: 14px;
+    max-width: 270px
+}
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    flex: 2 1 500px;
+}
+.services-grid a {
+    text-decoration: none;
+}
+.mainService-card {
+    display: flex;
+    align-items: center;
+    background-color: rgb(22 34 51 / 8%);
+    padding: 15px;
+    border-radius: 8px;
+    gap: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+.mainService-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.service-info {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+}
+.mainService-card .arrow {
+    font-size: 18px;
+    color: #333;
+}
+
+.steps-container {
+  flex: 1;
+  float: left;
+  width: 100%;
+}
+.steps {
+  list-style: none;
+  padding: 0;
+}
+.step-item {
+  margin: 10px 0;
+  padding: 10px;
+  border-left: 5px solid #e0e0e0;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  text-align: left;
+}
+.step-item.active {
+    background: #054089;
+    border-color: #000000;
+    font-weight: bold;
+    color: #fff;
+}
+.description {
+  color: #054089;
+  margin: 5px 0 15px 15px;
+  padding: 8px 12px;
+  background: rgb(5, 64, 137, 0.2);
+  border-left: 3px solid #054089;
+  display: none;
+  border-radius: 5px;
+  text-align: left;
+}
+.description.show {
+  display: block;
+}
+.image-container {
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+        border-radius: 10px
+}
+.payment-slider {
+    position: relative;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+.payment-step {
+    min-height: 120px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    flex-basis: 30%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.percentage-text {
+    font-size: 20px;
+    color: #2f9cb1;
+    font-weight: bold;
+    margin-right: 20px;
+}
+.arrow-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.custom-arrow {
+    display: block;
+    width: 100px;
+    height: 2px;
+    background-color: #2f9cb1;
+    position: relative;
+}
+.custom-arrow::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    background-color: #2f9cb1;
+    border-radius: 50%;
+}
+.custom-arrow::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left-color: #2f9cb1;
+    transform: translateX(5px);
+}
+.about-contact-strip {
+    float: left;
+    text-align: left;
+    width: calc(100% - 140px);
+    font-weight: bold;
+}
+.service-about {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 20px 40px;
+    flex-wrap: wrap;
+}
+.service-card-about:hover {
+    transform: translateY(-5px);
+}
+.service-card-about {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 250px;
+    text-align: left;
+    transition: transform 0.2s;
+}
+.service-card-about img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.highlight-text-about {
+    color: #054089;
+    margin: 15px;
+    font-size: 1.1rem;
+}
+.service-card-about p {
+    margin: 0 15px 15px;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+.about-count-header {
+    border-bottom: 3px solid #054089;
+    margin-bottom: 20px;
+}
+.accordion.open {
+    border-color: #054089;
+    background: white;
+}
+.accordion {
+    border-radius: 20px 20px 0 20px;
+    background: rgba(217, 217, 217, 0.2);
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid rgba(217, 217, 217, 0.2);
+    text-align: left;
+}
+.toggle {
+    position: relative;
+    padding: 20px 45px 20px 20px;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+}
+.toggle:before {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    margin: auto 0;
+    width: 28px;
+    height: 28px;
+    background-size: contain !important;
+    background-position: center !important;
+}
+.toggle:before {
+    content: "";
+    // background: url('./media/accordian_close_arrow.svg') no-repeat;
+}
+.inner {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.inner > div {
+    padding: 0 20px 20px 20px;
+    display: block;
+    clear: both;
+}
+.inner > div *, .inner > div {
+    font-size: 14px;
+}
+// New Section added as per requirements End
+
 // Responsive CSS
 @media only screen and (max-width: 1200px) {
     .aboutus_thumbnail {
@@ -102,6 +458,24 @@
     }
 }
 
+@media only screen and (max-width: 1024px) {
+    .service-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .services-text {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+    .services-grid {
+        flex: 2 1 auto;
+    }
+    .payment-slider {
+        flex-wrap: wrap;
+        left: 0;
+    }
+}
 @media only screen and (max-width: 900px) {
     .aboutus_content ul {
         margin-bottom: 20px;
@@ -118,6 +492,19 @@
     }
 }
 
+@media (max-width: 768px) {
+    .about-count-header h1 {
+    font-size: 1.6rem;
+    }
+    .about-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .service-container {
+        padding: 20px;
+    }
+}
+
 @media only screen and (max-width: 700px) {
     .ourstory {
         padding: 30px 0;
@@ -131,5 +518,33 @@
     .ourstory .inner_container > div {
         width: 100% !important;
         padding-top: 0;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .about-deal-section {
+        align-items: center;
+        padding: 20px 5px;
+        gap: 5px;
+    }
+    .about-deal-item {
+        max-width: 100px;
+        margin-bottom: 15px;
+    }
+    .about-count-header p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    .about-count-header h1 {
+        font-size: 1.2rem;
+    }
+    .about-count-section {
+        padding: 30px 0 10px;
+    }
+    .about-contact-strip {
+        width: 100%;
+        text-align: center;
     }
 }

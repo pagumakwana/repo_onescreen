@@ -47,6 +47,8 @@ export class AppComponent implements OnInit, OnDestroy {
           .subscribe((event: any) => {
             const body = document.body;
 
+            body.classList.forEach(cls => this.renderer.removeClass(body, cls));
+            
             if (event.url.includes('/app')) {
               this.renderer.removeAttribute(body, 'data-pc-layout');
             } else if (event.url.includes('/aboutus')) {

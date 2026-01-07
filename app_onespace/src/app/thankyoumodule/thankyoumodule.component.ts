@@ -60,7 +60,7 @@ export class ThankyoumoduleComponent implements OnInit {
     thumbnail: {
       fileValidationInfo: {
         fileType: ['video/mp4'],
-        size: 3145728
+        size: 104857600 //100mb
       },
       isMulti: true,
       fileidentifier: 'thumbnail',
@@ -97,6 +97,9 @@ export class ThankyoumoduleComponent implements OnInit {
 
   get_pendingmediaupload(order_id: any = 0) {
     this._base._encryptedStorage.get(enAppSession.user_id).then((user_id: any) => {
+      if(user_id==undefined || user_id==null || user_id==''){
+        user_id = 0;
+      }
       this._webDService.getpendingmediaupload(user_id, order_id || 0, 0, 0).subscribe((respendingMedia: any) => {
         this.pendingMedia = respendingMedia.data;
         this.pendingMedia = Array.isArray(respendingMedia.data) ? respendingMedia.data : [];
@@ -124,6 +127,7 @@ export class ThankyoumoduleComponent implements OnInit {
     });
   }
   saveModuleFile_helper() {
+    debugger
     let fileData: Array<SaveModuleFileModel> = this._base._commonService.joinArray(this.getFilesInfo('thumbnail'))
     if (fileData.length > 0)
       this.saveModuleFile_multi_helper(fileData, fileData.length, [])
@@ -173,6 +177,7 @@ export class ThankyoumoduleComponent implements OnInit {
   }
 
   upload_media() {
+    debugger
     this._base._commonService.markFormGroupTouched(this.fgmedia)
     if (this.fgmedia.valid) {
       this._media_upload.order_product_map_id = this.selectedOrderId;

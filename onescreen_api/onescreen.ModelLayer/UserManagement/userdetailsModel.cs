@@ -33,6 +33,7 @@ namespace onescreenModel.UserManagement
         public List<controlsModel>? lstcontrol { get; set; }
         public string password { get; set; }
         public string? address { get; set; }
+        public Guid? batch_id { get; set; }
     }
 
     public class authorityuserModel
