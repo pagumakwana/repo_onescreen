@@ -14,12 +14,13 @@ import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AuthService } from '../authmodule/_authservice/auth.service';
 import { first, throwError } from 'rxjs';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule,PdfViewerModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -56,6 +57,7 @@ export class ProductComponent implements OnInit {
 
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+  @ViewChild('formpdfviewerModal', { static: true }) formpdfviewerModal!: TemplateRef<any>;
   // public formModal!: NgbModalRef;
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
@@ -307,6 +309,7 @@ export class ProductComponent implements OnInit {
       this._categoryTypeMaster.category = ($event?.category);
       this.getpropertycategory(this._categoryTypeMaster.category_id);
       this._wizard_index = 1;
+      this._cdr.detectChanges();
     }
   }
 
@@ -317,9 +320,10 @@ export class ProductComponent implements OnInit {
       this._categoryPropertyMaster.category = ($event?.category);
       this.getroute(this._categoryPropertyMaster.category_id);
       this._wizard_index = 2;
+      this._cdr.detectChanges();
     }
   }
-
+  view_file:boolean=false;
   onSelectroute($event: any, _index: number = 0) {
     debugger
     if ($event && $event != null && $event != '') {
@@ -330,6 +334,10 @@ export class ProductComponent implements OnInit {
       this.view_route_link = $event?.route_file ? $event?.route_file : '';
       this.view_route_description = $event?.description ? $event?.description : '';
       this._wizard_index = 3;
+      setTimeout(() => {
+          this.view_file=true;
+      }, 1500);
+      this._cdr.detectChanges();
     }
   }
 
@@ -370,6 +378,7 @@ export class ProductComponent implements OnInit {
         console.log(" this.Screen Interval", this.ScreenIntervalMaster)
       });
       this._wizard_index = 4;
+      this._cdr.detectChanges();
     }
   }
 
@@ -1390,6 +1399,7 @@ export class ProductComponent implements OnInit {
           this.RouteMaster.forEach((item: any, i: number) => item.isChecked = false);
           this.ScreenMaster = [];
           this.view_route_link = '';
+          this.view_file=false;
           this.view_route_description = '';
         }
         else if (this._wizard_index == 1) {
@@ -1616,5 +1626,16 @@ export class ProductComponent implements OnInit {
         });
     });
   }
+
+  openpdfview(){
+    this.modalService.open(this.formpdfviewerModal, {
+      size: 'xl',
+      backdrop: true,
+      centered: true,
+      // scrollable: true
+    });
+    this._cdr.detectChanges();
+  }
+  
 }
 

@@ -227,5 +227,6 @@ namespace onescreenModel.Common
 
         public const string getprimedate = "[dbo].[getprimedate]";
         public const string manageprimedate = "[dbo].[manageprimedate]";
+        public const string raise_quote = "[dbo].[raise_quote]";
     }
 }

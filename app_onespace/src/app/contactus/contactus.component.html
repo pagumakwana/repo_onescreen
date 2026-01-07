@@ -12,111 +12,111 @@
     </section>
 
     <section class="contact-section">
-  <div class="contact-container">
-    <div class="contact-info">
-      <h2>Get in Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
 
-      <div class="info-item">
-        <span>📍</span>
-        <p>3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
-      </div>
+                <div class="info-item">
+                    <span>📍</span>
+                    <p>3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
+                </div>
 
-      <div class="info-item">
-        <span>📞</span>
-        <p>+91 7490077475</p>
-      </div>
+                <div class="info-item">
+                    <span>📞</span>
+                    <p><a href="tel:+91 7490077475">+91 7490077475</a></p>
+                </div>
 
-      <div class="info-item">
-        <span>✉️</span>
-        <p><a href="mailto:onescreen25@gmail.com">onescreen25&#64;gmail.com</a></p>
-      </div>
+                <div class="info-item">
+                    <span>✉️</span>
+                    <p><a href="mailto:getonescreen@gmail.com">getonescreen&#64;gmail.com</a></p>
+                </div>
 
-      <div class="info-item">
-        <span> <i class="fas fa-map-marker-alt" style="color: #fff;"></i></span>
-        <a href="https://wa.me/918108030098?text=Hello%21%20Could%20you%20please%20share%20your%20shop%20location%3F%20I%27d%20like%20to%20visit."
-            target="_blank">
-            Get Location
-           
-        </a>
-      </div>
-    </div>
+                <div class="info-item">
+                    <span> <i class="fas fa-map-marker-alt" style="color: #fff;"></i></span>
+                    <a href="https://wa.me/918108030098?text=Hello%21%20Could%20you%20please%20share%20your%20shop%20location%3F%20I%27d%20like%20to%20visit."
+                        target="_blank">
+                        Get Location
 
-    <div class="contact-form">
-      <h2>Send a Message</h2>
-      <form [formGroup]="fgcontactdetails">
-        <!-- <form> -->
-        <div class="form_container">
-            <label>Full Name</label>
-            <input type="text" id="fullname" name="fullname" placeholder="Full Name"
-                formControlName="fullname" required>
-            <div *ngIf="fgcontactdetails.controls['fullname'].invalid && (fgcontactdetails.controls['fullname'].dirty || fgcontactdetails.controls['fullname'].touched )"
-                class="text-danger">
-                <ng-container *ngIf="fgcontactdetails.controls['fullname'].errors?.['required']">
-                    FullName required.
-                </ng-container>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div class="form_container">
-            <label>Email Id</label>
-            <input type="text" id="email_id" name="email_id" placeholder="Email_id"
-                formControlName="email_id" required
-                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
-            <div *ngIf="fgcontactdetails.controls['email_id'].invalid && (fgcontactdetails.controls['email_id'].dirty || fgcontactdetails.controls['email_id'].touched)"
-                class="text-danger">
-                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['required']">
-                    Email Id required.
-                </ng-container>
-                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['email']">
-                    Please enter a valid email address.
-                </ng-container>
-                <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['pattern']">
-                    Email must be in a proper format (e.g., example&#64;gmail.com).
-                </ng-container>
-            </div>
-        </div>
+            <div class="contact-form">
+                <h2>Send a Message</h2>
+                <form [formGroup]="fgcontactdetails">
+                    <!-- <form> -->
+                    <div class="form_container">
+                        <label>Full Name</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Full Name"
+                            formControlName="fullname" required>
+                        <div *ngIf="fgcontactdetails.controls['fullname'].invalid && (fgcontactdetails.controls['fullname'].dirty || fgcontactdetails.controls['fullname'].touched )"
+                            class="text-danger">
+                            <ng-container *ngIf="fgcontactdetails.controls['fullname'].errors?.['required']">
+                                FullName required.
+                            </ng-container>
+                        </div>
+                    </div>
 
-        <div class="form_container">
-            <label>Mobile Number</label>
-            <input type="text" id="label" name="mobile_no" placeholder="Mobile Number"
-                formControlName="mobile_no" required pattern="^[6-9]\d{9}$">
-            <div *ngIf="fgcontactdetails.controls['mobile_no'].invalid && (fgcontactdetails.controls['mobile_no'].dirty || fgcontactdetails.controls['mobile_no'].touched)"
-                class="text-danger">
-                <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['required']">
-                    Mobile Number required.
-                </ng-container>
-                <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['pattern']">
-                    Please enter a valid 10-digit mobile number
-                </ng-container>
-            </div>
-        </div>
-        <div class="form_container">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" placeholder="Message goes here..."
-                formControlName="description"></textarea>
-        </div>
-        <!-- <div class="checkbox-container">
+                    <div class="form_container">
+                        <label>Email Id</label>
+                        <input type="text" id="email_id" name="email_id" placeholder="Email_id"
+                            formControlName="email_id" required
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                        <div *ngIf="fgcontactdetails.controls['email_id'].invalid && (fgcontactdetails.controls['email_id'].dirty || fgcontactdetails.controls['email_id'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['required']">
+                                Email Id required.
+                            </ng-container>
+                            <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['email']">
+                                Please enter a valid email address.
+                            </ng-container>
+                            <ng-container *ngIf="fgcontactdetails.controls['email_id'].errors?.['pattern']">
+                                Email must be in a proper format (e.g., example&#64;gmail.com).
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="form_container">
+                        <label>Mobile Number</label>
+                        <input type="text" id="label" name="mobile_no" placeholder="Mobile Number"
+                            formControlName="mobile_no" required pattern="^[6-9]\d{9}$">
+                        <div *ngIf="fgcontactdetails.controls['mobile_no'].invalid && (fgcontactdetails.controls['mobile_no'].dirty || fgcontactdetails.controls['mobile_no'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['required']">
+                                Mobile Number required.
+                            </ng-container>
+                            <ng-container *ngIf="fgcontactdetails.controls['mobile_no'].errors?.['pattern']">
+                                Please enter a valid 10-digit mobile number
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form_container">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Message goes here..."
+                            formControlName="description"></textarea>
+                    </div>
+                    <!-- <div class="checkbox-container">
             <input type="checkbox" id="privacy-policy" name="privacy-policy" required aria-required="true">
             <label for="privacy-policy">Click here to confirm you have read our privacy policy*</label>
         </div> -->
-        <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
+                    <!-- <button type="button" class="btn btn-success btn-sm" [disabled]="isLoading"
                 (click)="setcontactdetail(true)"> -->
-        <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
-            <ng-container *ngIf="!isLoading">Submit</ng-container>
-            <ng-container *ngIf="isLoading">
-                <span clas="indicator-progress" [style.display]="'block'">
-                    Please wait...{{ " " }}
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-            </ng-container>
-        </button>
-        <swal #successSwal [swalOptions]="swalOptions" title="Submitted!" text="" icon="success"
-            [showConfirmButton]="false">
-        </swal>
-    </form>
-    </div>
-  </div>
-</section>
+                    <button type="button" class="btn btn ternary_btn" (click)="setcontactdetail(true)">
+                        <ng-container *ngIf="!isLoading">Submit</ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <span clas="indicator-progress" [style.display]="'block'">
+                                Please wait...{{ " " }}
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </ng-container>
+                    </button>
+                    <swal #successSwal [swalOptions]="swalOptions" title="Submitted!" text="" icon="success"
+                        [showConfirmButton]="false">
+                    </swal>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <!-- <section class="container_section locations top_gap">
         <div class="inner_container">
@@ -130,7 +130,7 @@
                     <div class="office">
                         <h4>Head Office</h4>
                         <p>Thane,</p>
-                        <p>Email: <a href="mailto:onescreen25@gmail.com">onescreen25&#64;gmail.com</a></p>
+                        <p>Email: <a href="mailto:getonescreen@gmail.com">getonescreen&#64;gmail.com</a></p>
                         <p>Mobile: <a href="tel:+918108030098">+91 8108030098</a></p>
                         <div class="map_area"></div>
                         <a href="https://wa.me/918108030098?text=Hello%21%20Could%20you%20please%20share%20your%20shop%20location%3F%20I%27d%20like%20to%20visit."
@@ -144,7 +144,7 @@
         </div>
     </section> -->
 
-   
+
 
     <section class="grow_business">
         <div class="inner_container">

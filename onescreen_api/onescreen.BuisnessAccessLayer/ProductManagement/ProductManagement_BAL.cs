@@ -304,6 +304,13 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getprimedate(flag, date_id, start_count, end_count);
             }
         }
+        public string raise_quote(quotation_model _quotation_model)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.raise_quote(_quotation_model);
+            }
+        }
 
         public void Dispose() 
         { 

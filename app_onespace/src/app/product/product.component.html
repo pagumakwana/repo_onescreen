@@ -24,14 +24,18 @@
                     <!-- RIGHT SIDE BUTTONS -->
                     <div class="ms-auto d-flex gap-2">
                         <!-- <a class="btn btn-sm btn-primary" (click)="openRoutePdf()">
-                            View Route Details
+                            View Route Details  data-bs-target="#routepdfviwer"
                         </a> -->
                         <ng-container *ngIf="view_route_link!='' && view_route_link!=null">
-                            <a class="btn btn-sm btn-primary"
+                            <button type="button" class="btn btn-sm btn-primary" (click)="openpdfview()"
+                                >
+                                View Route Details
+                            </button>
+                            <!-- <a class="btn btn-sm btn-primary"
                                 [href]="(this._base._commonService.cdnURL + view_route_link)" target="_blank"
                                 rel="noopener noreferrer">
                                 View Route Details
-                            </a>
+                            </a> -->
                         </ng-container>
                         <button *ngIf="primedateMaster.length > 0" type="button" class="btn btn-sm btn-primary"
                             data-bs-toggle="modal" data-bs-target="#slotInfoModal">
@@ -716,9 +720,9 @@
                     </ng-container>
                 </div>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label class="form-label fw-bold">{{this.OTPValue}}</label>
-            </div>
+            </div> -->
 
             <div class="d-grid mb-3">
                 <ng-container *ngIf="!this.isOTPsen && !this.isverifybutton">
@@ -771,3 +775,49 @@
         </div>
     </div>
 </div>
+<!-- 
+<div class="modal fade" id="routepdfviwer" tabindex="-1" aria-labelledby="routepdfviwerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="routepdfviwerLabel">Prime Date Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div id="outerContainer">
+                    <div class="pdf-container">
+                        <pdf-viewer [src]="this._base._commonService.cdnURL + this.view_route_link" [rotation]="0"
+                            *ngIf="this.view_file" [original-size]="false" [show-all]="true" [fit-to-page]="false"
+                            [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="false" [render-text]="true"
+                            [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false"
+                            style="width: 100%; height: 100vh;"></pdf-viewer>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<ng-template #formpdfviewerModal let-modal >
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+  
+    <div class="modal-body pdf-modal-body">
+        <pdf-viewer
+          *ngIf="view_file"
+          [src]="_base._commonService.cdnURL + view_route_link"
+          [original-size]="false"
+          [zoom-scale]="'page-width'"
+          [render-text]="true"
+          [autoresize]="false"
+          style="width:100%; height:100%;">
+        </pdf-viewer>
+      </div>
+</ng-template>

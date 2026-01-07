@@ -51,6 +51,8 @@ import { OrderPolicyComponent } from './order-policy/order-policy.component';
 import { CancellationAndRefundComponent } from './cancellation-and-refund/cancellation-and-refund.component';
 import { PrimedatetimemoduleComponent } from './adminmodeules/primedatetimemodule/primedatetimemodule.component';
 import { ContactusmoduleComponent } from './adminmodeules/contactusmodule/contactusmodule.component';
+import { PortalconfigComponent } from './adminmodeules/portalconfig/portalconfig.component';
+import { PricingmoduleComponent } from './pricingmodule/pricingmodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -147,6 +149,11 @@ export const routes: Routes = [
                 path: 'invoice/:order_id',
                 component: InvoiceComponent,
                 title: 'Thanks You | Onescreen',
+            },
+            {
+                path: 'pricing',
+                component: PricingmoduleComponent,
+                title: 'Pricing | Onescreen',
             },
         ]
     },
@@ -315,6 +322,11 @@ export const routes: Routes = [
                 path: 'enquiry',
                 component: ContactusmoduleComponent,
                 title: 'Contact Enquiry Date | Onescreen',
+            },
+            {
+                path: 'portalconfig',
+                component: PortalconfigComponent,
+                title: 'Portal Config | Onescreen',
             },
         ]
     },

@@ -250,3 +250,19 @@
 .category_description span p{
   font-size: 15px !important;
 }
+
+.pdf-modal-body {
+  height: calc(90vh - 60px); /* header height */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-height: 100vh;
+  }
+
+  .pdf-modal-body {
+    height: calc(100vh - 60px);
+  }
+}

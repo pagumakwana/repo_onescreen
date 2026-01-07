@@ -2483,6 +2483,144 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public string raise_quote(quotation_model _quotation_model)
+        {
+            string ResponseMessage = "";
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", _quotation_model.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quote_id", _quotation_model.quote_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quote_number", _quotation_model.quote_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@total_amount", _quotation_model.total_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sub_amount", _quotation_model.sub_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@discounted_amount", _quotation_model.discounted_amount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@discount_id", _quotation_model.discount_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@fullname", _quotation_model.fullname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@mobile_number", _quotation_model.mobile_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@email_id", _quotation_model.email_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@address", _quotation_model.address, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@product_id", _quotation_model.product_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_id", _quotation_model.cart_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _quotation_model.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _quotation_model.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.raise_quote, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objuserorderMaster.flag.Contains("NEWORDER") || objuserorderMaster.flag.Contains("MODIFYORDER"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objuserorderMaster.order_id = Convert.ToInt64(Res[1].ToString());
+                            if ((objordermaster.lst_orderdetail != null && objordermaster.lst_orderdetail.Count > 0))
+                            {
+                                objordermaster.lst_orderdetail.ForEach(item =>
+                                {
+                                    item.order_id = objuserorderMaster.order_id;
+                                    item.cart_master_id = objuserorderMaster.cart_master_id;
+                                    item.product_id = item.product_id;
+                                    item.ismonthly = item.ismonthly;
+                                    item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
+                                    item.user_id = objuserorderMaster.user_id;
+                                    item.client_id = client_id;
+                                    item.project_id = project_id;
+                                    item.createdby = objuserorderMaster.user_id;
+                                    item.createdname = objuserorderMaster.createdname;
+                                    item.isactive = true;
+                                    item.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderdetail);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+                            if ((objordermaster.lst_orderproduct != null && objordermaster.lst_orderproduct.Count > 0))
+                            {
+                                objordermaster.lst_orderproduct.ForEach(_item =>
+                                {
+                                    // Master level mappings
+                                    _item.order_id = objuserorderMaster.order_id;
+                                    _item.user_id = objuserorderMaster.user_id;
+                                    _item.client_id = client_id;
+                                    _item.project_id = project_id;
+                                    _item.createdby = objuserorderMaster.user_id;
+                                    _item.createdname = objuserorderMaster.createdname;
+                                    _item.isactive = true;
+                                    _item.isdeleted = false;
+
+                                    // Product details (coming from cart/frontend)
+                                    _item.cart_master_id = objuserorderMaster.cart_master_id;
+                                    _item.product_id = _item.product_id;
+                                    _item.timeslot_category_id = _item.timeslot_category_id;
+                                    _item.timeslot_category = _item.timeslot_category;
+                                    _item.timeslot_price = _item.timeslot_price;
+                                    _item.repetition_category_id = _item.repetition_category_id;
+                                    _item.repetition_category = _item.repetition_category;
+                                    _item.repetition_price = _item.repetition_price;
+                                    _item.interval_category_id = _item.interval_category_id;
+                                    _item.interval_category = _item.interval_category;
+                                    _item.interval_price = _item.interval_price;
+                                    _item.from_date = _item.from_date;
+                                    _item.to_date = _item.to_date;
+                                    _item.quantity = _item.quantity;
+                                    _item.base_amount = _item.base_amount;
+                                    _item.attribute_amount = _item.attribute_amount;
+                                    _item.total_amount = _item.total_amount;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderproduct);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_UserOrderProductMapping", dtfilemanagercategory);
+                                DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
+                                DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl3.Add(objDBParameter3);
+                                objDbHelper.ExecuteNonQuery(Constant.mapuserorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
+                            }
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public void Dispose()
         {
         }

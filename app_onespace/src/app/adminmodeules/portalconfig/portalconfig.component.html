@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-xl-12 col-lg-12">
+    <!-- <div class="card shadow mb-4"> -->
+    <div class="card">
+      <div class="card-header border-0 pt-6">
+        <div class="card-title">
+          Portal Configuration
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="userConfigTable table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">Type</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let _configData of userConfigData;let _i=index_base">
+
+
+                <td class="align-middle">{{ _configData.config_name }}</td>
+
+                <td class="align-middle">
+                  <ng-container *ngIf="_configData.config_type == 'TextBox'">
+                    <input type="text" class="form-control" [disabled]="!_configData.isEditable"
+                      [value]="_configData.config_value" (input)="_configData.config_value = $any($event.target).value">
+                  </ng-container>
+
+                  <div *ngIf="configValue?.invalid && (configValue?.dirty || configValue?.touched)"
+                    class="error_msg mt-1">
+                    Please provide a value.
+                  </div>
+                </td>
+
+                <!-- <td class="align-middle" *ngIf="_configData.config_type == 'DropDown'">
+                 
+                </td>-->
+
+                <td class="align-middle">{{_configData.config_type}}</td>
+                <td class="align-middle" [innerHTML]="_configData.description"></td>
+
+                <td class="align-middle">
+                  <button *ngIf="!_configData.isEditable" type="button" class="btn btn-primary btn-sm"
+                    [disabled]="!_configData.config_value" (click)="allowEdit(_configData)">
+                    Edit
+                  </button>
+                  <button *ngIf="_configData.isEditable" type="button" class="btn btn-success btn-sm"
+                    [disabled]="!_configData.config_value" (click)="submitConfiguration(_configData)">
+                    Update
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <!-- </div> -->
+  </div>
+</div>

@@ -42,6 +42,17 @@ export class CartComponent implements OnInit {
   }
 
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+  @ViewChild('formRaiseQuote', { static: true }) formRaiseQuote!: TemplateRef<any>;
+
+  openraisequote() {
+    this.modalService.open(this.formRaiseQuote, {
+      size: 'md',
+      backdrop: true,
+      centered: false,
+      // scrollable: true
+    });
+    this._cdr.detectChanges();
+  }
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
@@ -81,13 +92,15 @@ export class CartComponent implements OnInit {
   referal_person_name: string = '';
   referal_person_mobile: string = '';
 
-  fguser!: FormGroup
+  fguser!: FormGroup;
+  fgrasiequote!: FormGroup;
   usercartdata: any = [];
   cart_master_id: number = 0;
   razorpay_OrderAttribute!: razorpay_OrderAttribute;
   constructor(public _base: BaseServiceHelper,
     private _webDService: WebDService,
     public _fbuser: FormBuilder,
+    public _fbraisequote: FormBuilder,
     private authService: AuthService,
     private _modalService: NgbModal,
     private _activatedRouter: ActivatedRoute,
@@ -120,7 +133,15 @@ export class CartComponent implements OnInit {
     })
   }
 
+  
   initform() {
+    this.fgrasiequote = this._fbraisequote.group({
+      fullname: ['', [Validators.required]],
+      email_id: ['', [Validators.required]],
+      mobile_number: ['', [Validators.required]],
+      address: ['']
+    });
+
     this.fguser = this._fbuser.group({
       user_id: [0],
       fullname: ['', [Validators.required]],

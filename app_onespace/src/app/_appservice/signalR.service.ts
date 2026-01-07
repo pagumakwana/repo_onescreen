@@ -9,7 +9,7 @@ import { BaseServiceHelper } from './baseHelper.service';
 })
 export class SignalRService {
 
-    public hubConnection: signalR.HubConnection;
+    public hubConnection!: signalR.HubConnection;
     public messageReceived$ = new Subject<string>();
     public getTimeUpdate$ = new Subject<string>();
     private isConnectedSubject = new Subject<boolean>();
@@ -36,7 +36,7 @@ export class SignalRService {
                 this.isConnectedSubject.next(true);
                 this.startListening()
             })
-            .catch(err => {
+            .catch((err:any) => {
                 console.error('App Connection Error: ', err);
                 this.isConnectedSubject.next(false);
             });

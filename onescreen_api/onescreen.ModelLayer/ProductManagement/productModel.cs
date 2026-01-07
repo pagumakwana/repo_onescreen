@@ -424,5 +424,55 @@ namespace onescreenModel.ProductManagement
         public string? prime_description { get; set; }
 
     }
+
+    public class quotation_model : commonModel
+    {
+        public Int64 quotation_id { get; set; }
+        public Int64 cart_master_id { get; set; }
+        public Int64 coupon_id { get; set; }
+        public string? quotation_number { get; set; }
+        public bool? ismonthly { get; set; }
+        public decimal? quotation_total { get; set; }
+        public decimal? quotation_subtotal { get; set; }
+        public decimal? quotation_discount { get; set; }
+        public decimal? quotation_tax { get; set; }
+        public string? quotation_status { get; set; }
+        public string? sales_person_name { get; set; }
+        public string? sales_person_mobile { get; set; }
+        public string? referal_person_name { get; set; }
+        public string? referal_person_mobile { get; set; }
+        public string? fullname { get; set; }
+        public string? email_id { get; set; }
+        public string? mobile_number { get; set; }
+        public string? address { get; set; }
+        public List<quoteproductModel> lst_quoteproduct { get; set; }
+    }
+
+    public class quoteproductModel : commonModel
+    {
+        public long quotation_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
+        public long? quotation_id { get; set; }            // [order_id]
+        public long? cart_master_id { get; set; }       // [cart_master_id]
+        public long? product_id { get; set; }          // [product_id]
+        public bool? ismonthly { get; set; }
+        public long? timeslot_category_id { get; set; }         // [time_slot_id]
+        public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
+        public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
+        public long? repetition_category_id { get; set; }       // [repetition_id]
+        public string? repetition_category { get; set; }  // [repetition_value] NVARCHAR(150)
+        public decimal? repetition_price { get; set; } // [repetition_price] DECIMAL(7,2)
+        public long? interval_category_id { get; set; }         // [interval_id]
+        public string? interval_category { get; set; }    // [interval_value] NVARCHAR(150)
+        public decimal? interval_price { get; set; }   // [interval_price] DECIMAL(7,2)
+        public long? route_category_id { get; set; }         // [interval_id]
+        public string? route_category { get; set; }    // [interval_value] NVARCHAR(150)
+        public string? from_date { get; set; }         // [from_date] NVARCHAR(50)
+        public string? to_date { get; set; }           // [to_date] NVARCHAR(50)
+        public long? quantity { get; set; }                // [qty]
+        public decimal? base_amount { get; set; }       // [base_amount] DECIMAL(7,2)
+        public decimal? attribute_amount { get; set; }  // [attribute_price] DECIMAL(7,2)
+        public decimal? total_amount { get; set; }
+
+    }
 }
 
