@@ -4,7 +4,7 @@ import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from "@angular/router";
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user, user_verification, userModel } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user, user_verification, userModel, quotationmodel } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -133,7 +133,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  
+
   initform() {
     this.fgrasiequote = this._fbraisequote.group({
       fullname: ['', [Validators.required]],
@@ -919,4 +919,60 @@ export class CartComponent implements OnInit {
     })
   }
 
+  _quotedetails: quotationmodel = {};
+  quoteForm = this.fgrasiequote?.value || {};
+
+  raise_quotation() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        this._quotedetails = {
+          flag: 'NEWQUOTATION',
+          quotation_id: 0,
+          cart_master_id: this.UserCart[0]?.cart_master_id,
+          coupon_id: this.couponMaster?.[0]?.coupon_id || 0,
+          quotation_total: this._base._commonService.formatAmount(this.cart_total),
+          quotation_subtotal: this._base._commonService.formatAmount(this.cart_subtotal),
+          quotation_discount: this._base._commonService.formatAmount(this.cart_discount),
+          quotation_tax: this._base._commonService.formatAmount(this.cart_tax),
+          quotation_status: 'success',
+          sales_person_mobile: this.sales_person_mobile,
+          sales_person_name: this.sales_person_name,
+          referal_person_mobile: this.referal_person_mobile,
+          referal_person_name: this.referal_person_name,
+          fullname: this.quoteForm.fullname,
+          email_id: this.quoteForm.email_id,
+          mobile_number: this.quoteForm.mobile_number,
+          address: this.quoteForm.address,
+          user_id: user_id,
+          createdname: full_name,
+          createdby: user_id,
+          lst_quoteproduct: this.UserCart[0]?.lst_cart_product,
+          // lst_orderproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
+        };
+        // this._quotationmodel = {
+        //   lst_ordermaster: this._order_details,
+        //   lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+        //   lst_orderproduct: this._order_details?.lst_orderproduct
+        // }
+        console.log('array', this._quotedetails)
+        this._webDService.raise_quote(this._quotedetails).subscribe((resorder: any) => {
+          if (resorder != null && resorder.includes('newsuccess')) {
+            console.log("Order stored successfully:", resorder);
+            let order_id = resorder.split('~')[1];
+            this.paysuccessSwal.fire();
+            setTimeout(() => {
+              this.paysuccessSwal.close();
+              this._base._router.navigate(['thankyou', order_id]);
+              this._cdr.detectChanges();
+            }, 500);
+          } else {
+            this.failureSwal.fire();
+            setTimeout(() => {
+              this.failureSwal.close();
+            }, 500);
+          }
+        });
+      });
+    });
+  }
 }

@@ -293,6 +293,7 @@ export class ApiConstant {
         update_to_cart: "product/update_to_cart",
         getorderproduct:"product/getorderproduct",
         primedatdetails:"product/primedatdetails",
-        getprimedate:"product/getprimedate"
+        getprimedate:"product/getprimedate",
+        raise_quote:"product/raise_quote"
     }
 }
