@@ -53,6 +53,7 @@ import { PrimedatetimemoduleComponent } from './adminmodeules/primedatetimemodul
 import { ContactusmoduleComponent } from './adminmodeules/contactusmodule/contactusmodule.component';
 import { PortalconfigComponent } from './adminmodeules/portalconfig/portalconfig.component';
 import { PricingmoduleComponent } from './pricingmodule/pricingmodule.component';
+import { QuotationmoduleComponent } from './adminmodeules/quotationmodule/quotationmodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -327,6 +328,11 @@ export const routes: Routes = [
                 path: 'portalconfig',
                 component: PortalconfigComponent,
                 title: 'Portal Config | Onescreen',
+            },
+            {
+                path: 'raisedquotation',
+                component: QuotationmoduleComponent,
+                title: 'Raised Quotation | Onescreen',
             },
         ]
     },

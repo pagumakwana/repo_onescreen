@@ -617,5 +617,24 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.raise_quote(_quotation_model);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="quotation_id"></param>
+        /// <param name="user_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getquotedetails")]
+        [HttpGet]
+        public responseModel getquotedetails(string flag, Int64 quotation_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getquotedetails(flag, quotation_id, user_id, start_count, end_count);
+            }
+        }
     }
 }

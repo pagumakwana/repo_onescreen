@@ -294,6 +294,7 @@ export class ApiConstant {
         getorderproduct:"product/getorderproduct",
         primedatdetails:"product/primedatdetails",
         getprimedate:"product/getprimedate",
-        raise_quote:"product/raise_quote"
+        raise_quote:"product/raise_quote",
+        getquotedetails:"product/getquotedetails",
     }
 }

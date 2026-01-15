@@ -733,4 +733,8 @@ export class WebDService {
     public raise_quote(_quotationmodel: quotationmodel) {
         return this._base._apiService.post(`${ApiConstant.product.raise_quote}`, _quotationmodel);
     }
+
+    public getquotedetails(flag = 'all', quotation_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getquotedetails}?flag=${flag}&quotation_id=${quotation_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
 }

@@ -445,6 +445,8 @@ namespace onescreenModel.ProductManagement
         public string? email_id { get; set; }
         public string? mobile_number { get; set; }
         public string? address { get; set; }
+        public string? sales_person_details { get; set; }
+        public string? referal_person_details { get; set; }
         public List<quoteproductModel> lst_quoteproduct { get; set; }
     }
 
@@ -453,6 +455,7 @@ namespace onescreenModel.ProductManagement
         public long quotation_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
         public long? quotation_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
+        public long? user_cart_mapping_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
         public bool? ismonthly { get; set; }
         public long? timeslot_category_id { get; set; }         // [time_slot_id]

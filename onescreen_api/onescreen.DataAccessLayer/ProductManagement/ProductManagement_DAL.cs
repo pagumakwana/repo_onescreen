@@ -2591,6 +2591,7 @@ namespace onescreenDAL.ProductManagement
 
                                     // Product details (coming from cart/frontend)
                                     _item.cart_master_id = _quotation_model.cart_master_id;
+                                    _item.user_cart_mapping_id = _item.user_cart_mapping_id;
                                     _item.product_id = _item.product_id;
                                     _item.timeslot_category_id = _item.timeslot_category_id;
                                     _item.timeslot_category = _item.timeslot_category;
@@ -2632,6 +2633,76 @@ namespace onescreenDAL.ProductManagement
                 throw ex;
             }
 
+        }
+
+        public responseModel getquotedetails(string flag, Int64 quotation_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_id", quotation_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getquotedetails, ObJParameterCOl, CommandType.StoredProcedure);
+                List<quotation_model> lstquotation = new List<quotation_model>();
+                if (ds != null)
+                {
+
+                    lstquotation = ds.Tables[0].AsEnumerable().Select(Row =>
+                          new quotation_model
+                          {
+                              quotation_id = Row.Field<Int64>("quotation_id"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              quotation_number = Row.Field<string>("quotation_number"),
+                              coupon_id = Row.Field<Int64>("coupon_id"),
+                              quotation_total = Row.Field<Decimal>("quotation_total"),
+                              quotation_subtotal = Row.Field<Decimal>("quotation_subtotal"),
+                              quotation_discount = Row.Field<Decimal>("quotation_discount"),
+                              quotation_tax = Row.Field<Decimal>("quotation_tax"),
+                              quotation_status = Row.Field<string>("quotation_status"),
+                              sales_person_details = Row.Field<string>("sales_person_details"),
+                              referal_person_details = Row.Field<string>("referal_person_details"),
+                              fullname = Row.Field<string>("fullname"),
+                              email_id = Row.Field<string>("email_id"),
+                              mobile_number = Row.Field<string>("mobile_number"),
+                              address = Row.Field<string>("address"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
+                }
+                response.data = lstquotation;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Dispose()

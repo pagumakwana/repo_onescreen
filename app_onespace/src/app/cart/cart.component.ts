@@ -9,7 +9,7 @@ import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { concatMap, delay, finalize, first, forkJoin, from, take } from 'rxjs';
-import { NgbDateParserFormatter, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { AuthService } from '../authmodule/_authservice/auth.service';
 declare var Razorpay: any;
@@ -44,12 +44,13 @@ export class CartComponent implements OnInit {
   @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
   @ViewChild('formRaiseQuote', { static: true }) formRaiseQuote!: TemplateRef<any>;
 
+
+  public modalRef!: NgbModalRef;
   openraisequote() {
-    this.modalService.open(this.formRaiseQuote, {
+    this.modalRef = this.modalService.open(this.formRaiseQuote, {
       size: 'md',
       backdrop: true,
-      centered: false,
-      // scrollable: true
+      centered: false
     });
     this._cdr.detectChanges();
   }
@@ -77,6 +78,8 @@ export class CartComponent implements OnInit {
   public readonly failureSwal!: SwalComponent;
   @ViewChild('paysuccessSwal')
   public readonly paysuccessSwal!: SwalComponent;
+  @ViewChild('qoutesuccessSwal')
+  public readonly qoutesuccessSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   UserCart: any;
@@ -920,9 +923,19 @@ export class CartComponent implements OnInit {
   }
 
   _quotedetails: quotationmodel = {};
-  quoteForm = this.fgrasiequote?.value || {};
+  // quoteForm = this.fgrasiequote?.value || {};
 
   raise_quotation() {
+    debugger
+    // if (this.fgrasiequote.invalid) {
+    //   this.fgrasiequote.markAllAsTouched();
+    //   return;
+    // }
+    const result = this.UserCart[0]?.lst_cart_product
+      ?.filter((p: any) => p.product_id > 0)
+      .flatMap((p: any) => p.optionvaluesParsed);
+
+    const quoteForm = this.fgrasiequote.value;
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
         this._quotedetails = {
@@ -939,14 +952,14 @@ export class CartComponent implements OnInit {
           sales_person_name: this.sales_person_name,
           referal_person_mobile: this.referal_person_mobile,
           referal_person_name: this.referal_person_name,
-          fullname: this.quoteForm.fullname,
-          email_id: this.quoteForm.email_id,
-          mobile_number: this.quoteForm.mobile_number,
-          address: this.quoteForm.address,
+          fullname: quoteForm.fullname,
+          email_id: quoteForm.email_id,
+          mobile_number: quoteForm.mobile_number,
+          address: quoteForm.address,
           user_id: user_id,
           createdname: full_name,
           createdby: user_id,
-          lst_quoteproduct: this.UserCart[0]?.lst_cart_product,
+          lst_quoteproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
           // lst_orderproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
         };
         // this._quotationmodel = {
@@ -955,21 +968,25 @@ export class CartComponent implements OnInit {
         //   lst_orderproduct: this._order_details?.lst_orderproduct
         // }
         console.log('array', this._quotedetails)
-        this._webDService.raise_quote(this._quotedetails).subscribe((resorder: any) => {
-          if (resorder != null && resorder.includes('newsuccess')) {
-            console.log("Order stored successfully:", resorder);
-            let order_id = resorder.split('~')[1];
-            this.paysuccessSwal.fire();
+        this._webDService.raise_quote(this._quotedetails).subscribe((resquote: any) => {
+          if (resquote && resquote.includes('newsuccess')) {
+            this.qoutesuccessSwal.fire();
             setTimeout(() => {
-              this.paysuccessSwal.close();
-              this._base._router.navigate(['thankyou', order_id]);
+              this.qoutesuccessSwal.close();
+              if (this.modalRef) {
+                this.modalRef.close();
+              } else {
+                this.modalService.dismissAll();
+              }
+              this.fgrasiequote.reset();
+              window.location.reload();
               this._cdr.detectChanges();
-            }, 500);
+            }, 1500);
           } else {
             this.failureSwal.fire();
             setTimeout(() => {
               this.failureSwal.close();
-            }, 500);
+            }, 1500);
           }
         });
       });

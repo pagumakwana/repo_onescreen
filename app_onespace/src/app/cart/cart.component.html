@@ -627,9 +627,14 @@
       </div>
       <div class="mb-3">
         <label class="form-label fw-bold">Email ID</label>
-        <input type="text" class="form-control" placeholder="Enter mobile number" pattern="^[0-9]\d{9}$" maxlength="10"
-          onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off" spellcheck="false"
-          formControlName="email_id">
+        <input type="email" class="form-control" placeholder="Enter EmailId" id="email_id" name="email_id" formControlName="email_id">
+        <div
+          *ngIf="fguser.controls['email_id'].invalid && (fguser.controls['email_id'].dirty || fguser.controls['email_id'].touched)"
+          class="text-danger">
+          <!-- <ng-container *ngIf="fguser.controls.email_id.errors?.['required']">
+            Email_id is required.
+          </ng-container> -->
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label fw-bold">Address</label>
@@ -645,6 +650,9 @@
           Submit
         </button>
       </div>
+      <swal #qoutesuccessSwal [swalOptions]="swalOptions" title="Quotation Raised." text="" icon="success"
+        [showConfirmButton]="false">
+      </swal>
     </form>
   </div>
 </ng-template>
