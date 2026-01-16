@@ -54,6 +54,7 @@ import { ContactusmoduleComponent } from './adminmodeules/contactusmodule/contac
 import { PortalconfigComponent } from './adminmodeules/portalconfig/portalconfig.component';
 import { PricingmoduleComponent } from './pricingmodule/pricingmodule.component';
 import { QuotationmoduleComponent } from './adminmodeules/quotationmodule/quotationmodule.component';
+import { ViewquotationComponent } from './adminmodeules/quotationmodule/viewquotation/viewquotation.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -333,6 +334,11 @@ export const routes: Routes = [
                 path: 'raisedquotation',
                 component: QuotationmoduleComponent,
                 title: 'Raised Quotation | Onescreen',
+            },
+            {
+                path: 'raisedquotation/:quotation_id',
+                component: ViewquotationComponent,
+                title: 'Quotation | Onescreen',
             },
         ]
     },

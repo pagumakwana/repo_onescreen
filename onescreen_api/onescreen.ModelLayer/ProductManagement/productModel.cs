@@ -457,6 +457,7 @@ namespace onescreenModel.ProductManagement
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? user_cart_mapping_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
+        public string? product_name { get; set; }          // [product_id]
         public bool? ismonthly { get; set; }
         public long? timeslot_category_id { get; set; }         // [time_slot_id]
         public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)

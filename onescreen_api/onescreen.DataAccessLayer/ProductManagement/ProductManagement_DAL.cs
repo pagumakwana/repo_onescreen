@@ -2660,10 +2660,38 @@ namespace onescreenDAL.ProductManagement
                 DBHelper objDbHelper = new DBHelper();
                 DataSet ds = objDbHelper.ExecuteDataSet(Constant.getquotedetails, ObJParameterCOl, CommandType.StoredProcedure);
                 List<quotation_model> lstquotation = new List<quotation_model>();
+                List<quoteproductModel> lstquotationproduct = new List<quoteproductModel>();
                 if (ds != null)
                 {
+                    if (quotation_id > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstquotationproduct = ds.Tables[0].AsEnumerable().Select(Row => new quoteproductModel
+                        {
+                            quotation_product_map_id = Row.Field<Int64>("quotation_product_map_id"),
+                            quotation_id = Row.Field<Int64>("quotation_id"),
+                            cart_master_id = Row.Field<Int64>("cart_master_id"),
+                            product_id = Row.Field<Int64>("product_id"),
+                            product_name = Row.Field<string>("product_name"),
+                            timeslot_category_id = Row.Field<Int64?>("timeslot_category_id"),
+                            timeslot_category = Row.Field<string?>("timeslot_category"),
+                            timeslot_price = Row.Field<decimal>("timeslot_price"),
+                            repetition_category_id = Row.Field<Int64?>("repetition_category_id"),
+                            repetition_category = Row.Field<string?>("repetition_category"),
+                            repetition_price = Row.Field<decimal>("repetition_price"),
+                            interval_category_id = Row.Field<Int64?>("interval_category_id"),
+                            interval_category = Row.Field<string?>("interval_category"),
+                            interval_price = Row.Field<decimal>("interval_price"),
+                            from_date = Row.Field<string>("from_date"),
+                            to_date = Row.Field<string>("to_date"),
+                            base_amount = Row.Field<decimal>("base_amount"),
+                            attribute_amount = Row.Field<decimal>("attribute_amount"),
+                            total_amount = Row.Field<decimal>("total_amount"),
+                        }).ToList();
 
-                    lstquotation = ds.Tables[0].AsEnumerable().Select(Row =>
+                    }
+                    if (ds.Tables[quotation_id > 0 ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstquotation = ds.Tables[quotation_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
                           new quotation_model
                           {
                               quotation_id = Row.Field<Int64>("quotation_id"),
@@ -2688,14 +2716,16 @@ namespace onescreenDAL.ProductManagement
                               updatedname = Row.Field<string>("updatedname"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                               isactive = Row.Field<bool>("isactive"),
-                              isdeleted = Row.Field<bool>("isdeleted")
+                              isdeleted = Row.Field<bool>("isdeleted"),
+                              lst_quoteproduct = lstquotationproduct
                           }).ToList();
+                    }
+                    if (ds.Tables[quotation_id > 0 ? 2 : 1].Rows.Count > 0)
+                    {
+                        response.count = Convert.ToInt64(ds.Tables[quotation_id > 0 ? 2 : 1].Rows[0]["RESPONSE"].ToString());
+                    }
+                    response.data = lstquotation;
                 }
-                if (ds.Tables[1].Rows.Count > 0)
-                {
-                    response.count = Convert.ToInt64(ds.Tables[1].Rows[0]["RESPONSE"].ToString());
-                }
-                response.data = lstquotation;
 
                 return response;
             }

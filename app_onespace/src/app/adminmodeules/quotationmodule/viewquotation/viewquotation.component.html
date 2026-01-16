@@ -1,0 +1,474 @@
+<!-- <div class="card shadow-none bg-body mb-0">
+  <div class="card-body"> -->
+<div class="card">
+  <div class="card-body" id="invoiceSection">
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="row align-items-center g-3">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center mb-2">
+              <img src="../../../assets/images/onescreen_logo.png" class="img-fluid" alt="images">
+              <!-- <span class="badge bg-primary rounded-pill ms-2">Paid</span> -->
+            </div>
+            <!-- <p class="mb-0">INV - 000457</p> -->
+          </div>
+          <div class="col-sm-6 text-sm-end">
+            <h6>Date : <span class="text-muted f-w-400">{{invoicedetailsmaster?.createddatetime |
+                date:'dd/MM/yyyy'}}</span></h6>
+            <h6>Quotation# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.quotation_number}}</span></h6>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="border rounded p-3">
+          <h6 class="mb-0">To:</h6>
+          <h5>{{invoicedetailsmaster?.fullname}}</h5>
+          <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
+          <!-- <p class="mb-0">75-9079921</p>
+              <p class="mb-0">kasandra</p> -->
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="border rounded p-3">
+          <h6 class="mb-0">From:</h6>
+          <h5>OneScreen</h5>
+          <p class="mb-0">3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
+          <!-- <p class="mb-0">GSTIN: 27AAECR2971C1Z</p> -->
+          <!-- <p class="mb-0">brandon07</p> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <!-- <th>Description</th> -->
+                <!-- <th>Total Amount</th> -->
+                <!-- <th>Qty</th> -->
+                <th style="text-align: right;">SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of invoicedetailsmaster?.lst_quoteproduct; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  {{ item?.product_name }}
+                  <p class="text-sm text-muted mb-0">
+                    <!-- Base Price - {{ item?.base_amount }} <br /> -->
+                    {{ item?.timeslot_category }} {{ (item?.timeslot_price && item?.timeslot_price != 0) ? '(₹' +
+                    item?.timeslot_price + ')' : '' }} <br />
+                    {{ item?.repetition_category }} {{ (item?.repetition_price && item?.repetition_price != 0) ? '(₹' +
+                    item?.repetition_price + ')' : '' }} <br />
+                    {{ item?.interval_category }} {{ (item?.interval_price && item?.interval_price != 0) ? '(₹' +
+                    item?.interval_price + ')' : '' }}<br />
+                    {{ item?.from_date | date:'dd/MM/yyyy' }} to {{ item?.to_date | date:'dd/MM/yyyy' }}
+                  </p>
+                </td>
+                <!-- <td>{{ item.description }}</td> -->
+                <!-- <td>₹{{ item.base_amount }}</td> -->
+                <!-- <td>{{ item.quantity }}</td> -->
+                <td style="text-align: right;">₹{{ item.total_amount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-start">
+          <hr class="mb-2 mt-1">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="invoice-total ms-auto">
+          <div class="row">
+            <!-- <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label">Discount</label>
+                    <h5>{{invoicedetailsmaster?.order_discount}}</h5>
+                  </div>
+                </div>
+                <div class="col-6 text-end">
+                  <div class="mb-3">
+                    <label class="form-label">Taxes</label>
+                    <h5>{{invoicedetailsmaster?.order_tax}}</h5>
+                  </div>
+                </div> -->
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Sub Total :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_subtotal}}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Discount :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end text-success">₹{{invoicedetailsmaster?.quotation_discount}}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">Taxes :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_tax}}</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-start">Grand Total :</p>
+            </div>
+            <div class="col-6">
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_total}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Note</label>
+        <p class="mb-0">It was a pleasure working with you and your team. Thank You!</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row d-print-none align-items-center justify-content-end">
+  <div class="col-auto btn-page">
+    <!-- <button class="btn btn-outline-primary btn-print-invoice" (click)="print()">Print</button> -->
+    <a class="btn btn-outline-primary" routerLink="/app/orders">Cancel</a>
+    <button class="btn btn-outline-primary btn-print-invoice" (click)="downloadPDF()">Download</button>
+  </div>
+</div>
+<!-- </div>
+</div> -->
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice </title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 40px;
+      color: #000;
+    }
+
+    .invoice-header,
+    .invoice-footer {
+      margin-bottom: 20px;
+    }
+
+    .invoice-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .invoice-section {
+      margin: 20px 0;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      border: 1px solid #b1b1b7;
+    }
+
+    .invoice-table th {
+      border-bottom: 1px solid #b1b1b7;
+      background: #e8e9ea;
+    }
+
+    .invoice-table th:first-child {
+      text-align: left;
+    }
+
+    .invoice-table th,
+    .invoice-table td {
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    .invoice-bold {
+      font-weight: bold;
+    }
+
+    .invoice-table-right {
+      text-align: right;
+    }
+
+    .invoice-in-words {
+      text-align: right;
+      border: 1px solid #b1b1b7;
+      margin: 10px 0 20px 0;
+      float: left;
+      width: 100%;
+    }
+
+    .invoice-line {
+      border-top: 2px solid #000;
+      margin: 20px 0;
+    }
+
+    .invoice-info-box {
+      border: 1px solid #999;
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    .invoice-info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .invoice-left-col,
+    .invoice-right-col {
+      width: 48%;
+    }
+
+    .invoice-info-item {
+      display: flex;
+    }
+
+    .invoice-info-item label {
+      width: 140px;
+    }
+
+    .invoice-info-item span {
+      font-weight: bold;
+    }
+
+    .invoice-main-headr-tb {
+      background: #25254A;
+      color: #fff;
+      padding: 5px 0;
+      text-align: center;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+    }
+
+    .invoice-gradient-border {
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(to right, #ca993c, #2f5b7e, #000);
+      border: none;
+      margin: 20px 0;
+    }
+
+    .invoice-grand-total-tb {
+      background: #25254A;
+      color: #fff;
+      padding: 5px 0;
+      font-weight: bold;
+      float: left;
+      width: 100%;
+    }
+
+    .invoice-grand-total-tb span {
+      text-align: left;
+      float: left;
+      padding: 0 10px;
+    }
+
+    .invoice-grand-total-tb span:last-child {
+      text-align: right;
+      float: right;
+    }
+
+    .invoice-in-words-total {
+      float: left;
+      width: 100%;
+      text-align: left;
+      padding: 5px 10px;
+    }
+
+    .invoice-notes {
+      font-size: 13px;
+      border: 1px solid #b1b1b7;
+      padding: 0;
+      float: left;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .invoice-notes p {
+      padding-left: 10px;
+    }
+
+    .invoice-notes ol {
+      padding: 0 25px;
+    }
+
+    .invoice-act-box {
+      border: 1px solid #999;
+      padding: 0;
+      width: 100%;
+      float: left;
+      margin: 0 0 0 0;
+    }
+
+    .invoice-act-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+      padding: 10px;
+      background: #e8e9ea;
+      flex-wrap: wrap;
+    }
+
+    .invoice-act-item {
+      width: 100%;
+      margin: 5px 0;
+    }
+
+    .invoice-act-item label {
+      width: 200px;
+      float: left;
+    }
+
+    .invoice-act-item span {
+      font-weight: bold;
+    }
+
+    .compgenerate {
+      float: left;
+      width: 100%;
+      text-align: right;
+      margin: 10px 0 20px 0;
+      font-style: italic;
+    }
+
+    .invoice-logo {
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="invoiceSection">
+    <div class="invoice-header">
+      <div class="text-end invoice-logo">
+        <img alt="Logo" class="h-40px h-lg-80px w-220px"
+          [src]="this._base._commonService.cdnAPPURL + this.invoice_logo">
+      </div>
+      <div class="invoice-title">{{this.orderdetailsmaster?.society_name}}</div>
+      <div>TNA/(TNA)/HSG/(TC)/33442/2021</div>
+      <div [innerHTML]="this.orderdetailsmaster?.society_address"></div>
+      <div>Email ID : {{this.orderdetailsmaster?.email_id}}</div>
+    </div>
+    <div class="invoice-gradient-border"></div>
+    <div class="invoice-info-box">
+      <div class="invoice-info-row">
+        <div class="invoice-left-col">
+          <div class="invoice-info-item">
+            <label>Owner</label> : <span>&nbsp;{{this.orderdetailsmaster?.party_name}}</span>
+          </div>
+        </div>
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Receipt Number</label> : <span>&nbsp;8188</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="invoice-info-row">
+        <div class="invoice-left-col">
+          <div class="invoice-info-item">
+            <label>House</label> :
+            <span>&nbsp;{{this.orderdetailsmaster?.wing_name}}-{{this.orderdetailsmaster?.flat_name}}</span>
+          </div>
+        </div>
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Receipt Date</label> : <span>&nbsp;{{this.orderdetailsmaster?.createddate}}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="invoice-info-row">
+
+        <div class="invoice-right-col">
+          <div class="invoice-info-item">
+            <label>Payment Mode</label> : <span>EFT</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="invoice-section">
+      <div class="invoice-main-headr-tb">Receipt</div>
+      <table class="invoice-table">
+        <tr>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Invoice No.</th>
+          <th style="text-align: left">Invoice Date</th>
+          <th style="text-align: center">Due Date</th>
+          <th style="text-align: right">Amount(₹)</th>
+        </tr>
+
+        <tr>
+          <td style="text-align: left">Maintenance Charges</td>
+          <td style="text-align: left">{{this.orderdetailsmaster?.invoice_number}}</td>
+          <td style="text-align: left">{{this.orderdetailsmaster?.invoice_date | date: 'dd/MM/yyyy'}}</td>
+          <td style="text-align: Center">{{this.orderdetailsmaster?.invoice_duedate | date: 'dd/MM/yyyy'}}</td>
+          <td style="text-align: right">{{this.orderdetailsmaster?.amount}}</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="invoice-in-words">
+      <div class="invoice-grand-total-tb">
+        <span>GRAND TOTAL</span>
+        <span>₹ {{this.orderdetailsmaster?.amount}}</span>
+      </div>
+      <div class="invoice-in-words-total">In Words: <span class="invoice-bold">: {{grandTotalInWords}}</span></div>
+    </div>
+
+    <div class="invoice-act-box">
+      <div class="invoice-act-row">
+        <div class="invoice-act-item">
+          <label>Account</label> : <span>THANE JANATA SAHAKARI BANK 0094</span>
+        </div>
+        <div class="invoice-act-item">
+          <label>Reference</label> : <span>RATN0000999</span>
+        </div>
+        <div class="invoice-act-item">
+          <label>Description</label> : <span>NEFT/SUN SONS/409000657225/RATN0000999/000441282457</span>
+        </div>
+      </div>
+    </div>
+    <div class="compgenerate">This is a computer generated receipt and requires no authentication.</div>
+  </div>
+
+
+</body>
+
+<div class="col d-flex justify-content-center align-items-center print-button">
+  <button class="btn btn-success btn-sm" (click)="print()">
+    Print Invoice
+  </button>
+  &nbsp;
+  <button class="btn btn-primary btn-sm" [disabled]="isDownloading" [ngClass]="{'btn-secondary': isDownloading}"
+    (click)="downloadPDF()">
+    <ng-container *ngIf="!isDownloading">
+      Download PDF
+    </ng-container>
+    <ng-container *ngIf="isDownloading">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Downloading...
+    </ng-container>
+  </button>
+  <button class="btn btn-primary btn-sm" (click)="downloadPDF()">Download PDF</button>
+
+
+  <button class="btn btn-danger btn-sm" (click)="downloadPDF()">Download PDF</button>
+</div>
+
+</html> -->
