@@ -970,6 +970,7 @@ export class CartComponent implements OnInit {
         console.log('array', this._quotedetails)
         this._webDService.raise_quote(this._quotedetails).subscribe((resquote: any) => {
           if (resquote && resquote.includes('newsuccess')) {
+            let quotation_id = resquote.split('~')[1];
             this.qoutesuccessSwal.fire();
             setTimeout(() => {
               this.qoutesuccessSwal.close();
@@ -978,8 +979,9 @@ export class CartComponent implements OnInit {
               } else {
                 this.modalService.dismissAll();
               }
-              this.fgrasiequote.reset();
-              window.location.reload();
+              // this.fgrasiequote.reset();
+              this._base._router.navigate([`raisedquotation/${quotation_id}`]);
+              // window.location.reload();
               this._cdr.detectChanges();
             }, 1500);
           } else {

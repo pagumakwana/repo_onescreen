@@ -1,18 +1,27 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import html2pdf from 'html2pdf.js';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
 import { CommonModule } from '@angular/common';
+import { enAppSession } from '../../../_appmodel/sessionstorage';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SweetAlertOptions } from 'sweetalert2';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-viewquotation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SweetAlert2Module,NgbModule,FormsModule],
   templateUrl: './viewquotation.component.html',
   styleUrl: './viewquotation.component.scss'
 })
 export class ViewquotationComponent {
+  @ViewChild('movesuccessSwal')
+  public readonly movesuccessSwal!: SwalComponent;
+  swalOptions: SweetAlertOptions = { buttonsStyling: false };
+
   // @Input() order_id!: number;
   invoice_logo: String = '';
   public invoicedetailsmaster: any;
@@ -37,7 +46,7 @@ export class ViewquotationComponent {
   }
 
   get_invoice(quotation_id: any) {
-    this._webDService.getquotedetails('all',quotation_id).subscribe((resreceipt: any) => {
+    this._webDService.getquotedetails('all', quotation_id).subscribe((resreceipt: any) => {
       let invoicedetails = Array.isArray(resreceipt.data) ? resreceipt.data : [];
       this.invoicedetailsmaster = invoicedetails[0];
 
@@ -119,4 +128,20 @@ export class ViewquotationComponent {
     // html2pdf().set(options).from(element).save();
   }
 
+
+  move_to_cart() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        this._webDService.move_to_cart(this.quotation_id, 0, user_id).subscribe((resquote: any) => {
+          if (resquote && resquote.includes('updatesuccess')) {
+            this.movesuccessSwal.fire();
+            setTimeout(() => {
+              this.movesuccessSwal.close();
+              this._cdr.detectChanges();
+            }, 1500);
+          }
+        });
+      });
+    });
+  }
 }

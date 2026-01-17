@@ -737,4 +737,7 @@ export class WebDService {
     public getquotedetails(flag = 'all', quotation_id = 0, user_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getquotedetails}?flag=${flag}&quotation_id=${quotation_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
+    public move_to_cart(quotation_id = 0, cart_master_id = 0, user_id = 0) {
+        return this._base._apiService.post(`${ApiConstant.product.move_to_cart}?quotation_id=${quotation_id}&cart_master_id=${cart_master_id}&user_id=${user_id}`);
+    }
 }

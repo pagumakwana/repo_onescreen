@@ -636,5 +636,22 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.getquotedetails(flag, quotation_id, user_id, start_count, end_count);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="quotation_id"></param>
+        /// <param name="cart_master_id"></param>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        [Route("move_to_cart")]
+        [HttpPost]
+        public string raise_qumove_to_cartote(Int64 quotation_id, Int64 cart_master_id, Int64 user_id)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.move_to_cart(quotation_id, cart_master_id, user_id);
+            }
+        }
     }
 }

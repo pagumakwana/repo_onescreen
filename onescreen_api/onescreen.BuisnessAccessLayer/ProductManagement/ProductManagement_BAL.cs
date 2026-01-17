@@ -319,6 +319,14 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.getquotedetails(flag, quotation_id, user_id, start_count, end_count);
             }
         }
+
+        public string move_to_cart(Int64 quotation_id, Int64 cart_master_id, Int64 user_id)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.move_to_cart(quotation_id, cart_master_id, user_id);
+            }
+        }
         public void Dispose() 
         { 
         }

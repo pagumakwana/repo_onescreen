@@ -23,7 +23,8 @@
       <div class="col-sm-6">
         <div class="border rounded p-3">
           <h6 class="mb-0">To:</h6>
-          <h5>{{invoicedetailsmaster?.fullname}}</h5>
+          <h5 class="mb-0">{{invoicedetailsmaster?.fullname}}</h5>
+          <h5>{{invoicedetailsmaster?.mobile_number}}</h5>
           <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
           <!-- <p class="mb-0">75-9079921</p>
               <p class="mb-0">kasandra</p> -->
@@ -32,7 +33,8 @@
       <div class="col-sm-6">
         <div class="border rounded p-3">
           <h6 class="mb-0">From:</h6>
-          <h5>OneScreen</h5>
+          <h5 class="mb-0">OneScreen</h5>
+          <h5>{{invoicedetailsmaster?.createdname}}</h5>
           <p class="mb-0">3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
           <!-- <p class="mb-0">GSTIN: 27AAECR2971C1Z</p> -->
           <!-- <p class="mb-0">brandon07</p> -->
@@ -133,8 +135,14 @@
     <!-- <button class="btn btn-outline-primary btn-print-invoice" (click)="print()">Print</button> -->
     <a class="btn btn-outline-primary" routerLink="/app/orders">Cancel</a>
     <button class="btn btn-outline-primary btn-print-invoice" (click)="downloadPDF()">Download</button>
+    <button class="btn btn-outline-primary btn-print-invoice" (click)="move_to_cart()">Move To Cart</button>
   </div>
+  <swal #movesuccessSwal [swalOptions]="swalOptions" title="Moved to Cart." text="" icon="success"
+        [showConfirmButton]="false">
+      </swal>
 </div>
+
+
 <!-- </div>
 </div> -->
 

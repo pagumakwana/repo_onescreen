@@ -157,6 +157,11 @@ export const routes: Routes = [
                 component: PricingmoduleComponent,
                 title: 'Pricing | Onescreen',
             },
+            {
+                path: 'raisedquotation/:quotation_id',
+                component: ViewquotationComponent,
+                title: 'Quotation | Onescreen',
+            },
         ]
     },
     {
@@ -335,11 +340,11 @@ export const routes: Routes = [
                 component: QuotationmoduleComponent,
                 title: 'Raised Quotation | Onescreen',
             },
-            {
-                path: 'raisedquotation/:quotation_id',
-                component: ViewquotationComponent,
-                title: 'Quotation | Onescreen',
-            },
+            // {
+            //     path: 'raisedquotation/:quotation_id',
+            //     component: ViewquotationComponent,
+            //     title: 'Quotation | Onescreen',
+            // },
         ]
     },
     { path: '**', component: FourzerofourComponent }
