@@ -93,17 +93,37 @@
                   empty</span></div>
             </section>
             <!-- </div> -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-12">
                 <div class="text-end btn-page mb-0 mt-4 p-10">
-                  <!-- <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                   data-bs-target=".multi-collapse" aria-expanded="false"
-                  aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button> -->
-                  <!-- <button class="btn btn-primary" (click)="openraisequote()" type="button">Raise Quotation</button> -->
+                  aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button>
+                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
+                  <button class="btn btn-primary" (click)="openraisequote()" type="button">Raise Quotation</button>
+                  </div>
                   &nbsp;
                   <button class="btn btn-primary" (click)="goToShipping()" type="button"
                     [ngClass]="{'disabled':this.cart_subtotal==0}">Continue to
                     checkout</button>
+                </div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-12">
+                <div class="text-end btn-page mb-0 mt-4 p-10 d-flex justify-content-end align-items-center gap-2">
+
+                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
+                    <button class="btn btn-primary" (click)="openraisequote()" type="button">
+                      Raise Quotation
+                    </button>
+                  </div>
+
+                  <button class="btn btn-primary" (click)="goToShipping()" type="button"
+                    [ngClass]="{'disabled': this.cart_subtotal == 0}">
+                    Continue to checkout
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -627,7 +647,8 @@
       </div>
       <div class="mb-3">
         <label class="form-label fw-bold">Email ID</label>
-        <input type="email" class="form-control" placeholder="Enter EmailId" id="email_id" name="email_id" formControlName="email_id">
+        <input type="email" class="form-control" placeholder="Enter EmailId" id="email_id" name="email_id"
+          formControlName="email_id">
         <div
           *ngIf="fguser.controls['email_id'].invalid && (fguser.controls['email_id'].dirty || fguser.controls['email_id'].touched)"
           class="text-danger">

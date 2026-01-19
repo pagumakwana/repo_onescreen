@@ -478,5 +478,15 @@ namespace onescreenModel.ProductManagement
         public decimal? total_amount { get; set; }
 
     }
+
+    public class leadsModel : commonModel
+    {
+        public Int64? leads_id { get; set; }
+        public string? name { get; set; }
+        public string? mobile_number { get; set; }
+        public string? location { get; set; }
+        public string? additional_details { get; set; }
+        public string? thumbnail { get; set; }
+    }
 }
 

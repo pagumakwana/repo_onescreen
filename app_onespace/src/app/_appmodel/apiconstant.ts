@@ -296,6 +296,8 @@ export class ApiConstant {
         getprimedate:"product/getprimedate",
         raise_quote:"product/raise_quote",
         getquotedetails:"product/getquotedetails",
-        move_to_cart:"product/move_to_cart"
+        move_to_cart:"product/move_to_cart",
+        getleads:"product/getleads",
+        manageleads:"product/manageleads"
     }
 }

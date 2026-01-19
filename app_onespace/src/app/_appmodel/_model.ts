@@ -2390,7 +2390,7 @@ export interface quoteproductModel {
     quotation_id?: any,
     cart_master_id?: any,
     product_id?: any,
-    ismonthly?:any,
+    ismonthly?: any,
     timeslot_category_id?: any,
     timeslot_category?: any,
     timeslot_price?: any,
@@ -2408,4 +2408,32 @@ export interface quoteproductModel {
     base_amount?: any,
     attribute_amount?: any,
     total_amount?: any,
+}
+
+export interface leadsmodel {
+    flag?: any,
+    leads_id?: any,
+    name?: any,
+    mobile_number?: any,
+    location?: any,
+    additional_details?: any,
+    thumbnail?: any,
+    thumbnail2?: any,
+    client_id?: any,
+    project_id?: any,
+    createdby?: number,
+    createdname?: string,
+    filemanager?: Array<{
+        ref_id: number,
+        file_id: number,
+        filename: string,
+        filepath: string,
+        filetype: string,
+        fileextension: string,
+        filesize: number,
+        fileidentifier: string,
+        displayorder: string,
+        module: string
+        itemidentifier?: string
+    }>
 }

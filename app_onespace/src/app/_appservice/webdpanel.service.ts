@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal, quotationmodel } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal, quotationmodel, leadsmodel } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
@@ -599,7 +599,7 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.manageproductoptions}`, _productOption);
     }
 
-    public getcoupon(flag = 'all',coupon_id = 0, coupon_code = '',user_id = 0, start_count = 0, end_count = 0) {
+    public getcoupon(flag = 'all', coupon_id = 0, coupon_code = '', user_id = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getcoupon}?flag=${flag}&coupon_id=${coupon_id}&coupon_code=${coupon_code}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
     }
     public managecoupon(_couponModel: couponModel) {
@@ -710,19 +710,19 @@ export class WebDService {
     //     return this._base._apiService.getOtp(url,{params});
     // }
 
-    sendOtp(mobileNo: string,otp: any): Observable<any> {
+    sendOtp(mobileNo: string, otp: any): Observable<any> {
         // const otp = Math.floor(100000 + Math.random() * 900000);
         const message = `${otp}%20is%20your%20Onespace%20Verification%20Code%20for%20Login%20or%20to%20SignUp.%20Enjoy%20Making%20Your%20Dream%20Home%20Interior%C2%A0With%C2%A0Onespace`;
-    
+
         const url = `https://sms.mobileadz.in/api/push?apikey=6348eda2cf8cf&sender=ONESPC&mobileno=${mobileNo}&text=${message}`;
-    
+
         return this._base._apiService.getOtp(url);
     }
 
     public primedatdetails(_objdatetimedetails: any) {
-        return this._base._apiService.post(ApiConstant.product.primedatdetails,_objdatetimedetails);
+        return this._base._apiService.post(ApiConstant.product.primedatdetails, _objdatetimedetails);
     }
-    public getprimedate(flag: any = '', date_id: any = 0,start_count = 0, end_count = 0) {
+    public getprimedate(flag: any = '', date_id: any = 0, start_count = 0, end_count = 0) {
         return this._base._apiService.get(`${ApiConstant.product.getprimedate}?flag=${flag}&date_id=${date_id}&start_count=${start_count}&end_count=${end_count}`);
     }
 
@@ -739,5 +739,16 @@ export class WebDService {
     }
     public move_to_cart(quotation_id = 0, cart_master_id = 0, user_id = 0) {
         return this._base._apiService.post(`${ApiConstant.product.move_to_cart}?quotation_id=${quotation_id}&cart_master_id=${cart_master_id}&user_id=${user_id}`);
+    }
+
+    public getleads(flag = 'all', leads_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getleads}?flag=${flag}&leads_id=${leads_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public manageleads(_leadsmodel: leadsmodel) {
+        return this._base._apiService.post(`${ApiConstant.product.manageleads}`, _leadsmodel);
+    }
+    public leads(_leadsmodel: any) {
+        return this._base._apiService.postExternal('https://onespaceinterior.com/api/v1/onescreenSmartTask',_leadsmodel);
     }
 }

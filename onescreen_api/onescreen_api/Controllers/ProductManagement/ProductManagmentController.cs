@@ -653,5 +653,38 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.move_to_cart(quotation_id, cart_master_id, user_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="leads_id"></param>
+        /// <param name="start_count"></param>
+        /// <param name="end_count"></param>
+        /// <returns></returns>
+        [Route("getleads")]
+        [HttpGet]
+        public responseModel getleads(string flag, Int64 leads_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.getleads(flag, leads_id, start_count, end_count);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objleadsModel"></param>
+        /// <returns></returns>
+        [Route("manageleads")]
+        [HttpPost]
+        public string manageleads(leadsModel objleadsModel)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return objProductManagement_BAL.manageleads(objleadsModel);
+            }
+        }
     }
 }

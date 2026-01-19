@@ -327,6 +327,21 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.move_to_cart(quotation_id, cart_master_id, user_id);
             }
         }
+
+        public responseModel getleads(string flag, Int64 leads_id = 0, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.getleads(flag, leads_id, start_count, end_count);
+            }
+        }
+        public string manageleads(leadsModel objleadsModel)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return objProductManagement_DAL.manageleads(objleadsModel);
+            }
+        }
         public void Dispose() 
         { 
         }

@@ -224,6 +224,8 @@ namespace onescreenModel.Common
         public const string update_to_cart = "[dbo].[update_to_cart]";
         public const string getorderproduct = "[dbo].[getorderproduct]";
         public const string move_to_cart = "[dbo].[move_to_cart]";
+        public const string getleads = "[dbo].[getleads]";
+        public const string manageleads = "[dbo].[manageleads]";
         //END :: PRODUCT
 
         public const string getprimedate = "[dbo].[getprimedate]";

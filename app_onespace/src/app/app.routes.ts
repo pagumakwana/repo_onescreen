@@ -55,6 +55,8 @@ import { PortalconfigComponent } from './adminmodeules/portalconfig/portalconfig
 import { PricingmoduleComponent } from './pricingmodule/pricingmodule.component';
 import { QuotationmoduleComponent } from './adminmodeules/quotationmodule/quotationmodule.component';
 import { ViewquotationComponent } from './adminmodeules/quotationmodule/viewquotation/viewquotation.component';
+import { ManageleadsComponent } from './manageleads/manageleads.component';
+import { LeadsmoduleComponent } from './adminmodeules/leadsmodule/leadsmodule.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -161,6 +163,11 @@ export const routes: Routes = [
                 path: 'raisedquotation/:quotation_id',
                 component: ViewquotationComponent,
                 title: 'Quotation | Onescreen',
+            },
+            {
+                path: 'joinonescreen',
+                component: ManageleadsComponent,
+                title: 'Join Onescreen | Onescreen',
             },
         ]
     },
@@ -339,6 +346,11 @@ export const routes: Routes = [
                 path: 'raisedquotation',
                 component: QuotationmoduleComponent,
                 title: 'Raised Quotation | Onescreen',
+            },
+            {
+                path: 'leads',
+                component: LeadsmoduleComponent,
+                title: 'Leads | Onescreen',
             },
             // {
             //     path: 'raisedquotation/:quotation_id',

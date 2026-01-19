@@ -2768,6 +2768,178 @@ namespace onescreenDAL.ProductManagement
             }
         }
 
+        public responseModel getleads(string flag, Int64 leads_id,Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@leads_id", leads_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getleads, ObJParameterCOl, CommandType.StoredProcedure);
+                List<leadsModel> lstleads = new List<leadsModel>();
+                List<fileInfoModel> lstFileinfo = new List<fileInfoModel>();
+                if (ds != null)
+                {
+                    if (flag == "Details")
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            lstFileinfo = ds.Tables[0].AsEnumerable().Select(Row =>
+                                new fileInfoModel
+                                {
+                                    ref_id = Row.Field<Int64>("ref_id"),
+                                    file_id = Row.Field<Int64>("file_id"),
+                                    filename = Row.Field<string>("filename"),
+                                    filepath = Row.Field<string>("filepath"),
+                                    filetype = Row.Field<string>("filetype"),
+                                    fileextension = Row.Field<string>("fileextension"),
+                                    filesize = Row.Field<Int64>("filesize"),
+                                    fileidentifier = Row.Field<string>("fileidentifier"),
+                                    displayorder = Row.Field<Int64>("displayorder"),
+                                    module = Row.Field<string>("module")
+                                }).ToList();
+                        }
+                        
+
+                    }
+                    if (ds.Tables[flag == "Details" ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstleads = ds.Tables[flag == "Details" ? 1 : 0].AsEnumerable().Select(Row =>
+                          new leadsModel
+                          {
+                              leads_id = Row.Field<Int64>("leads_id"),
+                              name = Row.Field<string>("name"),
+                              mobile_number = Row.Field<string>("mobile_number"),
+                              location = Row.Field<string>("location"),
+                              additional_details = Row.Field<string>("additional_details"),
+                              thumbnail = Row.Field<string>("thumbnail"),
+                              filemanager = lstFileinfo,
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted")
+                          }).ToList();
+                    }
+                    if (ds.Tables[flag == "Details" ? 2 : 1].Rows.Count > 0)
+                    {
+                        response.count = Convert.ToInt64(ds.Tables[flag == "Details" ? 2 : 1].Rows[0]["RESPONSE"].ToString());
+                    }
+                    response.data = lstleads;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string manageleads(leadsModel objleadsModel)
+        {
+            try
+            {
+                string ResponseMessage = "";
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", objleadsModel.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@leads_id", objleadsModel.leads_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@name", objleadsModel.name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@mobile_number", objleadsModel.mobile_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@location", objleadsModel.location, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@additional_details", objleadsModel.additional_details, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", objleadsModel.user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", objleadsModel.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.manageleads, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (objleadsModel.flag.Contains("NEWLEADS") || objleadsModel.flag.Contains("MODIFYLEADS"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            objleadsModel.leads_id = Convert.ToInt64(Res[1].ToString());
+                            
+                            if ((objleadsModel.filemanager != null && objleadsModel.filemanager.Count > 0))
+                            {
+                                objleadsModel.filemanager.ForEach(filemanager =>
+                                {
+                                    filemanager.ref_id = objleadsModel.leads_id;
+                                    filemanager.file_id = filemanager.file_id;
+                                    filemanager.filename = filemanager.filename;
+                                    filemanager.filepath = filemanager.filepath;
+                                    filemanager.filetype = filemanager.filetype;
+                                    filemanager.fileextension = filemanager.fileextension;
+                                    filemanager.filesize = filemanager.filesize;
+                                    filemanager.fileidentifier = filemanager.fileidentifier;
+                                    filemanager.displayorder = filemanager.displayorder;
+                                    filemanager.module = filemanager.module;
+                                    filemanager.project_id = project_id;
+                                    filemanager.createdby = objleadsModel.user_id;
+                                    filemanager.createdname = objleadsModel.createdname;
+                                    filemanager.createddatetime = DateTime.Now;
+                                    filemanager.isactive = true;
+                                    filemanager.isdeleted = false;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objleadsModel.filemanager);
+                                DBHelper objDbHelperModule = new DBHelper();
+                                string tablename = objDbHelperModule.BulkImport("WebD_ProductFileManagerMapping", dtfilemanagercategory);
+                                objDbHelperModule = new DBHelper();
+                                DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
+                                DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl2.Add(objDBParameter2);
+                                objDbHelperModule.ExecuteNonQuery(Constant.mapfilemanager, ObJParameterCOl2, CommandType.StoredProcedure);
+                            }
+
+                            ResponseMessage = Res[0] + "~" + Res[2];
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose()
         {
         }
