@@ -101,4 +101,7 @@ export class ApiService implements OnDestroy {
     getOtp(endpoint: string, body?: any) {
         return this.http.get(endpoint, body);
     }
+    postt(endpoint: string, body?: any) {
+        return this.http.post(endpoint, body);
+    }
 }

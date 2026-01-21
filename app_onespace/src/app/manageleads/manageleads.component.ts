@@ -62,7 +62,7 @@ export class ManageleadsComponent {
     this.fgleads = this._fbleads.group({
       leads_id: [0],
       name: ['', [Validators.required]],
-      mobile_number: [''],
+      mobile_number: ['', [Validators.required]],
       location: [''],
       additional_details: [''],
       thumbnail: [''],
@@ -109,21 +109,29 @@ export class ManageleadsComponent {
         this._leadsmodel.createdname = fullname;
         this._leadsmodel.createdby = parseInt(user_id);
         this._webDService.manageleads(this._leadsmodel).subscribe((response: any) => {
+          debugger
           if (typeof response === 'string' && response.startsWith('newsuccess~')) {
-
             const parts = response.split('~');
             this.apiOtp = parts[1];
             const mobile = this.fgleads.value.mobile_number;
-
-            this._webDService.sendOtp(mobile, this.apiOtp).subscribe(() => {
+           
+           
+            this.fgleads.get('otp')?.setValidators([Validators.required]);
+            this.fgleads.get('otp')?.updateValueAndValidity();
+            this._cdr.detectChanges(); this._webDService.sendOtp(mobile, this.apiOtp).subscribe(() => {
               this.showOtpField = true;
-
               // make otp required
-              this.fgleads.get('otp')?.setValidators([Validators.required]);
-              this.fgleads.get('otp')?.updateValueAndValidity();
 
-              this._cdr.detectChanges();
             });
+            this.OTPsuccess = true;
+            setTimeout(() => {
+              this.OTPsuccess = false;
+            }, 1200);
+            debugger
+            this._webDService.leads({name:this._leadsmodel.name,description:this._leadsmodel.additional_details}).subscribe((res: any) => {
+              console.log("res", res)
+            })
+           
 
           }
 
@@ -132,27 +140,34 @@ export class ManageleadsComponent {
       });
     });
   }
+  invalidOTP: boolean = false;
+  OTPsuccess: boolean = false;
+  verifyOtp(fgleads: any) {
+    this._base._commonService.markFormGroupTouched(this.fgleads)
+    if (this.fgleads.valid) {
+      const enteredOtp = this.fgleads.value.otp;
 
-  verifyOtp() {
-    const enteredOtp = this.fgleads.value.otp;
+      if (!enteredOtp) {
+        return;
+      }
 
-    if (!enteredOtp) {
-      return;
-    }
+      if (enteredOtp === this.apiOtp) {
 
-    if (enteredOtp === this.apiOtp) {
+        // ✅ SUCCESS
+        this.successSwal.fire();
 
-      // ✅ SUCCESS
-      this.successSwal.fire();
+        setTimeout(() => {
+          this.successSwal.close();
+          location.reload();
+        }, 1500);
 
-      setTimeout(() => {
-        this.successSwal.close();
-        location.reload();
-      }, 1500);
-
-    } else {
-      // ❌ INVALID OTP
-      alert('Invalid OTP');
+      } else {
+        // ❌ INVALID OTP
+        this.invalidOTP = true;
+        setTimeout(() => {
+          this.invalidOTP = false;
+        }, 1200);
+      }
     }
   }
 

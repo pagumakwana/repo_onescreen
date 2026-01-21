@@ -18,45 +18,58 @@
                 <h2>Get in Touch</h2>
 
                 <div class="info-item">
-                    <span>📍</span>
+                    <i class="fa fa-building"></i>&nbsp;&nbsp;
                     <p>3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
                 </div>
 
                 <div class="info-item">
-                    <span>📞</span>
+                    <i class="fa-solid fa-phone"></i>&nbsp;&nbsp;
                     <p><a href="tel:+917490077475">+91 7490077475</a></p>
                 </div>
 
                 <div class="info-item">
-                    <span>✉️</span>
+                    <i class="fa fa-at"></i>&nbsp;&nbsp;
                     <p><a href="mailto:getonescreen@gmail.com">getonescreen&#64;gmail.com</a></p>
                 </div>
 
                 <div class="info-item">
-                    <span>📍</span>
-                    <a href="https://wa.me/918108030098" target="_blank">
-                        Get Location
-                    </a>
+                    <i class="fa fa-map"></i>&nbsp;&nbsp;
+                    <a href="https://share.google/OZqtp9whakkRvEgLZ" target="_blank">
+                        Get Direction on Google Map </a>
                 </div>
             </div>
 
             <!-- RIGHT FORM -->
             <div class="contact-form">
-                <h2>Join</h2>
+                <h2>Join Onescreen</h2>
 
                 <form [formGroup]="fgleads">
 
                     <div class="form_container">
                         <label>Full Name</label>
                         <input type="text" placeholder="Full Name" formControlName="name">
+                        <div *ngIf="fgleads.controls['name'].invalid && (fgleads.controls['name'].dirty || fgleads.controls['name'].touched)"
+                            class="text-danger" required>
+                            <ng-container *ngIf="fgleads.controls['name'].errors?.['required']">
+                                Full Name is required.
+                            </ng-container>
+                        </div>
                     </div>
 
                     <div class="form_container">
                         <label>Mobile Number</label>
-                        <input type="text"
-                               maxlength="10"
-                               placeholder="Mobile Number"
-                               formControlName="mobile_number">
+                        <input type="text" maxlength="10" placeholder="Mobile Number" formControlName="mobile_number"
+                            pattern="^[0-9]\d{9}$" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
+                            autocomplete="off" autocorrect="off" spellcheck="false" required="">
+                        <div *ngIf="fgleads.controls['mobile_number'].invalid && (fgleads.controls['mobile_number'].dirty || fgleads.controls['mobile_number'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgleads.controls['mobile_number'].errors?.['required']">
+                                Mobile Number is required.
+                            </ng-container>
+                            <ng-container *ngIf="fgleads.controls['mobile_number'].errors?.['invalid']">
+                                Mobile Number is required.
+                            </ng-container>
+                        </div>
                     </div>
 
                     <div class="form_container">
@@ -66,51 +79,55 @@
 
                     <div class="form_container">
                         <label>Message</label>
-                        <textarea rows="4"
-                                  placeholder="Message goes here..."
-                                  formControlName="additional_details"></textarea>
+                        <textarea rows="4" placeholder="Message goes here..."
+                            formControlName="additional_details"></textarea>
                     </div>
 
                     <div class="form_container">
-                        <webd-mediauploader
-                            [fileChoosenData]="fileChoosenData['thumbnail']"
-                            [controlObject]="fgleads.controls['thumbnail']"
-                            [fileConfig]="fileConfig['thumbnail']">
+                        <webd-mediauploader [fileChoosenData]="fileChoosenData['thumbnail']"
+                            [controlObject]="fgleads.controls['thumbnail']" [fileConfig]="fileConfig['thumbnail']">
                         </webd-mediauploader>
                     </div>
 
                     <!-- SUBMIT -->
-                    <button type="button"
-                            class="btn btn ternary_btn"
-                            (click)="setcontactdetail(true)"
-                            *ngIf="!showOtpField">
-                        <ng-container *ngIf="!(isLoading$ | async)">Submit</ng-container>
+                    <button type="button" class="btn btn ternary_btn" style="cursor: pointer;"
+                        (click)="setcontactdetail(true)" *ngIf="!showOtpField">
+                        <ng-container *ngIf="!(isLoading$ | async)">Verify Mobile Number</ng-container>
                         <ng-container *ngIf="isLoading$ | async">
                             Please wait...
                             <span class="spinner-border spinner-border-sm ms-2"></span>
                         </ng-container>
                     </button>
 
+                    <ng-container *ngIf="this.invalidOTP">
+                        <div class="mb-3 alert alert-danger">
+                            <div class="alert-text fw-bold">Invalid OTP</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="this.OTPsuccess">
+                        <div class="mb-3 alert alert-success">
+                            <div class="alert-text fw-bold">OTP sent to mobile number.</div>
+                        </div>
+                    </ng-container>
                     <!-- OTP SECTION -->
                     <div class="form_container mt-3" *ngIf="showOtpField">
                         <label>Enter OTP</label>
-                        <input type="text"
-                               maxlength="6"
-                               placeholder="Enter OTP"
-                               formControlName="otp">
-
-                        <button type="button"
-                                class="btn btn primary_btn mt-2"
-                                (click)="verifyOtp()">
-                            Verify OTP
+                        <input type="text" placeholder="Enter OTP" formControlName="otp" maxlength="6"
+                            onkeypress="return /[0-9]/i.test(event.key)" autocomplete="off" autocorrect="off"
+                            spellcheck="false">
+                        <div *ngIf="fgleads.controls['otp'].invalid && (fgleads.controls['otp'].dirty || fgleads.controls['otp'].touched)"
+                            class="text-danger" required>
+                            <ng-container *ngIf="fgleads.controls['otp'].errors?.['required']">
+                                OTP is required.
+                            </ng-container>
+                        </div>
+                        <button type="button" class="btn btn primary_btn mt-2" (click)="verifyOtp(fgleads)">
+                            Submit
                         </button>
                     </div>
 
                     <!-- SUCCESS SWAL -->
-                    <swal #successSwal
-                          title="Thank You!"
-                          icon="success"
-                          [showConfirmButton]="false">
+                    <swal #successSwal title="Thank You!" icon="success" [showConfirmButton]="false">
                     </swal>
 
                 </form>

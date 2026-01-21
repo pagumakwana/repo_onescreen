@@ -749,6 +749,6 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.manageleads}`, _leadsmodel);
     }
     public leads(_leadsmodel: any) {
-        return this._base._apiService.postExternal('https://onespaceinterior.com/api/v1/onescreenSmartTask',_leadsmodel);
+        return this._base._apiService.postt('https://onespaceinterior.com/api/v1/onescreenSmartTask',_leadsmodel);
     }
 }
