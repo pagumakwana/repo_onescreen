@@ -2827,6 +2827,7 @@ namespace onescreenDAL.ProductManagement
                               mobile_number = Row.Field<string>("mobile_number"),
                               location = Row.Field<string>("location"),
                               additional_details = Row.Field<string>("additional_details"),
+                              is_verify_otp = Row.Field<bool>("is_verify_otp"),
                               thumbnail = Row.Field<string>("thumbnail"),
                               filemanager = lstFileinfo,
                               createdby = Row.Field<Int64?>("createdby"),
@@ -2868,6 +2869,8 @@ namespace onescreenDAL.ProductManagement
                 objDBParameter = new DBParameter("@mobile_number", objleadsModel.mobile_number, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@location", objleadsModel.location, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@is_verify_otp", objleadsModel.is_verify_otp, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@additional_details", objleadsModel.additional_details, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
@@ -2924,7 +2927,7 @@ namespace onescreenDAL.ProductManagement
                                 objDbHelperModule.ExecuteNonQuery(Constant.mapfilemanager, ObJParameterCOl2, CommandType.StoredProcedure);
                             }
 
-                            ResponseMessage = Res[0] + "~" + Res[2];
+                            ResponseMessage = Res[0] + "~" + Res[1] + "~" + Res[2];
                         }
                         else
                         {

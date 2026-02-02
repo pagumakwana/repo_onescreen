@@ -2416,6 +2416,7 @@ export interface leadsmodel {
     name?: any,
     mobile_number?: any,
     location?: any,
+    is_verify_otp?: any,
     additional_details?: any,
     thumbnail?: any,
     thumbnail2?: any,

@@ -488,6 +488,7 @@ namespace onescreenModel.ProductManagement
         public string? name { get; set; }
         public string? mobile_number { get; set; }
         public string? location { get; set; }
+        public bool? is_verify_otp { get; set; }
         public string? additional_details { get; set; }
         public string? thumbnail { get; set; }
     }

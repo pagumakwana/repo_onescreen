@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://onespaceinterior.com",
+      "secure": true,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  

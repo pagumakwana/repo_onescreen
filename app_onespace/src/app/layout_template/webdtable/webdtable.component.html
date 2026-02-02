@@ -67,6 +67,12 @@
                             <ng-container *ngIf="key?.type == 'date'">
                                 {{tableItem[key.identifer] | date:'dd/MM/yyyy'}}
                             </ng-container>
+                            <ng-container *ngIf="key?.type == 'label'">
+                                <ng-container *ngIf="key?.type == 'label'">
+                                    <span
+                                        [ngClass]="returnClass(tableItem[key.identifer])">{{tableItem[key.identifer]}}</span>
+                                </ng-container>
+                            </ng-container>
                             <ng-container *ngIf="key?.type == 'flag'">
                                 <div class="center_align tick_mark">
                                     <i [ngClass]="tableItem[key.identifer] ? 'right_tick' : 'cancel_tick'"></i>

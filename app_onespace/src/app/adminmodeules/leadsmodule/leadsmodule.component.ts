@@ -56,6 +56,7 @@ export class LeadsmoduleComponent {
       { identifer: "name", title: "Fullname", type: "text" },
       { identifer: "mobile_number", title: "Mobile Number", type: "text" },
       { identifer: "location", title: "Location", type: "text" },
+      { identifer: "is_verify_otp", title: "Verified", type: "label" },
       { identifer: "additional_details", title: "Additional Details", type: "text" },
     ],
     isCustom: {

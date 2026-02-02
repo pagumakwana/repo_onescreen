@@ -102,41 +102,37 @@ export class ManageleadsComponent {
   }
 
   apiOtp: string = '';
+  lead_id: any = 0;
   addmodifycontact(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
         this._leadsmodel.flag = this.iscontactModify ? 'MODIFYLEADS' : 'NEWLEADS';
         this._leadsmodel.createdname = fullname;
         this._leadsmodel.createdby = parseInt(user_id);
+        this._leadsmodel.is_verify_otp = false;
         this._webDService.manageleads(this._leadsmodel).subscribe((response: any) => {
           debugger
-          if (typeof response === 'string' && response.startsWith('newsuccess~')) {
+          if (typeof response === 'string' && response.includes('newsuccess~')) {
             const parts = response.split('~');
-            this.apiOtp = parts[1];
+            debugger
+            this.apiOtp = parts[2];
+            this.lead_id = parts[1];
             const mobile = this.fgleads.value.mobile_number;
-           
-           
+            this._webDService.leads({ name: 'onescreen new lead ' + this._leadsmodel.name + ' | ' + this._leadsmodel.mobile_number, description: 'onescreen new lead ' + this._leadsmodel.name + ' | ' + this._leadsmodel.mobile_number + ' | ' + this._leadsmodel.additional_details }).subscribe((res: any) => {
+              console.log("res", res)
+            });
+
             this.fgleads.get('otp')?.setValidators([Validators.required]);
             this.fgleads.get('otp')?.updateValueAndValidity();
             this._cdr.detectChanges(); this._webDService.sendOtp(mobile, this.apiOtp).subscribe(() => {
               this.showOtpField = true;
-              // make otp required
-
             });
             this.OTPsuccess = true;
             setTimeout(() => {
               this.OTPsuccess = false;
             }, 1200);
-            debugger
-            this._webDService.leads({name:this._leadsmodel.name,description:this._leadsmodel.additional_details}).subscribe((res: any) => {
-              console.log("res", res)
-            })
-           
-
           }
-
         });
-
       });
     });
   }
@@ -155,11 +151,16 @@ export class ManageleadsComponent {
 
         // ✅ SUCCESS
         this.successSwal.fire();
-
-        setTimeout(() => {
-          this.successSwal.close();
-          location.reload();
-        }, 1500);
+        this._leadsmodel.leads_id = this.lead_id;
+        this._leadsmodel.is_verify_otp = true;
+        this._leadsmodel.flag = 'MODIFYLEADS';
+        this._webDService.manageleads(this._leadsmodel).subscribe((response: any) => {
+          this.lead_id = 0;
+          setTimeout(() => {
+            this.successSwal.close();
+            location.reload();
+          }, 1000);
+        });
 
       } else {
         // ❌ INVALID OTP
