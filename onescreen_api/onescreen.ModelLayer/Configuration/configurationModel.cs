@@ -67,11 +67,11 @@ namespace onescreenModel.Configuration
     public class portalconfigModel : commonModel
     {
         public Int64 config_id { get; set; }
-        public string config_name { get; set; }
-        public String config_value { get; set; }
-        public string description { get; set; }
-        public string config_data { get; set; }
-        public Int64 category_id { get; set; }
+        public string? config_name { get; set; }
+        public string? config_value { get; set; }
+        public string? description { get; set; }
+        public string? config_data { get; set; }
+        public Int64? category_id { get; set; }
         public string? config_type { get; set; }
         public string? category { get; set; }
         public List<portalcategoryModel>? lstportalconfig { get; set; }
@@ -79,7 +79,7 @@ namespace onescreenModel.Configuration
 
     public class portalcategoryModel
     {
-        public Int64 category_id { get; set; }
-        public string category { get; set; }
+        public Int64? category_id { get; set; }
+        public string? category { get; set; }
     }
 }
