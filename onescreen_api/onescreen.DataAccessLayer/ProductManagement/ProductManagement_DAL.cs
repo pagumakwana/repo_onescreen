@@ -2709,6 +2709,7 @@ namespace onescreenDAL.ProductManagement
                               email_id = Row.Field<string>("email_id"),
                               mobile_number = Row.Field<string>("mobile_number"),
                               address = Row.Field<string>("address"),
+                              is_po = Row.Field<bool>("is_po"),
                               createdby = Row.Field<Int64?>("createdby"),
                               createdname = Row.Field<string>("createdname"),
                               createddatetime = Row.Field<DateTime?>("createddatetime"),
@@ -2938,6 +2939,267 @@ namespace onescreenDAL.ProductManagement
             {
                 throw ex;
             }
+        }
+
+
+        public responseModel getpurchaseorder(string flag, Int64 purchase_order_id, Int64 user_id, Int64 start_count = 0, Int64 end_count = 0)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@purchase_order_id", purchase_order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@user_id", user_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@start_count", start_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@end_count", end_count, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.getpurchaseorder, ObJParameterCOl, CommandType.StoredProcedure);
+                List<purchaseorderModel> lstpurchaseorder = new List<purchaseorderModel>();
+                List<quotation_model> lstquotation = new List<quotation_model>();
+                List<quoteproductModel> lstquotationproduct = new List<quoteproductModel>();
+                if (ds != null)
+                {
+                    if (purchase_order_id > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstquotationproduct = ds.Tables[0].AsEnumerable().Select(Row => new quoteproductModel
+                        {
+                            purchorder_product_mapid = Row.Field<Int64>("purchorder_product_mapid"),
+                            purchase_order_id = Row.Field<Int64>("purchase_order_id"),
+                            quotation_id = Row.Field<Int64>("quotation_id"),
+                            cart_master_id = Row.Field<Int64>("cart_master_id"),
+                            product_id = Row.Field<Int64>("product_id"),
+                            product_name = Row.Field<string>("product_name"),
+                            timeslot_category_id = Row.Field<Int64?>("timeslot_category_id"),
+                            timeslot_category = Row.Field<string?>("timeslot_category"),
+                            timeslot_price = Row.Field<decimal>("timeslot_price"),
+                            repetition_category_id = Row.Field<Int64?>("repetition_category_id"),
+                            repetition_category = Row.Field<string?>("repetition_category"),
+                            repetition_price = Row.Field<decimal>("repetition_price"),
+                            interval_category_id = Row.Field<Int64?>("interval_category_id"),
+                            interval_category = Row.Field<string?>("interval_category"),
+                            interval_price = Row.Field<decimal>("interval_price"),
+                            from_date = Row.Field<string>("from_date"),
+                            to_date = Row.Field<string>("to_date"),
+                            base_amount = Row.Field<decimal>("base_amount"),
+                            attribute_amount = Row.Field<decimal>("attribute_amount"),
+                            total_amount = Row.Field<decimal>("total_amount"),
+                        }).ToList();
+
+                    }
+                    //if (purchase_order_id > 0 && ds.Tables[1].Rows.Count > 0)
+                    //{
+                    //    lstquotation = ds.Tables[1].AsEnumerable().Select(Row => new quotation_model
+                    //    {
+                    //        quotation_id = Row.Field<Int64>("quotation_id"),
+                    //        cart_master_id = Row.Field<Int64>("cart_master_id"),
+                    //        quotation_number = Row.Field<string>("quotation_number"),
+                    //        coupon_id = Row.Field<Int64>("coupon_id"),
+                    //        quotation_total = Row.Field<Decimal>("quotation_total"),
+                    //        quotation_subtotal = Row.Field<Decimal>("quotation_subtotal"),
+                    //        quotation_discount = Row.Field<Decimal>("quotation_discount"),
+                    //        quotation_tax = Row.Field<Decimal>("quotation_tax"),
+                    //        quotation_status = Row.Field<string>("quotation_status"),
+                    //        sales_person_details = Row.Field<string>("sales_person_details"),
+                    //        referal_person_details = Row.Field<string>("referal_person_details"),
+                    //        fullname = Row.Field<string>("fullname"),
+                    //        email_id = Row.Field<string>("email_id"),
+                    //        mobile_number = Row.Field<string>("mobile_number"),
+                    //        address = Row.Field<string>("address"),
+                    //        createdby = Row.Field<Int64?>("createdby"),
+                    //        createdname = Row.Field<string>("createdname"),
+                    //        createddatetime = Row.Field<DateTime?>("createddatetime"),
+                    //        updatedby = Row.Field<Int64?>("updatedby"),
+                    //        updatedname = Row.Field<string>("updatedname"),
+                    //        updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                    //        isactive = Row.Field<bool>("isactive"),
+                    //        isdeleted = Row.Field<bool>("isdeleted"),
+                    //        lst_quoteproduct = lstquotationproduct
+                    //    }).ToList();
+
+                    //}
+                    if (ds.Tables[purchase_order_id > 0 ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstpurchaseorder = ds.Tables[purchase_order_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
+                          new purchaseorderModel
+                          {
+                              purchase_order_id = Row.Field<Int64>("purchase_order_id"),
+                              purchase_number = Row.Field<string>("purchase_number"),
+                              quotation_id = Row.Field<Int64>("quotation_id"),
+                              quotation_number = Row.Field<string>("quotation_number"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              coupon_id = Row.Field<Int64>("coupon_id"),
+                              purchase_order_total = Row.Field<Decimal>("purchase_order_total"),
+                              purchase_order_subtotal = Row.Field<Decimal>("purchase_order_subtotal"),
+                              purchase_order_discount = Row.Field<Decimal>("purchase_order_discount"),
+                              purchase_order_tax = Row.Field<Decimal>("purchase_order_tax"),
+                              purchase_order_status = Row.Field<string>("purchase_order_status"),
+                              sales_person_details = Row.Field<string>("sales_person_details"),
+                              referal_person_details = Row.Field<string>("referal_person_details"),
+                              fullname = Row.Field<string>("fullname"),
+                              email_id = Row.Field<string>("email_id"),
+                              mobile_number = Row.Field<string>("mobile_number"),
+                              address = Row.Field<string>("address"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              lstpurchaseproduct = lstquotationproduct
+                          }).ToList();
+                    }
+                    if (ds.Tables[purchase_order_id > 0 ? 2 : 1].Rows.Count > 0)
+                    {
+                        response.count = Convert.ToInt64(ds.Tables[purchase_order_id > 0 ? 2 : 1].Rows[0]["RESPONSE"].ToString());
+                    }
+                    response.data = lstpurchaseorder;
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string managepurchaseorder(purchaseorderModel _purchase_order)
+        {
+            string ResponseMessage = "";
+            try
+            {
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", _purchase_order.flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@purchase_order_id", _purchase_order.purchase_order_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_id", _purchase_order.quotation_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@purchase_number", _purchase_order.purchase_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_number", _purchase_order.quotation_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@cart_master_id", _purchase_order.cart_master_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", _purchase_order.coupon_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@ismonthly", _purchase_order.ismonthly, DbType.Boolean);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_total", _purchase_order.purchase_order_total, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_subtotal", _purchase_order.purchase_order_subtotal, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_discount", _purchase_order.purchase_order_discount, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_tax", _purchase_order.purchase_order_tax, DbType.Decimal);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quotation_status", _purchase_order.purchase_order_status, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sales_person_name", _purchase_order.sales_person_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@sales_person_mobile", _purchase_order.sales_person_mobile, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_name", _purchase_order.referal_person_name, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@referal_person_mobile", _purchase_order.referal_person_mobile, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@fullname", _purchase_order.fullname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@email_id", _purchase_order.email_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@mobile_number", _purchase_order.mobile_number, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@address", _purchase_order.address, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdby", _purchase_order.createdby, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@createdname", _purchase_order.createdname, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                List<purchaseorderModel> lstpurchaseorder = new List<purchaseorderModel>();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.managepurchaseorder, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (_purchase_order.flag.Contains("NEWPURCHASEORDER") || _purchase_order.flag.Contains("ADDTOPO"))
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
+                            var Res = ResponseMessage.Split('~');
+                            _purchase_order.purchase_order_id = Convert.ToInt64(Res[1].ToString());
+                            if ((_purchase_order.lstpurchaseproduct != null && _purchase_order.lstpurchaseproduct.Count > 0))
+                            {
+                                _purchase_order.lstpurchaseproduct.ForEach(_item =>
+                                {
+                                    // Master level mappings
+                                    _item.purchase_order_id = _purchase_order.purchase_order_id;
+                                    //_item.user_id = _quotation_model.user_id;
+                                    _item.client_id = client_id;
+                                    _item.project_id = project_id;
+                                    _item.createdby = _purchase_order.user_id;
+                                    _item.createdname = _purchase_order.createdname;
+                                    _item.isactive = true;
+                                    _item.isdeleted = false;
+
+                                    // Product details (coming from cart/frontend)
+                                    _item.cart_master_id = _purchase_order.cart_master_id;
+                                    _item.user_cart_mapping_id = _item.user_cart_mapping_id;
+                                    _item.product_id = _item.product_id;
+                                    _item.timeslot_category_id = _item.timeslot_category_id;
+                                    _item.timeslot_category = _item.timeslot_category;
+                                    _item.timeslot_price = _item.timeslot_price;
+                                    _item.repetition_category_id = _item.repetition_category_id;
+                                    _item.repetition_category = _item.repetition_category;
+                                    _item.repetition_price = _item.repetition_price;
+                                    _item.interval_category_id = _item.interval_category_id;
+                                    _item.interval_category = _item.interval_category;
+                                    _item.interval_price = _item.interval_price;
+                                    _item.from_date = _item.from_date;
+                                    _item.to_date = _item.to_date;
+                                    _item.quantity = _item.quantity;
+                                    _item.base_amount = _item.base_amount;
+                                    _item.attribute_amount = _item.attribute_amount;
+                                    _item.total_amount = _item.total_amount;
+                                });
+                                Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
+                                DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(_purchase_order.lstpurchaseproduct);
+                                objDbHelper = new DBHelper();
+                                string tablename = objDbHelper.BulkImport("WebD_QuotationProductMapping", dtfilemanagercategory);
+                                DBParameterCollection ObJParameterCOl3 = new DBParameterCollection();
+                                DBParameter objDBParameter3 = new DBParameter("@tablename", tablename, DbType.String);
+                                ObJParameterCOl3.Add(objDBParameter3);
+                                objDbHelper.ExecuteNonQuery(Constant.mappurchaseorderproduct, ObJParameterCOl3, CommandType.StoredProcedure);
+                            }
+                        }
+                        else
+                        {
+                            ResponseMessage = ds.Tables[0].Rows[0]["Response"].ToString();
+                        }
+
+                    }
+                }
+                return ResponseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public void Dispose()

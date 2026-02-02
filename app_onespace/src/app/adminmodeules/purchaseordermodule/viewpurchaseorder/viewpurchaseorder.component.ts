@@ -9,26 +9,23 @@ import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ParseFlags } from '@angular/compiler';
 
 @Component({
-  selector: 'app-viewquotation',
+  selector: 'app-viewpurchaseorder',
   standalone: true,
   imports: [CommonModule, SweetAlert2Module, NgbModule, FormsModule],
-  templateUrl: './viewquotation.component.html',
-  styleUrl: './viewquotation.component.scss'
+  templateUrl: './viewpurchaseorder.component.html',
+  styleUrl: './viewpurchaseorder.component.scss'
 })
-export class ViewquotationComponent {
+export class ViewpurchaseorderComponent {
   @ViewChild('movesuccessSwal')
   public readonly movesuccessSwal!: SwalComponent;
-  @ViewChild('addsuccessSwal')
-  public readonly addsuccessSwal!: SwalComponent;
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
   // @Input() order_id!: number;
   invoice_logo: String = '';
   public invoicedetailsmaster: any;
-  quotation_id: any;
+  purchase_order_id: any;
   order_number: any;
   grandTotalInWords: string = '';
   constructor(
@@ -39,8 +36,8 @@ export class ViewquotationComponent {
   ) { }
 
   ngOnInit(): void {
-    this.quotation_id = this._activatedRouter.snapshot.paramMap.get('quotation_id');
-    this.get_invoice(this.quotation_id);
+    this.purchase_order_id = this._activatedRouter.snapshot.paramMap.get('purchase_order_id');
+    this.get_invoice(this.purchase_order_id);
     this._base._commonService.get_portal_config('invoice_logo').then((invoice_logo: any) => {
       this.invoice_logo = invoice_logo;
       console.log('invoice_logo', this.invoice_logo)
@@ -48,8 +45,8 @@ export class ViewquotationComponent {
     });
   }
 
-  get_invoice(quotation_id: any) {
-    this._webDService.getquotedetails('all', quotation_id).subscribe((resreceipt: any) => {
+  get_invoice(purchase_order_id: any) {
+    this._webDService.getpurchaseorder('all', purchase_order_id).subscribe((resreceipt: any) => {
       let invoicedetails = Array.isArray(resreceipt.data) ? resreceipt.data : [];
       this.invoicedetailsmaster = invoicedetails[0];
 
@@ -132,44 +129,19 @@ export class ViewquotationComponent {
   }
 
 
-  move_to_cart() {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
-        this._webDService.move_to_cart(this.quotation_id, 0, user_id).subscribe((resquote: any) => {
-          if (resquote && resquote.includes('updatesuccess')) {
-            this.movesuccessSwal.fire();
-            setTimeout(() => {
-              this.movesuccessSwal.close();
-              this._cdr.detectChanges();
-            }, 1500);
-          }
-        });
-      });
-    });
-  }
-
-  add_to_po() {
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
-
-        const payload = {
-          flag: 'ADDTOPO',
-          purchase_order_id: 0,
-          quotation_id: this.quotation_id,
-          createdby: user_id,
-          createdname: full_name
-        };
-        this._webDService.managepurchaseorder(payload).subscribe((resquote: any) => {
-          if (resquote && resquote.includes('updatesuccess')) {
-            this.addsuccessSwal.fire();
-
-            setTimeout(() => {
-              this.addsuccessSwal.close();
-              this._cdr.detectChanges();
-            }, 1500);
-          }
-        });
-      });
-    });
-  }
+  // move_to_cart() {
+  //   this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+  //     this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+  //       this._webDService.move_to_cart(this.quotation_id, 0, user_id).subscribe((resquote: any) => {
+  //         if (resquote && resquote.includes('updatesuccess')) {
+  //           this.movesuccessSwal.fire();
+  //           setTimeout(() => {
+  //             this.movesuccessSwal.close();
+  //             this._cdr.detectChanges();
+  //           }, 1500);
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 }

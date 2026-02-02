@@ -57,6 +57,8 @@ import { QuotationmoduleComponent } from './adminmodeules/quotationmodule/quotat
 import { ViewquotationComponent } from './adminmodeules/quotationmodule/viewquotation/viewquotation.component';
 import { ManageleadsComponent } from './manageleads/manageleads.component';
 import { LeadsmoduleComponent } from './adminmodeules/leadsmodule/leadsmodule.component';
+import { PurchaseordermoduleComponent } from './adminmodeules/purchaseordermodule/purchaseordermodule.component';
+import { ViewpurchaseorderComponent } from './adminmodeules/purchaseordermodule/viewpurchaseorder/viewpurchaseorder.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: "full" },
@@ -357,6 +359,17 @@ export const routes: Routes = [
             //     component: ViewquotationComponent,
             //     title: 'Quotation | Onescreen',
             // },
+            
+            {
+                path: 'purchaseorder',
+                component: PurchaseordermoduleComponent,
+                title: 'Purchase Order | Onescreen',
+            },
+            {
+                path: 'purchaseorder/:purchase_order_id',
+                component: ViewpurchaseorderComponent,
+                title: 'View Purchaseorder | Onescreen',
+            },
         ]
     },
     { path: '**', component: FourzerofourComponent }

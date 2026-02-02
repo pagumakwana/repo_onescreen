@@ -15,7 +15,7 @@
           <div class="col-sm-6 text-sm-end">
             <h6>Date : <span class="text-muted f-w-400">{{invoicedetailsmaster?.createddatetime |
                 date:'dd/MM/yyyy'}}</span></h6>
-            <h6>Quotation# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.quotation_number}}</span></h6>
+            <h6>Quotation# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.purchase_number}}</span></h6>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of invoicedetailsmaster?.lst_quoteproduct; let i = index">
+              <tr *ngFor="let item of invoicedetailsmaster?.lstpurchaseproduct; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>
                   {{ item?.product_name }}
@@ -100,25 +100,25 @@
               <p class="text-muted mb-1 text-start">Sub Total :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_subtotal}}</p>
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.purchase_order_subtotal}}</p>
             </div>
             <div class="col-6">
               <p class="text-muted mb-1 text-start">Discount :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end text-success">₹{{invoicedetailsmaster?.quotation_discount}}</p>
+              <p class="f-w-600 mb-1 text-end text-success">₹{{invoicedetailsmaster?.purchase_order_discount}}</p>
             </div>
             <div class="col-6">
               <p class="text-muted mb-1 text-start">Taxes :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_tax}}</p>
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.purchase_order_tax}}</p>
             </div>
             <div class="col-6">
               <p class="f-w-600 mb-1 text-start">Grand Total :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.quotation_total}}</p>
+              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.purchase_order_total}}</p>
             </div>
           </div>
         </div>
@@ -135,15 +135,11 @@
     <!-- <button class="btn btn-outline-primary btn-print-invoice" (click)="print()">Print</button> -->
     <a class="btn btn-outline-primary" routerLink="/app/orders">Cancel</a>
     <button class="btn btn-outline-primary btn-print-invoice" (click)="downloadPDF()">Download</button>
-    <button class="btn btn-outline-primary btn-print-invoice" *ngIf="invoicedetailsmaster?.is_po != 1" (click)="move_to_cart()">Move To Cart</button>
-    <button class="btn btn-outline-primary btn-print-invoice" (click)="add_to_po()">Add to PO</button>
+    <!-- <button class="btn btn-outline-primary btn-print-invoice" (click)="move_to_cart()">Move To Cart</button> -->
   </div>
   <swal #movesuccessSwal [swalOptions]="swalOptions" title="Moved to Cart." text="" icon="success"
-    [showConfirmButton]="false">
-  </swal>
-  <swal #addsuccessSwal [swalOptions]="swalOptions" title="Added to PO." text="" icon="success"
-    [showConfirmButton]="false">
-  </swal>
+        [showConfirmButton]="false">
+      </swal>
 </div>
 
 

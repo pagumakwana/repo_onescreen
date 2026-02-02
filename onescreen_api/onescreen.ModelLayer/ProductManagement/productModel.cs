@@ -56,7 +56,7 @@ namespace onescreenModel.ProductManagement
         public Int64? product_id { get; set; }
         public Int64? option_value_parent_id { get; set; }
 
-}
+    }
 
 
     public class userproductcommissionModel : commonModel
@@ -390,7 +390,7 @@ namespace onescreenModel.ProductManagement
         public decimal? wallet_balance_amt { get; set; }
         public Int64? credit_debit { get; set; }
         public Int64? order_id { get; set; }
-        public string? order_number{ get; set; }
+        public string? order_number { get; set; }
         public Int64? user_id { get; set; }
     }
 
@@ -404,16 +404,16 @@ namespace onescreenModel.ProductManagement
     public class invoicedetails : commonModel
     {
         public Int64 order_id { get; set; }
-        public string? order_number { get;set; }
-        public decimal? order_total { get;set; }
-        public decimal? order_subtotal { get;set; }
-        public decimal? order_discount { get;set; }
-        public decimal? order_tax { get;set; }
-        public string? optionvalues { get;set; }
-        public Int64? product_id { get;set; }
-        public string? product_name { get;set; }
-        public string? fullname { get;set; }
-        public string? address { get;set; }
+        public string? order_number { get; set; }
+        public decimal? order_total { get; set; }
+        public decimal? order_subtotal { get; set; }
+        public decimal? order_discount { get; set; }
+        public decimal? order_tax { get; set; }
+        public string? optionvalues { get; set; }
+        public Int64? product_id { get; set; }
+        public string? product_name { get; set; }
+        public string? fullname { get; set; }
+        public string? address { get; set; }
     }
 
     public class datetimedetails : commonModel
@@ -445,6 +445,7 @@ namespace onescreenModel.ProductManagement
         public string? email_id { get; set; }
         public string? mobile_number { get; set; }
         public string? address { get; set; }
+        public bool? is_po { get; set; }
         public string? sales_person_details { get; set; }
         public string? referal_person_details { get; set; }
         public List<quoteproductModel> lst_quoteproduct { get; set; }
@@ -453,6 +454,8 @@ namespace onescreenModel.ProductManagement
     public class quoteproductModel : commonModel
     {
         public long quotation_product_map_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
+        public long? purchase_order_id { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
+        public long? purchorder_product_mapid { get; set; }   // [order_product_map_id] BIGINT IDENTITY (PK)
         public long? quotation_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? user_cart_mapping_id { get; set; }       // [cart_master_id]
@@ -487,6 +490,33 @@ namespace onescreenModel.ProductManagement
         public string? location { get; set; }
         public string? additional_details { get; set; }
         public string? thumbnail { get; set; }
+    }
+
+    public class purchaseorderModel : commonModel
+    {
+        public Int64? purchase_order_id { get; set; }
+        public string? purchase_number { get; set; }
+        public Int64? quotation_id { get; set; }
+        public string? quotation_number { get; set; }
+        public Int64 cart_master_id { get; set; }
+        public Int64 coupon_id { get; set; }
+        public bool? ismonthly { get; set; }
+        public decimal? purchase_order_total { get; set; }
+        public decimal? purchase_order_subtotal { get; set; }
+        public decimal? purchase_order_discount { get; set; }
+        public decimal? purchase_order_tax { get; set; }
+        public string? purchase_order_status { get; set; }
+        public string? sales_person_name { get; set; }
+        public string? sales_person_mobile { get; set; }
+        public string? referal_person_name { get; set; }
+        public string? referal_person_mobile { get; set; }
+        public string? sales_person_details { get; set; }
+        public string? referal_person_details { get; set; }
+        public string? fullname { get; set; }
+        public string? email_id { get; set; }
+        public string? mobile_number { get; set; }
+        public string? address { get; set; }
+        public List<quoteproductModel>? lstpurchaseproduct { get; set; }
     }
 }
 

@@ -4,7 +4,7 @@ import { WebDService } from '../_appservice/webdpanel.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from "@angular/router";
-import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user, user_verification, userModel, quotationmodel } from '../_appmodel/_model';
+import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaster, ordermaster, removeusercartModel, update_user, user_verification, userModel, quotationmodel, purchaseordermodel } from '../_appmodel/_model';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -46,7 +46,9 @@ export class CartComponent implements OnInit {
 
 
   public modalRef!: NgbModalRef;
+  isAddToPO: boolean = false;
   openraisequote() {
+    this.isAddToPO = false;
     this.modalRef = this.modalService.open(this.formRaiseQuote, {
       size: 'md',
       backdrop: true,
@@ -55,6 +57,13 @@ export class CartComponent implements OnInit {
     this._cdr.detectChanges();
   }
 
+  add_po_modal() {
+    this.isAddToPO = true;
+    this.modalRef = this.modalService.open(this.formRaiseQuote, {
+      centered: true,
+      backdrop: 'static'
+    });
+  }
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
@@ -80,6 +89,8 @@ export class CartComponent implements OnInit {
   public readonly paysuccessSwal!: SwalComponent;
   @ViewChild('qoutesuccessSwal')
   public readonly qoutesuccessSwal!: SwalComponent;
+  @ViewChild('posuccessSwal')
+  public readonly posuccessSwal!: SwalComponent;
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   UserCart: any;
@@ -923,6 +934,7 @@ export class CartComponent implements OnInit {
   }
 
   _quotedetails: quotationmodel = {};
+  _purchase_order: purchaseordermodel = {};
   // quoteForm = this.fgrasiequote?.value || {};
 
   raise_quotation() {
@@ -993,5 +1005,83 @@ export class CartComponent implements OnInit {
         });
       });
     });
+  }
+
+  add_po() {
+    debugger
+    // if (this.fgrasiequote.invalid) {
+    //   this.fgrasiequote.markAllAsTouched();
+    //   return;
+    // }
+    const result = this.UserCart[0]?.lst_cart_product
+      ?.filter((p: any) => p.product_id > 0)
+      .flatMap((p: any) => p.optionvaluesParsed);
+
+    const purchaseorderForm = this.fgrasiequote.value;
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        this._purchase_order = {
+          flag: 'NEWPURCHASEORDER',
+          purchase_order_id: 0,
+          cart_master_id: this.UserCart[0]?.cart_master_id,
+          coupon_id: this.couponMaster?.[0]?.coupon_id || 0,
+          purchase_order_total: this._base._commonService.formatAmount(this.cart_total),
+          purchase_order_subtotal: this._base._commonService.formatAmount(this.cart_subtotal),
+          purchase_order_discount: this._base._commonService.formatAmount(this.cart_discount),
+          purchase_order_tax: this._base._commonService.formatAmount(this.cart_tax),
+          purchase_order_status: 'success',
+          sales_person_mobile: this.sales_person_mobile,
+          sales_person_name: this.sales_person_name,
+          referal_person_mobile: this.referal_person_mobile,
+          referal_person_name: this.referal_person_name,
+          fullname: purchaseorderForm.fullname,
+          email_id: purchaseorderForm.email_id,
+          mobile_number: purchaseorderForm.mobile_number,
+          address: purchaseorderForm.address,
+          user_id: user_id,
+          createdname: full_name,
+          createdby: user_id,
+          lstpurchaseproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
+          // lst_orderproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
+        };
+        // this._quotationmodel = {
+        //   lst_ordermaster: this._order_details,
+        //   lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+        //   lst_orderproduct: this._order_details?.lst_orderproduct
+        // }
+        console.log('array', this._purchase_order)
+        this._webDService.managepurchaseorder(this._purchase_order).subscribe((respurchaseorder: any) => {
+          if (respurchaseorder && respurchaseorder.includes('newsuccess')) {
+            let purchase_order_id = respurchaseorder.split('~')[1];
+            this.posuccessSwal.fire();
+            setTimeout(() => {
+              this.posuccessSwal.close();
+              if (this.modalRef) {
+                this.modalRef.close();
+              } else {
+                this.modalService.dismissAll();
+              }
+              // this.fgrasiequote.reset();
+              // this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
+              // window.location.reload();
+              this._cdr.detectChanges();
+            }, 1500);
+          } else {
+            this.failureSwal.fire();
+            setTimeout(() => {
+              this.failureSwal.close();
+            }, 1500);
+          }
+        });
+      });
+    });
+  }
+
+  onSubmitRaiseQuote() {
+    if (this.isAddToPO) {
+      this.add_po();          
+    } else {
+      this.raise_quotation(); 
+    }
   }
 }

@@ -298,6 +298,8 @@ export class ApiConstant {
         getquotedetails:"product/getquotedetails",
         move_to_cart:"product/move_to_cart",
         getleads:"product/getleads",
-        manageleads:"product/manageleads"
+        manageleads:"product/manageleads",
+        getpurchaseorder:"product/getpurchaseorder",
+        managepurchaseorder:"product/managepurchaseorder"
     }
 }

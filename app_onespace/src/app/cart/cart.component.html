@@ -113,7 +113,12 @@
               <div class="col-12">
                 <div class="text-end btn-page mb-0 mt-4 p-10 d-flex justify-content-end align-items-center gap-2">
 
-                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
+                  <button class="btn btn-primary" (click)="add_po_modal()" type="button">
+                    Add to PO
+                  </button>
+
+                  <div
+                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
                     <button class="btn btn-primary" (click)="openraisequote()" type="button">
                       Raise Quotation
                     </button>
@@ -127,6 +132,9 @@
                 </div>
               </div>
             </div>
+            <swal #posuccessSwal [swalOptions]="swalOptions" title="Added to PO." text="" icon="success"
+              [showConfirmButton]="false">
+            </swal>
             <!-- <div class="text-end">
               <a [routerLink]="['/product']" class="btn btn-link-secondary d-inline-flex align-items-center"><i
                   class="ti ti-chevron-left me-2"></i>
@@ -627,7 +635,7 @@
 
 <ng-template #formRaiseQuote let-modal>
   <div class="modal-header">
-    <h4>Raise Quotation</h4>
+    <h4>{{ isAddToPO ? 'Add to PO' : 'Raise Quotation' }}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
 
@@ -667,11 +675,14 @@
         <button class="btn btn-outline-secondary">
           Cancel
         </button>
-        &nbsp; <button type="submit" class="btn btn-primary" (click)="raise_quotation()">
+        &nbsp; <button type="submit" class="btn btn-primary" (click)="onSubmitRaiseQuote()">
           Submit
         </button>
       </div>
       <swal #qoutesuccessSwal [swalOptions]="swalOptions" title="Quotation Raised." text="" icon="success"
+        [showConfirmButton]="false">
+      </swal>
+      <swal #posuccessSwal [swalOptions]="swalOptions" title="Added to PO." text="" icon="success"
         [showConfirmButton]="false">
       </swal>
     </form>

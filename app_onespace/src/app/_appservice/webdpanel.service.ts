@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseServiceHelper } from './baseHelper.service';
 import { ApiConstant } from '../_appmodel/apiconstant';
-import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal, quotationmodel, leadsmodel } from '../_appmodel/_model';
+import { userModel, userModule, userAuthority, typeMaster, categoryMaster, labelMaster, blog, clientMaster, projectMaster, imageMaster, videoMaster, recipeMaster, controlDetails, cuisineMaster, banner, contestMaster, post, tourMaster, enquiryModel, batchModel, anthology, AuthModel, societyModel, complexModel, wingModel, flatModel, MasterModel, MasterDataModel, noticeModel, gateModel, supportMaster, documentsMaster, vehicleModel, petModel, accountHeaderModel, budgetModel, financialyearModel, tenantModel, companyModel, app_userapproved_model, modeModel, apiModel, senderModel, vendorModel, serviceproviderModel, serviceModel, templateModel, schedulerModel, invoiceModel, penaltyModel, receiptModel, usersocietymapModel, audiencemanagemaster, responseModel, postModel, keyModel, utilityModel, packageModel, communicationconfigurationModel, notification, eventModel, journalModel, reminderModel, triggerMaster, moduledataModel, portalconfigModel, audienceusermapModel, invoiceTemplateModel, useramountModel, productMaster, brandsMaster, productoptiontype, productoptionvalue, productoption, couponModel, userRegistration, usercartMaster, razorpayPaymentResponse, razorpay_OrderAttribute, user_coupon_model, contactDetails, orderDetails, ordermaster, media_status, media_upload, removeusercartModel, user_verification, update_user, wallet_transaction, wallet_withdrawal, quotationmodel, leadsmodel, purchaseordermodel } from '../_appmodel/_model';
 import { map, Observable, of } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
@@ -750,5 +750,13 @@ export class WebDService {
     }
     public leads(_leadsmodel: any) {
         return this._base._apiService.postt('https://onespaceinterior.com/api/v1/onescreenSmartTask',_leadsmodel);
+    }
+
+    public getpurchaseorder(flag = 'all', purchase_order_id = 0, user_id = 0, start_count = 0, end_count = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.getpurchaseorder}?flag=${flag}&purchase_order_id=${purchase_order_id}&user_id=${user_id}&start_count=${start_count}&end_count=${end_count}`);
+    }
+
+    public managepurchaseorder(_purchaseordermodel: purchaseordermodel) {
+        return this._base._apiService.post(`${ApiConstant.product.managepurchaseorder}`, _purchaseordermodel);
     }
 }

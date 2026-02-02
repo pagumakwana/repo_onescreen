@@ -2437,3 +2437,33 @@ export interface leadsmodel {
         itemidentifier?: string
     }>
 }
+
+export interface purchaseordermodel{
+    flag?: any,
+    purchase_order_id?: any,
+    purchase_number?: any,
+    quotation_id?: any,
+    quotation_number?: any,
+    cart_master_id?: any,
+    coupon_id?: any,
+    purchase_order_total?: any,
+    purchase_order_subtotal?: any,
+    purchase_order_discount?: any,
+    purchase_order_tax?: any,
+    purchase_order_status?: any,
+    lstpurchaseproduct?: any,
+    sales_person_name?: any,
+    sales_person_mobile?: any,
+    referal_person_name?: any,
+    referal_person_mobile?: any,
+    fullname?:any,
+    email_id?: any,
+    mobile_number?: any,
+    address?: any,
+    isactive?: any,
+    client_id?: number,
+    project_id?: number,
+    user_id?: number,
+    createdby?: number,
+    createdname?: string
+}
