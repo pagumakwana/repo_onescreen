@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import html2pdf from 'html2pdf.js';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-viewpurchaseorder',
   standalone: true,
-  imports: [CommonModule, SweetAlert2Module, NgbModule, FormsModule],
+  imports: [CommonModule, SweetAlert2Module, NgbModule, FormsModule,RouterModule],
   templateUrl: './viewpurchaseorder.component.html',
   styleUrl: './viewpurchaseorder.component.scss'
 })
@@ -105,7 +105,7 @@ export class ViewpurchaseorderComponent {
 
     const options = {
       margin: 0.5,
-      filename: `Quotation_${this.invoicedetailsmaster?.quotation_number}.pdf`,
+      filename: `${this.invoicedetailsmaster?.purchase_number}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }

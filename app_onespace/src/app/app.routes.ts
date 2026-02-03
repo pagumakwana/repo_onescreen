@@ -167,6 +167,11 @@ export const routes: Routes = [
                 title: 'Quotation | Onescreen',
             },
             {
+                path: 'purchaseorder/:purchase_order_id',
+                component: ViewpurchaseorderComponent,
+                title: 'View Purchaseorder | Onescreen',
+            },
+            {
                 path: 'joinonescreen',
                 component: ManageleadsComponent,
                 title: 'Join Onescreen | Onescreen',
@@ -354,11 +359,11 @@ export const routes: Routes = [
                 component: LeadsmoduleComponent,
                 title: 'Leads | Onescreen',
             },
-            // {
-            //     path: 'raisedquotation/:quotation_id',
-            //     component: ViewquotationComponent,
-            //     title: 'Quotation | Onescreen',
-            // },
+            {
+                path: 'raisedquotation/:quotation_id',
+                component: ViewquotationComponent,
+                title: 'Quotation | Onescreen',
+            },
             
             {
                 path: 'purchaseorder',

@@ -15,7 +15,7 @@
               [ngClass]="{ 'pc-hasmenu': menu.children?.length > 0, 'open': menu.expanded }">
 
             <!-- parent row. If parent has children, clicking toggles submenu; otherwise navigates -->
-            <a class="pc-link"
+            <a class="pc-link" style="cursor: pointer;"
                (click)="menu.children?.length ? toggleMenu(menu, $event) : navigateToMenu(menu, menuStructure)">
               <span class="pc-micon">
                 <!-- use your existing icon system; adapt class binding if needed -->
@@ -38,7 +38,7 @@
                 <li class="pc-item"
                     [ngClass]="{ 'pc-hasmenu': child.children?.length > 0, 'open': child.expanded }">
 
-                  <a class="pc-link"
+                  <a class="pc-link"  style="cursor: pointer;"
                      (click)="child.children?.length ? toggleMenu(child, $event) : navigateToMenu(child, menuStructure)">
                     <span class="pc-micon">
                       <i class="{{ child.moduleicon || 'ph-gauge' }}"></i>
@@ -56,7 +56,7 @@
                   <ul class="pc-submenu" *ngIf="child.children?.length && child.expanded">
                     <ng-container *ngFor="let sub of child.children">
                       <li class="pc-item">
-                        <a class="pc-link" (click)="navigateToMenu(sub, menuStructure)">
+                        <a class="pc-link" (click)="navigateToMenu(sub, menuStructure)"  style="cursor: pointer;">
                           <span class="pc-micon">
                             <i class="{{ sub.moduleicon || 'ph-gauge' }}"></i>
                           </span>

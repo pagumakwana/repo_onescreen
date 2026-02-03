@@ -1061,9 +1061,9 @@ export class CartComponent implements OnInit {
               } else {
                 this.modalService.dismissAll();
               }
-              // this.fgrasiequote.reset();
-              // this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
-              // window.location.reload();
+              //this.fgrasiequote.reset();
+              this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
+              //window.location.reload();
               this._cdr.detectChanges();
             }, 1500);
           } else {

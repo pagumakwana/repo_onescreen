@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import html2pdf from 'html2pdf.js';
 import { BaseServiceHelper } from '../../../_appservice/baseHelper.service';
 import { WebDService } from '../../../_appservice/webdpanel.service';
@@ -14,11 +14,11 @@ import { ParseFlags } from '@angular/compiler';
 @Component({
   selector: 'app-viewquotation',
   standalone: true,
-  imports: [CommonModule, SweetAlert2Module, NgbModule, FormsModule],
+  imports: [CommonModule, SweetAlert2Module, NgbModule, FormsModule,RouterModule],
   templateUrl: './viewquotation.component.html',
   styleUrl: './viewquotation.component.scss'
 })
-export class ViewquotationComponent {
+export class ViewquotationComponent implements OnInit {
   @ViewChild('movesuccessSwal')
   public readonly movesuccessSwal!: SwalComponent;
   @ViewChild('addsuccessSwal')
