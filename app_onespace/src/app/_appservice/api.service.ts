@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import configData from "../../assets/projectConfig.json";
 import { EncryptedStorage } from './encryptedstorage.service';
@@ -103,5 +103,17 @@ export class ApiService implements OnDestroy {
     }
     postt(endpoint: string, body?: any) {
         return this.http.post(endpoint, body);
+    }
+
+    post_otp(endpoint: string, mobileNo: string, otp: string) {
+        const _body = new HttpParams()
+        .set('mobile_no', mobileNo)
+        .set('otp', otp);
+        
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
+      
+          return this.http.post(endpoint, _body.toString(), { headers });
     }
 }

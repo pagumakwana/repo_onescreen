@@ -718,8 +718,12 @@ export class WebDService {
     //     return this._base._apiService.getOtp(url);
     // }
 
+    // public sendOtp(mobileNo: string, otp: any) {
+    //     return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/verifyMobileNumberOnescreen?mobile_no=${mobileNo}&otp=${otp}`);
+    // }
+
     public sendOtp(mobileNo: string, otp: any) {
-        return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/verifyMobileNumberOnescreen?mobile_no=${mobileNo}&otp=${otp}`);
+        return this._base._apiService.post_otp(`https://onespaceinterior.com/api/v1/verifyMobileNumberOnescreen`, mobileNo, otp);
     }
 
     public primedatdetails(_objdatetimedetails: any) {
@@ -752,7 +756,7 @@ export class WebDService {
         return this._base._apiService.post(`${ApiConstant.product.manageleads}`, _leadsmodel);
     }
     public leads(_leadsmodel: any) {
-        return this._base._apiService.postt('https://onespaceinterior.com/api/v1/onescreenSmartTask',_leadsmodel);
+        return this._base._apiService.postt('https://onespaceinterior.com/api/v1/onescreenSmartTask', _leadsmodel);
     }
 
     public getpurchaseorder(flag = 'all', purchase_order_id = 0, user_id = 0, start_count = 0, end_count = 0) {
