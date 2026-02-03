@@ -710,13 +710,16 @@ export class WebDService {
     //     return this._base._apiService.getOtp(url,{params});
     // }
 
-    sendOtp(mobileNo: string, otp: any): Observable<any> {
-        // const otp = Math.floor(100000 + Math.random() * 900000);
-        const message = `${otp}%20is%20your%20Onespace%20Verification%20Code%20for%20Login%20or%20to%20SignUp.%20Enjoy%20Making%20Your%20Dream%20Home%20Interior%C2%A0With%C2%A0Onespace`;
+    // sendOtp(mobileNo: string, otp: any): Observable<any> {
+    //     const message = `${otp}%20is%20your%20Onespace%20Verification%20Code%20for%20Login%20or%20to%20SignUp.%20Enjoy%20Making%20Your%20Dream%20Home%20Interior%C2%A0With%C2%A0Onespace`;
 
-        const url = `https://sms.mobileadz.in/api/push?apikey=6348eda2cf8cf&sender=ONESPC&mobileno=${mobileNo}&text=${message}`;
+    //     const url = `https://sms.mobileadz.in/api/push?apikey=6348eda2cf8cf&sender=ONESPC&mobileno=${mobileNo}&text=${message}`;
 
-        return this._base._apiService.getOtp(url);
+    //     return this._base._apiService.getOtp(url);
+    // }
+
+    public sendOtp(mobileNo: string, otp: any) {
+        return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/verifyMobileNumberOnescreen?mobile_no=${mobileNo}&otp=${otp}`);
     }
 
     public primedatdetails(_objdatetimedetails: any) {
