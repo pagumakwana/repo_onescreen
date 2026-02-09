@@ -35,24 +35,23 @@
                                         </ng-container>
                                     </div>
                                 </div>
-                                <!-- <div class="col-lg-4 mb-3">
+                                <div class="col-lg-4 mb-3">
                                     <label class="form-label">Parent Option Type Value</label>
                                     <webd-multiselect [data]="OptionTypeValue" class="col-sm-3 col-form-label"
-                                        textField='title' valueField='option_type_id'
+                                        textField='option_value' valueField='option_value_id'
                                         [formControl]="fgoptionvalue?.controls?.lstoptiontypevalue"
                                         placeholder="Select option type" [config]="_configTypeValue"
-                                        (onSelection)="onItemSelect($event)">
+                                        (onSelection)="onItemValueSelect($event)">
                                     </webd-multiselect>
-                                    <label class="text-danger">* Only select for Reptation.</label>
-                                </div> -->
+                                </div>
                             </div>
 
                             <div class="row mb-6">
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label">Display Order</label>
-                                    <input type="number" min="0" class="form-control" id="display_order"
-                                        name="display_order" placeholder="0" formControlName="display_order"
-                                        onkeypress="numberOnly($event)" />
+                                    <input type="text" class="form-control" id="display_order" name="display_order"
+                                        placeholder="0" formControlName="display_order"
+                                        onkeypress="return /[0-9]/i.test(event.key)" />
                                 </div>
                                 <div class="col-lg-4 mb-3 form-check">
                                     <label class="form-label"></label>

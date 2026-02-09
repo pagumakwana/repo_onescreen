@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct, NgbInputDatepicker, NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
@@ -11,7 +11,7 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { enAppSession } from '../../_appmodel/sessionstorage';
-import { datetimedetails } from '../../_appmodel/_model';
+import { blog, datetimedetails } from '../../_appmodel/_model';
 import { ValidationService } from '../../_appservice/validation.service';
 import { NgbDateCustomParserFormatter } from '../../_appservice/dateformat';
 
@@ -21,7 +21,7 @@ import { NgbDateCustomParserFormatter } from '../../_appservice/dateformat';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, WebdtableComponent, RouterModule, NgbDatepickerModule, SweetAlert2Module],
   templateUrl: './primedatetimemodule.component.html',
   styleUrl: './primedatetimemodule.component.scss',
-  providers:[  { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }]
+  providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }]
 })
 export class PrimedatetimemoduleComponent implements OnInit {
 
@@ -95,7 +95,8 @@ export class PrimedatetimemoduleComponent implements OnInit {
     this.fgprimedate = this._fbprimedate.group({
       date_id: [0],
       date_price: [0, Validators.required],
-      prime_date: ['', Validators.required]
+      prime_date: ['', Validators.required],
+      prime_description: ['']
     });
   }
 
@@ -155,11 +156,12 @@ export class PrimedatetimemoduleComponent implements OnInit {
     if (this.fgprimedate.valid) {
       debugger
       this._datetimedetails.date_price = this.fgprimedate.value.date_price;
+      this._datetimedetails.prime_description = this.fgprimedate.value.prime_description;
       this._datetimedetails.prime_date = this.toDateModel(this.fgprimedate.value.prime_date);
       this.addmodifyprimedate(flag);
     }
   }
-
+  isdateexists: boolean = false;
   addmodifyprimedate(flag: any) {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
@@ -168,16 +170,48 @@ export class PrimedatetimemoduleComponent implements OnInit {
         this._datetimedetails.user_id = parseInt(user_id);
         this._webDService.primedatdetails(this._datetimedetails).subscribe((response: any) => {
           let isRedirect: boolean = true
-          if (response === 'newsuccess') {
+          if (response === 'newsuccess' || response === 'modifysuccess') {
             isRedirect = false;
             this.getprimedate();
+
+            this.isLoading$.next(false);
+            this.successSwal.fire()
+
+            setTimeout(() => {
+              this.fgprimedate.reset({
+                date_id: [0],
+                date_price: [''],
+                prime_date: [''],
+                prime_description: ['']
+              });
+              this.successSwal.close();
+              this.modalRef.dismiss();
+            }, 1000);
+            this._cdr.detectChanges();
+          } else {
+            this.isdateexists = true;
+            setTimeout(() => {
+              
+              this.isdateexists = false;
+              this._cdr.markForCheck();
+            }, 2000);
           }
-          this.isLoading$.next(false);
-          this._cdr.detectChanges();
+
         });
       });
     });
   }
+  @ViewChild('formModal', { static: true }) formModal!: TemplateRef<any>;
+  private modalRef!: NgbModalRef;
 
+  modalConfig: NgbModalOptions = {
+    size: 'xl',
+    backdrop: true,
+    centered: true
+  }
 
+  opencouponModal() {
+    this.modalRef = this.modalService.open(this.formModal, this.modalConfig);
+    this._cdr.markForCheck();
+  }
 }

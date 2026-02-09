@@ -703,6 +703,7 @@ namespace onescreenDAL.ProductManagement
                                   option_type_id = Row.Field<Int64>("option_type_id"),
                                   title = Row.Field<string>("title"),
                                   option_value_id = Row.Field<Int64>("option_value_id"),
+                                  option_value_parent_id = Row.Field<Int64>("option_value_parent_id"),
                                   option_value = Row.Field<string>("option_value"),
                                   display_order = Row.Field<Int64>("display_order"),
                                   createdby = Row.Field<Int64?>("createdby"),
@@ -742,6 +743,8 @@ namespace onescreenDAL.ProductManagement
                 objDBParameter = new DBParameter("@option_value_id", objproductOptionValuesModel.option_value_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@option_type_id", objproductOptionValuesModel.option_type_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@option_value_parent_id", objproductOptionValuesModel.option_value_parent_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@option_value", objproductOptionValuesModel.option_value, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
@@ -972,6 +975,8 @@ namespace onescreenDAL.ProductManagement
                 DBParameterCollection ObJParameterCOl = new DBParameterCollection();
                 DBParameter objDBParameter = new DBParameter("@flag", objcouponModel.flag, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@coupon_id", objcouponModel.coupon_id, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@coupon_code", objcouponModel.coupon_code, DbType.String);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@discount_value", objcouponModel.discount_value, DbType.String);
@@ -984,9 +989,9 @@ namespace onescreenDAL.ProductManagement
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@isactive", objcouponModel.isactive, DbType.Boolean);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@client_id", objcouponModel.client_id, DbType.Int64);
+                objDBParameter = new DBParameter("@client_id", client_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
-                objDBParameter = new DBParameter("@project_id", objcouponModel.project_id, DbType.Int64);
+                objDBParameter = new DBParameter("@project_id", project_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);
                 objDBParameter = new DBParameter("@user_id", objcouponModel.user_id, DbType.Int64);
                 ObJParameterCOl.Add(objDBParameter);

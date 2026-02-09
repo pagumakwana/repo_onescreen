@@ -2025,6 +2025,7 @@ export interface brandsMaster {
 export interface productoptionvalue {
     flag?: any,
     option_value_id?: any,
+    option_value_parent_id?: any,
     option_value?: any,
     display_order?: any,
     option_type_id?: any,
@@ -2353,6 +2354,7 @@ export interface datetimedetails {
     flag?: any,
     prime_date?: any,
     date_price?: any,
+    prime_description?: any,
     createdname?: any,
     user_id?: any
 }

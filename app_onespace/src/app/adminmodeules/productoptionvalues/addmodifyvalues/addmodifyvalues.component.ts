@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './addmodifyvalues.component.html',
   styleUrl: './addmodifyvalues.component.scss'
 })
-export class AddmodifyvaluesComponent  implements OnInit{
+export class AddmodifyvaluesComponent implements OnInit {
 
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
@@ -52,7 +52,7 @@ export class AddmodifyvaluesComponent  implements OnInit{
   OptionType: any = [];
   private isvalueModify: boolean = false;
 
-  OptionTypeValue:any=[]
+  OptionTypeValue: any = []
   op_value_id: any;
   op_type_id: any;
 
@@ -64,40 +64,42 @@ export class AddmodifyvaluesComponent  implements OnInit{
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
 
   public _configTypeValue: IDropdownSettings = {
     singleSelection: true,
-    idField: 'option_type_id',
-    textField: 'title',
+    idField: 'option_value_id',
+    textField: 'option_value',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true
   };
 
   ngOnInit(): void {
     this.initForm();
     this.option_value_id = this._activatedRouter.snapshot.paramMap.get('option_value_id');
     this.gettype();
-    this.gettype();
-    if (this.option_value_id != '0') {
-      this.getoptionValue(this.option_value_id);
-    }
-    setTimeout(() => {
-      this._cdr.detectChanges();
-    }, 500);
+    this.getoptionvaluedata().then((res: any) => {
+      if (res && this.option_value_id != '0') {
+        this.getoptionValue(this.option_value_id);
+        this._cdr.markForCheck();
+      }
+    });
   }
 
   initForm() {
     this.fgoptionvalue = this._fboptionvalue.group({
-      option_value_id: [''],
-      option_value: ['', [Validators.required]],
-      display_order: [''],
+      option_value_id: [null],
+      option_value_parent_id: [null],
+      option_value: [null, [Validators.required]],
+      display_order: [null],
       isactive: [true],
-      lstoptiontype: ['', [Validators.required]],
-      lstoptiontypevalue: [''],
+      lstoptiontype: [null, [Validators.required]],
+      lstoptiontypevalue: [null],
     })
   }
 
@@ -106,10 +108,19 @@ export class AddmodifyvaluesComponent  implements OnInit{
       this._webDService.productoptionvalues('Details', option_value_id).subscribe((resOptionValue: any) => {
         let OptionValue = Array.isArray(resOptionValue.data) ? resOptionValue.data : [];
         this._optionValue = OptionValue[0];
+        console.log("this._optionValue", this._optionValue)
         this.isvalueModify = true;
+        this.fgoptionvalue.controls['option_value_id'].setValue(this._optionValue.option_value_id);
+        this.fgoptionvalue.controls['option_value_parent_id'].setValue(this._optionValue.option_value_parent_id);
         this.fgoptionvalue.controls['option_value'].setValue(this._optionValue.option_value);
         this.fgoptionvalue.controls['display_order'].setValue(this._optionValue.display_order);
         this.fgoptionvalue.controls['lstoptiontype'].setValue(this._optionValue.lstoptiontype);
+        this._optionValue.lstoptiontypevalue = [];
+        debugger
+        if (this._optionValue.option_value_parent_id > 0) {
+          let optionvalue = this._base._commonService.getDropDownText(this._optionValue.option_value_parent_id, this.OptionTypeValue, 'option_value_id');
+          this._optionValue.lstoptiontypevalue.push(optionvalue);
+        }
         this.fgoptionvalue.controls['lstoptiontypevalue'].setValue(this._optionValue.lstoptiontypevalue);
         this.fgoptionvalue.controls['isactive'].setValue(this._optionValue.isactive);
         resolve(true)
@@ -122,11 +133,15 @@ export class AddmodifyvaluesComponent  implements OnInit{
   setoptionValue(flag: any) {
     this.isLoading$.next(true);
     this._base._commonService.markFormGroupTouched(this.fgoptionvalue)
+    debugger
     if (this.fgoptionvalue.valid) {
       this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
         this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
           this._optionValue.option_value = this.fgoptionvalue.value.option_value;
+          this._optionValue.option_value_parent_id = this.fgoptionvalue.value.option_value_parent_id;
+          this._optionValue.option_value_id = this.fgoptionvalue.value.option_value_id;
           this._optionValue.display_order = this.fgoptionvalue.value.display_order;
+          this._optionValue.lstoptiontype = this.fgoptionvalue.value.lstoptiontype;
           this._optionValue.lstoptiontype = this.fgoptionvalue.value.lstoptiontype;
           this._optionValue.isactive = this.fgoptionvalue.value.isactive;
           this._optionValue.client_id = parseInt(client_id);
@@ -181,22 +196,28 @@ export class AddmodifyvaluesComponent  implements OnInit{
     });
   }
 
-  // getoptionvalue() {
-  //   return new Promise((resolve, reject) => {
-  //     this._webDService.productoptionvalues().subscribe((resOptionType: any) => {
-  //       this.OptionType = [];
-  //       this.OptionType = Array.isArray(resOptionType.data) ? resOptionType.data : [];
-  //       resolve(this.OptionType)
-  //     }, error => {
-  //       resolve(false);
-  //     });
-  //   });
-  // }
+  getoptionvaluedata() {
+    return new Promise((resolve, reject) => {
+      this._webDService.productoptionvalues().subscribe((resOptionTypeValue: any) => {
+        this.OptionTypeValue = [];
+        this.OptionTypeValue = Array.isArray(resOptionTypeValue.data) ? resOptionTypeValue.data : [];
+        resolve(this.OptionTypeValue)
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
 
   onItemSelect($event: any) {
-    console.log("$event[0]",$event[0]);
-    if ($event && $event != null && $event.length > 0) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
       this._optionValue.option_type_id = $event[0].option_type_id;
+    }
+  }
+  onItemValueSelect($event: any) {
+    if ($event && $event != null && $event != '' && $event.length > 0) {
+      this._optionValue.option_value_parent_id = $event[0].option_value_id;
+      this.fgoptionvalue.controls['option_value_parent_id'].setValue(this._optionValue.option_value_parent_id);
+      this.fgoptionvalue.controls['option_value_parent_id'].updateValueAndValidity();
     }
   }
 

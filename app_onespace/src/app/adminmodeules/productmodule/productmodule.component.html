@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_newproductbtn') && ('admin_manageproduct_newcouponbtn')">
+    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_newproductbtn') || ('admin_manageproduct_newcouponbtn')">
     <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
     &nbsp; -->
     <!--begin::Add user-->
@@ -28,7 +28,8 @@
 </swal>
 
 <ng-template #formModal let-modal>
-    <form #myForm="ngForm" (ngSubmit)="onSubmit($event, myForm)">
+    <!-- (ngSubmit)="onSubmit($event, myForm)" -->
+    <form #myForm="ngForm">
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Coupon</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -91,7 +92,7 @@
                 </swal>
             </div>
             &nbsp;
-            <webd-table #coupondataTableCom [config]='coupontableConfig'></webd-table>
+            <webd-table #coupondataTableCom [config]='coupontableConfig'  (tableEvent)="tableCouponClick($event)"></webd-table>
         </div>
     </form>
 </ng-template>

@@ -95,19 +95,19 @@ namespace onescreenModel.ProductManagement
 
     public class productOptionTypesModel : commonModel
     {
-        public Int64 option_type_id { get; set; }
+        public Int64? option_type_id { get; set; }
         public string title { get; set; }
-        public Int64 display_order { get; set; }
+        public Int64? display_order { get; set; }
     }
     public class productOptionValuesModel : commonModel
     {
-        public Int64 option_value_id { get; set; }
+        public Int64? option_value_id { get; set; }
         public Int64 option_type_id { get; set; }
         public string? title { get; set; }
         public string option_value { get; set; }
         public decimal? price_delta { get; set; }
         public decimal? price_delta_prime { get; set; }
-        public Int64 display_order { get; set; }
+        public Int64? display_order { get; set; }
         public Int64? option_value_parent_id { get; set; }
         public List<productOptionTypesModel>? lstoptiontype { get; set; }
     }
