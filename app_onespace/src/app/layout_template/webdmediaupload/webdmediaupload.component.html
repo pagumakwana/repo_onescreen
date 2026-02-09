@@ -26,6 +26,20 @@
                 </div>
             </div>
         </div>
+        <ng-container *ngIf="this.isinvalid">
+            <div class="mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert-text fw-bold">
+                  Invalid file size / file format.
+                </div>
+              
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close">
+                </button>
+              </div>
+          </ng-container>
         <div class="row">
             <div class="col-md-2" id="imgdiv" *ngFor="let objFile of fileChoosenData;let i = index">
                 <ng-container

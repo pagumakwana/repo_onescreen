@@ -822,7 +822,7 @@ export class ProductComponent implements OnInit {
       const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
         (group as FormGroup).get('timeslot_category_id')?.value === _timeslot?.option_value_id
       );
-
+      debugger
       if (selectedValue != undefined && selectedValue != null) {
         const selectedItem = this.ScreenRepeMaster.find((x: any) => x.option_value_id == selectedValue);
         let obj = this.timeArray.at(_index) as FormGroup;
@@ -1600,11 +1600,12 @@ export class ProductComponent implements OnInit {
             month: d.getMonth() + 1,
             day: d.getDate()
           };
+          item.primeDate = d; 
           this.highlightedDates.push(item.prime_date);
         }
         return item;
       });
-
+      this._cdr.markForCheck();
     });
   }
 

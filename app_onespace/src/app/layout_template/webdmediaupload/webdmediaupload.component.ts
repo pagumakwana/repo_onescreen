@@ -27,6 +27,7 @@ export class WebdmediauploadComponent implements OnInit {
   @Input() FileUploaderIndex: any;
   @Input() subidentifier: any;
   fileData: any;
+  isinvalid:boolean=false;
   ngOnInit(): void {
     // this._base._scriptLoaderService.loadScripts("scriptupload", ["../../../assets/plugins/file-upload-with-preview.min.js"], false)
 
@@ -89,13 +90,16 @@ export class WebdmediauploadComponent implements OnInit {
         }
 
         if (!isValid) {
+          this.isinvalid = true;
+          setTimeout(() => {
+            this.isinvalid = false;
+            $event.target.value = null;
+            this._cdr.markForCheck();
+          }, 3000);
           // this._base._alertMessageService.error(`${file.name} is Invalid`)
         }
 
       }
-
-
-
     }
   }
 }

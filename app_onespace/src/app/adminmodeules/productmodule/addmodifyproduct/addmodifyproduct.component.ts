@@ -125,7 +125,10 @@ export class AddmodifyproductComponent {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
-    allowSearchFilter: true
+    allowSearchFilter: true,
+    closeDropDownOnSelection:true,
+    enableCheckAll:false,
+    
   };
   public _configRepe: IDropdownSettings = {
     singleSelection: false,
@@ -199,6 +202,7 @@ export class AddmodifyproductComponent {
           this.IntervalAttr = res;
           if (this.product_id != '0') {
             this.getproductmaster(this.product_id);
+            this._cdr.markForCheck();
           } else {
             this.addattribute(0, true, null);
           }
@@ -481,6 +485,7 @@ export class AddmodifyproductComponent {
   }
 
   onCategory($event: any) {
+    debugger
     if ($event && $event != null && $event != '' && $event.length > 0) {
       this._productMaster.category_id = $event[0].category_id;
       this.getcategory('product_type', this._productMaster.category_id)
@@ -564,6 +569,7 @@ export class AddmodifyproductComponent {
   }
 
   onSelectTime($event: any) {
+    debugger
     if ($event && $event != null && $event != '') {
       // const _repre = this.TimeSlotAttr.filter((res: any) => res.option_value_id == $event.option_value_id)
       let control: FormGroup = this._fbproductMaster.group({
@@ -580,12 +586,32 @@ export class AddmodifyproductComponent {
   }
 
 
-  onSelectAll(items: any) {
-    console.log("Select All Fired:", items);
+  onSelectAll(itemlist: any) {
+    if (itemlist && itemlist != null && itemlist != '') {
+      // const _repre = this.TimeSlotAttr.filter((res: any) => res.option_value_id == $event.option_value_id)
+      itemlist.filter((_res: any) => {
+        let control: FormGroup = this._fbproductMaster.group({
+          product_option_adj_id: [0],
+          product_id: [0],
+          option_value_id: [_res ? _res.option_value_id : 0],
+          option_value: [_res ? _res.option_value : ''],
+          price_delta: [_res ? _res?.price_delta : 0],
+          price_delta_prime: [_res ? _res?.price_delta_prime : 0],
+          option_value_parent_id: [_res ? _res?.option_value_parent_id : 0],
+        });
+        this.timeArray.push(control);
+      });
+
+    }
   }
 
-  onDeSelectAll(items: any) {
-    console.log("Unselect All Fired");
+  onDeSelectAll(itemlist: any) {
+    itemlist.filter((_res: any) => {
+      const _indexTime = this.timeArray.controls.findIndex((ctrl: any) => {
+        return ctrl.value.option_value_id === _res?.option_value_id;
+      });
+      this.timeArray.removeAt(_indexTime);
+    });
   }
 
   onDeSelectTime($event: any) {
