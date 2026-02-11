@@ -126,9 +126,9 @@ export class AddmodifyproductComponent {
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
     allowSearchFilter: true,
-    closeDropDownOnSelection:true,
-    enableCheckAll:false,
-    
+    closeDropDownOnSelection: true,
+    enableCheckAll: false,
+
   };
   public _configRepe: IDropdownSettings = {
     singleSelection: false,
@@ -323,12 +323,6 @@ export class AddmodifyproductComponent {
                   option_value_parent_id: [_resrep ? _resrep.option_value_parent_id : 0],
                 });
                 this.repetitionArray.push(_repecontrol);
-                // control?.controls['repetition_id'].setValue(_resrep?.option_value_id);
-                // control?.controls['repetition_id'].updateValueAndValidity();
-                // control?.controls['repetition_value'].setValue(_resrep?.option_value);
-                // control?.controls['repetition_value'].updateValueAndValidity();
-                // control?.controls['repetition_price'].setValue(_resrep?.price_delta);
-                // control?.controls['repetition_price'].updateValueAndValidity();
               }
             }
           });
@@ -383,6 +377,7 @@ export class AddmodifyproductComponent {
       this._base._encryptedStorage.get(enAppSession.client_id).then(client_id => {
         this._base._encryptedStorage.get(enAppSession.project_id).then(project_id => {
           debugger
+
           this._productMaster.product_name = this.fgproductmaster.value.product_name;
           this._productMaster.product_description = this.fgproductmaster.value.textarea.description;
           this._productMaster.lstcategory = this.fgproductmaster.value.lstcategory;
@@ -394,8 +389,9 @@ export class AddmodifyproductComponent {
           this._productMaster.base_amount = this.fgproductmaster.value.base_amount;
           this._productMaster.lstuserproductcommission = this.fgproductmaster.value.lstuserproduct;
           this._productMaster.lst_latest_attr = this.fgproductmaster.value.lst_latest_attr;
-          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lst_latest_attr)
-          // this._productMaster.lstbrand = this.fgproductmaster.value.lstbrand;
+          this._productMaster.lst_latest_attr =
+            this._productMaster.lst_latest_attr.map(({ repetitiondata, ...rest }: any) => rest);
+          this._productMaster.lstattribute = this._base._commonService.joinArray(this._productMaster.lsttimeattribute, this._productMaster.lstrepeattribute, this._productMaster.lst_latest_attr);
           this._productMaster.isactive = this.fgproductmaster.value.isactive;
           this._productMaster.client_id = parseInt(client_id);
           this._productMaster.project_id = parseInt(project_id);
@@ -406,10 +402,8 @@ export class AddmodifyproductComponent {
         });
       });
     } else {
-      setTimeout(() => {
-        this.isLoading$.next(false);
-        this._cdr.detectChanges();
-      }, 500);
+      this.isLoading$.next(false);
+      this._cdr.markForCheck();
     }
   }
 
@@ -427,19 +421,17 @@ export class AddmodifyproductComponent {
             isRedirect = false;
           }
 
-          setTimeout(() => {
-            this.isLoading$.next(false);
-            this._cdr.detectChanges();
-          }, 1500);
-
           if (isRedirect && flag) {
+            this.successSwal.fire();
             setTimeout(() => {
-              this.successSwal.fire()
-              setTimeout(() => {
-                this._base._router.navigate(['/app/manageproduct']);
-              }, 1500);
+              this.successSwal.close();
+              this.isLoading$.next(false);
+              this._base._router.navigate(['/app/manageproduct']);
             }, 1000);
           }
+        }, error => {
+          this.isLoading$.next(false);
+          this._cdr.markForCheck();
         });
       });
     });

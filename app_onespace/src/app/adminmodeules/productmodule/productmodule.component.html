@@ -83,8 +83,18 @@
                 </div>
                 &nbsp;
                 <div class="col d-flex justify-content-center align-items-center">
-                    <button class="btn btn-primary btn-sm" (click)="setcoupon(true)">
+                    <!-- <button class="btn btn-primary btn-sm" (click)="setcoupon(true)">
                         Save
+                    </button> -->
+
+                    <button type="button" class="btn btn ternary_btn" (click)="setcoupon(true)">
+                        <ng-container *ngIf="!isLoading">Save</ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <span clas="indicator-progress" [style.display]="'block'">
+                                Please wait...{{ " " }}
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </ng-container>
                     </button>
                 </div>
                 <swal #saveSwal [swalOptions]="swalOptions" title="Save successfully!" text="" icon="success"

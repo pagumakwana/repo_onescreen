@@ -111,7 +111,7 @@
                                     textField='option_value' valueField='option_value_id'
                                     [formControl]="fgproductmaster?.controls?.lsttimeattribute"
                                     placeholder="Select Time Slot" [config]="_configTime"
-                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)" (onDeSelectAll)="onDeSelectAll($event)"  (onSelectAll)="onSelectAll($event)">
+                                    (onSelectEvent)="onSelectTime($event)" (onDeSelectEvent)="onDeSelectTime($event)">
                                 </webd-multiselect>
                             </div>
                             <div class="card-body">
@@ -121,9 +121,9 @@
                                         <div class="row">
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label" for="option_value_id{{i+1}}">Time Slot</label>
-                                                <input type="text" id="option_value_id{{i+1}}" name="option_value_id{{i+1}}"
-                                                    class="form-control form-control-sm" readonly
-                                                    placeholder="Time Slot" formControlName="option_value">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    name="option_value_id{{i+1}}" class="form-control form-control-sm"
+                                                    readonly placeholder="Time Slot" formControlName="option_value">
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label" for="option_value_price{{i}}">Price</label>
@@ -133,7 +133,8 @@
                                                     formControlName="price_delta" minlength="0" maxlength="7">
                                             </div>
                                             <div class="col-lg-2 mb-3 form-check">
-                                                <label class="form-label" for="optionvalue_price{{i}}">Prime Price</label>
+                                                <label class="form-label" for="optionvalue_price{{i}}">Prime
+                                                    Price</label>
                                                 <input type="text" id="optionvalue_price{{i+1}}"
                                                     class="form-control form-control-sm" placeholder="Prime Price"
                                                     id="optionvalue_price{{i}}" name="optionvalue_price{{i}}"
@@ -162,8 +163,9 @@
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Interval Price</label>
-                                                <input type="text" id="option_value_id{{i+1}}" class="form-control form-control-sm"
-                                                    placeholder="Screen Interval" formControlName="price_delta">
+                                                <input type="text" id="option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Screen Interval"
+                                                    formControlName="price_delta">
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Repetition Attribute</label>
@@ -179,8 +181,9 @@
                                             </div>
                                             <div class="col-lg-2 mb-3">
                                                 <label class="form-label">Repetition Price</label>
-                                                <input type="text" id="rep_option_value_id{{i+1}}" class="form-control form-control-sm"
-                                                    placeholder="Screen Interval" formControlName="rep_price_delta">
+                                                <input type="text" id="rep_option_value_id{{i+1}}"
+                                                    class="form-control form-control-sm" placeholder="Screen Interval"
+                                                    formControlName="rep_price_delta">
                                             </div>
                                             <div class="col-lg-2" data-repeater-create>
                                                 <ng-container *ngIf="i === latestArray.length - 1">
@@ -303,8 +306,18 @@
                             <div class="mt-4">
                                 <button style="cursor: pointer;" class="btn btn-outline-secondary"
                                     (click)="navigateBack()">Back</button>&nbsp;
-                                <button style="cursor: pointer;" class="btn btn-primary"
-                                    (click)="setproductMaster(true)">Submit</button>
+                                <!-- <button style="cursor: pointer;" class="btn btn-primary"
+                                    (click)="setproductMaster(true)">Submit</button> -->
+
+                                <button type="button" class="btn btn ternary_btn" (click)="setproductMaster(true)">
+                                    <ng-container *ngIf="!isLoading">Submit</ng-container>
+                                    <ng-container *ngIf="isLoading">
+                                        <span clas="indicator-progress" [style.display]="'block'">
+                                            Please wait...{{ " " }}
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </ng-container>
+                                </button>
                             </div>
                         </div>
 
