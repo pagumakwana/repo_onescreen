@@ -800,10 +800,16 @@ export class CartComponent implements OnInit {
         (res: any) => {
           this.couponList = [];
           if (res && Array.isArray(res.data)) {
-            this.couponList = res.data.map((c: any, index: number) => {
+            const activeCoupons = res.data.filter((c: any) => !c.isdisable);
+
+            this.couponList = activeCoupons.map((c: any, index: number) => {
               const colorSet = this.couponColors[index % this.couponColors.length];
               return { ...c, colorSet };
             });
+            // this.couponList = res.data.map((c: any, index: number) => {
+            //   const colorSet = this.couponColors[index % this.couponColors.length];
+            //   return { ...c, colorSet };
+            // });
           } else {
             this.couponList = [];
           }
@@ -1079,9 +1085,9 @@ export class CartComponent implements OnInit {
 
   onSubmitRaiseQuote() {
     if (this.isAddToPO) {
-      this.add_po();          
+      this.add_po();
     } else {
-      this.raise_quotation(); 
+      this.raise_quotation();
     }
   }
 }

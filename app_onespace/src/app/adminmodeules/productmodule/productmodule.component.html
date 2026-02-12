@@ -46,13 +46,26 @@
                     <div class="col-lg-4 fv-row">
                         <!-- <label class="form-label">Coupon Code</label> -->
                         <input type="text" class="form-control form-control-sm" id="coupon_code" name="coupon_code"
-                            placeholder="Coupon Code" formControlName="coupon_code">
+                            placeholder="Coupon Code" formControlName="coupon_code" required>
+                        <div *ngIf="fgcoupon.controls['coupon_code'].invalid && (fgcoupon.controls['coupon_code'].dirty || fgcoupon.controls['coupon_code'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgcoupon.controls.coupon_code.errors?.['required']">
+                                Coupon Code is required.
+                            </ng-container>
+                        </div>
                     </div>
 
                     <div class="col-lg-4 fv-row">
                         <!-- <label class="form-label">Discount Value</label> -->
                         <input type="text" class="form-control form-control-sm" id="discount_value"
-                            name="discount_value" placeholder="Discount Value" formControlName="discount_value">
+                            name="discount_value" placeholder="Discount Value" formControlName="discount_value"
+                            required>
+                        <div *ngIf="fgcoupon.controls['discount_value'].invalid && (fgcoupon.controls['discount_value'].dirty || fgcoupon.controls['discount_value'].touched)"
+                            class="text-danger">
+                            <ng-container *ngIf="fgcoupon.controls.discount_value.errors?.['required']">
+                                Value is required.
+                            </ng-container>
+                        </div>
                     </div>
                     <div class="col-lg-4 fv-row">
                         <!-- <label class="form-label">From Date</label> -->
@@ -102,7 +115,8 @@
                 </swal>
             </div>
             &nbsp;
-            <webd-table #coupondataTableCom [config]='coupontableConfig'  (tableEvent)="tableCouponClick($event)"></webd-table>
+            <webd-table #coupondataTableCom [config]='coupontableConfig'
+                (tableEvent)="tableCouponClick($event)"></webd-table>
         </div>
     </form>
 </ng-template>

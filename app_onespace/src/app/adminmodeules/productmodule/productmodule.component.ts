@@ -9,7 +9,7 @@ import { WebDService } from '../../_appservice/webdpanel.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { couponModel, productMaster } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
@@ -122,8 +122,8 @@ export class ProductmoduleComponent implements OnInit {
   initForm() {
     this.fgcoupon = this._fbcoupon.group({
       coupon_id: [0],
-      coupon_code: [''],
-      discount_value: [''],
+      coupon_code: ['', Validators.required],
+      discount_value: ['', Validators.required],
       from_date: [''],
       to_date: [''],
       isdisable: [false],
@@ -260,6 +260,8 @@ export class ProductmoduleComponent implements OnInit {
           this.addmodifycoupon(flag);
         });
       });
+    }else{
+      this.isLoading$.next(false);
     }
   }
 
@@ -278,6 +280,7 @@ export class ProductmoduleComponent implements OnInit {
           if (isRedirect && flag) {
             this.saveSwal.fire();
             setTimeout(() => {
+              this.getcoupon();
               this.isLoading$.next(false);
               this.saveSwal.close();
               this.iscouponModify = false;

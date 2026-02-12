@@ -660,10 +660,20 @@
                                 </div>
                                 <div class="last"
                                     [ngClass]="{'disabled': this._wizard_index<4 && this.timeArray.length<=0}">
-                                    <a style="text-decoration: none; color: white;"
+                                    <!-- <a style="text-decoration: none; color: white;"
                                         class="btn btn-secondary mt-3 mt-md-0" (click)="add_to_cart()">
                                         Add to cart
-                                    </a>
+                                    </a> -->
+
+                                    <button type="button" class="btn btn ternary_btn" (click)="add_to_cart()">
+                                        <ng-container *ngIf="!isLoading"> Add to cart</ng-container>
+                                        <ng-container *ngIf="isLoading">
+                                            <span clas="indicator-progress" [style.display]="'block'">
+                                                Please wait...{{ " " }}
+                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+                                        </ng-container>
+                                    </button>
                                 </div>
                             </div>
                         </div>

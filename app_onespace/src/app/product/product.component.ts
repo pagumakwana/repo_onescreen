@@ -13,14 +13,14 @@ import { enAppSession } from '../_appmodel/sessionstorage';
 import { RouterModule } from '@angular/router';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AuthService } from '../authmodule/_authservice/auth.service';
-import { first, throwError } from 'rxjs';
+import { BehaviorSubject, first, Subscription, throwError } from 'rxjs';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule,PdfViewerModule],
+  imports: [ReactiveFormsModule, SweetAlert2Module, FormsModule, CommonModule, NgbModule, RouterModule, NgbDatepickerModule, PdfViewerModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
   providers: [
@@ -29,6 +29,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 })
 
 export class ProductComponent implements OnInit {
+
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading!: boolean;
+  private unsubscribe: Subscription[] = [];
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
@@ -113,7 +118,10 @@ export class ProductComponent implements OnInit {
     this.maxfromDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
     this.mintoDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
     this.maxtoDate = { year: current.getFullYear() + 1, month: current.getMonth(), day: current.getDate() };
-    console.log('from_date', this.minfromDate, this.maxfromDate)
+    const loadingSubscr = this.isLoading$
+      .asObservable()
+      .subscribe((res) => (this.isLoading = res));
+    this.unsubscribe.push(loadingSubscr);
   }
 
 
@@ -323,7 +331,7 @@ export class ProductComponent implements OnInit {
       this._cdr.detectChanges();
     }
   }
-  view_file:boolean=false;
+  view_file: boolean = false;
   onSelectroute($event: any, _index: number = 0) {
     debugger
     if ($event && $event != null && $event != '') {
@@ -335,7 +343,7 @@ export class ProductComponent implements OnInit {
       this.view_route_description = $event?.description ? $event?.description : '';
       this._wizard_index = 3;
       setTimeout(() => {
-          this.view_file=true;
+        this.view_file = true;
       }, 1500);
       this._cdr.detectChanges();
     }
@@ -1153,6 +1161,7 @@ export class ProductComponent implements OnInit {
   _usercartMaster: usercartMaster = {};
   _usercartmappingModel: usercartmappingModel = {};
   add_to_cart(flag: any = 0) {
+    this.isLoading$.next(true);
     this.timemastervalid = false;
     const ischekedarray = this.TimeMaster.filter((item: any) => item.isChecked == true);
     if (ischekedarray?.length > 0) {
@@ -1165,10 +1174,12 @@ export class ProductComponent implements OnInit {
       }
     } else {
       this.timemastervalid = true;
+      this.isLoading$.next(false);
     }
   }
 
   proceed_to_cart(_form_data: any = null, flag: any) {
+    this.isLoading$.next(true);
     this._base._encryptedStorage.get(enAppSession.batch_id).then((batch_id: any) => {
 
       this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? null : batch_id;
@@ -1259,12 +1270,13 @@ export class ProductComponent implements OnInit {
                 this.batch_id = responsemessage;
                 this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
               }
+              this.isLoading$.next(false);
               this._base._router.navigate([flag == 1 ? `cart/${responsemessage}` : 'cart']);
               this._cdr.detectChanges();
             }, 500);
 
           }, error => {
-
+            this.isLoading$.next(false);
           });
         });
       });
@@ -1399,7 +1411,7 @@ export class ProductComponent implements OnInit {
           this.RouteMaster.forEach((item: any, i: number) => item.isChecked = false);
           this.ScreenMaster = [];
           this.view_route_link = '';
-          this.view_file=false;
+          this.view_file = false;
           this.view_route_description = '';
         }
         else if (this._wizard_index == 1) {
@@ -1543,10 +1555,10 @@ export class ProductComponent implements OnInit {
     { date: new Date(2026, 12, 5), color: 'lightblue' }       // 5 Dec 2025
   ];
 
-  highlightedDates:any=[];
+  highlightedDates: any = [];
 
   isHighlighted(date: any): boolean {
-    return this.highlightedDates.some((d:any) =>
+    return this.highlightedDates.some((d: any) =>
       d.year === date.year &&
       d.month === date.month &&
       d.day === date.day
@@ -1600,7 +1612,7 @@ export class ProductComponent implements OnInit {
             month: d.getMonth() + 1,
             day: d.getDate()
           };
-          item.primeDate = d; 
+          item.primeDate = d;
           this.highlightedDates.push(item.prime_date);
         }
         return item;
@@ -1628,7 +1640,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  openpdfview(){
+  openpdfview() {
     this.modalService.open(this.formpdfviewerModal, {
       size: 'xl',
       backdrop: true,
@@ -1637,6 +1649,6 @@ export class ProductComponent implements OnInit {
     });
     this._cdr.detectChanges();
   }
-  
+
 }
 
