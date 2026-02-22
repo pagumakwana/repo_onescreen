@@ -6,46 +6,57 @@
     align-items: flex-start;
     gap: 30px;
 }
+
 .container_section.aboutus {
     margin-bottom: 30px;
 }
+
 .aboutus_thumbnail img {
     max-width: 450px;
     height: auto;
 }
+
 .aboutus_thumbnail {
     text-align: right;
     width: 49%;
 }
+
 .aboutus_content {
     width: 100%;
 }
+
 .aboutus_content ul {
     list-style: none;
     margin-bottom: 31px;
 }
+
 .aboutus_content ul li::marker {
     display: none;
 }
+
 .aboutus_content ul img {
     height: 18px;
     width: auto;
     margin-right: 15px;
 }
+
 .aboutus_content ul li {
     list-style: none;
     margin-bottom: 10px;
 }
+
 .aboutus_content ul li span {
     display: inline-block;
     vertical-align: middle;
 }
+
 .ourstory {
     background: rgb(232 236 241 / 20%);
     padding: 62px 0;
     margin-bottom: 108px;
     display: none;
 }
+
 .ourstory .inner_container {
     display: flex;
     flex-direction: row;
@@ -54,31 +65,38 @@
     align-items: center;
     gap: 10px;
 }
-.ourstory .inner_container > div {
+
+.ourstory .inner_container>div {
     width: 32%;
-} 
+}
+
 .story_thumbnail img {
     width: 100%;
     height: auto;
 }
-.missions > div {
+
+.missions>div {
     display: inline-block;
     vertical-align: top;
 }
+
 .mission {
     width: calc(100% - 65px);
 }
+
 .missions img {
     height: 42px;
     width: auto;
     margin-right: 15px;
 }
+
 .mission h3 {
     font-size: 20px;
     font-weight: bold;
     color: #383838;
     margin-bottom: 11px;
 }
+
 .ourstory .container_section {
     margin-bottom: 0;
 }
@@ -96,11 +114,13 @@
     gap: 20px;
     max-width: 1200px;
 }
+
 .about-deal-item {
     text-align: center;
     flex: 1 1 120px;
     max-width: 150px;
 }
+
 .about-deal-icon {
     font-size: 16px;
     font-weight: bold;
@@ -113,6 +133,7 @@
     align-items: center;
     margin: 0 auto 10px;
 }
+
 .about-deal-label {
     font-size: 14px;
 }
@@ -177,28 +198,34 @@
     display: flex;
     align-items: flex-start;
 }
+
 .services-text {
     flex: 1 1 250px;
     text-align: left
 }
+
 .services-text h2 {
     font-size: 28px;
     margin-bottom: 10px;
 }
+
 .services-text p {
     color: #555;
     font-size: 14px;
     max-width: 270px
 }
+
 .services-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     flex: 2 1 500px;
 }
+
 .services-grid a {
     text-decoration: none;
 }
+
 .mainService-card {
     display: flex;
     align-items: center;
@@ -209,12 +236,14 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
+
 .mainService-card img {
     width: 60px;
     height: 60px;
     border-radius: 4px;
     object-fit: cover;
 }
+
 .service-info {
     flex-grow: 1;
     font-size: 16px;
@@ -222,47 +251,54 @@
     color: #333;
     text-align: left;
 }
+
 .mainService-card .arrow {
     font-size: 18px;
     color: #333;
 }
 
 .steps-container {
-  flex: 1;
-  float: left;
-  width: 100%;
+    flex: 1;
+    float: left;
+    width: 100%;
 }
+
 .steps {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
+
 .step-item {
-  margin: 10px 0;
-  padding: 10px;
-  border-left: 5px solid #e0e0e0;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  text-align: left;
+    margin: 10px 0;
+    padding: 10px;
+    border-left: 5px solid #e0e0e0;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-align: left;
 }
+
 .step-item.active {
     background: #054089;
     border-color: #000000;
     font-weight: bold;
     color: #fff;
 }
+
 .description {
-  color: #054089;
-  margin: 5px 0 15px 15px;
-  padding: 8px 12px;
-  background: rgb(5, 64, 137, 0.2);
-  border-left: 3px solid #054089;
-  display: none;
-  border-radius: 5px;
-  text-align: left;
+    color: #054089;
+    margin: 5px 0 15px 15px;
+    padding: 8px 12px;
+    background: rgb(5, 64, 137, 0.2);
+    border-left: 3px solid #054089;
+    display: none;
+    border-radius: 5px;
+    text-align: left;
 }
+
 .description.show {
-  display: block;
+    display: block;
 }
+
 .image-container {
     min-width: 200px;
     display: flex;
@@ -272,13 +308,15 @@
     text-align: center;
     flex-shrink: 0;
 }
+
 .image-container img {
     width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
-        border-radius: 10px
+    border-radius: 10px
 }
+
 .payment-slider {
     position: relative;
     left: 0;
@@ -287,6 +325,7 @@
     flex-wrap: nowrap;
     flex-direction: row;
 }
+
 .payment-step {
     min-height: 120px;
     background-color: #f8f9fa;
@@ -301,18 +340,21 @@
     justify-content: center;
     align-items: center;
 }
+
 .percentage-text {
     font-size: 20px;
     color: #2f9cb1;
     font-weight: bold;
     margin-right: 20px;
 }
+
 .arrow-container {
     position: relative;
     display: flex;
     align-items: center;
     margin-left: 10px;
 }
+
 .custom-arrow {
     display: block;
     width: 100px;
@@ -320,6 +362,7 @@
     background-color: #2f9cb1;
     position: relative;
 }
+
 .custom-arrow::before {
     content: "";
     position: absolute;
@@ -330,6 +373,7 @@
     background-color: #2f9cb1;
     border-radius: 50%;
 }
+
 .custom-arrow::after {
     content: "";
     position: absolute;
@@ -339,12 +383,14 @@
     border-left-color: #2f9cb1;
     transform: translateX(5px);
 }
+
 .about-contact-strip {
     float: left;
     text-align: left;
     width: calc(100% - 140px);
     font-weight: bold;
 }
+
 .service-about {
     display: flex;
     justify-content: center;
@@ -352,9 +398,11 @@
     padding: 20px 20px 40px;
     flex-wrap: wrap;
 }
+
 .service-card-about:hover {
     transform: translateY(-5px);
 }
+
 .service-card-about {
     background: #fff;
     border-radius: 12px;
@@ -364,30 +412,36 @@
     text-align: left;
     transition: transform 0.2s;
 }
+
 .service-card-about img {
     width: 100%;
     height: auto;
     display: block;
 }
+
 .highlight-text-about {
     color: #054089;
     margin: 15px;
     font-size: 1.1rem;
 }
+
 .service-card-about p {
     margin: 0 15px 15px;
     color: #555;
     font-size: 0.9rem;
     line-height: 1.4;
 }
+
 .about-count-header {
     border-bottom: 3px solid #054089;
     margin-bottom: 20px;
 }
+
 .accordion.open {
     border-color: #054089;
     background: white;
 }
+
 .accordion {
     border-radius: 20px 20px 0 20px;
     background: rgba(217, 217, 217, 0.2);
@@ -396,6 +450,7 @@
     border: 1px solid rgba(217, 217, 217, 0.2);
     text-align: left;
 }
+
 .toggle {
     position: relative;
     padding: 20px 45px 20px 20px;
@@ -403,6 +458,7 @@
     font-size: 17px;
     cursor: pointer;
 }
+
 .toggle:before {
     position: absolute;
     right: 15px;
@@ -415,24 +471,30 @@
     background-size: contain !important;
     background-position: center !important;
 }
+
 .toggle:before {
     content: "";
     // background: url('./media/accordian_close_arrow.svg') no-repeat;
 }
+
 .inner {
     display: block;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-out;
 }
-.inner > div {
+
+.inner>div {
     padding: 0 20px 20px 20px;
     display: block;
     clear: both;
 }
-.inner > div *, .inner > div {
+
+.inner>div *,
+.inner>div {
     font-size: 14px;
 }
+
 // New Section added as per requirements End
 
 // Responsive CSS
@@ -440,19 +502,24 @@
     .aboutus_thumbnail {
         width: 35%;
     }
+
     .aboutus_content {
         width: 60%;
     }
+
     .aboutus_thumbnail img {
         width: 100%;
     }
+
     .ourstory {
         padding: 50px 0;
     }
+
     .story_right_section {
         width: 100% !important;
         padding-top: 20px;
     }
+
     .story_left_section {
         width: 60% !important;
     }
@@ -464,28 +531,35 @@
         align-items: center;
         text-align: center;
     }
+
     .services-text {
         flex: 1 1 auto;
         text-align: center;
     }
+
     .services-grid {
         flex: 2 1 auto;
     }
+
     .payment-slider {
         flex-wrap: wrap;
         left: 0;
     }
 }
+
 @media only screen and (max-width: 900px) {
     .aboutus_content ul {
         margin-bottom: 20px;
     }
+
     .aboutus_content ul img {
         height: 15px;
     }
+
     .missions img {
         height: 30px;
     }
+
     .mission h3 {
         font-size: 20px;
         margin-bottom: 7px;
@@ -494,12 +568,14 @@
 
 @media (max-width: 768px) {
     .about-count-header h1 {
-    font-size: 1.6rem;
+        font-size: 1.6rem;
     }
+
     .about-stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
     }
+
     .service-container {
         padding: 20px;
     }
@@ -509,42 +585,115 @@
     .ourstory {
         padding: 30px 0;
     }
-    .aboutus_thumbnail, .aboutus_content {
+
+    .aboutus_thumbnail,
+    .aboutus_content {
         width: 100% !important;
     }
+
     .ourstory .inner_container {
         gap: 30px;
     }
-    .ourstory .inner_container > div {
+
+    .ourstory .inner_container>div {
         width: 100% !important;
         padding-top: 0;
     }
+
     .services-grid {
         grid-template-columns: 1fr;
     }
 }
+
 @media only screen and (max-width: 600px) {
     .about-deal-section {
         align-items: center;
         padding: 20px 5px;
         gap: 5px;
     }
+
     .about-deal-item {
         max-width: 100px;
         margin-bottom: 15px;
     }
+
     .about-count-header p {
         font-size: 1rem;
         margin-bottom: 20px;
     }
+
     .about-count-header h1 {
         font-size: 1.2rem;
     }
+
     .about-count-section {
         padding: 30px 0 10px;
     }
+
     .about-contact-strip {
         width: 100%;
         text-align: center;
+    }
+}
+
+.elite-onespace-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 20px 40px;
+    flex-wrap: wrap;
+}
+
+.elite-onespace-section h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #222;
+}
+
+.elite-onespace-section p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 24px;
+}
+
+.elite-onespace-header {
+    border-bottom: 3px solid #054089;
+    margin-bottom: 20px;
+}
+
+.elite-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.elite-table th,
+.elite-table td {
+    border: 1px solid #ddd;
+    padding: 14px 12px;
+    text-align: left;
+}
+
+.elite-table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.elite-table td {
+    font-size: 0.95rem;
+    color: #333;
+    vertical-align: top;
+}
+
+@media (max-width: 768px) {
+
+    .elite-table th,
+    .elite-table td {
+        padding: 10px;
+        font-size: 0.9rem;
     }
 }

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xxl-3 col-md-6"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalproducts')">
+    *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalproducts')">
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="col-xxl-3 col-md-6"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_productincart')">
+    *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_productincart')">
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="col-xxl-3 col-md-6"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalsale')">
+    *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalsale')">
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="col-xxl-3 col-md-6"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalorder')">
+    *ngIf="this._base._commonService.hasAccessofcontrol('admin_dashboard_widget_totalorder')">
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center">

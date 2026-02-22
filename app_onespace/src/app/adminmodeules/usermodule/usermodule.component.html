@@ -1,4 +1,4 @@
-<div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageuser_newbtn')">
+<div *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_newbtn')">
     <div class="d-flex justify-content-end">
         <button (click)="navigateaddform()" class="btn btn-primary btn-sm">
             New User
@@ -6,7 +6,7 @@
     </div>
 </div>
 <br>
-<div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageuser_userlist')">
+<div *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageuser_userlist')">
     <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 </div>
 

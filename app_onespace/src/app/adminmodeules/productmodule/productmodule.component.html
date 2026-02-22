@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end"
-    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_newproductbtn') || ('admin_manageproduct_newcouponbtn')">
+    *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageproduct_newproductbtn') || ('admin_manageproduct_newcouponbtn')">
     <!-- <button class="btn btn-primary btn-sm" (click)="exportToExcel()">Export</button>
     &nbsp; -->
     <!--begin::Add user-->
@@ -14,7 +14,7 @@
 </div>
 <br>
 
-<div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_productlist')">
+<div *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageproduct_productlist')">
     <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 </div>
 

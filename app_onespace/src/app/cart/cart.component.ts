@@ -896,6 +896,7 @@ export class CartComponent implements OnInit {
           this.getUserConfig(user.user_id).then((resUserConfig: any) => {
             this._base._appSessionService.setUserSession(user, (resUserConfig as any[])[0]).subscribe((res: any) => {
               if (res) {
+                this._base._commonService.setControls(user?.lstcontrol);
                 this.move_to_cart();
               }
             });

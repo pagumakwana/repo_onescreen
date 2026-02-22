@@ -99,7 +99,7 @@
                   <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                   data-bs-target=".multi-collapse" aria-expanded="false"
                   aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button>
-                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
+                  <div *ngIf="this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
                   <button class="btn btn-primary" (click)="openraisequote()" type="button">Raise Quotation</button>
                   </div>
                   &nbsp;
@@ -113,14 +113,14 @@
               <div class="col-12">
                 <div class="text-end btn-page mb-0 mt-4 p-10 d-flex justify-content-end align-items-center gap-2">
                   <div
-                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedpo_raisepobtn')">
+                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_raisedpo_raisepobtn')">
                     <button class="btn btn-primary" (click)="add_po_modal()" type="button">
                       Add to PO
                     </button>
                   </div>
 
                   <div
-                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
+                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
                     <button class="btn btn-primary" (click)="openraisequote()" type="button">
                       Raise Quotation
                     </button>
