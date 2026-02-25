@@ -27,8 +27,7 @@
                             View Route Details  data-bs-target="#routepdfviwer"
                         </a> -->
                         <ng-container *ngIf="view_route_link!='' && view_route_link!=null">
-                            <button type="button" class="btn btn-sm btn-primary" (click)="openpdfview()"
-                                >
+                            <button type="button" class="btn btn-sm btn-primary" (click)="openpdfview()">
                                 View Route Details
                             </button>
                             <!-- <a class="btn btn-sm btn-primary"
@@ -201,6 +200,13 @@
                                         </ul>
 
                                     </div>
+                                    <div *ngIf="this.isdaily">
+                                        <div class="col-lg-4 mb-3 form-check">
+                                            <label>Custom Date Selection</label>
+                                            <input type="checkbox" class="form-check-input" id="iscustomdate"
+                                                formControlName="iscustomdate" (change)="onCustomDateChange($event)">
+                                        </div>
+                                    </div>
                                     <div class="product_lists product_slot_list" *ngIf="isCustom">
                                         <ul class="nav nav-pills" style="gap: 5px;">
                                             <li class="nav-item" *ngFor="let _obj of this.TimeMaster; let _ind = index"
@@ -306,7 +312,39 @@
                                     </div>
                                 </div>
                                 <div class="row" class="row" [hidden]="!this.isdaily">
-                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                    <div class="col-md-3 col-sm-12"
+                                        *ngIf="this.isdaily && this.fgcategorymaster.get('iscustomdate')?.value">
+                                        <div class="form-group">
+                                            <label for="from_date_daily" class="form-label">Select Date
+                                                :</label> <i class="ph-duotone ph-info"
+                                                ngbPopover="Ad start date for package" triggers="click"
+                                                placement="right" popoverClass="custom-popover">
+                                            </i>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" ngbDatepicker
+                                                    #select_date_daily="ngbDatepicker" id="select_date_daily"
+                                                    select_date_daily.displayMonths="true" placeholder="dd-mm-yyyy"
+                                                    [dayTemplate]="customselect_date_daily"
+                                                    formControlName="select_date_daily" [class.focused]="focused"
+                                                    (click)="select_date_daily.toggle();"
+                                                    (dateSelect)="onDateSelection($event)" [autoClose]="'outside'">
+                                            </div>
+                                            <ng-template #customselect_date_daily let-date
+                                                let-currentMonth="currentMonth" let-selected="selected"
+                                                let-disabled="disabled" let-focused="focused">
+
+                                                <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                                'bg-danger text-white': isHighlighted(date),
+                                                'bg-primary text-white': isDateSelected(date)
+                                              }">
+                                                    {{ date.day }}
+                                                </span>
+
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12"
+                                        *ngIf="this.isdaily && !this.fgcategorymaster.get('iscustomdate')?.value">
                                         <div class="form-group">
                                             <label for="from_date_daily" class="form-label">Start Date
                                                 :</label> <i class="ph-duotone ph-info"
@@ -318,10 +356,11 @@
                                                     #from_date_daily="ngbDatepicker" id="from_date_daily"
                                                     from_date_daily.displayMonths="true"
                                                     formControlName="from_date_daily" placeholder="dd-mm-yyyy"
-                                                    [minDate]="minfromDate" [maxDate]="maxfromDate"
+                                                    [minDate]="!fgcategorymaster.get('iscustomdate')?.value ? minfromDate:null"
+                                                    [maxDate]="!fgcategorymaster.get('iscustomdate')?.value ? maxfromDate:null"
                                                     [dayTemplate]="customfrom_daily" (click)="from_date_daily.toggle();"
                                                     (dateSelect)="both_date_select($event,'from_date')">
-                                                <span class="input-group-text" required>
+                                                <span class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
                                             </div>
@@ -340,7 +379,8 @@
                                             </ng-template>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12" *ngIf="this.isdaily">
+                                    <div class="col-md-3 col-sm-12"
+                                        *ngIf="this.isdaily && !this.fgcategorymaster.get('iscustomdate')?.value">
                                         <div class="form-group">
                                             <label for="to_date_daily" class="form-label">End Date
                                                 :</label> <i class="ph-duotone ph-info"
@@ -351,10 +391,12 @@
                                                 <input type="text" class="form-control form-control-sm" ngbDatepicker
                                                     #to_date_daily="ngbDatepicker" id="to_date_daily"
                                                     to_date_daily.displayMonths="true" formControlName="to_date_daily"
-                                                    placeholder="dd-mm-yyyy" [minDate]="mintoDate" [maxDate]="maxtoDate"
+                                                    placeholder="dd-mm-yyyy"
+                                                    [minDate]="!fgcategorymaster.get('iscustomdate')?.value ? mintoDate:null"
+                                                    [maxDate]="!fgcategorymaster.get('iscustomdate')?.value ? maxtoDate:null"
                                                     (click)="to_date_daily.toggle();" [dayTemplate]="customto_daily"
                                                     (dateSelect)="both_date_select($event,'to_date')">
-                                                <span class="input-group-text" required>
+                                                <span class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
                                             </div>
@@ -523,8 +565,19 @@
                                                             </div>
                                                         </div>
 
-
-                                                        <div class="form-group">
+                                                        <div class="form-group"
+                                                            *ngIf="this.fgcategorymaster.get('iscustomdate')?.value">
+                                                            <label for="to_date{{i+1}}" class="form-label">Custom Dates
+                                                                :</label> <i class="ph-duotone ph-info"
+                                                                ngbPopover="Selected Dates" triggers="click"
+                                                                placement="right" popoverClass="custom-popover">
+                                                            </i>
+                                                            <div class="input-group">
+                                                                {{selectedDatesLabel}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group"
+                                                            *ngIf="!this.fgcategorymaster.get('iscustomdate')?.value">
                                                             <label for="from_date{{i+1}}" class="form-label">From Date
                                                                 :</label> <i class="ph-duotone ph-info"
                                                                 ngbPopover="Ad Start date" triggers="click"
@@ -535,12 +588,12 @@
                                                                     ngbDatepicker #from_date="ngbDatepicker"
                                                                     id="from_date{{i+1}}" from_date.displayMonths="true"
                                                                     formControlName="from_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="_objPass.controls['minfromDate'].value"
-                                                                    [maxDate]="_objPass.controls['maxfromDate'].value"
+                                                                    [minDate]="!fgcategorymaster.get('iscustomdate')?.value ? _objPass.controls['minfromDate'].value:null"
+                                                                    [maxDate]="!fgcategorymaster.get('iscustomdate')?.value ? _objPass.controls['maxfromDate'].value:null"
                                                                     (click)="from_date.toggle();"
                                                                     [dayTemplate]="customFromdate"
                                                                     (dateSelect)="date_select(i,'fromdate')">
-                                                                <span class="input-group-text" required>
+                                                                <span class="input-group-text">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                             </div>
@@ -573,7 +626,8 @@
                                                             </ng-template>
 
                                                         </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group"
+                                                            *ngIf="!this.fgcategorymaster.get('iscustomdate')?.value">
                                                             <label for="to_date{{i+1}}" class="form-label">To Date
                                                                 :</label> <i class="ph-duotone ph-info"
                                                                 ngbPopover="Ad End date" triggers="click"
@@ -584,8 +638,8 @@
                                                                     ngbDatepicker #to_date="ngbDatepicker"
                                                                     id="to_date{{i+1}}" to_date.displayMonths="true"
                                                                     formControlName="to_date" placeholder="dd-mm-yyyy"
-                                                                    [minDate]="_objPass.controls['mintoDate'].value"
-                                                                    [maxDate]="_objPass.controls['maxtoDate'].value"
+                                                                    [minDate]="!fgcategorymaster.get('iscustomdate')?.value ? _objPass.controls['mintoDate'].value:null"
+                                                                    [maxDate]="!fgcategorymaster.get('iscustomdate')?.value ? _objPass.controls['maxtoDate'].value:null"
                                                                     (click)="to_date.toggle();"
                                                                     [dayTemplate]="customTodate"
                                                                     (dateSelect)="date_select(i,'todate')">
@@ -814,20 +868,14 @@
     </div>
 </div> -->
 
-<ng-template #formpdfviewerModal let-modal >
+<ng-template #formpdfviewerModal let-modal>
     <div class="modal-header">
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-  
+
     <div class="modal-body pdf-modal-body">
-        <pdf-viewer
-          *ngIf="view_file"
-          [src]="_base._commonService.cdnURL + view_route_link"
-          [original-size]="false"
-          [zoom-scale]="'page-width'"
-          [render-text]="true"
-          [autoresize]="false"
-          style="width:100%; height:100%;">
+        <pdf-viewer *ngIf="view_file" [src]="_base._commonService.cdnURL + view_route_link" [original-size]="false"
+            [zoom-scale]="'page-width'" [render-text]="true" [autoresize]="false" style="width:100%; height:100%;">
         </pdf-viewer>
-      </div>
+    </div>
 </ng-template>

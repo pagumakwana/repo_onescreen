@@ -17,6 +17,18 @@ import { BehaviorSubject, first, Subscription, throwError } from 'rxjs';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import * as bootstrap from 'bootstrap';
 
+const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
+  one && two && two.year === one.year && two.month === one.month && two.day === one.day;
+
+const before = (one: NgbDateStruct, two: NgbDateStruct) =>
+  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
+    ? false : one.day < two.day : one.month < two.month : one.year < two.year;
+
+const after = (one: NgbDateStruct, two: NgbDateStruct) =>
+  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
+    ? false : one.day > two.day : one.month > two.month : one.year > two.year;
+
+
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -52,6 +64,7 @@ export class ProductComponent implements OnInit {
   @ViewChild("from_date_month", { static: true }) from_date_month!: NgbInputDatepicker;
   @ViewChild("from_date_daily", { static: true }) from_date_daily!: NgbInputDatepicker;
   @ViewChild("to_date_daily", { static: true }) to_date_daily!: NgbInputDatepicker;
+  @ViewChild("select_date_daily", { static: true }) select_date_daily!: NgbInputDatepicker;
 
   // ngAfterViewInit(): void {
   //   const popoverTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -98,6 +111,7 @@ export class ProductComponent implements OnInit {
   minmonth: NgbDateStruct | null = null;
   maxmonth: NgbDateStruct | null = null;
   ConfigMaster: any = [];
+  PortalConfigMaster: any = [];
   view_route_link: any = '';
   view_route_description: any = '';
 
@@ -218,12 +232,75 @@ export class ProductComponent implements OnInit {
       this.batch_id = (batch_id == null || batch_id == '' || batch_id == undefined || this.batch_id == '00000000-0000-0000-0000-000000000000') ? null : batch_id;
       this.initform();
       this.get_config();
+      this.get_portal_config();
       this.gettypecategory();
       this.getprimedate();
       this.getcoupon();
+
     })
   }
+  onCustomDateChange($event: any) {
+    const isChecked = $event.target.checked;
+    debugger
+    const select_date_daily = this.fgcategorymaster.get('select_date_daily');
+    const from_date_daily = this.fgcategorymaster.get('from_date_daily');
+    const to_date_daily = this.fgcategorymaster.get('to_date_daily');
+    const from_date_month = this.fgcategorymaster.get('from_date_month');
 
+    if (isChecked === false) {
+      // ✅ Make Required
+      // select_date_daily?.clearValidators();
+      select_date_daily?.reset();
+      select_date_daily?.clearValidators();
+      select_date_daily?.setValue('');
+
+      from_date_daily?.reset();
+      from_date_daily?.clearValidators();
+      from_date_daily?.setValue('');
+
+      to_date_daily?.reset();
+      to_date_daily?.clearValidators();
+      to_date_daily?.setValue('');
+
+      from_date_daily?.setValidators([Validators.required]);
+      from_date_daily?.setValue('');
+      to_date_daily?.setValidators([Validators.required]);
+      to_date_daily?.setValue('');
+    } else {
+      select_date_daily?.reset();
+      select_date_daily?.setValidators([Validators.required]);
+      select_date_daily?.setValue('');
+
+      from_date_daily?.reset();
+      from_date_daily?.clearValidators();
+      from_date_daily?.setValue('');
+
+      to_date_daily?.reset();
+      to_date_daily?.clearValidators();
+      to_date_daily?.setValue('');
+
+      from_date_month?.reset();
+      from_date_month?.clearValidators();
+      from_date_month?.setValue('');
+
+    }
+
+    select_date_daily?.updateValueAndValidity();
+    from_date_daily?.updateValueAndValidity();
+    to_date_daily?.updateValueAndValidity();
+    from_date_month?.updateValueAndValidity();
+
+
+    this.fgcategorymaster.get('iscustomdate')
+      ?.updateValueAndValidity({ emitEvent: true });
+    console.log(this.fgcategorymaster.status);
+    console.log(this.fgcategorymaster.errors);
+    console.log(this.fgcategorymaster.get('from_date_daily')?.errors);
+    console.log(this.fgcategorymaster.get('to_date_daily')?.errors);
+    console.log(this.fgcategorymaster.get('select_date_daily')?.errors);
+    this._cdr.markForCheck();
+
+  }
   private toNgbDate(date: Date): NgbDateStruct {
     return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
   }
@@ -241,9 +318,11 @@ export class ProductComponent implements OnInit {
       from_date_month: [''],
       from_date_daily: [''],
       to_date_daily: [''],
+      select_date_daily: [''],
       bs_interval: [''],
       bs_repetition: [''],
       bs_repetitiondata: [''],
+      iscustomdate: [''],
     });
 
     this.fgverify = this._fbCategoryMaster.group({
@@ -257,7 +336,26 @@ export class ProductComponent implements OnInit {
     this._webDService.getportalconfig('all', 0, 'null', 'day').subscribe((resCategory: any) => {
       this.ConfigMaster = [];
       this.ConfigMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
-      this._cdr.detectChanges();
+      console.log("ConfigMaster", this.ConfigMaster)
+      this._cdr.markForCheck();
+    });
+  }
+  get_portal_config() {
+    this._webDService.getportalconfig('all').subscribe((resCategory: any) => {
+      this.PortalConfigMaster = [];
+      this.PortalConfigMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
+
+      const _general_percentage = this.PortalConfigMaster.filter((x: any) => x?.config_name === 'general_percentage');
+      const _general_daily_percentage = this.PortalConfigMaster.filter((x: any) => x?.config_name === 'general_daily_percentage');
+      if (_general_percentage != null) {
+        this._general_percentage = _general_percentage[0]?.config_value;
+      }
+      if (_general_daily_percentage != null) {
+        this._general_daily_percentage = _general_daily_percentage[0]?.config_value;
+      }
+
+      console.log("PortalConfigMaster", this._general_percentage, this._general_daily_percentage)
+      this._cdr.markForCheck();
     });
   }
 
@@ -273,21 +371,21 @@ export class ProductComponent implements OnInit {
       this.RouteMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
 
       console.log('route', this.view_route_link);
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     });
   }
   getscreen(category_id: number = 0) {
     this._webDService.getproduct('all', 0, category_id).subscribe((resProduct: any) => {
       this.ScreenMaster = resProduct.data;
       this.ScreenMaster = Array.isArray(resProduct.data) ? resProduct.data : [];
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     });
   }
   gettimeslot() {
     this._webDService.getcategory('all', 0, 'time_slots', 0, 'null', false, 0, 'null', 0, 0).subscribe((resCategory: any) => {
       this.TimeMaster = resCategory.data;
       this.TimeMaster = Array.isArray(resCategory.data) ? resCategory.data : [];
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     });
   }
   gettypecategory() {
@@ -298,7 +396,7 @@ export class ProductComponent implements OnInit {
         ...item,          // keep existing properties
         isChecked: false  // add new key
       }));
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     });
   }
   getpropertycategory(parent_category_id: number) {
@@ -415,6 +513,19 @@ export class ProductComponent implements OnInit {
 
   isdaily: boolean = false;
   onSelectDailyPackageEvent() {
+    this.initform();
+    this.selectedDates=[];
+    this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_daily'].reset();
+    this.fgcategorymaster.controls['from_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['from_date_daily'].setValue('');
+    this.fgcategorymaster.controls['to_date_daily'].reset();
+    this.fgcategorymaster.controls['to_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['to_date_daily'].setValue('');
+    this.fgcategorymaster.controls['select_date_daily'].reset();
+    this.fgcategorymaster.controls['select_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['select_date_daily'].setValue('');
+   
     const today = new Date();
 
     this.TimeMaster?.filter((_timeslot: any, _index: any) => {
@@ -441,18 +552,20 @@ export class ProductComponent implements OnInit {
     this.fgcategorymaster.controls['bs_repetitiondata'].setValue(bs_itemRepedata);
     this.fgcategorymaster.controls['bs_repetitiondata'].updateValueAndValidity();
 
-    // initial restriction (today + 1 month)
-    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
-
-    // initial restriction (today + 1 month)
-    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+    
 
     this.isdaily = !this.isdaily;
     this.ismonthly = false;
+    let _is_custom = this.fgcategorymaster.get('iscustomdate')?.value;
+    if (this.isdaily && !_is_custom) {
+      // initial restriction (today + 1 month)
+    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
 
-    if (this.isdaily) {
+    // initial restriction (today + 1 month)
+    this.minmonth = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
       this.fgcategorymaster.controls['from_date_daily'].setValue('');
       this.fgcategorymaster.controls['to_date_daily'].setValue('');
+      this.fgcategorymaster.controls['select_date_daily'].setValue('');
       this._cdr.markForCheck();
       this.TimeMaster?.filter((_timeslot: any, _index: any) => {
         this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
@@ -496,6 +609,7 @@ export class ProductComponent implements OnInit {
             attribute_amount: 0.00,
             quantity: [1],
             date_total: 0.00,
+            custom_dates: '',
             repetitionarray: [_itemRepedata],
             prime_date_price: [0.00]
           });
@@ -514,13 +628,90 @@ export class ProductComponent implements OnInit {
           this._cdr.detectChanges();
         }
       })
+    } else if (this.isdaily && _is_custom) {
+      debugger
+      this.fgcategorymaster.controls['from_date_daily'].setValue('');
+      this.fgcategorymaster.controls['to_date_daily'].setValue('');
+      this.fgcategorymaster.controls['select_date_daily'].setValue('');
+      this._cdr.markForCheck();
+      this.TimeMaster?.filter((_timeslot: any, _index: any) => {
+        this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
+        this.ScreenRepeMaster = [
+          ...new Map(
+            this.ScreenRepeMaster.map((item: any) =>
+              [`${item.option_value_id}-${item.option_value}`, item]
+            )
+          ).values()];
+        const _itemInterval = this.ScreenIntervalMaster.filter((res: any, index: any) => index === 0);
+        const _itemRepedata = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
+        if (this.isRepetitionExists(_timeslot?.option_value_id)) {
+          this.removefromarray(_timeslot?.option_value_id);
+        } else {
+          this.timemastervalid = false;
+          const current = new Date();
+          let control: FormGroup = this._fbCategoryMaster.group({
+            route_category_id: [this._categoryRouteMaster.category_id],
+            route_category: [this._categoryRouteMaster.category],
+            product_id: [this._categoryScreenMaster.product_id],
+            product_name: [this._categoryScreenMaster.product_name],
+            timeslot_category_id: [_timeslot ? _timeslot?.option_value_id : '', [Validators.required]],
+            timeslot_category: [_timeslot ? _timeslot?.option_value : '', [Validators.required]],
+            from_date: [''],
+            minfromDate: null,
+            maxfromDate: null,
+            to_date: [''],
+            mintoDate: null,
+            maxtoDate: null,
+            total_amount: [this._categoryScreenMaster.base_amount],
+            base_amount: [this._categoryScreenMaster.base_amount],
+            timeslot_price: [_timeslot ? (_timeslot?.price_delta) : 0.00],
+            repetition_category_id: [0],
+            repetition_category: [''],
+            selectedReptitionddl: [0],
+            repetition_price: [0.00],
+            interval_category_id: [_itemInterval[0]?.option_value_id],
+            interval_category: [_itemInterval[0]?.option_value],
+            selectedIntervalddl: [_itemInterval[0]?.option_value_id],
+            interval_price: [_itemInterval ? _itemInterval[0]?.price_delta : '', [Validators.required]],
+            attribute_amount: 0.00,
+            quantity: [1],
+            date_total: 0.00,
+            custom_dates: '',
+            repetitionarray: [_itemRepedata],
+            prime_date_price: [0.00]
+          });
+          const _itemRepe = this.ScreenRepeMaster.filter((x: any) => x.option_value_parent_id === _itemInterval[0]?.option_value_id);
+          control.controls['repetition_category_id'].setValue(_itemRepe[0]?.option_value_id);
+          control.controls["repetition_category_id"].updateValueAndValidity();
+          control.controls['repetition_category'].setValue(_itemRepe[0]?.option_value);
+          control.controls["repetition_category"].updateValueAndValidity();
+          control.controls['selectedReptitionddl'].setValue(_itemRepe[0]?.option_value_id);
+          control.controls["selectedReptitionddl"].updateValueAndValidity();
+          control.controls['repetition_price'].setValue(_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]);
+          control.controls["repetition_price"].updateValueAndValidity();
+          this._cdr.markForCheck();
+          this.timeArray.push(control);
+          // this.calculate_final_amount((this.timeArray.length - 1));
+          this._cdr.markForCheck();
+        }
+      })
     }
   }
 
   removecustom() {
+    this.initform();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_daily'].reset();
+    this.fgcategorymaster.controls['from_date_daily'].clearValidators();
     this.fgcategorymaster.controls['from_date_daily'].setValue('');
+    this.fgcategorymaster.controls['to_date_daily'].reset();
+    this.fgcategorymaster.controls['to_date_daily'].clearValidators();
     this.fgcategorymaster.controls['to_date_daily'].setValue('');
+    this.fgcategorymaster.controls['select_date_daily'].reset();
+    this.fgcategorymaster.controls['select_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['select_date_daily'].setValue('');
+    this.fgcategorymaster.controls['iscustomdate'].setValue(false);
+    this.selectedDates=[];
     this._cdr.markForCheck();
     if (!this.isCustom) {
       this.TimeMaster?.filter((_timeslot: any, _index: any) => {
@@ -534,7 +725,19 @@ export class ProductComponent implements OnInit {
 
   ismonthly: boolean = false;
   onSelectPackageEvent() {
+    this.initform();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_daily'].reset();
+    this.fgcategorymaster.controls['from_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['from_date_daily'].setValue('');
+    this.fgcategorymaster.controls['to_date_daily'].reset();
+    this.fgcategorymaster.controls['to_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['to_date_daily'].setValue('');
+    this.fgcategorymaster.controls['select_date_daily'].reset();
+    this.fgcategorymaster.controls['select_date_daily'].clearValidators();
+    this.fgcategorymaster.controls['select_date_daily'].setValue('');
+    this.fgcategorymaster.controls['iscustomdate'].setValue(false);
+    this.selectedDates=[];
     this._cdr.markForCheck();
     const today = new Date();
 
@@ -620,7 +823,7 @@ export class ProductComponent implements OnInit {
           // this.onRepetitionChange(this.ScreenRepeMaster[0]?.option_value_id, 0)
           // this.onIntervalChange(this.ScreenIntervalMaster[0]?.option_value_id, 0)
           this.calculate_final_amount((this.timeArray.length - 1))
-          this._cdr.detectChanges();
+          this._cdr.markForCheck();
         }
       })
     }
@@ -753,7 +956,7 @@ export class ProductComponent implements OnInit {
       obj.controls["selectedReptitionddl"].setValue(selectedItem ? selectedItem?.option_value_id.toString() : '0');
       obj.controls["selectedReptitionddl"].updateValueAndValidity();
       this.calculate_final_amount(_index, 'repetition', selectedItem ? selectedItem?.price_delta : 0.00);
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     }
 
   }
@@ -783,13 +986,13 @@ export class ProductComponent implements OnInit {
       obj.controls['repetition_price'].setValue(_itemRepedata ? _itemRepedata[0]?.price_delta : 0.00);
       obj.controls["repetition_price"].updateValueAndValidity();
       this.calculate_final_amount(_index, 'interval', selectedItem ? selectedItem?.price_delta : 0.00);
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
     }
 
   }
 
   onbsIntervalChange($event: any) {
-
+    debugger
     const selectedValue = $event?.target?.value;
     this.fgcategorymaster.controls['bs_interval'].setValue(selectedValue);
     this.fgcategorymaster.controls['bs_interval'].updateValueAndValidity();
@@ -799,12 +1002,12 @@ export class ProductComponent implements OnInit {
     // this.ScreenRepeMaster = bs_itemRepedata;
     this.fgcategorymaster.controls['bs_repetitiondata'].setValue(bs_itemRepedata);
     this.fgcategorymaster.controls['bs_repetitiondata'].updateValueAndValidity();
-    this._cdr.detectChanges();
+    this._cdr.markForCheck();
     this.TimeMaster?.filter((_timeslot: any, _index: any) => {
 
-      const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
-        (group as FormGroup).get('timeslot_category_id')?.value === _timeslot?.option_value_id
-      );
+      // const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
+      //   (group as FormGroup).get('timeslot_category_id')?.value === _timeslot?.option_value_id
+      // );
 
       if (selectedValue != undefined && selectedValue != null) {
         const selectedItem = this.ScreenIntervalMaster.find((x: any) => x.option_value_id == selectedValue);
@@ -827,11 +1030,12 @@ export class ProductComponent implements OnInit {
         obj.controls['repetition_price'].setValue(_itemRepedata ? _itemRepedata[0]?.price_delta : 0.00);
         obj.controls["repetition_price"].updateValueAndValidity();
         this.calculate_final_amount(_index, 'interval', selectedItem ? selectedItem?.price_delta : 0.00);
-        this._cdr.detectChanges();
+        this._cdr.markForCheck();
       }
     });
   }
   onbsRepetitionChange($event: any) {
+    debugger
     const selectedValue = $event?.target?.value;
     this.TimeMaster?.filter((_timeslot: any, _index: any) => {
       const index = this.timeArray.controls.findIndex((group: AbstractControl) =>
@@ -850,13 +1054,15 @@ export class ProductComponent implements OnInit {
         obj.controls['repetition_price'].setValue(selectedItem ? selectedItem?.price_delta : 0.00);
         obj.controls["repetition_price"].updateValueAndValidity();
         this.calculate_final_amount(_index, 'repetition', selectedItem ? selectedItem?.price_delta : 0.00);
-        this._cdr.detectChanges();
+        this._cdr.markForCheck();
       }
     });
   }
 
   quantity: number = 1;
   calculate_final_amount(_index: number, _param: string = '', _price_delta: any = 0.00) {
+    debugger
+    let _is_custom = this.fgcategorymaster.get('iscustomdate')?.value;
     let obj = this.timeArray.at(_index) as FormGroup;
     obj.controls['total_amount'].setValue(0);
     obj.controls["total_amount"].updateValueAndValidity();
@@ -869,7 +1075,7 @@ export class ProductComponent implements OnInit {
     }
 
     let total_amount = 0.00;
-    if (this.isdaily) {
+    if (this.isdaily && !_is_custom) {
       obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
       obj.controls["date_total"].updateValueAndValidity();
       obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
@@ -910,7 +1116,9 @@ export class ProductComponent implements OnInit {
       if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
         let _days = this.getDaysCount(_from_date, _to_date);
         total_amount = total_amount * _days;
-        total_amount = (total_amount + this.calcluate_Prime_pricing(_from_date, _to_date, 'DAILYPACKAGE', _index));
+        let _gp_price = this.calcluate_Prime_pricing(_from_date, _to_date, 'DAILYPACKAGE', _index);
+        _gp_price = _gp_price + (_gp_price * this._general_daily_percentage)
+        total_amount = (total_amount + _gp_price);
       }
     } else if (this.ismonthly) {
       let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
@@ -925,7 +1133,60 @@ export class ProductComponent implements OnInit {
 
       total_amount = (base_amount + attribute_amount);
       total_amount = total_amount * 30;
-    } else {
+    } else if (this.isdaily && _is_custom) {
+      obj.controls['from_date']?.reset();
+      obj.controls['from_date']?.clearValidators();
+      obj.controls['from_date']?.setValue('');
+      obj.controls['to_date']?.reset();
+      obj.controls['to_date']?.clearValidators();
+      obj.controls['to_date']?.setValue('');
+      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
+      obj.controls["date_total"].updateValueAndValidity();
+      obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
+      obj.controls["total_amount"].updateValueAndValidity();
+      let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+      let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+      let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+      let date_total: any = obj.controls['date_total'].value;
+      // let _from_date = (obj.controls['from_date'].value);
+      // let _to_date = (obj.controls['to_date'].value);
+      // _from_date = this.toDatePModel(_from_date);
+      // _to_date = this.toDatePModel(_to_date);
+
+      // repetition_price = repetition_price + (repetition_price * this._general_daily_percentage);
+      obj.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
+      obj.controls["repetition_price"].updateValueAndValidity();
+
+      // interval_price = interval_price + (interval_price * this._general_daily_percentage);
+      obj.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
+      obj.controls["interval_price"].updateValueAndValidity();
+
+      // timeslot_price = timeslot_price + (timeslot_price * this._general_daily_percentage);
+      obj.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
+      obj.controls["timeslot_price"].updateValueAndValidity();
+
+      // date_total = date_total + (date_total * this._general_daily_percentage);
+      obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+      obj.controls["date_total"].updateValueAndValidity();
+
+      let attribute_amount = (repetition_price + interval_price + timeslot_price + date_total)
+      attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+      obj.controls['attribute_amount'].setValue(attribute_amount);
+      obj.controls["attribute_amount"].updateValueAndValidity();
+      let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
+      total_amount = (base_amount + attribute_amount);
+      total_amount = total_amount + (total_amount * this._general_daily_percentage);
+
+      let _days = this.selectedDates.length;
+      total_amount = total_amount * _days;
+      debugger
+      let _gp_price = this.calcluate_Prime_pricing(null, null, 'DAILYPACKAGE', _index, true);
+      _gp_price = _gp_price + (_gp_price * this._general_daily_percentage);
+      total_amount = (total_amount + _gp_price);
+
+    }
+    else {
       obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
       obj.controls["date_total"].updateValueAndValidity();
       obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
@@ -942,49 +1203,13 @@ export class ProductComponent implements OnInit {
       obj.controls["attribute_amount"].updateValueAndValidity();
       let base_amount = (obj.controls['base_amount'].value) * this.quantity;
 
-      const primeMap = new Map<string, number>(
-        this.primedateMaster.map((x: any) => [
-          this.formatDateString(x._primedate),
-          Number(x.date_price) || 0
-        ])
-      );
-      debugger
+
       let _date_total = 0.00;
       _from_date = this.toDatePModel(_from_date);
       _to_date = this.toDatePModel(_to_date);
 
-      let _fromd = this.formatDateString(_from_date);
-      let _tod = this.formatDateString(_to_date);
+      if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
 
-      if ((_fromd != null && _fromd != undefined && _fromd != '') && (_tod != null && _tod != undefined && _tod != '')) {
-        for (let d = _fromd; d <= _to_date; d = this.addOneDay(d)) {
-          let currentDate = d;
-          if (primeMap.has(currentDate)) {
-            let price: any = primeMap.get(currentDate);
-
-            // check if the currentDate belongs to ANY slot
-            let usedInSlots = 0;
-
-            this.timeArray.controls.forEach((slot: any) => {
-              let sFrom = this.toDatePModel(slot.controls['from_date'].value);
-              let sTo = this.toDatePModel(slot.controls['to_date'].value);
-
-              if (this.isDateInSlotRange(currentDate, sFrom || '', sTo || '')) {
-                usedInSlots++;
-              }
-            });
-
-            // IF used in ANY time slot → divide
-            if (usedInSlots > 0) {
-              _date_total += price / usedInSlots;
-            }
-            else {
-              // Not used in any slot → full amount
-              _date_total += price;
-            }
-            // _date_total += price / this.timeArray.length;
-          }
-        }
         _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
         date_total = (date_total + _date_total);
         date_total = date_total + (date_total * this._general_percentage);
@@ -1002,22 +1227,33 @@ export class ProductComponent implements OnInit {
       }
       total_amount = (total_amount + date_total)
       total_amount = this._base._commonService.formatAmount(total_amount);
+      debugger
+      let _gp_price = this.calcluate_Prime_pricing(_from_date, _to_date, 'CUSTOMPACKAGE', _index);
+      _gp_price = _gp_price + (_gp_price * this._general_percentage);
+      total_amount = (total_amount + _gp_price);
     }
     obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
     obj.controls["total_amount"].updateValueAndValidity();
     this._cdr.markForCheck();
+
+    if (!this.isdaily && !this.ismonthly) {
+      this.calculate_update_pricing(_index);
+    }
   }
 
   calcluate_Prime_pricing(
     _fd: any = null,
     _td: any = null,
     flag: any = 'DAILYPACKAGE',
-    _index: any = null
+    _index: any = null,
+    _iscustom: any = false
   ): number {
-
-    if (!_fd || !_td) {
-      return 0;
+    if (!_iscustom) {
+      if (!_fd || !_td) {
+        return 0;
+      }
     }
+
 
     const primeMap = new Map<string, number>(
       this.primedateMaster.map((x: any) => [
@@ -1026,19 +1262,17 @@ export class ProductComponent implements OnInit {
       ])
     );
 
-    let _fromd = this.formatDateString(_fd);
-    let _tod = this.formatDateString(_td);
+    let _fromd: any = null;
+    let _tod: any = null;
+
+    if (!_iscustom) {
+      _fromd = this.formatDateString(_fd);
+      _tod = this.formatDateString(_td);
+    }
 
     let _date_total = 0.00;
 
-    // const fromDate = new Date(_fd);
-    // const toDate = new Date(_td);
-
-    // Include same day booking as 1 day
-    // const timeDiff = toDate.getTime() - fromDate.getTime();
-    // const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-
-    if (flag === 'DAILYPACKAGE') {
+    if (flag === 'DAILYPACKAGE' && !_iscustom) {
       for (let d = _fromd; d <= _tod; d = this.addOneDay(d)) {
         let currentDate = d;
         if (primeMap.has(currentDate)) {
@@ -1057,7 +1291,21 @@ export class ProductComponent implements OnInit {
         let currentDate = d;
         if (primeMap.has(currentDate)) {
           let price = primeMap.get(currentDate) || 0;
-          let usedInSlots = this.timeArray?.length;
+          let usedInSlots = 0;
+
+          this.timeArray.controls.forEach((slot: any) => {
+            let sFrom: any = this.toDatePModel(slot.controls['from_date'].value);
+            let sTo: any = this.toDatePModel(slot.controls['to_date'].value);
+            if (sFrom != null && sTo != null) {
+              let _sFrom = this.formatDateString(sFrom);
+              let _sTo = this.formatDateString(sTo);
+
+              if (this.isDateInSlotRange(currentDate, _sFrom || '', _sTo || '')) {
+                usedInSlots++;
+              }
+            }
+          });
+
           if (usedInSlots > 0) {
             _date_total += Number(price ?? 0) / usedInSlots;
           } else {
@@ -1066,17 +1314,96 @@ export class ProductComponent implements OnInit {
         }
       }
       this._cdr.markForCheck();
-    }
+    } else if (flag === 'DAILYPACKAGE' && _iscustom) {
+      debugger
+      if (!this.selectedDates || this.selectedDates.length === 0) return 0;
+      for (let index = 0; index < this.selectedDates.length; index++) {
+        let currentDate: any = this.toDatePModel(this.selectedDates[index]); // convert to string if needed
+        let _cdate = this.formatDateString(currentDate);
+        if (primeMap.has(_cdate)) {
+          let price = primeMap.get(_cdate) || 0;
+          let usedInSlots = this.timeArray?.length;
 
-    // if (flag === 'HOURLYPACKAGE') {
-    //   const hourlyPrice = 300;
-    //   const hours = days * 24;
-    //   amount = hours * hourlyPrice;
-    // }
+          if (usedInSlots > 0) {
+            _date_total += Number(price) / usedInSlots;
+          } else {
+            _date_total += Number(price);
+          }
+        }
+
+      }
+      // this.selectedDates.forEach((d) => {
+
+
+
+      // });
+      this._cdr.markForCheck();
+    }
 
     return _date_total || 0;
   }
 
+  calculate_update_pricing(_index: number) {
+    for (let index = 0; index < this.timeArray.length; index++) {
+      if (_index != index) {
+        let total_amount = 0.00;
+        let obj = this.timeArray.at(index) as FormGroup;
+        obj.controls['total_amount'].setValue(0);
+        obj.controls["total_amount"].updateValueAndValidity();
+
+        obj.controls['date_total'].setValue(this._base._commonService.formatAmount(0.00));
+        obj.controls["date_total"].updateValueAndValidity();
+        obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(0.00));
+        obj.controls["total_amount"].updateValueAndValidity();
+        let repetition_price = (obj.controls['repetition_price'].value) * this.quantity;
+        let interval_price = (obj.controls['interval_price'].value) * this.quantity;
+        let timeslot_price = (obj.controls['timeslot_price'].value) * this.quantity;
+        let date_total: any = obj.controls['date_total'].value;
+        let _from_date = (obj.controls['from_date'].value);
+        let _to_date = (obj.controls['to_date'].value);
+        let attribute_amount = (repetition_price + interval_price + timeslot_price)
+        attribute_amount = this._base._commonService.formatAmount(attribute_amount);
+        obj.controls['attribute_amount'].setValue(attribute_amount);
+        obj.controls["attribute_amount"].updateValueAndValidity();
+        let base_amount = (obj.controls['base_amount'].value) * this.quantity;
+
+
+        let _date_total = 0.00;
+        _from_date = this.toDatePModel(_from_date);
+        _to_date = this.toDatePModel(_to_date);
+
+        if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
+
+          _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
+          date_total = (date_total + _date_total);
+          date_total = date_total + (date_total * this._general_percentage);
+          obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
+          obj.controls["date_total"].updateValueAndValidity();
+
+          total_amount = total_amount + attribute_amount + base_amount;
+          let _days = this.getDaysCount(_from_date, _to_date);
+          total_amount = total_amount * _days;
+          attribute_amount = this._base._commonService.formatAmount(attribute_amount + date_total + base_amount);
+          obj.controls['attribute_amount'].setValue(attribute_amount);
+          obj.controls["attribute_amount"].updateValueAndValidity();
+        } else {
+          total_amount = (base_amount + attribute_amount);
+        }
+        total_amount = (total_amount + date_total)
+        total_amount = this._base._commonService.formatAmount(total_amount);
+        debugger
+        let _gp_price = this.calcluate_Prime_pricing(_from_date, _to_date, 'CUSTOMPACKAGE', _index);
+        _gp_price = _gp_price + (_gp_price * this._general_percentage);
+        total_amount = (total_amount + _gp_price);
+
+        obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
+        obj.controls["total_amount"].updateValueAndValidity();
+        this._cdr.markForCheck();
+      }
+    }
+  }
+
+  datesSelected: NgbDateStruct[] = [];
 
   calcluate_Prime_pricing_backup(_ind: any, flag: any = null, _fd: any = null, _td: any = null) {
 
@@ -1279,13 +1606,13 @@ export class ProductComponent implements OnInit {
       let _from_date: any = this.toDatePModel(fmdate);
       let _to_date: any = this.toDatePModel(todate);
       if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
-        if (!this.isdaily && !this.ismonthly) {
-          this.calcluate_Prime_pricing(_index);
-        }
+        // if (!this.isdaily && !this.ismonthly) {
+        //   this.calcluate_Prime_pricing(_index);
+        // }
         this.calculate_final_amount(_index);
       }
     }
-    this._cdr.detectChanges();
+    this._cdr.markForCheck();
   }
 
   addOneDay(dateStr: string): string {
@@ -1312,7 +1639,11 @@ export class ProductComponent implements OnInit {
     this.timemastervalid = false;
     const ischekedarray = this.TimeMaster.filter((item: any) => item.isChecked == true);
     if (ischekedarray?.length > 0) {
-      this._base._commonService.markFormGroupTouched(this.fgcategorymaster)
+      this._base._commonService.markFormGroupTouched(this.fgcategorymaster);
+      Object.keys(this.fgcategorymaster.controls).forEach(key => {
+        const control = this.fgcategorymaster.get(key);
+        console.log(key, control?.status, control?.errors);
+      });
       if (this.fgcategorymaster.valid || flag == 1) {
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
@@ -1731,16 +2062,6 @@ export class ProductComponent implements OnInit {
   }
 
 
-  getHighlightColor(date: any) {
-    const jsDate = new Date(date.year, date.month - 1, date.day);
-
-    const found = this.highlightDates.find(
-      d => d.date.toDateString() === jsDate.toDateString()
-    );
-
-    return found ? found.color : null;
-  }
-
 
   onDateSelect(date: NgbDateStruct) {
     // When a new date is selected, recalculate the 1-month window
@@ -1814,6 +2135,104 @@ export class ProductComponent implements OnInit {
       // scrollable: true
     });
     this._cdr.detectChanges();
+  }
+
+
+  hoveredDate: NgbDateStruct | null = null;
+
+  fromDate: NgbDateStruct | null = null;
+  toDate: NgbDateStruct | null = null;
+
+  // _datesSelected: NgbDateStruct[] = [];
+  selectedDates: NgbDateStruct[] = [];
+
+  onDateSelection(date: NgbDateStruct) {
+    const index = this.selectedDates.findIndex(d =>
+      d.year === date.year &&
+      d.month === date.month &&
+      d.day === date.day
+    );
+
+    if (index >= 0) {
+      // Remove date if already selected
+      this.selectedDates.splice(index, 1);
+    } else {
+      // Add new date
+      this.selectedDates.push(date);
+    }
+
+    this.updateInputValue();
+
+
+
+    for (let i = 0; i < this.TimeMaster.length; i++) {
+      let obj = this.timeArray.at(i) as FormGroup;
+      console.log("obj",obj)
+      const dateString = this.selectedDates
+        .map(d =>
+          `${d.day.toString().padStart(2, '0')}-${d.month.toString().padStart(2, '0')}-${d.year}`
+        )
+        .join(', ');
+      obj.controls["custom_dates"].setValue(dateString);
+
+      this.calculate_final_amount(i)
+    }
+    this._cdr.markForCheck();
+    console.log(this.selectedDates);
+  }
+  addDate(date: NgbDateStruct) {
+    let index = this.datesSelected.findIndex(f => f.day == date.day && f.month == date.month && f.year == date.year);
+    if (index >= 0)       //If exist, remove the date
+      this.datesSelected.splice(index, 1);
+    else   //a simple push
+      this.datesSelected.push(date);
+  }
+  addRangeDate(fromDate: NgbDateStruct, toDate: NgbDateStruct) {
+    //We get the getTime() of the dates from and to
+    let from = new Date(fromDate.year + "-" + fromDate.month + "-" + fromDate.day).getTime();
+    let to = new Date(toDate.year + "-" + toDate.month + "-" + toDate.day).getTime();
+    for (let time = from; time <= to; time += (24 * 60 * 60 * 1000)) //add one day
+    {
+      let date = new Date(time);
+      //javascript getMonth give 0 to January, 1, to February...
+      this.addDate({ year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() });
+    }
+    console.log("this.datesSelected_1", this.datesSelected);
+  }
+  //return true if is selected
+  isDateSelected(date: NgbDateStruct): boolean {
+    return this.selectedDates.some(d =>
+      d.year === date.year &&
+      d.month === date.month &&
+      d.day === date.day
+    );
+  }
+  isHovered = (date: any) => this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate);
+  isInside = (date: any) => after(date, this.fromDate!) && before(date, this.toDate!);
+  isFrom = (date: any) => equals(date, this.fromDate!);
+  isTo = (date: any) => equals(date, this.toDate!);
+
+  updateInputValue() {
+    const formatted = this.selectedDates.map(d =>
+      `${d.day.toString().padStart(2, '0')}-${d.month.toString().padStart(2, '0')}-${d.year}`
+    );
+      debugger
+    this.fgcategorymaster.patchValue({
+      select_date_daily: formatted.join(', ')
+    });
+    this._cdr.markForCheck();
+  }
+
+  get selectedDatesLabel(): string {
+    return this.selectedDates
+      .sort((a, b) =>
+        new Date(a.year, a.month - 1, a.day).getTime() -
+        new Date(b.year, b.month - 1, b.day).getTime()
+      )
+      .map(d =>
+        `${d.day.toString().padStart(2, '0')}-${d.month.toString().padStart(2, '0')}-${d.year}`
+      )
+      .join(', ');
   }
 
 }
