@@ -27,14 +27,18 @@
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Bcl.Cryptography.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Data.SqlClient.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Caching.Memory.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.Abstractions.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.Binder.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.FileExtensions.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.Json.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Configuration.UserSecrets.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.DependencyInjection.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Diagnostics.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Diagnostics.Abstractions.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Hosting.Abstractions.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Http.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Logging.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Logging.Configuration.dll
@@ -42,6 +46,8 @@
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Logging.Debug.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.ObjectPool.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Options.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Options.ConfigurationExtensions.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Extensions.Primitives.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Identity.Client.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.Identity.Client.Extensions.Msal.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Microsoft.IdentityModel.Abstractions.dll
@@ -60,6 +66,7 @@
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.ClientModel.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.Configuration.ConfigurationManager.dll
+/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.Diagnostics.DiagnosticSource.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.Diagnostics.EventLog.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.IdentityModel.Tokens.Jwt.dll
 /Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api/bin/Release/net8.0/publish/System.Memory.Data.dll

@@ -164,8 +164,8 @@ export class AuthmoduleComponent implements OnInit {
   }
 
   resent_verify_number(flag: string = 'MOBILE_VERIFY') {
-    this.isOTPsent=false;
-    this.isverifybutton=false;
+    this.isOTPsent = false;
+    this.isverifybutton = false;
     this.formSignIn.get('otp_code')?.clearValidators();
     this.formSignIn.get('otp_code')?.updateValueAndValidity();
     this._base._commonService.markFormGroupTouched(this.formSignIn);
@@ -195,8 +195,11 @@ export class AuthmoduleComponent implements OnInit {
           this.isOTPsent = true;
           this.isverifybutton = true;
           this.OTPValue = parts[1];
-          this._webDService.sendOtp(this._mobileverification.mobile_number,this.OTPValue).subscribe((res:any)=>{
-            console.log("OTP",res)
+          this._webDService.send_whatsapp_otp('User', this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
+            console.log("send_whatsapp_otp OTP", res)
+          })
+          this._webDService.sendOtp(this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
+            console.log("OTP", res)
           })
           this._cdr.detectChanges();
         } else if (response.includes('otp_verify')) {

@@ -228,5 +228,22 @@ namespace onescreen_api.Controllers.UserManagement
                 return objUserManagement_BAL.update_userdetails(objupdate_user);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phone"></param>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        [Route("wa_sendotp")]
+        [HttpPost]
+        public async Task<string> whatsapp_sendotp(string name, string phone, string otp)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return await objUserManagement_BAL.whatsapp_sendotp(name, phone, otp);
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("onescreen.BuisnessAccessLayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44fe25551dcdc095f4466fc38a5d0a9b6798eec7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c3ca3d2c3713e6fd1c67bbd76a37a157452fbcc")]
 [assembly: System.Reflection.AssemblyProductAttribute("onescreen.BuisnessAccessLayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("onescreen.BuisnessAccessLayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

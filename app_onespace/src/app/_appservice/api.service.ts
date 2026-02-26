@@ -107,13 +107,41 @@ export class ApiService implements OnDestroy {
 
     post_otp(endpoint: string, mobileNo: string, otp: string) {
         const _body = new HttpParams()
-        .set('mobile_no', mobileNo)
-        .set('otp', otp);
-        
+            .set('mobile_no', mobileNo)
+            .set('otp', otp);
+
         const headers = new HttpHeaders({
             'Content-Type': 'application/x-www-form-urlencoded'
-          });
-      
-          return this.http.post(endpoint, _body.toString(), { headers });
+        });
+
+        return this.http.post(endpoint, _body.toString(), { headers });
     }
+
+    // send_otp(name: string, phone: string, otp: string) {
+    //     const _body = {
+    //         "channelId": "6492e61c86d8b49d6ceca0dc",
+    //         "channelType": "whatsapp",
+    //         "recipient": {
+    //             "name": name,
+    //             "phone": `91${phone}`
+    //         },
+    //         "whatsapp": {
+    //             "type": "template",
+    //             "template": {
+    //                 "templateName": "verification_code",
+    //                 "bodyValues": {
+    //                     "otp": otp
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     const headers = new HttpHeaders({
+    //         'Content-Type': 'application/json',
+    //         'apiKey': '645387bdd13214c03efe4c5d',
+    //         'apiSecret': 'b108678ac3d143c4a837d4206dea3f8e'
+    //     });
+
+    //     return this.http.post('https://server.gallabox.com/devapi/messages/whatsapp', _body.toString(), { headers });
+    // }
 }

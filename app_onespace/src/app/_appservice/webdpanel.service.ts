@@ -766,4 +766,8 @@ export class WebDService {
     public managepurchaseorder(_purchaseordermodel: purchaseordermodel) {
         return this._base._apiService.post(`${ApiConstant.product.managepurchaseorder}`, _purchaseordermodel);
     }
+
+    public send_whatsapp_otp(name: string, phone: string, otp: string) {
+        return this._base._apiService.post(`${ApiConstant.customer.wa_sendotp}?name=${name}&phone=${phone}&otp=${otp}`);
+    }
 }

@@ -147,6 +147,14 @@ namespace onescreenBAL.UserManagement
             }
         }
 
+        public async Task<string> whatsapp_sendotp(string name, string phone, string otp)
+        {
+            using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
+            {
+                return await objUserManagement_DAL.whatsapp_sendotp(name, phone, otp);
+            }
+        }
+
         public void Dispose() 
         {
         }

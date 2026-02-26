@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Razorpay" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\onescreen.BuisnessAccessLayer\onescreen.BuisnessAccessLayer.csproj" />

@@ -53,7 +53,8 @@ export class ApiConstant {
         verify_order: "product/verify_order",
         getcontactdetails: "usermanagement/getcontactdetails",
         managecontactdetails: "usermanagement/managecontactdetails",
-        update_userdetails: "usermanagement/update_userdetails"
+        update_userdetails: "usermanagement/update_userdetails",
+        wa_sendotp:"UserManagement/wa_sendotp"
 
 
     }
@@ -118,7 +119,6 @@ export class ApiConstant {
         managetrigger: "communication/managetrigger",
         manageaudienceuserdetail: "communication/manageaudienceuserdetail",
         getaudienceuserdetail: "communication/getaudienceuserdetail",
-
 
     }
     public static postmanagement = {

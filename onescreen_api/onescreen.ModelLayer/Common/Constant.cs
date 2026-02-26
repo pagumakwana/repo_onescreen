@@ -236,5 +236,10 @@ namespace onescreenModel.Common
         public const string raise_quote = "[dbo].[raise_quote]";
         public const string mapquotationproduct = "[dbo].[mapquotationproduct]";
         public const string getquotedetails = "[dbo].[getquotedetails]";
+        public const string apiSecret = "b108678ac3d143c4a837d4206dea3f8e";
+        public const string apiKey = "645387bdd13214c03efe4c5d";
+        public const string channelId = "6492e61c86d8b49d6ceca0dc";
+        public const string channelType = "whatsapp";
+        public const string request_url = "https://server.gallabox.com/devapi/messages/whatsapp";
     }
 }
