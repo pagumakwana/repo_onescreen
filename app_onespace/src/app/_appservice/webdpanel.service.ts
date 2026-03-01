@@ -770,4 +770,7 @@ export class WebDService {
     public send_whatsapp_otp(name: string, phone: string, otp: string) {
         return this._base._apiService.post(`${ApiConstant.customer.wa_sendotp}?name=${name}&phone=${phone}&otp=${otp}`);
     }
+    public wa_sendquote(flag: string, quote_id: string) {
+        return this._base._apiService.post(`${ApiConstant.customer.wa_sendquote}?flag=${flag}&quote_id=${quote_id}`);
+    }
 }

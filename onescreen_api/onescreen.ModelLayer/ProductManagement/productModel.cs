@@ -519,5 +519,14 @@ namespace onescreenModel.ProductManagement
         public string? address { get; set; }
         public List<quoteproductModel>? lstpurchaseproduct { get; set; }
     }
+
+    public class quota_model
+    {
+        public Int64 quotation_id { get; set; }
+        public string? fullname { get; set; }
+        public string? mobile_number { get; set; }
+        public string? filepath { get; set; }
+        public string? filename { get; set; }
+    }
 }
 

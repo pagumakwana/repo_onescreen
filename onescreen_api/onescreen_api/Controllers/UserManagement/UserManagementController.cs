@@ -245,5 +245,21 @@ namespace onescreen_api.Controllers.UserManagement
                 return await objUserManagement_BAL.whatsapp_sendotp(name, phone, otp);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="quote_id"></param>
+        /// <returns></returns>
+        [Route("wa_sendquote")]
+        [HttpPost]
+        public async Task<string> wa_sendquote(string flag, Int64 quote_id)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return await objUserManagement_BAL.wa_sendquote(flag,quote_id);
+            }
+        }
     }
 }

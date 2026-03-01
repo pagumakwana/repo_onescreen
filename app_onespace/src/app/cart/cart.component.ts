@@ -862,6 +862,9 @@ export class CartComponent implements OnInit {
           this.isOTPsent = true;
           this.isverifybutton = true;
           this.OTPValue = parts[1];
+          this._webDService.send_whatsapp_otp('User', this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
+            console.log("send_whatsapp_otp OTP", res)
+          })
           this._webDService.sendOtp(this._mobileverification.mobile_number, this.OTPValue).subscribe((res: any) => {
             console.log("OTP", res)
           })
@@ -990,6 +993,10 @@ export class CartComponent implements OnInit {
         this._webDService.raise_quote(this._quotedetails).subscribe((resquote: any) => {
           if (resquote && resquote.includes('newsuccess')) {
             let quotation_id = resquote.split('~')[1];
+
+            this._webDService.wa_sendquote('QUOTE', quotation_id).subscribe((res: any) => {
+              console.log("wa_sendquote OTP", quotation_id)
+            })
             this.qoutesuccessSwal.fire();
             setTimeout(() => {
               this.qoutesuccessSwal.close();
@@ -1060,6 +1067,9 @@ export class CartComponent implements OnInit {
         this._webDService.managepurchaseorder(this._purchase_order).subscribe((respurchaseorder: any) => {
           if (respurchaseorder && respurchaseorder.includes('newsuccess')) {
             let purchase_order_id = respurchaseorder.split('~')[1];
+            this._webDService.wa_sendquote('PO', purchase_order_id).subscribe((res: any) => {
+              console.log("wa_sendquote PO", purchase_order_id)
+            })
             this.posuccessSwal.fire();
             setTimeout(() => {
               this.posuccessSwal.close();

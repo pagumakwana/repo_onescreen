@@ -4,16 +4,19 @@ using Newtonsoft.Json;
 using onescreen.DAL.Common;
 using onescreenModel.Common;
 using onescreenModel.Configuration;
+using onescreenModel.ProductManagement;
 using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using webdHelper;
+using static System.Net.WebRequestMethods;
 
 namespace onescreenDAL.UserManagement
 {
@@ -1013,6 +1016,93 @@ namespace onescreenDAL.UserManagement
                 );
 
                 Response = await response.Content.ReadAsStringAsync();
+
+                return Response;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> wa_sendquote(string flag,Int64 quote_id)
+        {
+            try
+            {
+                string Response = "";
+                List<quota_model> lstquotation = new List<quota_model>();
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@flag", flag, DbType.String);
+                ObJParameterCOl.Add(objDBParameter);
+                objDBParameter = new DBParameter("@quote_id",quote_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.get_pdfdetails, ObJParameterCOl, CommandType.StoredProcedure);
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstquotation = ds.Tables[0].AsEnumerable().Select(Row => new quota_model
+                        {
+                            quotation_id = Row.Field<Int64>("quotation_id"),
+                            fullname = Row.Field<string>("fullname"),
+                            mobile_number = Row.Field<string>("mobile_number"),
+                            filename = Row.Field<string>("filename"),
+                            filepath = Row.Field<string>("filepath")
+                        }).ToList();
+
+                        if (lstquotation.Count > 0)
+                        {
+                            var requestBody = new
+                            {
+                                channelId = Constant.channelId,
+                                channelType = Constant.channelType,
+                                recipient = new
+                                {
+                                    name = lstquotation[0].fullname,
+                                    phone = "91" + lstquotation[0].mobile_number   // Correct C# string concatenation
+                                },
+                                whatsapp = new
+                                {
+                                    type = "template",
+                                    template = new
+                                    {
+                                        templateName = flag=="QUOTE" ? "gos_generate_quotation": "gos_tax_invoice",
+                                        headerValues =  new  {
+                                        mediaUrl= "https://files.gallabox.com/6415921d8a6e5b7dbaeba8b7/8a5e5295-d878-40dd-8814-23160417c929-Quotation.pdf",
+                                        mediaName = "Quotation.pdf"
+                                    }
+                                  }
+                                }
+                            };
+
+                            var client = new HttpClient();
+                            var json = JsonConvert.SerializeObject(requestBody);
+
+                            client.DefaultRequestHeaders.Clear();
+                            client.DefaultRequestHeaders.Add("apiSecret", Constant.apiSecret);
+                            client.DefaultRequestHeaders.Add("apiKey", Constant.apiKey);
+                            //Console.WriteLine(json);
+                            //Console.ReadLine();
+                            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                            var response = await client.PostAsync(
+                               new Uri(Constant.request_url),
+                                content
+                            );
+
+                            Response = await response.Content.ReadAsStringAsync();
+                        }
+                        else
+                        {
+                            Response = "noresponse";
+                        }
+                    }
+                }
+
+                
 
                 return Response;
 

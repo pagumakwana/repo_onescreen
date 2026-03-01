@@ -200,11 +200,12 @@
                                         </ul>
 
                                     </div>
-                                    <div *ngIf="this.isdaily">
+                                    <div class="row" *ngIf="this.isdaily">
                                         <div class="col-lg-4 mb-3 form-check">
                                             <label>Custom Date Selection</label>
                                             <input type="checkbox" class="form-check-input" id="iscustomdate"
-                                                formControlName="iscustomdate" (change)="onCustomDateChange($event)">
+                                                formControlName="iscustomdate"
+                                                (change)="onCustomDateChange($event,false)">
                                         </div>
                                     </div>
                                     <div class="product_lists product_slot_list" *ngIf="isCustom">
@@ -221,9 +222,49 @@
 
                                             </li>
                                         </ul>
-
                                     </div>
                                 </ng-container>
+                                <div class="row">
+                                    <div *ngIf="iscustomdate && !this.isdaily && !this.ismonthly">
+                                        <div class="col-lg-4 mb-3 form-check">
+                                            <label>Custom Date Selection</label>
+                                            <input type="checkbox" class="form-check-input" id="iscustomdate"
+                                                formControlName="iscustomdate"
+                                                (change)="onCustomDateChange($event,true)">
+                                        </div>
+                                        <div class="col-md-3 col-sm-12"
+                                            *ngIf="this.fgcategorymaster.get('iscustomdate')?.value">
+                                            <div class="form-group">
+                                                <label for="from_date_daily" class="form-label">Select Date
+                                                    :</label> <i class="ph-duotone ph-info"
+                                                    ngbPopover="Ad start date for package" triggers="click"
+                                                    placement="right" popoverClass="custom-popover">
+                                                </i>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        ngbDatepicker #select_date_daily="ngbDatepicker"
+                                                        id="select_date_daily" select_date_daily.displayMonths="true"
+                                                        placeholder="dd-mm-yyyy" [dayTemplate]="customselect_date_daily"
+                                                        formControlName="select_date_daily" [class.focused]="focused"
+                                                        (click)="select_date_daily.toggle();"
+                                                        (dateSelect)="onDateSelection($event)" [autoClose]="'outside'">
+                                                </div>
+                                                <ng-template #customselect_date_daily let-date
+                                                    let-currentMonth="currentMonth" let-selected="selected"
+                                                    let-disabled="disabled" let-focused="focused">
+
+                                                    <span class="custom-day" [class.focused]="focused" [ngClass]="{
+                                                'bg-danger text-white': isHighlighted(date),
+                                                'bg-primary text-white': isDateSelected(date)
+                                              }">
+                                                        {{ date.day }}
+                                                    </span>
+
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row" [hidden]="!this.ismonthly">
                                     <div class="col-md-3 col-sm-12" *ngIf="this.ismonthly">
                                         <div class="form-group">

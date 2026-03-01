@@ -5,8 +5,10 @@ using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace onescreenBAL.UserManagement
 {
@@ -152,6 +154,14 @@ namespace onescreenBAL.UserManagement
             using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
             {
                 return await objUserManagement_DAL.whatsapp_sendotp(name, phone, otp);
+            }
+        }
+
+        public async Task<string> wa_sendquote(string flag, Int64 quote_id)
+        {
+            using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
+            {
+                return await objUserManagement_DAL.wa_sendquote(flag,quote_id);
             }
         }
 
