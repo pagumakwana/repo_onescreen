@@ -2,7 +2,7 @@
     <section class="hero">
         <swiper class="swiper-container" [config]="BannerSwiper">
             <div *ngFor="let slide of bannerList" class="swiper-slide">
-                <img [src]="this._base._commonService.cdnURL+slide.thumbnail" [alt]="slide" />
+                <img [src]="this._base._commonService.cdnURL+slide?.thumbnail" [alt]="slide?.title" />
             </div>
         </swiper>
 
