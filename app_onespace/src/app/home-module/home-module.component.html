@@ -1,10 +1,17 @@
 <div class="home_page">
     <section class="hero">
-        <swiper class="swiper-container" [config]="BannerSwiper">
+        <!-- <swiper class="swiper-container" [config]="BannerSwiper">
             <div *ngFor="let slide of bannerList" class="swiper-slide">
                 <img [src]="this._base._commonService.cdnURL+slide?.thumbnail" [alt]="slide?.title" />
             </div>
-        </swiper>
+        </swiper> -->
+        <swiper-container slides-per-view="1" loop="true" autoplay-delay="3000" navigation="true" pagination="true">
+
+            <swiper-slide *ngFor="let slide of bannerList">
+                <img [src]="_base._commonService.cdnURL + slide.thumbnail" />
+            </swiper-slide>
+
+        </swiper-container>
 
         <section class="container_section categories">
             <div class="inner_container">

@@ -4,7 +4,8 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environments.prod';
 import { enableProdMode } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
-
+import { register } from 'swiper/element/bundle';
+register();
 declare global {
   interface Window {
     ngRef?: ApplicationRef;
