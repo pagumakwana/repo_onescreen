@@ -55,7 +55,8 @@ export class ApiConstant {
         managecontactdetails: "usermanagement/managecontactdetails",
         update_userdetails: "usermanagement/update_userdetails",
         wa_sendotp:"UserManagement/wa_sendotp",
-        wa_sendquote:"UserManagement/wa_sendquote"
+        wa_sendquote:"UserManagement/wa_sendquote",
+        wa_contactthank:"UserManagement/wa_contactthank"
 
 
     }

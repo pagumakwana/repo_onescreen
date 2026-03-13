@@ -261,5 +261,21 @@ namespace onescreen_api.Controllers.UserManagement
                 return await objUserManagement_BAL.wa_sendquote(flag,quote_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [Route("wa_contactthank")]
+        [HttpPost]
+        public async Task<string> wa_contactthank(string name, string phone)
+        {
+            using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
+            {
+                return await objUserManagement_BAL.wa_contactthank(name, phone);
+            }
+        }
     }
 }

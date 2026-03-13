@@ -1113,6 +1113,56 @@ namespace onescreenDAL.UserManagement
             }
         }
 
+        public async Task<string> wa_contactthank(string name, string phone)
+        {
+            try
+            {
+                string Response = "";
+                var requestBody = new
+                {
+                    channelId = Constant.channelId,
+                    channelType = Constant.channelType,
+                    recipient = new
+                    {
+                        name = name,
+                        phone = "91" + phone   // Correct C# string concatenation
+                    },
+                    whatsapp = new
+                    {
+                        type = "template",
+                        template = new
+                        {
+                            templateName = "gos_thankyou_for_response"
+                        }
+                    }
+                };
+
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(requestBody);
+
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("apiSecret", Constant.apiSecret);
+                client.DefaultRequestHeaders.Add("apiKey", Constant.apiKey);
+                //Console.WriteLine(json);
+                //Console.ReadLine();
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(
+                   new Uri(Constant.request_url),
+                    content
+                );
+
+                Response = await response.Content.ReadAsStringAsync();
+
+                return Response;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public void Dispose()
         {
 

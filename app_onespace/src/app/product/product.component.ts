@@ -1747,6 +1747,7 @@ export class ProductComponent implements OnInit {
               backdrop: true,
               centered: true
             });
+            this.isLoading$.next(false);
             return;
           }
 
@@ -2300,6 +2301,20 @@ export class ProductComponent implements OnInit {
         `${d.day.toString().padStart(2, '0')}-${d.month.toString().padStart(2, '0')}-${d.year}`
       )
       .join(', ');
+  }
+
+  resent_verify_number(flag: string = 'MOBILE_VERIFY') {
+    this.isOTPsent = false;
+    this.isverifybutton = false;
+    this.fgverify.get('otp_code')?.clearValidators();
+    this.fgverify.get('otp_code')?.updateValueAndValidity();
+    this._base._commonService.markFormGroupTouched(this.fgverify);
+    debugger
+    if (this.fgverify.valid) {
+      this._mobileverification.mobile_number = this.fgverify.value.mobile_number;
+      this._mobileverification.otp_code = this.fgverify.value.otp_code;
+      this.addverify();
+    }
   }
 
 }

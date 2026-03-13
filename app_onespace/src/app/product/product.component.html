@@ -824,6 +824,10 @@
                         otp_code is required.
                     </ng-container>
                 </div>
+                <div class="mb-3">
+                    <a style="cursor: pointer;" class="text-center mt-3" (click)="resent_verify_number('MOBILE_VERIFY')">Resend OTP</a>
+                    <!-- <span class="text-primary">{{this.OTPValue}}</span> -->
+                  </div>
             </div>
             <!-- <div class="mb-3">
                 <label class="form-label fw-bold">{{this.OTPValue}}</label>

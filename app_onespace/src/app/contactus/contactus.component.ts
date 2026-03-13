@@ -106,13 +106,15 @@ export class ContactusComponent {
         this._contactDetails.user_id = parseInt(user_id);
         this._webDService.managecontactdetails(this._contactDetails).subscribe((response: any) => {
           let isRedirect: boolean = true
-          if (response === 'contactexists') {
-            isRedirect = false;
-          }
-
+          // if (response === 'contactexists') {
+          //   isRedirect = false;
+          // }
+          this._webDService.wa_contactthank(this._contactDetails.fullname, this._contactDetails.mobile_no).subscribe((res: any) => {
+            console.log("res", res)
+          })
           setTimeout(() => {
             this.isLoading$.next(false);
-            this._cdr.detectChanges();
+            this._cdr.markForCheck();
           }, 1500);
 
           if (isRedirect && flag) {
