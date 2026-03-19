@@ -776,4 +776,8 @@ export class WebDService {
     public wa_contactthank(name: string, phone: string) {
         return this._base._apiService.post(`${ApiConstant.customer.wa_contactthank}?name=${name}&phone=${phone}`);
     }
+
+    public get_quote(quotation_id = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.get_quote}?quote_id=${quotation_id}`);
+    }
 }

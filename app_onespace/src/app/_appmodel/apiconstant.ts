@@ -302,6 +302,7 @@ export class ApiConstant {
         getleads:"product/getleads",
         manageleads:"product/manageleads",
         getpurchaseorder:"product/getpurchaseorder",
-        managepurchaseorder:"product/managepurchaseorder"
+        managepurchaseorder:"product/managepurchaseorder",
+        get_quote:"product/get_quote",
     }
 }

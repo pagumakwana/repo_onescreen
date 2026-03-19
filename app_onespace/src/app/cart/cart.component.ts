@@ -498,7 +498,7 @@ export class CartComponent implements OnInit {
 
   applycoupon() {
     this.is_valid = false;
-
+    debugger
     if (!this.Coupon_code_text?.trim()) {
       console.warn("Please enter a coupon code");
       this.is_valid = true;
@@ -800,7 +800,7 @@ export class CartComponent implements OnInit {
         (res: any) => {
           this.couponList = [];
           if (res && Array.isArray(res.data)) {
-            const activeCoupons = res.data.filter((c: any) => !c.isdisable);
+            const activeCoupons = res.data;//.filter((c: any) => !c.isdisable);
 
             this.couponList = activeCoupons.map((c: any, index: number) => {
               const colorSet = this.couponColors[index % this.couponColors.length];

@@ -358,6 +358,15 @@ namespace onescreenBAL.ProductManagement
                 return objProductManagement_DAL.managepurchaseorder(_purchase_order);
             }
         }
+
+        public async Task<responseModel> get_quote(Int64 quote_id)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+             return await objProductManagement_DAL.get_quote(quote_id);
+            }
+        }
+
         public void Dispose() 
         { 
         }

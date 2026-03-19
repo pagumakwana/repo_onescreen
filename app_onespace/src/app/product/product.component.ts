@@ -521,18 +521,21 @@ export class ProductComponent implements OnInit {
 
   isdaily: boolean = false;
   onSelectDailyPackageEvent() {
+    debugger
+    this.timemastervalid=false;
     this.initform();
     this.selectedDates = [];
     this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_daily'].setValue('');
     this.fgcategorymaster.controls['from_date_daily'].reset();
     this.fgcategorymaster.controls['from_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['from_date_daily'].setValue('');
+    this.fgcategorymaster.controls['to_date_daily'].setValue('');
     this.fgcategorymaster.controls['to_date_daily'].reset();
     this.fgcategorymaster.controls['to_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['to_date_daily'].setValue('');
+    this.fgcategorymaster.controls['select_date_daily'].setValue('');
     this.fgcategorymaster.controls['select_date_daily'].reset();
     this.fgcategorymaster.controls['select_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['select_date_daily'].setValue('');
+    this.fgcategorymaster.controls['iscustomdate'].setValue(false);
 
     const today = new Date();
 
@@ -707,19 +710,20 @@ export class ProductComponent implements OnInit {
   }
 
   removecustom() {
+    this.timemastervalid=false;
     this.initform();
     this.fgcategorymaster.controls['from_date_month'].reset();
-    this.fgcategorymaster.controls['from_date_month'].clearValidators();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_month'].clearValidators();
+    this.fgcategorymaster.controls['from_date_daily'].setValue('');
     this.fgcategorymaster.controls['from_date_daily'].reset();
     this.fgcategorymaster.controls['from_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['from_date_daily'].setValue('');
+    this.fgcategorymaster.controls['to_date_daily'].setValue('');
     this.fgcategorymaster.controls['to_date_daily'].reset();
     this.fgcategorymaster.controls['to_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['to_date_daily'].setValue('');
+    this.fgcategorymaster.controls['select_date_daily'].setValue('');
     this.fgcategorymaster.controls['select_date_daily'].reset();
     this.fgcategorymaster.controls['select_date_daily'].clearValidators();
-    this.fgcategorymaster.controls['select_date_daily'].setValue('');
     this.fgcategorymaster.controls['iscustomdate'].setValue(false);
     this.selectedDates = [];
     this._cdr.markForCheck();
@@ -735,8 +739,11 @@ export class ProductComponent implements OnInit {
 
   ismonthly: boolean = false;
   onSelectPackageEvent() {
+    this.timemastervalid=false;
     this.initform();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
+    this.fgcategorymaster.controls['from_date_month'].reset('');
+    this.fgcategorymaster.controls['from_date_month'].clearValidators();
     this.fgcategorymaster.controls['from_date_daily'].reset();
     this.fgcategorymaster.controls['from_date_daily'].clearValidators();
     this.fgcategorymaster.controls['from_date_daily'].setValue('');
@@ -841,7 +848,7 @@ export class ProductComponent implements OnInit {
 
   iscustomdate: boolean = false;
   onSelectEvent($event: any, _index: number = 0) {
-
+    debugger
     if ($event && $event != null && $event != '') {
       this.iscustomdate = true;
       this.TimeMaster[_index].isChecked = !this.TimeMaster[_index].isChecked;
@@ -900,25 +907,27 @@ export class ProductComponent implements OnInit {
         control.controls["selectedReptitionddl"].updateValueAndValidity();
         control.controls['repetition_price'].setValue(_itemRepe ? _itemRepe[0]?.price_delta : '', [Validators.required]);
         control.controls["repetition_price"].updateValueAndValidity();
-        this._cdr.detectChanges();
-        if (!this.ismonthly && !this.isdaily) {
-          let repetition_price = (control.controls['repetition_price'].value) * this.quantity;
-          let interval_price = (control.controls['interval_price'].value) * this.quantity;
-          let timeslot_price = (control.controls['timeslot_price'].value) * this.quantity;
 
-          repetition_price = repetition_price + (repetition_price * this._general_percentage);
-          control.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
-          control.controls["repetition_price"].updateValueAndValidity();
+        this._cdr.markForCheck();
+        //  Todays changes
+        // if (!this.ismonthly && !this.isdaily) {
+        //   let repetition_price = (control.controls['repetition_price'].value) * this.quantity;
+        //   let interval_price = (control.controls['interval_price'].value) * this.quantity;
+        //   let timeslot_price = (control.controls['timeslot_price'].value) * this.quantity;
 
-          interval_price = interval_price + (interval_price * this._general_percentage);
-          control.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
-          control.controls["interval_price"].updateValueAndValidity();
+        //   repetition_price = repetition_price + (repetition_price * this._general_percentage);
+        //   control.controls['repetition_price'].setValue(this._base._commonService.formatAmount(repetition_price));
+        //   control.controls["repetition_price"].updateValueAndValidity();
 
-          timeslot_price = timeslot_price + (timeslot_price * this._general_percentage);
-          control.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
-          control.controls["timeslot_price"].updateValueAndValidity();
+        //   interval_price = interval_price + (interval_price * this._general_percentage);
+        //   control.controls['interval_price'].setValue(this._base._commonService.formatAmount(interval_price));
+        //   control.controls["interval_price"].updateValueAndValidity();
 
-        }
+        //   timeslot_price = timeslot_price + (timeslot_price * this._general_percentage);
+        //   control.controls['timeslot_price'].setValue(this._base._commonService.formatAmount(timeslot_price));
+        //   control.controls["timeslot_price"].updateValueAndValidity();
+
+        // }
         this.timeArray.push(control);
         if (!this.fgcategorymaster.get('iscustomdate')?.value) {
           // this.calcluate_Prime_pricing((this.timeArray.length - 1));
@@ -1231,8 +1240,8 @@ export class ProductComponent implements OnInit {
         if ((_from_date != null && _from_date != undefined && _from_date != '') && (_to_date != null && _to_date != undefined && _to_date != '')) {
 
           _date_total = _date_total + (this.setPriceFromConfigMaster(_from_date, _to_date));
-          date_total = (date_total + _date_total);
-          date_total = date_total + (date_total * this._general_percentage);
+          // date_total = (date_total + _date_total);
+          // date_total = date_total + (date_total * this._general_percentage);
           obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
           obj.controls["date_total"].updateValueAndValidity();
 
@@ -1313,6 +1322,8 @@ export class ProductComponent implements OnInit {
     _index: any = null,
     _iscustom: any = false
   ): number {
+
+    debugger
     if (!_iscustom) {
       if (!_fd || !_td) {
         return 0;
@@ -1455,6 +1466,7 @@ export class ProductComponent implements OnInit {
           total_amount = (base_amount + attribute_amount);
         }
         total_amount = (total_amount + date_total)
+        total_amount = total_amount + (total_amount * this._general_percentage);
         total_amount = this._base._commonService.formatAmount(total_amount);
         debugger
         let _gp_price = this.calcluate_Prime_pricing(_from_date, _to_date, 'CUSTOMPACKAGE', _index);

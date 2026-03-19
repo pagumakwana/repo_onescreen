@@ -15,6 +15,11 @@ using webdHelper;
 using Razorpay.Api;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.Json;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
+using Azure;
+using onescreen.DataAccessLayer.Pdf_Service;
+using Microsoft.Extensions.Primitives;
 
 namespace onescreenDAL.ProductManagement
 {
@@ -26,6 +31,14 @@ namespace onescreenDAL.ProductManagement
 
         private readonly string _key = "rzp_test_RAp1XhaN6GAi6K";
         private readonly string _secret = "CIqkb8Ivu8lE9DQmnIxd830x";
+        private IBrowser? _browser;
+        private bool _initialized;
+        private readonly SemaphoreSlim _browserLock = new(1, 1);
+
+        private readonly int _maxConcurrentPages;
+        private readonly int _recycleAfter; // number of PDFs before restarting Chrome
+        private int _pdfCountSinceStart = 0;
+        private readonly SemaphoreSlim _pageSemaphore;
 
         public ProductManagement_DAL(IHttpContextAccessor httpContextAccessor)
         {
@@ -2578,32 +2591,6 @@ namespace onescreenDAL.ProductManagement
                             ResponseMessage = ds.Tables[0].Rows[0]["RESPONSE"].ToString();
                             var Res = ResponseMessage.Split('~');
                             _quotation_model.quotation_id = Convert.ToInt64(Res[1].ToString());
-                            //if ((_quotation_model.lst_orderdetail != null && _quotation_model.lst_orderdetail.Count > 0))
-                            //{
-                            //    _quotation_model.lst_orderdetail.ForEach(item =>
-                            //    {
-                            //        item.order_id = objuserorderMaster.order_id;
-                            //        item.cart_master_id = objuserorderMaster.cart_master_id;
-                            //        item.product_id = item.product_id;
-                            //        item.ismonthly = item.ismonthly;
-                            //        item.optionvalues = JsonConvert.SerializeObject(item.optionvaluesParsed);
-                            //        item.user_id = objuserorderMaster.user_id;
-                            //        item.client_id = client_id;
-                            //        item.project_id = project_id;
-                            //        item.createdby = objuserorderMaster.user_id;
-                            //        item.createdname = objuserorderMaster.createdname;
-                            //        item.isactive = true;
-                            //        item.isdeleted = false;
-                            //    });
-                            //    Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
-                            //    DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderdetail);
-                            //    objDbHelper = new DBHelper();
-                            //    string tablename = objDbHelper.BulkImport("WebD_UserOrderMapping", dtfilemanagercategory);
-                            //    DBParameterCollection ObJParameterCOl2 = new DBParameterCollection();
-                            //    DBParameter objDBParameter2 = new DBParameter("@tablename", tablename, DbType.String);
-                            //    ObJParameterCOl2.Add(objDBParameter2);
-                            //    objDbHelper.ExecuteNonQuery(Constant.mapuserorder, ObJParameterCOl2, CommandType.StoredProcedure);
-                            //}
                             if ((_quotation_model.lst_quoteproduct != null && _quotation_model.lst_quoteproduct.Count > 0))
                             {
                                 _quotation_model.lst_quoteproduct.ForEach(_item =>
@@ -3233,6 +3220,261 @@ namespace onescreenDAL.ProductManagement
             }
 
         }
+
+        /// <summary>
+        /// Initialize Chrome browser (only once)
+        /// </summary>
+        public async Task InitializeAsync()
+        {
+            if (_initialized) return;
+
+            await _browserLock.WaitAsync();
+            try
+            {
+                if (_initialized) return;
+
+                _browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                {
+                    Headless = true,
+                    ExecutablePath = GetChromePath(),
+                    Args = new[]
+                    {
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-gpu"
+                }
+                });
+
+                _initialized = true;
+                _pdfCountSinceStart = 0;
+            }
+            finally
+            {
+                _browserLock.Release();
+            }
+        }
+
+        public async Task<responseModel> get_quote(Int64 quote_id)
+        {
+            responseModel response = new responseModel();
+            try
+            {
+             
+
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@quotation_id", quote_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
+
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.get_quote, ObJParameterCOl, CommandType.StoredProcedure);
+                List<quotation_model> lstquotation = new List<quotation_model>();
+                List<quoteproductModel> lstquotationproduct = new List<quoteproductModel>();
+                if (ds != null)
+                {
+                    if (quote_id > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstquotationproduct = ds.Tables[0].AsEnumerable().Select(Row => new quoteproductModel
+                        {
+                            quotation_product_map_id = Row.Field<Int64>("quotation_product_map_id"),
+                            quotation_id = Row.Field<Int64>("quotation_id"),
+                            cart_master_id = Row.Field<Int64>("cart_master_id"),
+                            product_id = Row.Field<Int64>("product_id"),
+                            product_name = Row.Field<string>("product_name"),
+                            timeslot_category_id = Row.Field<Int64?>("timeslot_category_id"),
+                            timeslot_category = Row.Field<string?>("timeslot_category"),
+                            timeslot_price = Row.Field<decimal>("timeslot_price"),
+                            repetition_category_id = Row.Field<Int64?>("repetition_category_id"),
+                            repetition_category = Row.Field<string?>("repetition_category"),
+                            repetition_price = Row.Field<decimal>("repetition_price"),
+                            interval_category_id = Row.Field<Int64?>("interval_category_id"),
+                            interval_category = Row.Field<string?>("interval_category"),
+                            interval_price = Row.Field<decimal>("interval_price"),
+                            from_date = Row.Field<string>("from_date"),
+                            to_date = Row.Field<string>("to_date"),
+                            base_amount = Row.Field<decimal>("base_amount"),
+                            attribute_amount = Row.Field<decimal>("attribute_amount"),
+                            total_amount = Row.Field<decimal>("total_amount"),
+                        }).ToList();
+
+                    }
+                    if (ds.Tables[quote_id > 0 ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstquotation = ds.Tables[quote_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
+                          new quotation_model
+                          {
+                              quotation_id = Row.Field<Int64>("quotation_id"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              quotation_number = Row.Field<string>("quotation_number"),
+                              coupon_id = Row.Field<Int64>("coupon_id"),
+                              quotation_total = Row.Field<Decimal>("quotation_total"),
+                              quotation_subtotal = Row.Field<Decimal>("quotation_subtotal"),
+                              quotation_discount = Row.Field<Decimal>("quotation_discount"),
+                              quotation_tax = Row.Field<Decimal>("quotation_tax"),
+                              quotation_status = Row.Field<string>("quotation_status"),
+                              sales_person_details = Row.Field<string>("sales_person_details"),
+                              referal_person_details = Row.Field<string>("referal_person_details"),
+                              fullname = Row.Field<string>("fullname"),
+                              email_id = Row.Field<string>("email_id"),
+                              mobile_number = Row.Field<string>("mobile_number"),
+                              address = Row.Field<string>("address"),
+                              is_po = Row.Field<bool>("is_po"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              updatedby = Row.Field<Int64?>("updatedby"),
+                              updatedname = Row.Field<string>("updatedname"),
+                              updateddatetime = Row.Field<DateTime?>("updateddatetime"),
+                              isactive = Row.Field<bool>("isactive"),
+                              isdeleted = Row.Field<bool>("isdeleted"),
+                              lst_quoteproduct = lstquotationproduct
+                          }).ToList();
+                    }
+                    var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
+
+                    await pdfService.InitializeAsync();
+
+                    test_pdf(lstquotation, pdfService);
+
+                    response.data = "success";
+                    response.count = 1;
+                }
+                    return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async void test_pdf(List<quotation_model> invoicedetailsmaster, dynamic pdfService)
+        {
+            try
+            {
+                
+                if (invoicedetailsmaster.Count > 0)
+                {
+                    string invoice_date = Convert.ToDateTime(invoicedetailsmaster[0]?.createddatetime).ToString("dd/MM/yyyy");
+                  
+                    string year = "";
+                    if (!string.IsNullOrEmpty(invoice_date))
+                    {
+                        if (invoice_date.Contains("-"))
+                        {
+                            var parts = invoice_date.Split('-');
+                            if (parts.Length > 2)
+                                year = parts[2];
+                        }
+                        else if (invoice_date.Contains("/"))
+                        {
+                            var parts = invoice_date.Split('/');
+                            if (parts.Length > 2)
+                                year = parts[2];
+                        }
+                    }
+                    decimal grandTotal = invoicedetailsmaster[0]?.quotation_total ?? 0;
+                    string grandTotalInWords = "Rupees " + NumberToWords(Convert.ToInt64(grandTotal)) + " Only";
+                    var lstaccheaderhtml = new StringBuilder();
+
+                    foreach (var item in invoicedetailsmaster[0]?.lst_quoteproduct)
+                    {
+                        lstaccheaderhtml.Append("<tr>");
+                        lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px;\">"
+                            + item.product_name + "<div style=\"font-size:10px; color: #777; margin-top: 4px;\">"+ item.timeslot_category +" " + (item?.timeslot_price != null && item.timeslot_price != 0
+    ? "(₹" + item.timeslot_price + ")"
+    : "") +"< br />"+ item?.repetition_category +" "+ ((item?.repetition_price != null && item.repetition_price != 0)
+    ? "(₹" + item.repetition_price + ")"
+    : "") +"< br /> "+ ((item?.interval_price != null && item.interval_price != 0)
+    ? "(₹" + item.interval_price + ")"
+    : "") + "< br />"+ (item?.from_date?.ToString())+ "to"+ (item?.to_date?.ToString())+ "</ td >");
+
+                        lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">₹ "+ item?.total_amount+"</td>");
+                        lstaccheaderhtml.Append("</tr>");
+                        }
+
+
+                    string htmlContent = "<div style=\"font-family: Arial, sans-serif; font-size: 12px; color: #000;\"><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"><h1 style=\"margin: 0;\">QUOTATION</h1><p style=\"margin: 2px 0;\">Quotation# : <span style=\"color: #777;\">" + invoicedetailsmaster[0]?.quotation_number + " </span></p><p style=\"margin: 2px 0;\">Date : <span style=\"color: #777;\"> " + invoice_date + " </span></p></td><td style=\"width: 50%; text-align: right;\"><img style=\"max-width: 150px;\" src=\"https://onescreen.in/assets/images/onescreenlogo.png\" alt=\"\" /></td></tr></tbody></table><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%; text-align: right;\"><h4 style=\"margin: 0;\">GET ONESCREEN</h4><p style=\"margin: 0;\">3rd Floor, Shop No.302, International Finance Centre,</p><p style=\"margin: 0;\">Vesu, Surat, Gujarat - 395007</p><p style=\"margin: 0;\">India</p><p style=\"margin: 0;\"><strong> GSTIN: </strong> 24AAFFO2562E1ZK</p><br /><p style=\"margin: 0; color: #777;\">Bill To:</p><h4 style=\"margin: 0;\">"+ invoicedetailsmaster[0]?.fullname + "</h4><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.mobile_number + "</p><p style=\"margin: 0;\">"+ invoicedetailsmaster[0]?.address +"</p></td></tr></tbody></table><table style=\"width: 100%; border-collapse: collapse; margin-top: 10px;\"><thead><tr style=\"background: #f2f2f2;\"><th style=\"border: 1px solid #ddd; padding: 8px;\">#</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Name</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">SubTotal</th></tr></thead><tbody><tr>"+ lstaccheaderhtml +"</tr></tbody></table><table style=\"width: 100%; margin-top: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%;\"><table style=\"width: 100%;\"><tbody><tr><td style=\"width: 21.6908%;\">Sub Total :</td><td style=\"text-align: right; width: 73.905%;\">₹" + invoicedetailsmaster[0]?.quotation_subtotal + "</td></tr><tr><td style=\"width: 21.6908%;\">Discount :</td><td style=\"text-align: right; width: 73.905%;\">₹ " + invoicedetailsmaster[0]?.quotation_discount + "</td></tr><tr><td style=\"width: 21.6908%;\"><strong> Grand Total : </strong></td><td style=\"text-align: right; width: 73.905%;\"><strong> ₹ " + invoicedetailsmaster[0]?.quotation_total + " </strong></td></tr></tbody></table></td></tr></tbody></table><div style=\"margin-top: 20px;\"><p style=\"margin: 0; font-weight: bold;\">Notes:</p><ul style=\"font-size: 10px; color: #555; padding-left: 15px; margin-top: 5px;\"><li style=\"margin-bottom: 3px;\">ONESCREEN offers digital outdoor advertising through LED screens on mobile and fixed platforms.</li><li style=\"margin-bottom: 3px;\">Campaigns start only after advance or full payment.</li><li style=\"margin-bottom: 3px;\">Clients are responsible for their ad content.</li><li style=\"margin-bottom: 3px;\">ONESCREEN is not liable for delays due to external factors.</li></ul></div></div>";
+
+                    string downloadpath = Path.Combine("D:\\Repo\\repo_Communication\\Webdroids.Communication", "Download_Email_Attachment");
+
+                    var filename = invoicedetailsmaster[0]?.quotation_number + ".pdf";
+                    string pdfPath = await pdfService.GeneratePdfFileAsync(htmlContent, downloadpath, filename);
+
+                    if (File.Exists(pdfPath))
+                    {
+                        string FileDestination = Path.Combine("C:\\www\\apnasociety\\api.apnasociety.com\\FileStorage", "Invoice_attachment");
+                        //string FileDestination = Path.Combine("D:\\Repo\\repo_apnasociety_panel\\apnasociety_api\\apnasociety_api\\FileStorage", "Invoice_attachment");
+                        string Filename = (FileDestination + "\\" + invoicedetailsmaster[0]?.quotation_number + ".pdf");
+                        if (!Directory.Exists(FileDestination))
+                        {
+                            Directory.CreateDirectory(FileDestination);
+                        }
+                        File.Copy(pdfPath, Filename, true);
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"PDF exception: {ex.ToString()}");
+            }
+        }
+
+        public static string NumberToWords(long num)
+        {
+            string[] a = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+                   "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+                   "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+
+            string[] b = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
+                   "Seventy", "Eighty", "Ninety" };
+
+            if (num == 0)
+                return "Zero";
+            if (num < 0)
+                return "Minus " + NumberToWords(Math.Abs(num));
+
+            string Convert(long n)
+            {
+                if (n < 20) return a[n];
+                if (n < 100) return b[n / 10] + (n % 10 > 0 ? " " + a[n % 10] : "");
+                if (n < 1000) return a[n / 100] + " Hundred" + (n % 100 > 0 ? " and " + Convert(n % 100) : "");
+                if (n < 100000) return Convert(n / 1000) + " Thousand" + (n % 1000 > 0 ? " " + Convert(n % 1000) : "");
+                if (n < 10000000) return Convert(n / 100000) + " Lakh" + (n % 100000 > 0 ? " " + Convert(n % 100000) : "");
+                return Convert(n / 10000000) + " Crore" + (n % 10000000 > 0 ? " " + Convert(n % 10000000) : "");
+            }
+
+            return Convert(num).Trim();
+        }
+
+        static string GetChromePath()
+        {
+            string[] paths =
+            {
+           // Windows paths
+        @"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        @"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+
+        // macOS Chrome
+        @"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        @"/Applications/Chromium.app/Contents/MacOS/Chromium",
+
+        // macOS Edge
+        @"/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+        };
+
+            foreach (var path in paths)
+            {
+                if (File.Exists(path)) return path;
+            }
+
+            throw new FileNotFoundException("Chrome/Edge not found. Please install Chrome or Edge.");
+        }
+
 
         public void Dispose()
         {

@@ -1,35 +1,44 @@
-
 <div class="card">
   <div class="card-body" id="invoiceSection">
     <div class="row g-3">
       <div class="col-12">
         <div class="row align-items-center g-3">
           <div class="col-sm-6">
-            <div class="d-flex align-items-center mb-2">
-              <img src="../../assets/images/onescreenlogo.png" class="img-fluid" alt="images">
-            </div>
-          </div>
-          <div class="col-sm-6 text-sm-end">
+            <h1>TAX INVOICE</h1>
+            <h6>Invoice# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.order_number}}</span></h6>
             <h6>Date : <span class="text-muted f-w-400">{{invoicedetailsmaster?.createddatetime |
                 date:'dd/MM/yyyy'}}</span></h6>
-            <h6>Invoice# : <span class="text-muted f-w-400">{{invoicedetailsmaster?.order_number}}</span></h6>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+              <img src="../../../../assets/images/onescreenlogo.png" class="img-fluid" alt="images">
+              <!-- <span class="badge bg-primary rounded-pill ms-2">Paid</span> -->
+            </div>
+            <!-- <p class="mb-0">INV - 000457</p> -->
           </div>
         </div>
       </div>
 
       <div class="col-sm-6">
-        <div class="border rounded p-3">
-          <h6 class="mb-0">To:</h6>
-          <h5>{{invoicedetailsmaster?.fullname}}</h5>
-          <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
-        </div>
+
       </div>
-      <div class="col-sm-6">
-        <div class="border rounded p-3">
-          <h6 class="mb-0">From:</h6>
-          <h5>OneScreen</h5>
-          <p class="mb-0">3rd Floor, Shop No.302, International Finance Centre, Vesu, Surat, Gujarat, 395007</p>
-        </div>
+      <div class="col-sm-6 text-end">
+        <h5 class="mb-1">GET ONESCREEN</h5>
+
+        <p class="mb-0"> 3rd Floor, Shop No.302, International Finance Centre,
+          Vesu,</p>
+        <p class="mb-0">Surat, Gujarat - 395007</p>
+        <p class="mb-0">India</p>
+        <p class="mb-0"><strong>GSTIN:</strong> 24AAFFO2562E1ZK</p>
+        <br>
+        <!-- <div class="border rounded p-3"> -->
+        <h6 class="mb-0 text-muted">Bill To:</h6>
+        <h5 class="mb-0">{{invoicedetailsmaster?.fullname}}</h5>
+        <h5>{{invoicedetailsmaster?.mobile_number}}</h5>
+        <p class="mb-0">{{invoicedetailsmaster?.address}}</p>
+        <!-- <p class="mb-0">75-9079921</p>
+              <p class="mb-0">kasandra</p> -->
+        <!-- </div> -->
       </div>
       <div class="col-12">
         <div class="table-responsive">
@@ -72,19 +81,30 @@
               <p class="text-muted mb-1 text-start">Sub Total :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.order_subtotal}}</p>
+              <p class="mb-1 text-end">₹{{invoicedetailsmaster?.order_subtotal}}</p>
             </div>
             <div class="col-6">
               <p class="text-muted mb-1 text-start">Discount :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end text-success">₹{{invoicedetailsmaster?.order_discount}}</p>
+              <p class="mb-1 text-end">₹{{invoicedetailsmaster?.order_discount}}</p>
             </div>
             <div class="col-6">
-              <p class="text-muted mb-1 text-start">Taxes :</p>
+              <p class="text-muted mb-1 text-start">CGST (9%) :</p>
             </div>
             <div class="col-6">
-              <p class="f-w-600 mb-1 text-end">₹{{invoicedetailsmaster?.order_tax}}</p>
+              <p class="mb-1 text-end">
+                ₹{{ (invoicedetailsmaster?.order_tax / 2) | number:'1.2-2' }}
+              </p>
+            </div>
+
+            <div class="col-6">
+              <p class="text-muted mb-1 text-start">SGST (9%) :</p>
+            </div>
+            <div class="col-6">
+              <p class="mb-1 text-end">
+                ₹{{ (invoicedetailsmaster?.order_tax / 2) | number:'1.2-2' }}
+              </p>
             </div>
             <div class="col-6">
               <p class="f-w-600 mb-1 text-start">Grand Total :</p>
@@ -96,8 +116,15 @@
         </div>
       </div>
       <div class="col-12">
-        <label class="form-label">Note</label>
-        <p class="mb-0">It was a pleasure working with you and your team. Thank You!</p>
+        <label class="form-label">Notes:</label>
+        <ul class="quotation-notes">
+          <li>ONESCREEN offers digital outdoor advertising through LED screens on mobile and fixed platforms, subject to
+            availability.</li>
+          <li>Campaigns start only after advance or full payment.</li>
+          <li>Clients are responsible for their ad content; ONESCREEN may reject content that is illegal, offensive, or
+            infringing.</li>
+          <li>ONESCREEN is not liable for indirect losses or delays due to technical or external factors.</li>
+        </ul>
       </div>
     </div>
   </div>
