@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "jLYL3ATkSyEm78O3nAvpNzg0m8O7xOfMxSZsR6XFEXg=",
+  "Hash": "esMblhkOcJTCUS5ZybvALzRe1t2ep3KeHCUhVsbxjSU=",
   "Source": "onescreen_api",
   "BasePath": "_content/onescreen_api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

@@ -3395,24 +3395,24 @@ namespace onescreenDAL.ProductManagement
 
                     string htmlContent = "<div style=\"font-family: Arial, sans-serif; font-size: 12px; color: #000;\"><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"><h1 style=\"margin: 0;\">QUOTATION</h1><p style=\"margin: 2px 0;\">Quotation# : <span style=\"color: #777;\">" + invoicedetailsmaster[0]?.quotation_number + " </span></p><p style=\"margin: 2px 0;\">Date : <span style=\"color: #777;\"> " + invoice_date + " </span></p></td><td style=\"width: 50%; text-align: right;\"><img style=\"max-width: 150px;\" src=\"https://onescreen.in/assets/images/onescreenlogo.png\" alt=\"\" /></td></tr></tbody></table><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%; text-align: right;\"><h4 style=\"margin: 0;\">GET ONESCREEN</h4><p style=\"margin: 0;\">3rd Floor, Shop No.302, International Finance Centre,</p><p style=\"margin: 0;\">Vesu, Surat, Gujarat - 395007</p><p style=\"margin: 0;\">India</p><p style=\"margin: 0;\"><strong> GSTIN: </strong> 24AAFFO2562E1ZK</p><br /><p style=\"margin: 0; color: #777;\">Bill To:</p><h4 style=\"margin: 0;\">"+ invoicedetailsmaster[0]?.fullname + "</h4><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.mobile_number + "</p><p style=\"margin: 0;\">"+ invoicedetailsmaster[0]?.address +"</p></td></tr></tbody></table><table style=\"width: 100%; border-collapse: collapse; margin-top: 10px;\"><thead><tr style=\"background: #f2f2f2;\"><th style=\"border: 1px solid #ddd; padding: 8px;\">#</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Name</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">SubTotal</th></tr></thead><tbody><tr>"+ lstaccheaderhtml +"</tr></tbody></table><table style=\"width: 100%; margin-top: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%;\"><table style=\"width: 100%;\"><tbody><tr><td style=\"width: 21.6908%;\">Sub Total :</td><td style=\"text-align: right; width: 73.905%;\">₹" + invoicedetailsmaster[0]?.quotation_subtotal + "</td></tr><tr><td style=\"width: 21.6908%;\">Discount :</td><td style=\"text-align: right; width: 73.905%;\">₹ " + invoicedetailsmaster[0]?.quotation_discount + "</td></tr><tr><td style=\"width: 21.6908%;\"><strong> Grand Total : </strong></td><td style=\"text-align: right; width: 73.905%;\"><strong> ₹ " + invoicedetailsmaster[0]?.quotation_total + " </strong></td></tr></tbody></table></td></tr></tbody></table><div style=\"margin-top: 20px;\"><p style=\"margin: 0; font-weight: bold;\">Notes:</p><ul style=\"font-size: 10px; color: #555; padding-left: 15px; margin-top: 5px;\"><li style=\"margin-bottom: 3px;\">ONESCREEN offers digital outdoor advertising through LED screens on mobile and fixed platforms.</li><li style=\"margin-bottom: 3px;\">Campaigns start only after advance or full payment.</li><li style=\"margin-bottom: 3px;\">Clients are responsible for their ad content.</li><li style=\"margin-bottom: 3px;\">ONESCREEN is not liable for delays due to external factors.</li></ul></div></div>";
 
-                    string downloadpath = Path.Combine("D:\\Repo\\repo_Communication\\Webdroids.Communication", "Download_Email_Attachment");
+                    string downloadpath = Path.Combine("D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\FileStorage", "Download_Email_Attachment");
 
                     var filename = invoicedetailsmaster[0]?.quotation_number + ".pdf";
                     string pdfPath = await pdfService.GeneratePdfFileAsync(htmlContent, downloadpath, filename);
 
-                    if (File.Exists(pdfPath))
-                    {
-                        string FileDestination = Path.Combine("C:\\www\\apnasociety\\api.apnasociety.com\\FileStorage", "Invoice_attachment");
-                        //string FileDestination = Path.Combine("D:\\Repo\\repo_apnasociety_panel\\apnasociety_api\\apnasociety_api\\FileStorage", "Invoice_attachment");
-                        string Filename = (FileDestination + "\\" + invoicedetailsmaster[0]?.quotation_number + ".pdf");
-                        if (!Directory.Exists(FileDestination))
-                        {
-                            Directory.CreateDirectory(FileDestination);
-                        }
-                        File.Copy(pdfPath, Filename, true);
+                    //if (File.Exists(pdfPath))
+                    //{
+                    //    //string FileDestination = Path.Combine("C:\\www\\apnasociety\\api.apnasociety.com\\FileStorage", "Invoice_attachment");
+                    //    string FileDestination = Path.Combine("D:\\Repo\\repo_onescreen\\onescreen_api\\onescreen_api\\FileStorage", "Invoice_attachment");
+                    //    string Filename = (FileDestination + "\\" + invoicedetailsmaster[0]?.quotation_number + ".pdf");
+                    //    if (!Directory.Exists(FileDestination))
+                    //    {
+                    //        Directory.CreateDirectory(FileDestination);
+                    //    }
+                    //    File.Copy(pdfPath, Filename, true);
 
 
-                    }
+                    //}
                 }
             }
             catch (Exception ex)

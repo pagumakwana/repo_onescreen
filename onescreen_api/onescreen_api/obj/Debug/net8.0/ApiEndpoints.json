@@ -150,6 +150,32 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.Common.CommonController",
+    "Method": "getwalletwidget",
+    "RelativePath": "api/common/getwalletwidget",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Common.CommonController",
     "Method": "RemoveFile",
     "RelativePath": "api/common/removefile",
     "HttpMethod": "POST",
@@ -398,6 +424,57 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "getportalconfig",
+    "RelativePath": "api/config/getportalconfig",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "config_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "config_name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
     "Method": "getuserconfig",
     "RelativePath": "api/config/getuserconfig",
     "HttpMethod": "GET",
@@ -433,6 +510,32 @@
       {
         "Name": "objclsUserModule",
         "Type": "onescreenModel.Configuration.userModuleModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.Configuration.ConfigurationController",
+    "Method": "manageportalconfig",
+    "RelativePath": "api/config/manageportalconfig",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objportalconfigModel",
+        "Type": "onescreenModel.Configuration.portalconfigModel",
         "IsRequired": true
       }
     ],
@@ -958,6 +1061,130 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "apply_coupon",
+    "RelativePath": "api/product/apply_coupon",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objusercoupon",
+        "Type": "onescreenModel.ProductManagement.user_coupon_model",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/product/create_order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_obj_dictionay",
+        "Type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.ProductManagement.Razorpay_OrderAttribute",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "get_pendingmediaupload",
+    "RelativePath": "api/product/get_pendingmediaupload",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "order_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "order_product_map_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "get_quote",
+    "RelativePath": "api/product/get_quote",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quote_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "getbrand",
     "RelativePath": "api/product/getbrand",
     "HttpMethod": "GET",
@@ -1006,7 +1233,99 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "coupon_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "coupon_code",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getinvoicedetails",
+    "RelativePath": "api/product/getinvoicedetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getleads",
+    "RelativePath": "api/product/getleads",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leads_id",
         "Type": "System.Int64",
         "IsRequired": false
       },
@@ -1089,6 +1408,78 @@
       },
       {
         "Name": "order_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getorderproduct",
+    "RelativePath": "api/product/getorderproduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search_date",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getprimedate",
+    "RelativePath": "api/product/getprimedate",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "date_id",
         "Type": "System.Int64",
         "IsRequired": false
       },
@@ -1219,6 +1610,98 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getpurchaseorder",
+    "RelativePath": "api/product/getpurchaseorder",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "purchase_order_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getquotedetails",
+    "RelativePath": "api/product/getquotedetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "quotation_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "getusercartdetail",
     "RelativePath": "api/product/getusercartdetail",
     "HttpMethod": "GET",
@@ -1226,8 +1709,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user_cart_mapping_id",
-        "Type": "System.Int64",
+        "Name": "batch_id",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -1306,6 +1789,139 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getwallet_transaction",
+    "RelativePath": "api/product/getwallet_transaction",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "wallet_transaction_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getwalletmaster",
+    "RelativePath": "api/product/getwalletmaster",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "wallet_master_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "getwithdrawal_request",
+    "RelativePath": "api/product/getwithdrawal_request",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "withdrawal_request_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "managebrand",
     "RelativePath": "api/product/managebrand",
     "HttpMethod": "POST",
@@ -1341,6 +1957,32 @@
       {
         "Name": "objcouponModel",
         "Type": "onescreenModel.ProductManagement.couponModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "manageleads",
+    "RelativePath": "api/product/manageleads",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objleadsModel",
+        "Type": "onescreenModel.ProductManagement.leadsModel",
         "IsRequired": true
       }
     ],
@@ -1462,6 +2104,32 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "managepurchaseorder",
+    "RelativePath": "api/product/managepurchaseorder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_purchase_order",
+        "Type": "onescreenModel.ProductManagement.purchaseorderModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "managevendor",
     "RelativePath": "api/product/managevendor",
     "HttpMethod": "POST",
@@ -1471,6 +2139,172 @@
       {
         "Name": "objvendorModel",
         "Type": "onescreenModel.ProductManagement.vendorModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "media_status_update",
+    "RelativePath": "api/product/media_status_update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_objmedia_status",
+        "Type": "onescreenModel.ProductManagement.media_status",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "media_upload",
+    "RelativePath": "api/product/media_upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_objmedia_upload",
+        "Type": "onescreenModel.ProductManagement.media_upload",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "mobile_verification",
+    "RelativePath": "api/product/mobile_verification",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objuser_verification",
+        "Type": "onescreenModel.ProductManagement.user_verification",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "raise_qumove_to_cartote",
+    "RelativePath": "api/product/move_to_cart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quotation_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "cart_master_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "move_to_order",
+    "RelativePath": "api/product/move_to_order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objordermaster",
+        "Type": "onescreenModel.ProductManagement.ordermaster",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "primedatdetails",
+    "RelativePath": "api/product/primedatdetails",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_objdatetimedetails",
+        "Type": "onescreenModel.ProductManagement.datetimedetails",
         "IsRequired": true
       }
     ],
@@ -1559,6 +2393,141 @@
     "ReturnTypes": [
       {
         "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "raise_quote",
+    "RelativePath": "api/product/raise_quote",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_quotation_model",
+        "Type": "onescreenModel.ProductManagement.quotation_model",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "remove_cart",
+    "RelativePath": "api/product/remove_cart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objremoveusercartModel",
+        "Type": "onescreenModel.ProductManagement.removeusercartModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "update_to_cart",
+    "RelativePath": "api/product/update_to_cart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "batch_id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "verify_order",
+    "RelativePath": "api/product/verify_order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objRazorpayPaymentResponse",
+        "Type": "onescreenModel.ProductManagement.RazorpayPaymentResponse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.ProductManagement.RazorpayPaymentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "wallet_withdrawal_req",
+    "RelativePath": "api/product/wallet_withdrawal_req",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objwallet_withdrawal",
+        "Type": "onescreenModel.ProductManagement.wallet_withdrawal",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1663,6 +2632,42 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "getcontactdetails",
+    "RelativePath": "api/UserManagement/getcontactdetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contact_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "start_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
     "Method": "getuserdetail",
     "RelativePath": "api/UserManagement/getuserdetail",
     "HttpMethod": "GET",
@@ -1698,6 +2703,32 @@
     "ReturnTypes": [
       {
         "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "managecontactdetails",
+    "RelativePath": "api/UserManagement/managecontactdetails",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objcontactdetails",
+        "Type": "onescreenModel.UserManagement.contact_details",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1844,6 +2875,32 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "update_userdetails",
+    "RelativePath": "api/UserManagement/update_userdetails",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objupdate_user",
+        "Type": "onescreenModel.UserManagement.update_user",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
     "Method": "ValidateUser",
     "RelativePath": "api/UserManagement/validateuser",
     "HttpMethod": "GET",
@@ -1853,6 +2910,104 @@
       {
         "Name": "usercode",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "wa_contactthank",
+    "RelativePath": "api/UserManagement/wa_contactthank",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "phone",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "whatsapp_sendotp",
+    "RelativePath": "api/UserManagement/wa_sendotp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "phone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "otp",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "wa_sendquote",
+    "RelativePath": "api/UserManagement/wa_sendquote",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flag",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "quote_id",
+        "Type": "System.Int64",
         "IsRequired": false
       }
     ],

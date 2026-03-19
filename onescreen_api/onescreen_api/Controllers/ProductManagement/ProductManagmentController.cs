@@ -720,5 +720,22 @@ namespace onescreen_api.Controllers.ProductManagement
                 return objProductManagement_BAL.managepurchaseorder(_purchase_order);
             }
         }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="quote_id"></param>
+        /// <returns></returns>
+        [Route("get_quote")]
+        [HttpGet]
+        public async Task<responseModel> get_quote(Int64 quote_id)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return await objProductManagement_BAL.get_quote(quote_id);
+            }
+        }
     }
 }

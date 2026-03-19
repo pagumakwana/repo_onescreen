@@ -395,6 +395,45 @@
         }
       }
     },
+    "/api/common/getwalletwidget": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/config/getuserconfig": {
       "get": {
         "tags": [
@@ -846,6 +885,134 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/getportalconfig": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "config_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "config_name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/manageportalconfig": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/portalconfigModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/portalconfigModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/portalconfigModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -2142,11 +2309,37 @@
         ],
         "parameters": [
           {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          },
+          {
             "name": "coupon_id",
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int64"
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "coupon_code",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
             }
           },
           {
@@ -2326,6 +2519,14 @@
             }
           },
           {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
             "name": "start_count",
             "in": "query",
             "schema": {
@@ -2416,6 +2617,54 @@
         }
       }
     },
+    "/api/product/remove_cart": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/removeusercartModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/removeusercartModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/removeusercartModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/product/getusercartdetail": {
       "get": {
         "tags": [
@@ -2423,11 +2672,11 @@
         ],
         "parameters": [
           {
-            "name": "user_cart_mapping_id",
+            "name": "batch_id",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -2594,6 +2843,1381 @@
               "text/json": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/create_order": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Razorpay_OrderAttribute"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Razorpay_OrderAttribute"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Razorpay_OrderAttribute"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/verify_order": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RazorpayPaymentResponse"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RazorpayPaymentResponse"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RazorpayPaymentResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RazorpayPaymentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RazorpayPaymentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RazorpayPaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/move_to_order": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ordermaster"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ordermaster"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ordermaster"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/apply_coupon": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_coupon_model"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_coupon_model"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_coupon_model"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/get_pendingmediaupload": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "order_product_map_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/media_status_update": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_status"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_status"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_status"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/media_upload": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_upload"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_upload"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/media_upload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/mobile_verification": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_verification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_verification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_verification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getwithdrawal_request": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "withdrawal_request_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getwallet_transaction": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wallet_transaction_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/wallet_withdrawal_req": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/wallet_withdrawal"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/wallet_withdrawal"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/wallet_withdrawal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getwalletmaster": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wallet_master_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getinvoicedetails": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/update_to_cart": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getorderproduct": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "search_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "null"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/primedatdetails": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/datetimedetails"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/datetimedetails"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/datetimedetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getprimedate": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "all"
+            }
+          },
+          {
+            "name": "date_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/raise_quote": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/quotation_model"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/quotation_model"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/quotation_model"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getquotedetails": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "quotation_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/move_to_cart": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "quotation_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "cart_master_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getleads": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leads_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/manageleads": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/leadsModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/leadsModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/leadsModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/getpurchaseorder": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "purchase_order_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/managepurchaseorder": {
+      "post": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/purchaseorderModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/purchaseorderModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/purchaseorderModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/get_quote": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
                 }
               }
             }
@@ -3061,6 +4685,112 @@
         }
       }
     },
+    "/api/UserManagement/getcontactdetails": {
+      "get": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "contact_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "start_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          },
+          {
+            "name": "end_count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/managecontactdetails": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_details"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_details"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_details"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/UserManagement/profilepicture": {
       "post": {
         "tags": [
@@ -3085,6 +4815,197 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/update_userdetails": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update_user"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update_user"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/update_user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/wa_sendotp": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "otp",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/wa_sendquote": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "quote_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/wa_contactthank": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3151,6 +5072,81 @@
   },
   "components": {
     "schemas": {
+      "RazorpayPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "razorpay_order_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "razorpay_payment_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "razorpay_signature": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Razorpay_OrderAttribute": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "amount_due": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "amount_paid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "attempts": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "entity": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "nullable": true
+          },
+          "offer_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "receipt": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "WeatherForecast": {
         "type": "object",
         "properties": {
@@ -3866,6 +5862,10 @@
             "type": "string",
             "nullable": true
           },
+          "route_file": {
+            "type": "string",
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -4027,6 +6027,140 @@
         },
         "additionalProperties": false
       },
+      "contact_details": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "contact_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_no": {
+            "type": "string",
+            "nullable": true
+          },
+          "subject_line": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "controlsModel": {
         "type": "object",
         "properties": {
@@ -4148,7 +6282,8 @@
           },
           "module_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "modulename": {
             "type": "string",
@@ -4163,11 +6298,13 @@
             "nullable": true
           },
           "allowaccess": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "authority_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4281,7 +6418,8 @@
           },
           "coupon_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "coupon_code": {
             "type": "string",
@@ -4300,7 +6438,136 @@
             "nullable": true
           },
           "isdisable": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "datetimedetails": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "date_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "prime_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "date_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "prime_description": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4601,6 +6868,380 @@
         },
         "additionalProperties": false
       },
+      "leadsModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "leads_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_verify_otp": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "additional_details": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "media_status": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "order_product_map_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "is_media_approved": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "media_comments": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "media_upload": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "order_product_map_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "optiontype_list": {
         "type": "object",
         "properties": {
@@ -4720,6 +7361,194 @@
           },
           "title": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ordermaster": {
+        "type": "object",
+        "properties": {
+          "lst_ordermaster": {
+            "$ref": "#/components/schemas/userorderMaster"
+          },
+          "lst_orderdetail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userorderhistoryModel"
+            },
+            "nullable": true
+          },
+          "lst_orderproduct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userorderproductModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "portalcategoryModel": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "portalconfigModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "config_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "config_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "config_value": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "config_data": {
+            "type": "string",
+            "nullable": true
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "config_type": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "lstportalconfig": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/portalcategoryModel"
+            },
             "nullable": true
           }
         },
@@ -4848,9 +7677,39 @@
           },
           "price_delta": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
+          },
+          "price_delta_prime": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rep_option_value_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "rep_option_value": {
+            "type": "string",
+            "nullable": true
+          },
+          "rep_price_delta": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rep_price_delta_prime": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           },
           "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "option_value_parent_id": {
             "type": "integer",
             "format": "int64",
             "nullable": true
@@ -5027,7 +7886,7 @@
             "type": "string",
             "nullable": true
           },
-          "base_price": {
+          "base_amount": {
             "type": "number",
             "format": "double",
             "nullable": true
@@ -5078,6 +7937,27 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/productAttributeModel"
+            },
+            "nullable": true
+          },
+          "lstintervalattribute": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/productAttributeModel"
+            },
+            "nullable": true
+          },
+          "lstuserproductcommission": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userproductcommissionModel"
+            },
+            "nullable": true
+          },
+          "lst_latest_attr": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/productintrepmap"
             },
             "nullable": true
           }
@@ -5193,7 +8073,8 @@
           },
           "option_type_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -5201,7 +8082,8 @@
           },
           "display_order": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -5315,7 +8197,8 @@
           },
           "option_value_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "option_type_id": {
             "type": "integer",
@@ -5334,9 +8217,20 @@
             "format": "double",
             "nullable": true
           },
+          "price_delta_prime": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "display_order": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
+          },
+          "option_value_parent_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "lstoptiontype": {
             "type": "array",
@@ -5509,6 +8403,140 @@
         },
         "additionalProperties": false
       },
+      "productintrepmap": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "interval_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "interval_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "repetition_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "repetition_price": {
+            "type": "number",
+            "format": "double"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "productpropertyCategoryModel": {
         "type": "object",
         "properties": {
@@ -5531,6 +8559,124 @@
             "format": "int64"
           },
           "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "productuserModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_name": {
             "type": "string",
             "nullable": true
           }
@@ -5655,20 +8801,797 @@
         },
         "additionalProperties": false
       },
-      "projectuserModel": {
+      "purchaseorderModel": {
         "type": "object",
         "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
           "project_id": {
             "type": "integer",
-            "format": "int64"
-          },
-          "user_id": {
-            "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "projectname": {
             "type": "string",
             "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "purchase_order_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "purchase_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "quotation_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "quotation_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "coupon_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "purchase_order_total": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "purchase_order_subtotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "purchase_order_discount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "purchase_order_tax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "purchase_order_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_details": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_details": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "lstpurchaseproduct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/quoteproductModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "quotation_model": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "quotation_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "coupon_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quotation_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "quotation_total": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "quotation_subtotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "quotation_discount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "quotation_tax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "quotation_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_po": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sales_person_details": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_details": {
+            "type": "string",
+            "nullable": true
+          },
+          "lst_quoteproduct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/quoteproductModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "quoteproductModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "quotation_product_map_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "purchase_order_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "purchorder_product_mapid": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "quotation_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_cart_mapping_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "timeslot_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "timeslot_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeslot_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "repetition_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "repetition_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "repetition_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "interval_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "interval_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "interval_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "route_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "route_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "from_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "to_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "base_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "attribute_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "total_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "removeusercartModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "user_cart_mapping_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "attribute_amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "total_amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "sub_amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "base_amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "tax_amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -5941,6 +9864,127 @@
           "displayorder": {
             "type": "integer",
             "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "update_user": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6224,17 +10268,23 @@
             "type": "string",
             "nullable": true
           },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "commission": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "lstauthority": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/authorityuserModel"
-            },
-            "nullable": true
-          },
-          "lstproject": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/projectuserModel"
             },
             "nullable": true
           },
@@ -6245,8 +10295,31 @@
             },
             "nullable": true
           },
+          "lstproduct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/productuserModel"
+            },
+            "nullable": true
+          },
+          "lstcontrol": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/controlsModel"
+            },
+            "nullable": true
+          },
           "password": {
             "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "batch_id": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },
@@ -6375,11 +10448,13 @@
           },
           "module_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "module_parent_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "moduleicon": {
             "type": "string",
@@ -6403,11 +10478,13 @@
           },
           "authority_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "category_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "lstcategory": {
             "type": "array",
@@ -6565,7 +10642,7 @@
         },
         "additionalProperties": false
       },
-      "usercartMaster": {
+      "user_coupon_model": {
         "type": "object",
         "properties": {
           "flag": {
@@ -6671,9 +10748,288 @@
             },
             "nullable": true
           },
-          "cart_master_id": {
+          "coupon_cart_mapid": {
             "type": "integer",
             "format": "int64"
+          },
+          "coupon_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cart_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_ids": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "user_verification": {
+        "type": "object",
+        "properties": {
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "otp_code": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "usercartMaster": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "batch_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "coupon_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "coupon_code": {
+            "type": "string",
+            "nullable": true
+          },
+          "cart_total": {
+            "type": "number",
+            "format": "double"
+          },
+          "cart_subtotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "cart_discount": {
+            "type": "number",
+            "format": "double"
+          },
+          "cart_tax": {
+            "type": "number",
+            "format": "double"
           },
           "lst_cart_product": {
             "type": "array",
@@ -6793,11 +11149,13 @@
           },
           "cart_master_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "product_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "product_name": {
             "type": "string",
@@ -6808,6 +11166,10 @@
             "format": "int64",
             "nullable": true
           },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
           "fullname": {
             "type": "string",
             "nullable": true
@@ -6816,15 +11178,19 @@
             "type": "string",
             "nullable": true
           },
-          "total_amount": {
-            "type": "number",
-            "format": "double"
-          },
           "attribute_amount": {
             "type": "number",
             "format": "double"
           },
+          "total_amount": {
+            "type": "number",
+            "format": "double"
+          },
           "base_amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "date_total": {
             "type": "number",
             "format": "double"
           },
@@ -7148,6 +11514,686 @@
         },
         "additionalProperties": false
       },
+      "userorderMaster": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "order_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "coupon_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "order_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "payment_type": {
+            "type": "string",
+            "nullable": true
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "payment_order_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "payment_response": {
+            "type": "string",
+            "nullable": true
+          },
+          "order_total": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "order_subtotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "order_discount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "order_tax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "order_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "payment_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "referal_person_mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "lst_orderdetail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userorderhistoryModel"
+            },
+            "nullable": true
+          },
+          "lst_orderproduct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userorderproductModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userorderhistoryModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "order_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "order_history_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "optionvalues": {
+            "type": "string",
+            "nullable": true
+          },
+          "optionvaluesParsed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userorderproductModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userorderproductModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "order_product_map_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "order_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "cart_master_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "ismonthly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "timeslot_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "timeslot_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeslot_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "repetition_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "repetition_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "repetition_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "interval_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "interval_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "interval_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "route_category_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "route_category": {
+            "type": "string",
+            "nullable": true
+          },
+          "from_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "to_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "base_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "attribute_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "total_amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "userproductcommissionModel": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "user_product_comm_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "commission": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "vendorModel": {
         "type": "object",
         "properties": {
@@ -7287,9 +12333,148 @@
         "properties": {
           "vendor_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "contact_person_name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "wallet_withdrawal": {
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "nullable": true
+          },
+          "metatitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "metakeywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_count": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "client_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "clientname": {
+            "type": "string",
+            "nullable": true
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "projectname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdname": {
+            "type": "string",
+            "nullable": true
+          },
+          "createddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedby": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "updatedname": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateddatetime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isactive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isdeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "response": {
+            "type": "string",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "filemanager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fileInfoModel"
+            },
+            "nullable": true
+          },
+          "withdrawal_request_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "wallet_master_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "is_approved": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "comment": {
             "type": "string",
             "nullable": true
           }

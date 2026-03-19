@@ -18,13 +18,13 @@
       },
       "Azure.Core/1.38.0": {
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.3",
           "System.ClientModel": "1.0.0",
           "System.Diagnostics.DiagnosticSource": "10.0.3",
           "System.Memory.Data": "1.0.2",
           "System.Numerics.Vectors": "4.6.0",
-          "System.Text.Encodings.Web": "8.0.0",
-          "System.Text.Json": "4.7.2",
+          "System.Text.Encodings.Web": "10.0.3",
+          "System.Text.Json": "10.0.3",
           "System.Threading.Tasks.Extensions": "4.6.0"
         },
         "runtime": {
@@ -41,7 +41,7 @@
           "Microsoft.Identity.Client.Extensions.Msal": "4.61.3",
           "System.Memory": "4.6.0",
           "System.Security.Cryptography.ProtectedData": "9.0.2",
-          "System.Text.Json": "4.7.2",
+          "System.Text.Json": "10.0.3",
           "System.Threading.Tasks.Extensions": "4.6.0"
         },
         "runtime": {
@@ -107,7 +107,7 @@
       "Microsoft.AspNetCore.Connections.Abstractions/2.3.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "2.3.0",
-          "System.IO.Pipelines": "8.0.0"
+          "System.IO.Pipelines": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Connections.Abstractions.dll": {
@@ -224,7 +224,7 @@
       "Microsoft.AspNetCore.Http.Abstractions/2.3.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "2.3.0",
-          "System.Text.Encodings.Web": "8.0.0"
+          "System.Text.Encodings.Web": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {
@@ -307,7 +307,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "10.0.3",
           "Microsoft.Extensions.Options": "10.0.3",
           "System.Buffers": "4.6.0",
-          "System.IO.Pipelines": "8.0.0",
+          "System.IO.Pipelines": "10.0.3",
           "System.Memory": "4.6.0",
           "System.Numerics.Vectors": "4.6.0",
           "System.Runtime.CompilerServices.Unsafe": "6.1.0",
@@ -326,7 +326,7 @@
           "Microsoft.AspNetCore.Server.Kestrel.Core": "2.3.0",
           "Microsoft.AspNetCore.Server.Kestrel.Https": "2.3.0",
           "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.3.0",
-          "System.IO.Pipelines": "8.0.0"
+          "System.IO.Pipelines": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.dll": {
@@ -373,7 +373,7 @@
       "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.3.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Connections.Abstractions": "2.3.0",
-          "System.IO.Pipelines": "8.0.0"
+          "System.IO.Pipelines": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll": {
@@ -398,7 +398,7 @@
       "Microsoft.AspNetCore.WebUtilities/2.3.0": {
         "dependencies": {
           "Microsoft.Net.Http.Headers": "2.3.0",
-          "System.Text.Encodings.Web": "8.0.0"
+          "System.Text.Encodings.Web": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.WebUtilities.dll": {
@@ -407,11 +407,11 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
+      "Microsoft.Bcl.AsyncInterfaces/10.0.3": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "4.700.20.21406"
+            "assemblyVersion": "10.0.0.3",
+            "fileVersion": "10.0.326.7603"
           }
         }
       },
@@ -502,17 +502,17 @@
           "runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-arm64",
             "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "6.2.0.0"
           },
           "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "6.2.0.0"
           },
           "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-x86",
             "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "6.2.0.0"
           }
         }
       },
@@ -990,6 +990,20 @@
           }
         }
       },
+      "PuppeteerSharp/24.39.1": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.3",
+          "Microsoft.Extensions.Logging": "10.0.3",
+          "System.Text.Json": "10.0.3",
+          "WebDriverBiDi": "0.0.45"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "24.39.1.0",
+            "fileVersion": "24.39.1.0"
+          }
+        }
+      },
       "Razorpay/3.2.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
@@ -1006,7 +1020,7 @@
       "System.ClientModel/1.0.0": {
         "dependencies": {
           "System.Memory.Data": "1.0.2",
-          "System.Text.Json": "4.7.2"
+          "System.Text.Json": "10.0.3"
         },
         "runtime": {
           "lib/net6.0/System.ClientModel.dll": {
@@ -1047,7 +1061,7 @@
             "rid": "win",
             "assetType": "runtime",
             "assemblyVersion": "9.0.0.0",
-            "fileVersion": "9.0.225.6610"
+            "fileVersion": "0.0.0.0"
           },
           "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll": {
             "rid": "win",
@@ -1070,19 +1084,19 @@
           }
         }
       },
-      "System.IO.Pipelines/8.0.0": {
+      "System.IO.Pipelines/10.0.3": {
         "runtime": {
           "lib/net8.0/System.IO.Pipelines.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.326.7603"
           }
         }
       },
       "System.Memory/4.6.0": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
-          "System.Text.Encodings.Web": "8.0.0",
-          "System.Text.Json": "4.7.2"
+          "System.Text.Encodings.Web": "10.0.3",
+          "System.Text.Json": "10.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/System.Memory.Data.dll": {
@@ -1124,14 +1138,49 @@
         }
       },
       "System.Security.Principal.Windows/5.0.0": {},
-      "System.Text.Encodings.Web/8.0.0": {},
-      "System.Text.Json/4.7.2": {},
+      "System.Text.Encodings.Web/10.0.3": {
+        "runtime": {
+          "lib/net8.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.326.7603"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll": {
+            "rid": "browser",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.326.7603"
+          }
+        }
+      },
+      "System.Text.Json/10.0.3": {
+        "dependencies": {
+          "System.IO.Pipelines": "10.0.3",
+          "System.Text.Encodings.Web": "10.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/System.Text.Json.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.326.7603"
+          }
+        }
+      },
       "System.Threading.Tasks.Extensions/4.6.0": {},
+      "WebDriverBiDi/0.0.45": {
+        "runtime": {
+          "lib/net8.0/WebDriverBiDi.dll": {
+            "assemblyVersion": "0.0.45.0",
+            "fileVersion": "0.0.45.0"
+          }
+        }
+      },
       "onescreen.DataAccessLayer/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore": "2.3.0",
           "Microsoft.Extensions.Http": "10.0.3",
           "Newtonsoft.Json": "13.0.3",
+          "PuppeteerSharp": "24.39.1",
           "Razorpay": "3.2.0",
           "onescreen.HelperLayer": "1.0.0",
           "onescreen.ModelLayer": "1.0.0"
@@ -1353,12 +1402,12 @@
       "path": "microsoft.aspnetcore.webutilities/2.3.0",
       "hashPath": "microsoft.aspnetcore.webutilities.2.3.0.nupkg.sha512"
     },
-    "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
+    "Microsoft.Bcl.AsyncInterfaces/10.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yuvf07qFWFqtK3P/MRkEKLhn5r2UbSpVueRziSqj0yJQIKFwG1pq9mOayK3zE5qZCTs0CbrwL9M6R8VwqyGy2w==",
-      "path": "microsoft.bcl.asyncinterfaces/1.1.1",
-      "hashPath": "microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512"
+      "sha512": "sha512-TV62UsrJZPX6gbt3c4WrtXh7bmaDIcMqf9uft1cc4L6gJXOU07hDGEh+bFQh/L2Az0R1WVOkiT66lFqS6G2NmA==",
+      "path": "microsoft.bcl.asyncinterfaces/10.0.3",
+      "hashPath": "microsoft.bcl.asyncinterfaces.10.0.3.nupkg.sha512"
     },
     "Microsoft.Bcl.Cryptography/8.0.0": {
       "type": "package",
@@ -1661,6 +1710,13 @@
       "path": "portable.bouncycastle/1.9.0",
       "hashPath": "portable.bouncycastle.1.9.0.nupkg.sha512"
     },
+    "PuppeteerSharp/24.39.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RCKyk1wqutXytk3Cb//XxrK7ouaBoN5UvEaOQRQ3TRPqVLimDgBpumZlVLyg4XMeI7FkoPh/2QQ865mFINCFDQ==",
+      "path": "puppeteersharp/24.39.1",
+      "hashPath": "puppeteersharp.24.39.1.nupkg.sha512"
+    },
     "Razorpay/3.2.0": {
       "type": "package",
       "serviceable": true,
@@ -1717,12 +1773,12 @@
       "path": "system.identitymodel.tokens.jwt/7.5.0",
       "hashPath": "system.identitymodel.tokens.jwt.7.5.0.nupkg.sha512"
     },
-    "System.IO.Pipelines/8.0.0": {
+    "System.IO.Pipelines/10.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-FHNOatmUq0sqJOkTx+UF/9YK1f180cnW5FVqnQMvYUN0elp6wFzbtPSiqbo1/ru8ICp43JM1i7kKkk6GsNGHlA==",
-      "path": "system.io.pipelines/8.0.0",
-      "hashPath": "system.io.pipelines.8.0.0.nupkg.sha512"
+      "sha512": "sha512-WMxiA2jGdHnRBmoVK55YUq5VPaxW0Sg2frPtXV+urUMvpqHIga6lleV/YuryHIuGsAKVjQAjv6PrQ6IJpoLohQ==",
+      "path": "system.io.pipelines/10.0.3",
+      "hashPath": "system.io.pipelines.10.0.3.nupkg.sha512"
     },
     "System.Memory/4.6.0": {
       "type": "package",
@@ -1787,19 +1843,19 @@
       "path": "system.security.principal.windows/5.0.0",
       "hashPath": "system.security.principal.windows.5.0.0.nupkg.sha512"
     },
-    "System.Text.Encodings.Web/8.0.0": {
+    "System.Text.Encodings.Web/10.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ==",
-      "path": "system.text.encodings.web/8.0.0",
-      "hashPath": "system.text.encodings.web.8.0.0.nupkg.sha512"
+      "sha512": "sha512-l8QNBPp92bVzl9Kw8nNtm1uYRNNhUrdulZjM4a8YK/QGNa8z9utKsC0bDoPB+Vq8LOlbD3fIyGlabtz80jT7cw==",
+      "path": "system.text.encodings.web/10.0.3",
+      "hashPath": "system.text.encodings.web.10.0.3.nupkg.sha512"
     },
-    "System.Text.Json/4.7.2": {
+    "System.Text.Json/10.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TcMd95wcrubm9nHvJEQs70rC0H/8omiSGGpU4FQ/ZA1URIqD4pjmFJh2Mfv1yH1eHgJDWTi2hMDXwTET+zOOyg==",
-      "path": "system.text.json/4.7.2",
-      "hashPath": "system.text.json.4.7.2.nupkg.sha512"
+      "sha512": "sha512-NTUt9DL+maqbgrIYCAmeZUbX0NoXaueySyjW/bdOlFdSUDC1l51XnsbVEuj5tuad12vdq5Sviskp9uMVGgCNLw==",
+      "path": "system.text.json/10.0.3",
+      "hashPath": "system.text.json.10.0.3.nupkg.sha512"
     },
     "System.Threading.Tasks.Extensions/4.6.0": {
       "type": "package",
@@ -1807,6 +1863,13 @@
       "sha512": "sha512-I5G6Y8jb0xRtGUC9Lahy7FUvlYlnGMMkbuKAQBy8Jb7Y6Yn8OlBEiUOY0PqZ0hy6Ua8poVA1ui1tAIiXNxGdsg==",
       "path": "system.threading.tasks.extensions/4.6.0",
       "hashPath": "system.threading.tasks.extensions.4.6.0.nupkg.sha512"
+    },
+    "WebDriverBiDi/0.0.45": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lMQhMh32mqZCIBOkEP5DX+vtuoImuyKEAotqw33OuTZUgFFUFl+tEVPZ8fTIhsTCAXp5Nbhy2d3FeVxHYLehFw==",
+      "path": "webdriverbidi/0.0.45",
+      "hashPath": "webdriverbidi.0.0.45.nupkg.sha512"
     },
     "onescreen.DataAccessLayer/1.0.0": {
       "type": "project",
