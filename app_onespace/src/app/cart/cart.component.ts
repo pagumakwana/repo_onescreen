@@ -993,10 +993,14 @@ export class CartComponent implements OnInit {
         this._webDService.raise_quote(this._quotedetails).subscribe((resquote: any) => {
           if (resquote && resquote.includes('newsuccess')) {
             let quotation_id = resquote.split('~')[1];
+            this._webDService.get_quote(quotation_id).subscribe((res: any) => {
+              if (res && res?.data != 'nofile') {
+                this._webDService.wa_sendquote('QUOTE', quotation_id,res.data).subscribe((res: any) => {
+                  console.log("wa_sendquote OTP", quotation_id)
+                });
+              }
 
-            this._webDService.wa_sendquote('QUOTE', quotation_id).subscribe((res: any) => {
-              console.log("wa_sendquote OTP", quotation_id)
-            })
+            });
             this.qoutesuccessSwal.fire();
             setTimeout(() => {
               this.qoutesuccessSwal.close();

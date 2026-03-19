@@ -243,5 +243,7 @@ namespace onescreenModel.Common
         public const string channelType = "whatsapp";
         public const string request_url = "https://server.gallabox.com/devapi/messages/whatsapp";
         public const string get_quote = "[dbo].[get_quote]";
+        public const string get_po = "[dbo].[get_po]";
+        public const string get_inv = "[dbo].[get_inv]";
     }
 }

@@ -4,6 +4,7 @@ using onescreenModel.Common;
 using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -157,11 +158,11 @@ namespace onescreenBAL.UserManagement
             }
         }
 
-        public async Task<string> wa_sendquote(string flag, Int64 quote_id)
+        public async Task<string> wa_sendquote(string flag, Int64 quote_id,string fpath)
         {
             using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
             {
-                return await objUserManagement_DAL.wa_sendquote(flag,quote_id);
+                return await objUserManagement_DAL.wa_sendquote(flag,quote_id,fpath);
             }
         }
 

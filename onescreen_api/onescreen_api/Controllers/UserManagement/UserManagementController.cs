@@ -254,11 +254,11 @@ namespace onescreen_api.Controllers.UserManagement
         /// <returns></returns>
         [Route("wa_sendquote")]
         [HttpPost]
-        public async Task<string> wa_sendquote(string flag, Int64 quote_id)
+        public async Task<string> wa_sendquote(string flag, Int64 quote_id,string fpath)
         {
             using (UserManagement_BAL objUserManagement_BAL = new UserManagement_BAL(_httpContextAccessor))
             {
-                return await objUserManagement_BAL.wa_sendquote(flag,quote_id);
+                return await objUserManagement_BAL.wa_sendquote(flag,quote_id,fpath);
             }
         }
 

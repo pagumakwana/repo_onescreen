@@ -367,6 +367,14 @@ namespace onescreenBAL.ProductManagement
             }
         }
 
+        public async Task<responseModel> get_po(Int64 po_id)
+        {
+            using (ProductManagement_DAL objProductManagement_DAL = new ProductManagement_DAL(_httpContextAccessor))
+            {
+                return await objProductManagement_DAL.get_po(po_id);
+            }
+        }
+
         public void Dispose() 
         { 
         }

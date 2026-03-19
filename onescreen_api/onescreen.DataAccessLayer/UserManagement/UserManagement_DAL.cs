@@ -9,6 +9,7 @@ using onescreenModel.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Numerics;
@@ -1026,7 +1027,7 @@ namespace onescreenDAL.UserManagement
             }
         }
 
-        public async Task<string> wa_sendquote(string flag,Int64 quote_id)
+        public async Task<string> wa_sendquote(string flag,Int64 quote_id,string fpath)
         {
             try
             {
@@ -1070,9 +1071,9 @@ namespace onescreenDAL.UserManagement
                                     type = "template",
                                     template = new
                                     {
-                                        templateName = flag=="QUOTE" ? "gos_generate_quotation": "gos_tax_invoice",
-                                        headerValues =  new  {
-                                        mediaUrl= "https://files.gallabox.com/6415921d8a6e5b7dbaeba8b7/8a5e5295-d878-40dd-8814-23160417c929-Quotation.pdf",
+                                        templateName = flag == "QUOTE" ? "gos_generate_quotation" : "gos_tax_invoice",
+                                        headerValues = new {
+                                            mediaUrl = fpath,// "https://files.gallabox.com/6415921d8a6e5b7dbaeba8b7/8a5e5295-d878-40dd-8814-23160417c929-Quotation.pdf",
                                         mediaName = "Quotation.pdf"
                                     }
                                   }

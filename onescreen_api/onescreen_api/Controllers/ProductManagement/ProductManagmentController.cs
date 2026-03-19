@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using onescreenBAL.ProductManagement;
@@ -735,6 +736,21 @@ namespace onescreen_api.Controllers.ProductManagement
             using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
             {
                 return await objProductManagement_BAL.get_quote(quote_id);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="po_id"></param>
+        /// <returns></returns>
+        [Route("get_po")]
+        [HttpGet]
+        public async Task<responseModel> get_po(Int64 po_id)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return await objProductManagement_BAL.get_po(po_id);
             }
         }
     }

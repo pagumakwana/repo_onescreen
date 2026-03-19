@@ -99,10 +99,28 @@ namespace onescreen.DataAccessLayer.Pdf_Service
                 // Create new page for this PDF
                 await using var page = await _browser.NewPageAsync();
 
+                //await page.SetContentAsync(htmlContent, new NavigationOptions
+                //{
+                //    WaitUntil = new[] { WaitUntilNavigation.Networkidle0 }
+                //});
+                page.DefaultTimeout = 0;
+                page.DefaultNavigationTimeout = 0;
+
+                await page.SetRequestInterceptionAsync(true);
+                page.Request += async (sender, e) =>
+                {
+                    if (e.Request.Url.StartsWith("http"))
+                        await e.Request.AbortAsync();
+                    else
+                        await e.Request.ContinueAsync();
+                };
+
                 await page.SetContentAsync(htmlContent, new NavigationOptions
                 {
-                    WaitUntil = new[] { WaitUntilNavigation.Networkidle0 }
+                    WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded }
                 });
+
+                //await page.WaitForTimeoutAsync(500);
 
                 await page.PdfAsync(fullPath, new PdfOptions
                 {
