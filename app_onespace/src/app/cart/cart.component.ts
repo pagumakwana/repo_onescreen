@@ -1086,6 +1086,7 @@ export class CartComponent implements OnInit {
             let purchase_order_id = respurchaseorder.split('~')[1];
             this._webDService.get_po(purchase_order_id).subscribe((res: any) => {
               let _obj = Array.isArray(res.data) ? res?.data[0] : [];
+              debugger
               if (_obj && _obj != "" && _obj != null && _obj != undefined) {
                 _obj = { ..._obj, name: 'Performa invoice' };
                 let _finalobj = {

@@ -782,7 +782,7 @@ export class WebDService {
     }
 
     public get_po(purchase_order_id = 0) {
-        return this._base._apiService.get(`${ApiConstant.product.get_po}?purchase_order_id=${purchase_order_id}`);
+        return this._base._apiService.get(`${ApiConstant.product.get_po}?po_id=${purchase_order_id}`);
     }
      public quotationonescreen(_data:any) {
         return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/quotationOnescreen`, _data);
