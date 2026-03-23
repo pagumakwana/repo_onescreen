@@ -3330,13 +3330,13 @@ namespace onescreenDAL.ProductManagement
                               lst_quoteproduct = lstquotationproduct
                           }).ToList();
                     }
-                    var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
+                    //var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
 
-                    await pdfService.InitializeAsync();
+                    //await pdfService.InitializeAsync();
 
-                    string fpath = await generate_pdf(lstquotation, pdfService);
+                    //string fpath = await generate_pdf(lstquotation, pdfService);
 
-                    response.data = fpath;
+                    response.data = lstquotation;
                     response.count = 1;
                 }
                 return response;
@@ -3490,13 +3490,13 @@ namespace onescreenDAL.ProductManagement
                               lstpurchaseproduct = lstquotationproduct
                           }).ToList();
                     }
-                    var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
+                    //var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
 
-                    await pdfService.InitializeAsync();
+                    //await pdfService.InitializeAsync();
 
-                    string fpath = await generate_PO_pdf(lstpurchaseorder, pdfService);
+                    //string fpath = await generate_PO_pdf(lstpurchaseorder, pdfService);
 
-                    response.data = fpath;
+                    response.data = lstpurchaseorder;
                     response.count = 1;
                 }
                 return response;

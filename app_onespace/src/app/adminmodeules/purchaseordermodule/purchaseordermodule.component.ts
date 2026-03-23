@@ -48,12 +48,13 @@ export class PurchaseordermoduleComponent {
   tableConfig: dataTableConfig = {
     tableData: [],
     displayPaging: true,
-    tableTitle: 'Purchase Order',
+    tableTitle: 'Performa invoice',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
       // { identifer: "order_number", title: "Order#", type: "link" },
-      { identifer: "purchase_number", title: "Purchase Number", type: "text" },
+      { identifer: "purchase_number", title: "Performa invoice Number", type: "text" },
       { identifer: "quotation_number", title: "Quotation Number", type: "text" },
+      { identifer: "createdname", title: "Created By", type: "text" },
       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'View', class: 'btn btn-primary btn-sm', iconClass: 'fa fa-eye' }] },
     ],
     isCustom: {

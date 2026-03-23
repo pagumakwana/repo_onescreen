@@ -114,7 +114,7 @@
                 <div class="text-end btn-page mb-0 mt-4 p-10 d-flex justify-content-end align-items-center gap-2">
                   <div *ngIf="this._base._commonService.hasAccessofcontrol('admin_raisedpo_raisepobtn')">
                     <button class="btn btn-primary" (click)="add_po_modal()" type="button">
-                      Add to PO
+                      Performa invoice
                     </button>
                   </div>
 
@@ -637,7 +637,7 @@
 
 <ng-template #formRaiseQuote let-modal>
   <div class="modal-header">
-    <h4>{{ isAddToPO ? 'Add to PO' : 'Raise Quotation' }}</h4>
+    <h4>{{ isAddToPO ? 'Performa invoice' : 'Raise Quotation' }}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
 
@@ -685,7 +685,7 @@
       <swal #qoutesuccessSwal [swalOptions]="swalOptions" title="Quotation Raised." text="" icon="success"
         [showConfirmButton]="false">
       </swal>
-      <swal #posuccessSwal [swalOptions]="swalOptions" title="Added to PO." text="" icon="success"
+      <swal #posuccessSwal [swalOptions]="swalOptions" title="Added to Performa invoice." text="" icon="success"
         [showConfirmButton]="false">
       </swal>
     </form>

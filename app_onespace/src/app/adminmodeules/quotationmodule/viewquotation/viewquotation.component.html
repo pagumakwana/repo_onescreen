@@ -136,12 +136,12 @@
     <a class="btn btn-outline-primary" routerLink="/app/orders">Cancel</a>
     <button class="btn btn-outline-primary btn-print-invoice" (click)="downloadPDF()">Download</button>
     <button class="btn btn-outline-primary btn-print-invoice" *ngIf="invoicedetailsmaster?.is_po != 1" (click)="move_to_cart()">Move To Cart</button>
-    <button class="btn btn-outline-primary btn-print-invoice" (click)="add_to_po()">Add to PO</button>
+    <button class="btn btn-outline-primary btn-print-invoice" (click)="add_to_po()">Performa invoice</button>
   </div>
   <swal #movesuccessSwal [swalOptions]="swalOptions" title="Moved to Cart." text="" icon="success"
     [showConfirmButton]="false">
   </swal>
-  <swal #addsuccessSwal [swalOptions]="swalOptions" title="Added to PO." text="" icon="success"
+  <swal #addsuccessSwal [swalOptions]="swalOptions" title="Added to Performa invoice." text="" icon="success"
     [showConfirmButton]="false">
   </swal>
 </div>

@@ -994,9 +994,22 @@ export class CartComponent implements OnInit {
           if (resquote && resquote.includes('newsuccess')) {
             let quotation_id = resquote.split('~')[1];
             this._webDService.get_quote(quotation_id).subscribe((res: any) => {
-              if (res && res?.data != 'nofile') {
-                this._webDService.wa_sendquote('QUOTE', quotation_id,res.data).subscribe((res: any) => {
-                  console.log("wa_sendquote OTP", quotation_id)
+              let _obj = Array.isArray(res.data) ? res?.data[0] : [];
+              if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                _obj = { ..._obj, name: 'Quotation' };
+                let _finalobj = {
+                  data: _obj, count: 1, response: "success"
+                }
+                this._webDService.quotationonescreen(_finalobj).subscribe((resqoutationorder: any) => {
+                  console.log("quotaiononescreen", resqoutationorder)
+                  if (resqoutationorder && resqoutationorder?.success == true) {
+                    let fpath = resqoutationorder?.file_url;
+
+                    this._webDService.wa_sendquote('QUOTE', quotation_id, fpath).subscribe((res: any) => {
+                      console.log("wa_sendquote OTP", quotation_id)
+
+                    });
+                  }
                 });
               }
 
@@ -1071,9 +1084,27 @@ export class CartComponent implements OnInit {
         this._webDService.managepurchaseorder(this._purchase_order).subscribe((respurchaseorder: any) => {
           if (respurchaseorder && respurchaseorder.includes('newsuccess')) {
             let purchase_order_id = respurchaseorder.split('~')[1];
-            this._webDService.wa_sendquote('PO', purchase_order_id).subscribe((res: any) => {
-              console.log("wa_sendquote PO", purchase_order_id)
-            })
+            this._webDService.get_po(purchase_order_id).subscribe((res: any) => {
+              let _obj = Array.isArray(res.data) ? res?.data[0] : [];
+              if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                _obj = { ..._obj, name: 'Performa invoice' };
+                let _finalobj = {
+                  data: _obj, count: 1, response: "success"
+                }
+                this._webDService.quotationonescreen(_finalobj).subscribe((respurchaseorder: any) => {
+                  // console.log("quotaiononescreen", respurchaseorder)
+                  if (respurchaseorder && respurchaseorder?.success == true) {
+                    let fpath = respurchaseorder?.file_url;
+
+                    this._webDService.wa_sendquote('Performa invoice', purchase_order_id, fpath).subscribe((res: any) => {
+                      console.log("wa_sendquote OTP", purchase_order_id)
+
+                    });
+                  }
+                });
+              }
+
+            });
             this.posuccessSwal.fire();
             setTimeout(() => {
               this.posuccessSwal.close();
