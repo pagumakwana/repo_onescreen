@@ -695,9 +695,9 @@ export class CartComponent implements OnInit {
   updateUser() {
     if (this.cart_total < 5000) {
       this.warningSwal.fire();
-      setTimeout(() => {
-        this.warningSwal.close();
-      }, 1500);
+      // setTimeout(() => {
+      //   this.warningSwal.close();
+      // }, 1500);
       return;
     }
     this._base._commonService.markFormGroupTouched(this.fguser)
