@@ -40,7 +40,7 @@
                                     <span class="ms-1">View Media</span>
                                 </button>
                             <!-- </ng-container> -->
-                            <div [hidden]="!_base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">
+                            <div *ngFor="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">
                                 <button (click)="media_approved(_obj.order_product_map_id,1)" class="btn primary_btn"
                                     title="Approve">
                                     <span class="ms-1">Approve</span>
