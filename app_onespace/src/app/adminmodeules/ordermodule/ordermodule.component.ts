@@ -61,7 +61,7 @@ export class OrdermoduleComponent {
       { identifer: "order_total", title: "Total Amount", type: "text" },
       { identifer: "order_subtotal", title: "SubTotal Amount", type: "text" },
       { identifer: "order_discount", title: "Discount Amount", type: "text" },
-      { identifer: "", title: "Action", type: "button", buttonList: [{ name: 'Download', class: 'btn btn-primary', iconClass: '' },] }],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'View', class: 'btn btn-primary btn-sm', iconClass: 'fa fa-eye' }]},],
     isCustom: {
       current: 0,
       steps: 10,
@@ -76,12 +76,29 @@ export class OrdermoduleComponent {
   //   }
   // }
 
+  // tableClick(dataItem: tableEvent) {
+  //   if (dataItem?.action?.type === 'button' && dataItem?.tableItem?.order_id) {
+  //     this._router.navigate(['/app/invoice', dataItem.tableItem.order_id]); 
+  //   } else if (dataItem?.action?.type === 'link' && dataItem.action.title === "Order#") {
+  //     this._router.navigate(['/app/uploadmedia', dataItem?.tableItem?.order_id]);
+  //   }
+  // }
+
   tableClick(dataItem: tableEvent) {
-    if (dataItem?.action?.type === 'button' && dataItem?.tableItem?.order_id) {
-      this._router.navigate(['/app/invoice', dataItem.tableItem.order_id]); 
-    } else if (dataItem?.action?.type === 'link' && dataItem.action.title === "Order#") {
-      this._router.navigate(['/app/uploadmedia', dataItem?.tableItem?.order_id]);
+    if (dataItem.action?.type == 'link' || (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "View")) {
+      this.modifyinvoice(dataItem.tableItem);
+    } else if (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
+      this.modifyinvoice(dataItem.tableItem);
     }
+  }
+
+  modifyinvoice(data: any) {
+    const orderNo = data?.order_number;
+    window.open(
+      `https://onespaceinterior.com/public/OneScreenReports/TAX_INVOICE-${orderNo}.pdf`,
+      '_blank'
+    );
+    // this._base._router.navigate([`app/raisedquotation/${data.quotation_id}`]);
   }
 
   selectedVideoUrl: string | null = null;

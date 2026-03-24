@@ -80,8 +80,14 @@ export class PurchaseordermoduleComponent {
   }
 
   modifyinvoice(data: any) {
-    this._base._router.navigate([`app/purchaseorder/${data.purchase_order_id}`]);
+    const purchaseNo = data?.purchase_number;
+    window.open(
+      `https://onespaceinterior.com/public/OneScreenReports/PROFORMA_INVOICE-${purchaseNo}.pdf`,
+      '_blank'
+    );
+    // this._base._router.navigate([`app/purchaseorder/${data.purchase_order_id}`]);
   }
+
 
   selectedVideoUrl: string | null = null;
   openvideo(videoUrl: string) {

@@ -85,7 +85,12 @@ export class QuotationmoduleComponent {
   }
 
   modifyinvoice(data: any) {
-    this._base._router.navigate([`app/raisedquotation/${data.quotation_id}`]);
+    const quotationNo = data?.quotation_number;
+    window.open(
+      `https://onespaceinterior.com/public/OneScreenReports/Quotation-${quotationNo}.pdf`,
+      '_blank'
+    );
+    // this._base._router.navigate([`app/raisedquotation/${data.quotation_id}`]);
   }
 
   selectedVideoUrl: string | null = null;
