@@ -92,6 +92,9 @@ export class CartComponent implements OnInit {
   @ViewChild('posuccessSwal')
   public readonly posuccessSwal!: SwalComponent;
 
+  @ViewChild('warningSwal')
+  public readonly warningSwal!: SwalComponent;
+
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   UserCart: any;
   couponMaster: any;
@@ -690,6 +693,13 @@ export class CartComponent implements OnInit {
   detailupdated: boolean = false;
   emptycartmessage: boolean = false;
   updateUser() {
+    if (this.cart_total < 5000) {
+      this.warningSwal.fire();
+      setTimeout(() => {
+        this.warningSwal.close();
+      }, 1500);
+      return;
+    }
     this._base._commonService.markFormGroupTouched(this.fguser)
     if (this.fguser.valid) {
       this._updateuserdetail.fullname = this.fguser.value.fullname;
