@@ -239,6 +239,7 @@ namespace onescreenModel.ProductManagement
     {
         public Int64 order_id { get; set; }
         public Int64 user_id { get; set; }
+        public string? fullname { get; set; }
         public Int64 cart_master_id { get; set; }
         public Int64 coupon_id { get; set; }
         public string? order_number { get; set; }
@@ -277,11 +278,12 @@ namespace onescreenModel.ProductManagement
         public long? order_id { get; set; }            // [order_id]
         public long? cart_master_id { get; set; }       // [cart_master_id]
         public long? product_id { get; set; }          // [product_id]
+        public string? product_name { get; set; }          // [product_id]
         public bool? ismonthly { get; set; }
         public long? timeslot_category_id { get; set; }         // [time_slot_id]
         public string? timeslot_category { get; set; }    // [time_slot_value] NVARCHAR(500)
         public decimal? timeslot_price { get; set; }   // [time_slot_price] DECIMAL(7,2)
-        public long? repetition_category_id { get; set; }       // [repetition_id]
+        public long? repetition_category_id { get; set; }       // [repetition_id]`
         public string? repetition_category { get; set; }  // [repetition_value] NVARCHAR(150)
         public decimal? repetition_price { get; set; } // [repetition_price] DECIMAL(7,2)
         public long? interval_category_id { get; set; }         // [interval_id]

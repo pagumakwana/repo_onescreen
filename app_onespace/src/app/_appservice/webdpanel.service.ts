@@ -770,7 +770,7 @@ export class WebDService {
     public send_whatsapp_otp(name: string, phone: string, otp: string) {
         return this._base._apiService.post(`${ApiConstant.customer.wa_sendotp}?name=${name}&phone=${phone}&otp=${otp}`);
     }
-    public wa_sendquote(flag: string, quote_id: string,fpath: string='') {
+    public wa_sendquote(flag: string, quote_id: string, fpath: string = '') {
         return this._base._apiService.post(`${ApiConstant.customer.wa_sendquote}?flag=${flag}&quote_id=${quote_id}&fpath=${fpath}`);
     }
     public wa_contactthank(name: string, phone: string) {
@@ -784,7 +784,18 @@ export class WebDService {
     public get_po(purchase_order_id = 0) {
         return this._base._apiService.get(`${ApiConstant.product.get_po}?po_id=${purchase_order_id}`);
     }
-     public quotationonescreen(_data:any) {
+    public quotationonescreen(_data: any) {
         return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/quotationOnescreen`, _data);
     }
+
+    public get_inv(order_id = 0) {
+        return this._base._apiService.get(`${ApiConstant.product.get_inv}?inv_id=${order_id}`);
+    }
+    public proformaOnescreen(proformadata: any) {
+        return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/proformaOnescreen`, proformadata);
+    }
+    public taxInvoiceOnescreen(_invdata: any) {
+        return this._base._apiService.postt(`http://onespaceinterior.com/api/v1/taxInvoiceOnescreen`, _invdata);
+    }
+
 }

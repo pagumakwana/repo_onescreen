@@ -753,5 +753,20 @@ namespace onescreen_api.Controllers.ProductManagement
                 return await objProductManagement_BAL.get_po(po_id);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inv_id"></param>
+        /// <returns></returns>
+        [Route("get_inv")]
+        [HttpGet]
+        public async Task<responseModel> get_inv(Int64 inv_id)
+        {
+            using (ProductManagement_BAL objProductManagement_BAL = new ProductManagement_BAL(_httpContextAccessor))
+            {
+                return await objProductManagement_BAL.get_inv(inv_id);
+            }
+        }
     }
 }

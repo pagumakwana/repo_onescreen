@@ -3577,165 +3577,162 @@ namespace onescreenDAL.ProductManagement
             return pdfPath;
         }
 
-        //    public async Task<responseModel> get_inv(Int64 inv_id)
-    //    {
-    //        responseModel response = new responseModel();
-    //        try
-    //        {
+        public async Task<responseModel> get_inv(Int64 inv_id)
+        {
+            responseModel response = new responseModel();
+            try
+            {
 
 
-    //            DBParameterCollection ObJParameterCOl = new DBParameterCollection();
-    //            DBParameter objDBParameter = new DBParameter("@inv_id", inv_id, DbType.Int64);
-    //            ObJParameterCOl.Add(objDBParameter);
+                DBParameterCollection ObJParameterCOl = new DBParameterCollection();
+                DBParameter objDBParameter = new DBParameter("@inv_id", inv_id, DbType.Int64);
+                ObJParameterCOl.Add(objDBParameter);
 
-    //            DBHelper objDbHelper = new DBHelper();
-    //            DataSet ds = objDbHelper.ExecuteDataSet(Constant.get_inv, ObJParameterCOl, CommandType.StoredProcedure);
-    //            List<purchaseorderModel> lstpurchaseorder = new List<purchaseorderModel>();
-    //            List<quotation_model> lstquotation = new List<quotation_model>();
-    //            List<quoteproductModel> lstquotationproduct = new List<quoteproductModel>();
-    //            if (ds != null)
-    //            {
-    //                if (inv_id > 0 && ds.Tables[0].Rows.Count > 0)
-    //                {
-    //                    lstquotationproduct = ds.Tables[0].AsEnumerable().Select(Row => new quoteproductModel
-    //                    {
-    //                        purchorder_product_mapid = Row.Field<Int64>("purchorder_product_mapid"),
-    //                        purchase_order_id = Row.Field<Int64>("purchase_order_id"),
-    //                        quotation_id = Row.Field<Int64>("quotation_id"),
-    //                        cart_master_id = Row.Field<Int64>("cart_master_id"),
-    //                        product_id = Row.Field<Int64>("product_id"),
-    //                        product_name = Row.Field<string>("product_name"),
-    //                        timeslot_category_id = Row.Field<Int64?>("timeslot_category_id"),
-    //                        timeslot_category = Row.Field<string?>("timeslot_category"),
-    //                        timeslot_price = Row.Field<decimal>("timeslot_price"),
-    //                        repetition_category_id = Row.Field<Int64?>("repetition_category_id"),
-    //                        repetition_category = Row.Field<string?>("repetition_category"),
-    //                        repetition_price = Row.Field<decimal>("repetition_price"),
-    //                        interval_category_id = Row.Field<Int64?>("interval_category_id"),
-    //                        interval_category = Row.Field<string?>("interval_category"),
-    //                        interval_price = Row.Field<decimal>("interval_price"),
-    //                        from_date = Row.Field<string>("from_date"),
-    //                        to_date = Row.Field<string>("to_date"),
-    //                        base_amount = Row.Field<decimal>("base_amount"),
-    //                        attribute_amount = Row.Field<decimal>("attribute_amount"),
-    //                        total_amount = Row.Field<decimal>("total_amount"),
-    //                    }).ToList();
+                DBHelper objDbHelper = new DBHelper();
+                DataSet ds = objDbHelper.ExecuteDataSet(Constant.get_inv, ObJParameterCOl, CommandType.StoredProcedure);
+                List<userorderMaster> lstinvorder = new List<userorderMaster>();
+                //List<quotation_model> lstquotation = new List<quotation_model>();
+                List<userorderproductModel> lstinvorderproduct = new List<userorderproductModel>();
+                if (ds != null)
+                {
+                    if (inv_id > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        lstinvorderproduct = ds.Tables[0].AsEnumerable().Select(Row => new userorderproductModel
+                        {
+                            order_product_map_id = Row.Field<Int64>("order_product_map_id"),
+                            order_id = Row.Field<Int64>("order_id"),
+                            user_id = Row.Field<Int64>("user_id"),
+                            cart_master_id = Row.Field<Int64>("cart_master_id"),
+                            product_id = Row.Field<Int64>("product_id"),
+                            product_name = Row.Field<string>("product_name"),
+                            timeslot_category_id = Row.Field<Int64?>("time_slot_id"),
+                            timeslot_category = Row.Field<string?>("time_slot_value"),
+                            timeslot_price = Row.Field<decimal>("time_slot_price"),
+                            repetition_category_id = Row.Field<Int64?>("repetition_id"),
+                            repetition_category = Row.Field<string?>("repetition_value"),
+                            repetition_price = Row.Field<decimal>("repetition_price"),
+                            interval_category_id = Row.Field<Int64?>("interval_id"),
+                            interval_category = Row.Field<string?>("interval_value"),
+                            interval_price = Row.Field<decimal>("interval_price"),
+                            route_category_id = Row.Field<Int64>("route_category_id"),
+                            route_category = Row.Field<string>("route_category"),
+                            from_date = Row.Field<string>("from_date"),
+                            to_date = Row.Field<string>("to_date"),
+                            quantity = Row.Field<Int64>("quantity"),
+                            base_amount = Row.Field<decimal>("base_amount"),
+                            attribute_amount = Row.Field<decimal>("attribute_amount"),
+                            total_amount = Row.Field<decimal>("total_amount"),
+                        }).ToList();
 
-    //                }
-    //                if (ds.Tables[inv_id > 0 ? 1 : 0].Rows.Count > 0)
-    //                {
-    //                    lstpurchaseorder = ds.Tables[inv_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
-    //                      new purchaseorderModel
-    //                      {
-    //                          purchase_order_id = Row.Field<Int64>("purchase_order_id"),
-    //                          purchase_number = Row.Field<string>("purchase_number"),
-    //                          quotation_id = Row.Field<Int64>("quotation_id"),
-    //                          quotation_number = Row.Field<string>("quotation_number"),
-    //                          cart_master_id = Row.Field<Int64>("cart_master_id"),
-    //                          coupon_id = Row.Field<Int64>("coupon_id"),
-    //                          purchase_order_total = Row.Field<Decimal>("purchase_order_total"),
-    //                          purchase_order_subtotal = Row.Field<Decimal>("purchase_order_subtotal"),
-    //                          purchase_order_discount = Row.Field<Decimal>("purchase_order_discount"),
-    //                          purchase_order_tax = Row.Field<Decimal>("purchase_order_tax"),
-    //                          purchase_order_status = Row.Field<string>("purchase_order_status"),
-    //                          sales_person_details = Row.Field<string>("sales_person_details"),
-    //                          referal_person_details = Row.Field<string>("referal_person_details"),
-    //                          fullname = Row.Field<string>("fullname"),
-    //                          email_id = Row.Field<string>("email_id"),
-    //                          mobile_number = Row.Field<string>("mobile_number"),
-    //                          address = Row.Field<string>("address"),
-    //                          createdby = Row.Field<Int64?>("createdby"),
-    //                          createdname = Row.Field<string>("createdname"),
-    //                          createddatetime = Row.Field<DateTime?>("createddatetime"),
-    //                          lstpurchaseproduct = lstquotationproduct
-    //                      }).ToList();
-    //                }
-    //                var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
+                    }
+                    if (ds.Tables[inv_id > 0 ? 1 : 0].Rows.Count > 0)
+                    {
+                        lstinvorder = ds.Tables[inv_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
+                          new userorderMaster
+                          {
+                              order_id = Row.Field<Int64>("order_id"),
+                              user_id = Row.Field<Int64>("user_id"),
+                              fullname = Row.Field<string>("fullname"),
+                              order_number = Row.Field<string>("order_number"),
+                              cart_master_id = Row.Field<Int64>("cart_master_id"),
+                              coupon_id = Row.Field<Int64>("coupon_id"),
+                              order_total = Row.Field<Decimal>("order_total"),
+                              order_subtotal = Row.Field<Decimal>("order_subtotal"),
+                              order_discount = Row.Field<Decimal>("order_discount"),
+                              order_tax = Row.Field<Decimal>("order_tax"),
+                              order_status = Row.Field<string>("order_status"),
+                              createdby = Row.Field<Int64?>("createdby"),
+                              createdname = Row.Field<string>("createdname"),
+                              createddatetime = Row.Field<DateTime?>("createddatetime"),
+                              lst_orderproduct = lstinvorderproduct
+                          }).ToList();
+                    }
+                    //var pdfService = new pdf_service(maxConcurrentPages: 5, recycleAfter: 500);
 
-    //                await pdfService.InitializeAsync();
+                    //await pdfService.InitializeAsync();
 
-    //                string fpath = await generate_PO_pdf(lstpurchaseorder, pdfService);
+                    //string fpath = await generate_PO_pdf(lstinvorder, pdfService);
 
-    //                response.data = fpath;
-    //                response.count = 1;
-    //            }
-    //            return response;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            throw ex;
-    //        }
-    //    }
+                    response.data = lstinvorder;
+                    response.count = 1;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-    //    public async Task<string> generate_PO_pdf(List<purchaseorderModel> invoicedetailsmaster, dynamic pdfService)
-    //    {
-    //        string pdfPath = "nofile";
-    //        try
-    //        {
-    //            if (invoicedetailsmaster.Count > 0)
-    //            {
-    //                string invoice_date = Convert.ToDateTime(invoicedetailsmaster[0]?.createddatetime).ToString("dd/MM/yyyy");
+        //    public async Task<string> generate_PO_pdf(List<purchaseorderModel> invoicedetailsmaster, dynamic pdfService)
+        //    {
+        //        string pdfPath = "nofile";
+        //        try
+        //        {
+        //            if (invoicedetailsmaster.Count > 0)
+        //            {
+        //                string invoice_date = Convert.ToDateTime(invoicedetailsmaster[0]?.createddatetime).ToString("dd/MM/yyyy");
 
-    //                string year = "";
-    //                if (!string.IsNullOrEmpty(invoice_date))
-    //                {
-    //                    if (invoice_date.Contains("-"))
-    //                    {
-    //                        var parts = invoice_date.Split('-');
-    //                        if (parts.Length > 2)
-    //                            year = parts[2];
-    //                    }
-    //                    else if (invoice_date.Contains("/"))
-    //                    {
-    //                        var parts = invoice_date.Split('/');
-    //                        if (parts.Length > 2)
-    //                            year = parts[2];
-    //                    }
-    //                }
-    //                decimal grandTotal = invoicedetailsmaster[0]?.purchase_order_total ?? 0;
-    //                string grandTotalInWords = "Rupees " + NumberToWords(Convert.ToInt64(grandTotal)) + " Only";
-    //                var lstaccheaderhtml = new StringBuilder();
+        //                string year = "";
+        //                if (!string.IsNullOrEmpty(invoice_date))
+        //                {
+        //                    if (invoice_date.Contains("-"))
+        //                    {
+        //                        var parts = invoice_date.Split('-');
+        //                        if (parts.Length > 2)
+        //                            year = parts[2];
+        //                    }
+        //                    else if (invoice_date.Contains("/"))
+        //                    {
+        //                        var parts = invoice_date.Split('/');
+        //                        if (parts.Length > 2)
+        //                            year = parts[2];
+        //                    }
+        //                }
+        //                decimal grandTotal = invoicedetailsmaster[0]?.purchase_order_total ?? 0;
+        //                string grandTotalInWords = "Rupees " + NumberToWords(Convert.ToInt64(grandTotal)) + " Only";
+        //                var lstaccheaderhtml = new StringBuilder();
 
-    //                foreach (var item in invoicedetailsmaster[0]?.lstpurchaseproduct)
-    //                {
-    //                    lstaccheaderhtml.Append("<tr>");
-    //                    lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px;\">"
-    //                        + item.product_name + "<div style=\"font-size:10px; color: #777; margin-top: 4px;\">" + item.timeslot_category + " " + (item?.timeslot_price != null && item.timeslot_price != 0
-    //? "(₹" + item.timeslot_price + ")"
-    //: "") + "< br />" + item?.repetition_category + " " + ((item?.repetition_price != null && item.repetition_price != 0)
-    //? "(₹" + item.repetition_price + ")"
-    //: "") + "< br /> " + ((item?.interval_price != null && item.interval_price != 0)
-    //? "(₹" + item.interval_price + ")"
-    //: "") + "< br />" + (item?.from_date?.ToString()) + " to " + (item?.to_date?.ToString()) + "</ td>");
+        //                foreach (var item in invoicedetailsmaster[0]?.lstpurchaseproduct)
+        //                {
+        //                    lstaccheaderhtml.Append("<tr>");
+        //                    lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px;\">"
+        //                        + item.product_name + "<div style=\"font-size:10px; color: #777; margin-top: 4px;\">" + item.timeslot_category + " " + (item?.timeslot_price != null && item.timeslot_price != 0
+        //? "(₹" + item.timeslot_price + ")"
+        //: "") + "< br />" + item?.repetition_category + " " + ((item?.repetition_price != null && item.repetition_price != 0)
+        //? "(₹" + item.repetition_price + ")"
+        //: "") + "< br /> " + ((item?.interval_price != null && item.interval_price != 0)
+        //? "(₹" + item.interval_price + ")"
+        //: "") + "< br />" + (item?.from_date?.ToString()) + " to " + (item?.to_date?.ToString()) + "</ td>");
 
-    //                    lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">₹ " + item?.total_amount + "</td>");
-    //                    lstaccheaderhtml.Append("</tr>");
-    //                }
+        //                    lstaccheaderhtml.Append("<td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">₹ " + item?.total_amount + "</td>");
+        //                    lstaccheaderhtml.Append("</tr>");
+        //                }
 
 
-    //                string htmlContent = "<div style=\"font-family: Arial, sans-serif; font-size: 12px; color: #000;\"><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"><h1 style=\"margin: 0;\">QUOTATION</h1><p style=\"margin: 2px 0;\">Quotation# : <span style=\"color: #777;\">" + invoicedetailsmaster[0]?.quotation_number + " </span></p><p style=\"margin: 2px 0;\">Date : <span style=\"color: #777;\"> " + invoice_date + " </span></p></td><td style=\"width: 50%; text-align: right;\"><img style=\"max-width: 150px;\" src=\"https://onescreen.in/assets/images/onescreenlogo.png\" alt=\"\" /></td></tr></tbody></table><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%; text-align: right;\"><h4 style=\"margin: 0;\">GET ONESCREEN</h4><p style=\"margin: 0;\">3rd Floor, Shop No.302, International Finance Centre,</p><p style=\"margin: 0;\">Vesu, Surat, Gujarat - 395007</p><p style=\"margin: 0;\">India</p><p style=\"margin: 0;\"><strong> GSTIN: </strong> 24AAFFO2562E1ZK</p><br /><p style=\"margin: 0; color: #777;\">Bill To:</p><h4 style=\"margin: 0;\">" + invoicedetailsmaster[0]?.fullname + "</h4><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.mobile_number + "</p><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.address + "</p></td></tr></tbody></table><table style=\"width: 100%; border-collapse: collapse; margin-top: 10px;\"><thead><tr style=\"background: #f2f2f2;\"><th style=\"border: 1px solid #ddd; padding: 8px;\">#</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Name</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">SubTotal</th></tr></thead><tbody><tr>" + lstaccheaderhtml + "</tr></tbody></table><table style=\"width: 100%; margin-top: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%;\"><table style=\"width: 100%;\"><tbody><tr><td style=\"width: 21.6908%;\">Sub Total :</td><td style=\"text-align: right; width: 73.905%;\">₹" + invoicedetailsmaster[0]?.quotation_subtotal + "</td></tr><tr><td style=\"width: 21.6908%;\">Discount :</td><td style=\"text-align: right; width: 73.905%;\">₹ " + invoicedetailsmaster[0]?.quotation_discount + "</td></tr><tr><td style=\"width: 21.6908%;\"><strong> Grand Total : </strong></td><td style=\"text-align: right; width: 73.905%;\"><strong> ₹ " + invoicedetailsmaster[0]?.quotation_total + " </strong></td></tr></tbody></table></td></tr></tbody></table><div style=\"margin-top: 20px;\"><p style=\"margin: 0; font-weight: bold;\">Notes:</p><ul style=\"font-size: 10px; color: #555; padding-left: 15px; margin-top: 5px;\"><li style=\"margin-bottom: 3px;\">ONESCREEN offers digital outdoor advertising through LED screens on mobile and fixed platforms.</li><li style=\"margin-bottom: 3px;\">Campaigns start only after advance or full payment.</li><li style=\"margin-bottom: 3px;\">Clients are responsible for their ad content.</li><li style=\"margin-bottom: 3px;\">ONESCREEN is not liable for delays due to external factors.</li></ul></div></div>";
+        //                string htmlContent = "<div style=\"font-family: Arial, sans-serif; font-size: 12px; color: #000;\"><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"><h1 style=\"margin: 0;\">QUOTATION</h1><p style=\"margin: 2px 0;\">Quotation# : <span style=\"color: #777;\">" + invoicedetailsmaster[0]?.quotation_number + " </span></p><p style=\"margin: 2px 0;\">Date : <span style=\"color: #777;\"> " + invoice_date + " </span></p></td><td style=\"width: 50%; text-align: right;\"><img style=\"max-width: 150px;\" src=\"https://onescreen.in/assets/images/onescreenlogo.png\" alt=\"\" /></td></tr></tbody></table><table style=\"width: 100%; margin-bottom: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%; text-align: right;\"><h4 style=\"margin: 0;\">GET ONESCREEN</h4><p style=\"margin: 0;\">3rd Floor, Shop No.302, International Finance Centre,</p><p style=\"margin: 0;\">Vesu, Surat, Gujarat - 395007</p><p style=\"margin: 0;\">India</p><p style=\"margin: 0;\"><strong> GSTIN: </strong> 24AAFFO2562E1ZK</p><br /><p style=\"margin: 0; color: #777;\">Bill To:</p><h4 style=\"margin: 0;\">" + invoicedetailsmaster[0]?.fullname + "</h4><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.mobile_number + "</p><p style=\"margin: 0;\">" + invoicedetailsmaster[0]?.address + "</p></td></tr></tbody></table><table style=\"width: 100%; border-collapse: collapse; margin-top: 10px;\"><thead><tr style=\"background: #f2f2f2;\"><th style=\"border: 1px solid #ddd; padding: 8px;\">#</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Name</th><th style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">SubTotal</th></tr></thead><tbody><tr>" + lstaccheaderhtml + "</tr></tbody></table><table style=\"width: 100%; margin-top: 15px;\"><tbody><tr><td style=\"width: 50%;\"> </td><td style=\"width: 50%;\"><table style=\"width: 100%;\"><tbody><tr><td style=\"width: 21.6908%;\">Sub Total :</td><td style=\"text-align: right; width: 73.905%;\">₹" + invoicedetailsmaster[0]?.quotation_subtotal + "</td></tr><tr><td style=\"width: 21.6908%;\">Discount :</td><td style=\"text-align: right; width: 73.905%;\">₹ " + invoicedetailsmaster[0]?.quotation_discount + "</td></tr><tr><td style=\"width: 21.6908%;\"><strong> Grand Total : </strong></td><td style=\"text-align: right; width: 73.905%;\"><strong> ₹ " + invoicedetailsmaster[0]?.quotation_total + " </strong></td></tr></tbody></table></td></tr></tbody></table><div style=\"margin-top: 20px;\"><p style=\"margin: 0; font-weight: bold;\">Notes:</p><ul style=\"font-size: 10px; color: #555; padding-left: 15px; margin-top: 5px;\"><li style=\"margin-bottom: 3px;\">ONESCREEN offers digital outdoor advertising through LED screens on mobile and fixed platforms.</li><li style=\"margin-bottom: 3px;\">Campaigns start only after advance or full payment.</li><li style=\"margin-bottom: 3px;\">Clients are responsible for their ad content.</li><li style=\"margin-bottom: 3px;\">ONESCREEN is not liable for delays due to external factors.</li></ul></div></div>";
 
-    //                string downloadpath = Path.Combine("C:\\www\\Onescreen\\api.onescreen.in\\", "FileStorage");
+        //                string downloadpath = Path.Combine("C:\\www\\Onescreen\\api.onescreen.in\\", "FileStorage");
 
-    //                //string downloadpath = Path.Combine("/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api", "FileStorage");
+        //                //string downloadpath = Path.Combine("/Users/pragneshmakwana/Webdroids/repo_onescreen/onescreen_api/onescreen_api", "FileStorage");
 
-    //                var filename = invoicedetailsmaster[0]?.quotation_number + ".pdf";
-    //                var localpath = await pdfService.GeneratePdfFileAsync(htmlContent, downloadpath, filename) ?? "";
-    //                pdfPath = "https://api.onescreen.in/FileStorage/" + filename;
-    //            }
-    //            else
-    //            {
-    //                pdfPath = "nofile";
-    //            }
+        //                var filename = invoicedetailsmaster[0]?.quotation_number + ".pdf";
+        //                var localpath = await pdfService.GeneratePdfFileAsync(htmlContent, downloadpath, filename) ?? "";
+        //                pdfPath = "https://api.onescreen.in/FileStorage/" + filename;
+        //            }
+        //            else
+        //            {
+        //                pdfPath = "nofile";
+        //            }
 
-    //        }
-    //        catch (Exception ex)
-    //        {
+        //        }
+        //        catch (Exception ex)
+        //        {
 
-    //            Console.WriteLine($"PDF exception: {ex.ToString()}");
-    //        }
-    //        return pdfPath;
-    //    }
+        //            Console.WriteLine($"PDF exception: {ex.ToString()}");
+        //        }
+        //        return pdfPath;
+        //    }
 
         public static string NumberToWords(long num)
         {

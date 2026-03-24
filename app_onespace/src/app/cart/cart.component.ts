@@ -271,6 +271,28 @@ export class CartComponent implements OnInit {
               if (resorder != null && resorder.includes('newsuccess')) {
                 console.log("Order stored successfully:", resorder);
                 let order_id = resorder.split('~')[1];
+                this._webDService.get_inv(order_id).subscribe((res: any) => {
+                  let _obj = Array.isArray(res.data) ? res?.data[0] : [];
+                  debugger
+                  if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                    // _obj = { ..._obj, name: 'Tax invoice' };
+                    let _finalobj = {
+                      data: _obj, count: 1, response: "success"
+                    }
+                    this._webDService.taxInvoiceOnescreen(_finalobj).subscribe((resinvorder: any) => {
+                      // console.log("quotaiononescreen", respurchaseorder)
+                      if (resinvorder && resinvorder?.success == true) {
+                        let fpath = resinvorder?.file_url;
+
+                        this._webDService.wa_sendquote('INV', order_id, fpath).subscribe((res: any) => {
+                          console.log("wa_sendquote OTP", order_id)
+
+                        });
+                      }
+                    });
+                  }
+
+                });
                 this.paysuccessSwal.fire();
                 setTimeout(() => {
                   this.paysuccessSwal.close();
@@ -1088,16 +1110,16 @@ export class CartComponent implements OnInit {
               let _obj = Array.isArray(res.data) ? res?.data[0] : [];
               debugger
               if (_obj && _obj != "" && _obj != null && _obj != undefined) {
-                _obj = { ..._obj, name: 'Performa invoice' };
+                // _obj = { ..._obj, name: 'Performa invoice' };
                 let _finalobj = {
                   data: _obj, count: 1, response: "success"
                 }
-                this._webDService.quotationonescreen(_finalobj).subscribe((respurchaseorder: any) => {
+                this._webDService.proformaOnescreen(_finalobj).subscribe((respurchaseorder: any) => {
                   // console.log("quotaiononescreen", respurchaseorder)
                   if (respurchaseorder && respurchaseorder?.success == true) {
                     let fpath = respurchaseorder?.file_url;
 
-                    this._webDService.wa_sendquote('Performa invoice', purchase_order_id, fpath).subscribe((res: any) => {
+                    this._webDService.wa_sendquote('PO', purchase_order_id, fpath).subscribe((res: any) => {
                       console.log("wa_sendquote OTP", purchase_order_id)
 
                     });

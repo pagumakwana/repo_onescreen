@@ -305,5 +305,6 @@ export class ApiConstant {
         managepurchaseorder:"product/managepurchaseorder",
         get_quote:"product/get_quote",
         get_po:"product/get_po",
+        get_inv:"product/get_inv"
     }
 }
