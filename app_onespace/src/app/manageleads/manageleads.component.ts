@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { contactDetails, fileChoosenDataModel, fileConfigModel, leadsmodel, SaveModuleFileModel } from '../_appmodel/_model';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -20,7 +20,7 @@ import * as _ from 'lodash';
   templateUrl: './manageleads.component.html',
   styleUrl: './manageleads.component.scss'
 })
-export class ManageleadsComponent {
+export class ManageleadsComponent implements OnInit {
   private unsubscribe: Subscription[] = [];
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   @ViewChild('successSwal')
@@ -52,9 +52,7 @@ export class ManageleadsComponent {
     this.leads_id = this._activatedRouter.snapshot.paramMap.get('leads_id');
     // if (this.contact_id != '0')
     //   this.getcontact(this.contact_id);
-    setTimeout(() => {
-      this._cdr.detectChanges();
-    }, 500);
+    
   }
 
 
@@ -95,7 +93,7 @@ export class ManageleadsComponent {
       this.isFormSubmit = true;
       setTimeout(() => {
         this.isLoading$.next(false);
-        this._cdr.detectChanges();
+        this._cdr.markForCheck();
       }, 1500);
     }
 
@@ -124,7 +122,7 @@ export class ManageleadsComponent {
 
             this.fgleads.get('otp')?.setValidators([Validators.required]);
             this.fgleads.get('otp')?.updateValueAndValidity();
-            this._cdr.detectChanges(); this._webDService.sendOtp(mobile, this.apiOtp).subscribe(() => {
+            this._cdr.markForCheck(); this._webDService.sendOtp(mobile, this.apiOtp).subscribe(() => {
               this.showOtpField = true;
             });
             this.OTPsuccess = true;

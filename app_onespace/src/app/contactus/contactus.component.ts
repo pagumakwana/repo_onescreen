@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { Validators } from 'ngx-editor';
 import { contactDetails } from '../_appmodel/_model';
@@ -18,7 +18,7 @@ import { SweetAlertOptions } from 'sweetalert2';
   templateUrl: './contactus.component.html',
   styleUrl: './contactus.component.scss'
 })
-export class ContactusComponent {
+export class ContactusComponent implements OnInit {
   private unsubscribe: Subscription[] = [];
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
   @ViewChild('successSwal')
@@ -47,12 +47,12 @@ export class ContactusComponent {
 
   ngOnInit(): void {
     this.initForm();
-    this.contact_id = this._activatedRouter.snapshot.paramMap.get('contact_id');
+    // this.contact_id = this._activatedRouter.snapshot.paramMap.get('contact_id');
     // if (this.contact_id != '0')
     //   this.getcontact(this.contact_id);
-    setTimeout(() => {
-      this._cdr.detectChanges();
-    }, 500);
+    // setTimeout(() => {
+    //   this._cdr.markForCheck();
+    // }, 500);
   }
 
 
@@ -112,6 +112,10 @@ export class ContactusComponent {
           this._webDService.wa_contactthank(this._contactDetails.fullname, this._contactDetails.mobile_no).subscribe((res: any) => {
             console.log("res", res)
           })
+
+           this._webDService.leads({ name: 'onescreen Contactus ' + this._contactDetails.fullname + ' | ' + this._contactDetails.mobile_no, description: 'onescreen Contactus ' + this._contactDetails.fullname + ' | ' + this._contactDetails.mobile_no + ' | ' + this._contactDetails.description }).subscribe((res: any) => {
+              console.log("res", res)
+            });
           setTimeout(() => {
             this.isLoading$.next(false);
             this._cdr.markForCheck();
