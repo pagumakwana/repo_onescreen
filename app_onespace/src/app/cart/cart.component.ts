@@ -1054,16 +1054,18 @@ export class CartComponent implements OnInit {
               } else {
                 this.modalService.dismissAll();
               }
-              // this.fgrasiequote.reset();
+              
+              this.fgrasiequote.reset();
               // this._base._router.navigate([`raisedquotation/${quotation_id}`]);
               // if (this.quotation_number) {
-                window.open(
-                  `https://onespaceinterior.com/public/OneScreenReports/QUOTATION-${this.quotation_number}.pdf`,
-                  '_blank'
-                );
+              this._cdr.markForCheck();
+              window.open(
+                `https://onespaceinterior.com/public/OneScreenReports/QUOTATION-${this.quotation_number}.pdf`,
+                '_blank'
+              );
               // }
               // window.location.reload();
-              this._cdr.detectChanges();
+              // this._cdr.detectChanges();
             }, 1500);
           } else {
             this.failureSwal.fire();
@@ -1153,17 +1155,21 @@ export class CartComponent implements OnInit {
                 this.modalRef.close();
               } else {
                 this.modalService.dismissAll();
+
               }
+              this.fgrasiequote.reset();
+
               //this.fgrasiequote.reset();
               // this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
               // if (this.purchase_number) {
-                window.open(
-                  `https://onespaceinterior.com/public/OneScreenReports/PROFORMA_INVOICE-${this.purchase_number}.pdf`,
-                  '_blank'
-                );
+              this._cdr.markForCheck();
+              window.open(
+                `https://onespaceinterior.com/public/OneScreenReports/PROFORMA_INVOICE-${this.purchase_number}.pdf`,
+                '_blank'
+              );
               // }
               //window.location.reload();
-              this._cdr.detectChanges();
+
             }, 1500);
           } else {
             this.failureSwal.fire();
