@@ -795,7 +795,7 @@ export class WebDService {
         return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/proformaOnescreen`, proformadata);
     }
     public taxInvoiceOnescreen(_invdata: any) {
-        return this._base._apiService.postt(`http://onespaceinterior.com/api/v1/taxInvoiceOnescreen`, _invdata);
+        return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/taxInvoiceOnescreen`, _invdata);
     }
 
 }

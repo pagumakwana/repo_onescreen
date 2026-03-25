@@ -282,7 +282,7 @@ export class CartComponent implements OnInit {
                     let _finalobj = {
                       data: _obj, count: 1, response: "success"
                     }
-                    console.log("finalobj" , _finalobj);
+                    console.log("finalobj", _finalobj);
                     this._webDService.taxInvoiceOnescreen(_finalobj).subscribe((resinvorder: any) => {
                       // console.log("quotaiononescreen", respurchaseorder)
                       if (resinvorder && resinvorder?.success == true) {
@@ -976,6 +976,7 @@ export class CartComponent implements OnInit {
   _quotedetails: quotationmodel = {};
   _purchase_order: purchaseordermodel = {};
   // quoteForm = this.fgrasiequote?.value || {};
+  quotation_number: any = null;
 
   raise_quotation() {
     debugger
@@ -1026,6 +1027,7 @@ export class CartComponent implements OnInit {
             this._webDService.get_quote(quotation_id).subscribe((res: any) => {
               let _obj = Array.isArray(res.data) ? res?.data[0] : [];
               if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                this.quotation_number = _obj.quotation_number;
                 _obj = { ..._obj, name: 'Quotation' };
                 let _finalobj = {
                   data: _obj, count: 1, response: "success"
@@ -1053,7 +1055,13 @@ export class CartComponent implements OnInit {
                 this.modalService.dismissAll();
               }
               // this.fgrasiequote.reset();
-              this._base._router.navigate([`raisedquotation/${quotation_id}`]);
+              // this._base._router.navigate([`raisedquotation/${quotation_id}`]);
+              // if (this.quotation_number) {
+                window.open(
+                  `https://onespaceinterior.com/public/OneScreenReports/QUOTATION-${this.quotation_number}.pdf`,
+                  '_blank'
+                );
+              // }
               // window.location.reload();
               this._cdr.detectChanges();
             }, 1500);
@@ -1068,6 +1076,7 @@ export class CartComponent implements OnInit {
     });
   }
 
+  purchase_number: any = null;
   add_po() {
     debugger
     // if (this.fgrasiequote.invalid) {
@@ -1118,6 +1127,7 @@ export class CartComponent implements OnInit {
               let _obj = Array.isArray(res.data) ? res?.data[0] : [];
               debugger
               if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                this.purchase_number = _obj.purchase_number
                 // _obj = { ..._obj, name: 'Performa invoice' };
                 let _finalobj = {
                   data: _obj, count: 1, response: "success"
@@ -1145,7 +1155,13 @@ export class CartComponent implements OnInit {
                 this.modalService.dismissAll();
               }
               //this.fgrasiequote.reset();
-              this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
+              // this._base._router.navigate([`purchaseorder/${purchase_order_id}`]);
+              // if (this.purchase_number) {
+                window.open(
+                  `https://onespaceinterior.com/public/OneScreenReports/PROFORMA_INVOICE-${this.purchase_number}.pdf`,
+                  '_blank'
+                );
+              // }
               //window.location.reload();
               this._cdr.detectChanges();
             }, 1500);
