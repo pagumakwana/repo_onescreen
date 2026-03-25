@@ -35,12 +35,35 @@
                         </div>
 
                         <div class="order-actions">
+                            <div class="upload-tanku-contain">
+                                <label class="thanku-upload-btn" title="Upload media">
+                                    <button class="btn btn-warning btn-sm" *ngIf="_obj.is_media_upload == 0" disabled>
+                                        <i class="ph-duotone ph-clock-countdown"></i>
+                                        <span class="ms-1">Pending</span>
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" *ngIf="_obj.is_media_upload == 2"
+                                        (click)="open_upload_media(_obj.order_product_map_id)">
+                                        <i class="ph-duotone ph-x-circle"></i>
+                                        <span class="ms-1">Re-upload</span>
+                                    </button>
+
+                                    <button class="btn btn-primary btn-sm" *ngIf="_obj.is_media_upload == null"
+                                        (click)="open_upload_media(_obj.order_product_map_id)">
+                                        <i class="ti ti-upload"></i>
+                                        <span class="ms-1">Upload</span>
+                                    </button>
+
+                                </label>
+                            </div>
                             <!-- <ng-container *ngIf="_obj.is_media_upload !== null"> -->
-                                <button (click)="openvideo(_obj.thumbnail)" class="btn btn-outline-primary" title="View Media">
-                                    <span class="ms-1">View Media</span>
-                                </button>
+                            <button (click)="openvideo(_obj.thumbnail)" class="btn btn-outline-primary"
+                                title="View Media">
+                                <span class="ms-1">View Media</span>
+                            </button>
                             <!-- </ng-container> -->
-                            <div *ngFor="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved')">
+                            <div
+                                *ngIf="this._base._commonService.hasAccessofcontrol('admin_uploadmedia_action_approved') && _obj.is_media_approved != 1">
                                 <button (click)="media_approved(_obj.order_product_map_id,1)" class="btn primary_btn"
                                     title="Approve">
                                     <span class="ms-1">Approve</span>

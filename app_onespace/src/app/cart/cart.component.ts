@@ -282,6 +282,7 @@ export class CartComponent implements OnInit {
                     let _finalobj = {
                       data: _obj, count: 1, response: "success"
                     }
+                    console.log("finalobj" , _finalobj);
                     this._webDService.taxInvoiceOnescreen(_finalobj).subscribe((resinvorder: any) => {
                       // console.log("quotaiononescreen", respurchaseorder)
                       if (resinvorder && resinvorder?.success == true) {

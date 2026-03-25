@@ -248,6 +248,7 @@ export class ManageordersComponent implements OnInit {
               if (this.modalRef) {
                 this.modalRef.close();
               }
+              this.get_pendingmediaupload();
               location.reload();
             }, 500);
             this._cdr.detectChanges();

@@ -5,7 +5,9 @@
             <h1>Thank You!</h1>
             <p>Your order has been received successfully. please upload your media.</p>
             <p>Order ID : <strong>{{this.pendingMedia ? this.pendingMedia[0]?.order_number : '-'}}</strong></p>
-            <a class="btn-down-invoice" routerLink="/app/invoice/{{this.order_id}}" target="_blank"><span>Download
+            <a class="btn-down-invoice"
+                [href]="'https://onespaceinterior.com/public/OneScreenReports/TAX_INVOICE-' + (pendingMedia ? pendingMedia[0]?.order_number : '') + '.pdf'"
+                target="_blank"><span>Download
                     Invoice</span><i class="ti ti-download text-primary f-20"></i>
             </a>
         </div>

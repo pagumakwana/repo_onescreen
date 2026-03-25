@@ -240,6 +240,9 @@ namespace onescreenModel.ProductManagement
         public Int64 order_id { get; set; }
         public Int64 user_id { get; set; }
         public string? fullname { get; set; }
+        public string? email_id { get; set; }
+        public string? mobile_number { get; set; }
+        public string? address { get; set; }
         public Int64 cart_master_id { get; set; }
         public Int64 coupon_id { get; set; }
         public string? order_number { get; set; }
