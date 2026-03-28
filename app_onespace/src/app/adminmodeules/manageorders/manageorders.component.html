@@ -30,8 +30,9 @@
                     <div class="row-manage">
                         <div>
                             <h3 class="order-title">{{_obj.product_name}}: <span>{{_obj.time_slot_value}}</span></h3>
-                            <div class="order-muted">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
+                            <div class="order-muted" *ngIf="_obj.custom_dates==''">{{_obj.from_date | date: 'dd-MMM-yyyy' }} to
                                 {{_obj.to_date| date: 'dd-MMM-yyyy' }} </div>
+                            <div class="order-muted" *ngIf="_obj.custom_dates!=''">{{_obj.custom_dates}}</div>
                         </div>
 
                         <div class="order-actions">

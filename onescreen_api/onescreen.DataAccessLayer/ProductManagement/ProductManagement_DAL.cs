@@ -29,8 +29,8 @@ namespace onescreenDAL.ProductManagement
         private readonly Int64 client_id;
         private readonly Int64 project_id;
 
-        private readonly string _key = "rzp_test_RAp1XhaN6GAi6K";
-        private readonly string _secret = "CIqkb8Ivu8lE9DQmnIxd830x";
+        private readonly string _key = "rzp_live_RsbZ880oxl8Obh";// "rzp_test_RAp1XhaN6GAi6K";
+        private readonly string _secret = "pLFhfp9WsBgODwDCXXSAYY1X";// "CIqkb8Ivu8lE9DQmnIxd830x";
         private IBrowser? _browser;
         private bool _initialized;
         private readonly SemaphoreSlim _browserLock = new(1, 1);
@@ -1745,6 +1745,7 @@ namespace onescreenDAL.ProductManagement
                                     _item.base_amount = _item.base_amount;
                                     _item.attribute_amount = _item.attribute_amount;
                                     _item.total_amount = _item.total_amount;
+                                    _item.custom_dates = _item.custom_dates;
                                 });
                                 Common_DAL objCommon_DAL = new Common_DAL(_httpContextAccessor);
                                 DataTable dtfilemanagercategory = objCommon_DAL.GetDataTableFromList(objordermaster.lst_orderproduct);
@@ -1872,6 +1873,7 @@ namespace onescreenDAL.ProductManagement
                               interval_value = Row.Field<string>("interval_value"),
                               route_category = Row.Field<string>("route_category"),
                               from_date = Row.Field<string>("from_date"),
+                              custom_dates = Row.Field<string>("custom_dates"),
                               to_date = Row.Field<string>("to_date"),
                               is_media_approved = Row.Field<long?>("is_media_approved"),
                               is_media_upload = Row.Field<long?>("is_media_upload"),

@@ -12212,6 +12212,10 @@
             "type": "number",
             "format": "double",
             "nullable": true
+          },
+          "custom_dates": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

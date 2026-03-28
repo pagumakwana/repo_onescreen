@@ -301,11 +301,6 @@ export class ProductComponent implements OnInit {
 
     this.fgcategorymaster.get('iscustomdate')
       ?.updateValueAndValidity({ emitEvent: true });
-    console.log(this.fgcategorymaster.status);
-    console.log(this.fgcategorymaster.errors);
-    console.log(this.fgcategorymaster.get('from_date_daily')?.errors);
-    console.log(this.fgcategorymaster.get('to_date_daily')?.errors);
-    console.log(this.fgcategorymaster.get('select_date_daily')?.errors);
     this._cdr.markForCheck();
 
   }
@@ -522,7 +517,7 @@ export class ProductComponent implements OnInit {
   isdaily: boolean = false;
   onSelectDailyPackageEvent() {
     debugger
-    this.timemastervalid=false;
+    this.timemastervalid = false;
     this.initform();
     this.selectedDates = [];
     this.fgcategorymaster.controls['from_date_month'].setValue('');
@@ -710,7 +705,7 @@ export class ProductComponent implements OnInit {
   }
 
   removecustom() {
-    this.timemastervalid=false;
+    this.timemastervalid = false;
     this.initform();
     this.fgcategorymaster.controls['from_date_month'].reset();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
@@ -739,7 +734,7 @@ export class ProductComponent implements OnInit {
 
   ismonthly: boolean = false;
   onSelectPackageEvent() {
-    this.timemastervalid=false;
+    this.timemastervalid = false;
     this.initform();
     this.fgcategorymaster.controls['from_date_month'].setValue('');
     this.fgcategorymaster.controls['from_date_month'].reset('');
@@ -1725,6 +1720,7 @@ export class ProductComponent implements OnInit {
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.from_date && typeof res.from_date == 'object' ? res.from_date = `${res.from_date.year}-${res.from_date.month}-${res.from_date.day}` : res.from_date)
         this.fgcategorymaster.value.lst_cart_product.filter((res: any) => res.to_date && typeof res.to_date == 'object' ? res.to_date = `${res.to_date.year}-${res.to_date.month}-${res.to_date.day}` : res.to_date)
         let _objFormData: any = this.fgcategorymaster.value.lst_cart_product;
+        console.log("_objFormData", _objFormData)
         this.proceed_to_cart(_objFormData, flag);
       } else {
         setTimeout(() => {
@@ -1786,6 +1782,7 @@ export class ProductComponent implements OnInit {
               base_amount: _item.base_amount,
               date_total: _item.date_total,
               quantity: _item.quantity,
+              custom_dates: _item.custom_dates
             });
           });
           let _value_option: any = [];

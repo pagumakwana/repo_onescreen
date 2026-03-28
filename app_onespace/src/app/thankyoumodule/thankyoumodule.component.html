@@ -21,7 +21,8 @@
                     <div class="row">
                         <div>
                             <h3 class="thanku-title">{{_obj.product_name}} : {{_obj.time_slot_value}}</h3>
-                            <div class="thanku-muted">{{_obj.from_date}} to {{_obj.to_date}}</div>
+                            <div class="thanku-muted" *ngIf="_obj.custom_dates==''">{{_obj.from_date}} to {{_obj.to_date}}</div>
+                            <div class="thanku-muted" *ngIf="_obj.custom_dates!=''">{{_obj.custom_dates}}</div>
                         </div>
                     </div>
                     <div class="thanku-meta-grid" style="margin-top:10px;">

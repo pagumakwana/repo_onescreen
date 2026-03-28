@@ -301,6 +301,7 @@ namespace onescreenModel.ProductManagement
         public decimal? attribute_amount { get; set; }  // [attribute_price] DECIMAL(7,2)
         public decimal? total_amount { get; set; }
 
+        public string? custom_dates { get; set; }
     }
 
     public class ordermaster
@@ -336,6 +337,7 @@ namespace onescreenModel.ProductManagement
         public long? is_media_approved { get; set; }
         public string? media_comments { get; set; }
         public string? thumbnail { get; set; }
+        public string? custom_dates { get; set; }
         public string? mobilenumber { get; set; }
 
     }
