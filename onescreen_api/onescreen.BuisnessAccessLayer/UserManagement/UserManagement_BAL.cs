@@ -174,6 +174,14 @@ namespace onescreenBAL.UserManagement
             }
         }
 
+        public async Task<string> wa_approved(string name, string phone)
+        {
+            using (UserManagement_DAL objUserManagement_DAL = new UserManagement_DAL(_httpContextAccessor))
+            {
+                return await objUserManagement_DAL.wa_approved(name, phone);
+            }
+        }
+
         public void Dispose() 
         {
         }

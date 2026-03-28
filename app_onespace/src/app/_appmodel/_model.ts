@@ -2160,7 +2160,7 @@ export interface usercartmappingModel {
     total_amount?: any,
     attribute_amount?: any,
     base_amount?: any
-
+    date_total?:any
 }
 export interface vendorModel {
     flag?: any,

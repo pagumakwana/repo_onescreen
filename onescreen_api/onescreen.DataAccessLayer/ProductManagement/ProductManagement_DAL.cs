@@ -1884,7 +1884,8 @@ namespace onescreenDAL.ProductManagement
                               updatedname = Row.Field<string>("updatedname"),
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                               isactive = Row.Field<bool>("isactive"),
-                              isdeleted = Row.Field<bool>("isdeleted")
+                              isdeleted = Row.Field<bool>("isdeleted"),
+                              mobilenumber = Row.Field<string>("mobilenumber")
                           }).ToList();
                 }
                 if (ds.Tables[1].Rows.Count > 0)

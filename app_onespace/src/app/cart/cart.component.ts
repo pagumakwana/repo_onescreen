@@ -8,7 +8,7 @@ import { orderDetails, razorpay_OrderAttribute, user_coupon_model, usercartMaste
 import { enAppSession } from '../_appmodel/sessionstorage';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertOptions } from 'sweetalert2';
-import { concatMap, delay, finalize, first, forkJoin, from, take } from 'rxjs';
+import { BehaviorSubject, concatMap, delay, finalize, first, forkJoin, from, Subscription, take } from 'rxjs';
 import { NgbDateParserFormatter, NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../_appservice/dateformat';
 import { AuthService } from '../authmodule/_authservice/auth.service';
@@ -27,6 +27,11 @@ declare var bootstrap: any;
   ],
 })
 export class CartComponent implements OnInit {
+
+
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading!: boolean;
+  private unsubscribe: Subscription[] = [];
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -137,17 +142,20 @@ export class CartComponent implements OnInit {
     if (this.batch_id == undefined || this.batch_id == null || this.batch_id == '') {
       this.batch_id = '00000000-0000-0000-0000-000000000000';
     }
-    this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
-    this.getcoupon().then((_rescoupon: any) => {
-      if (_rescoupon) {
-        this.get_cart(this.batch_id).then((_rescart: any) => {
-          if (_rescart) {
-            // this.calculatecart();
-            this.loadShippingData();
-          }
-        })
-      }
-    })
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this._base._encryptedStorage.set(enAppSession.batch_id, this.batch_id);
+      this.getcoupon().then((_rescoupon: any) => {
+        if (_rescoupon) {
+          this.get_cart(this.batch_id).then((_rescart: any) => {
+            if (_rescart) {
+              // this.calculatecart();
+              this.loadShippingData();
+            }
+          })
+        }
+      });
+    });
   }
 
 
@@ -231,6 +239,7 @@ export class CartComponent implements OnInit {
   _ordermaster: ordermaster = {};
   is_payment: boolean = false;
   proceeds_payment(rzr_response: any) {
+    this.isLoading$.next(true);
     const result = this.UserCart[0]?.lst_cart_product
       ?.filter((p: any) => p.product_id > 0)
       .flatMap((p: any) => p.optionvaluesParsed); // ✅ merge all arrays into one
@@ -272,6 +281,7 @@ export class CartComponent implements OnInit {
             console.log('array', this._ordermaster)
             this._webDService.move_to_order(this._ordermaster).subscribe((resorder: any) => {
               if (resorder != null && resorder.includes('newsuccess')) {
+                this.isLoading$.next(false);
                 console.log("Order stored successfully:", resorder);
                 let order_id = resorder.split('~')[1];
                 this._webDService.get_inv(order_id).subscribe((res: any) => {
@@ -304,6 +314,7 @@ export class CartComponent implements OnInit {
                   this._cdr.detectChanges();
                 }, 500);
               } else {
+                this.isLoading$.next(false);
                 this.failureSwal.fire();
                 setTimeout(() => {
                   this.failureSwal.close();
@@ -314,11 +325,93 @@ export class CartComponent implements OnInit {
         });
       }, 500);
     } else if (rzr_response && rzr_response.status === 'failure') {
+      this.isLoading$.next(false);
       this.failureSwal.fire();
       setTimeout(() => {
         this.failureSwal.close();
       }, 500);
     }
+  }
+
+  proceeds_offline() {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        const result = this.UserCart[0]?.lst_cart_product
+          ?.filter((p: any) => p.product_id > 0)
+          .flatMap((p: any) => p.optionvaluesParsed);
+
+        this._order_details = {
+          flag: 'NEWORDER',
+          order_id: 0,
+          cart_master_id: this.UserCart[0]?.cart_master_id,
+          coupon_id: this.couponMaster?.[0]?.coupon_id || 0,
+          payment_type: 'Offline',
+          payment_order_id: '',
+          payment_response: '',
+          order_total: this._base._commonService.formatAmount(this.cart_total),
+          order_subtotal: this._base._commonService.formatAmount(this.cart_subtotal),
+          order_discount: this._base._commonService.formatAmount(this.cart_discount),
+          order_tax: this._base._commonService.formatAmount(this.cart_tax),
+          order_status: 'success',
+          payment_status: 'success',
+          sales_person_mobile: this.sales_person_mobile,
+          sales_person_name: this.sales_person_name,
+          referal_person_mobile: this.referal_person_mobile,
+          referal_person_name: this.referal_person_name,
+          user_id: user_id,
+          createdname: full_name,
+          createdby: user_id,
+          lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+          lst_orderproduct: Array.isArray(result) ? JSON.parse(JSON.stringify(result)) : []
+        };
+        this._ordermaster = {
+          lst_ordermaster: this._order_details,
+          lst_orderdetail: this.UserCart[0]?.lst_cart_product,
+          lst_orderproduct: this._order_details?.lst_orderproduct
+        }
+        console.log('array', this._ordermaster)
+        this._webDService.move_to_order(this._ordermaster).subscribe((resorder: any) => {
+          if (resorder != null && resorder.includes('newsuccess')) {
+            console.log("Order stored successfully:", resorder);
+            let order_id = resorder.split('~')[1];
+            this._webDService.get_inv(order_id).subscribe((res: any) => {
+              let _obj = Array.isArray(res.data) ? res?.data[0] : [];
+              debugger
+              if (_obj && _obj != "" && _obj != null && _obj != undefined) {
+                // _obj = { ..._obj, name: 'Tax invoice' };
+                let _finalobj = {
+                  data: _obj, count: 1, response: "success"
+                }
+                console.log("finalobj", _finalobj);
+                this._webDService.taxInvoiceOnescreen(_finalobj).subscribe((resinvorder: any) => {
+                  // console.log("quotaiononescreen", respurchaseorder)
+                  if (resinvorder && resinvorder?.success == true) {
+                    let fpath = resinvorder?.file_url;
+
+                    this._webDService.wa_sendquote('INV', order_id, fpath).subscribe((res: any) => {
+                      console.log("wa_sendquote OTP", order_id)
+
+                    });
+                  }
+                });
+              }
+
+            });
+            this.paysuccessSwal.fire();
+            setTimeout(() => {
+              this.paysuccessSwal.close();
+              this._base._router.navigate(['thankyou', order_id]);
+              this._cdr.markForCheck();
+            }, 500);
+          } else {
+            this.failureSwal.fire();
+            setTimeout(() => {
+              this.failureSwal.close();
+            }, 500);
+          }
+        });
+      });
+    });
   }
 
   cart_total: any = 0.00;
@@ -329,6 +422,7 @@ export class CartComponent implements OnInit {
   coupon_code_id: number = 0;
 
   place_order() {
+    this.isLoading$.next(true);
     this.razorpay_OrderAttribute = {
       amount: this.cart_total,
       currency: "INR",
@@ -647,6 +741,7 @@ export class CartComponent implements OnInit {
 
   pay(_payment_attributes: razorpay_OrderAttribute) {
     // Step 1: Create order from backend
+    this.isLoading$.next(true);
     this._base._encryptedStorage.get(enAppSession.fullname).then(fullname => {
       this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
         this._base._encryptedStorage.get(enAppSession.mobilenumber).then(mobilenumber => {
@@ -674,7 +769,7 @@ export class CartComponent implements OnInit {
           const rzp1 = new Razorpay(options);
           rzp1.open();
         }, error => {
-
+          this.isLoading$.next(false);
         });
       });
     });
@@ -686,6 +781,7 @@ export class CartComponent implements OnInit {
       if (response ?? (response?.status == 'success')) {
         this.proceeds_payment(response);
       } else {
+        this.isLoading$.next(false);
         console.log(response);
       }
     });
@@ -726,7 +822,7 @@ export class CartComponent implements OnInit {
                 this.place_order();
               }, 500);
             }
-            this._cdr.detectChanges();
+            this._cdr.markForCheck();
           });
         });
       });
@@ -1054,7 +1150,7 @@ export class CartComponent implements OnInit {
               } else {
                 this.modalService.dismissAll();
               }
-              
+
               this.fgrasiequote.reset();
               // this._base._router.navigate([`raisedquotation/${quotation_id}`]);
               // if (this.quotation_number) {

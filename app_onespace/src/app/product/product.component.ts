@@ -1797,7 +1797,8 @@ export class ProductComponent implements OnInit {
               attribute_amount: _res?.attribute_amount,
               user_id: flag == 1 ? 0 : user_id,
               ismonthly: this.ismonthly ? this.ismonthly : this.isdaily,
-              optionvalues: JSON.stringify(_res)
+              optionvalues: JSON.stringify(_res),
+              date_total: _res?.base_amount,
             }
             this._totalAmount = this._totalAmount + _res?.total_amount;
             _value_option.push(this._usercartmappingModel);

@@ -74,17 +74,17 @@ export class WallettransactionComponent {
     private _activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.initform();
-    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
-      this.user_id = parseInt(user_id);
-      this.getwalletwidget(this.user_id);
-    });
-    this.getwallettransaction();
-    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((rescontrol: any) => {
-      this._base._commonService.lstcontrol = JSON.parse(rescontrol);
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.initform();
+      this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+        this.user_id = parseInt(user_id);
+        this.getwalletwidget(this.user_id);
+      });
+      this.getwallettransaction();
       this.getwalletwithdrawal();
+      this.getwalletmaster();
     });
-    this.getwalletmaster();
 
   }
 
@@ -102,9 +102,9 @@ export class WallettransactionComponent {
   }
 
   tableConfig: dataTableConfig = {
-    tableTitle:'Wallet Transactions',
+    tableTitle: 'Wallet Transactions',
     tableData: [],
-    displayPaging:true,
+    displayPaging: true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "previous_balance", title: "Previous Balance", type: "text" },
@@ -131,7 +131,7 @@ export class WallettransactionComponent {
   }
   wallettableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
+    displayPaging: true,
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "Fullname", title: "Fullname", type: "text" },
@@ -287,7 +287,7 @@ export class WallettransactionComponent {
 
         this._walletwithdrawal = {};
         this._walletwithdrawal.withdrawal_request_id = parseInt(data?.withdrawal_request_id);
-        this._walletwithdrawal.wallet_master_id =parseInt(data?.wallet_master_id);
+        this._walletwithdrawal.wallet_master_id = parseInt(data?.wallet_master_id);
         this._walletwithdrawal.createdby = user_id;
         this._walletwithdrawal.createdname = fullname;
         this._walletwithdrawal.flag = flag;

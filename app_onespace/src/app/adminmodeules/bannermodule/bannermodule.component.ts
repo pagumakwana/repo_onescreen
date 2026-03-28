@@ -9,11 +9,12 @@ import { Subscription } from 'rxjs';
 import { banner } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { CommonModule } from '@angular/common';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-bannermodule',
   standalone: true,
-  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
+  imports: [CommonModule, WebdtableComponent, SweetAlert2Module],
   templateUrl: './bannermodule.component.html',
   styleUrl: './bannermodule.component.scss'
 })
@@ -29,7 +30,7 @@ export class BannermoduleComponent {
 
   swalOptions: SweetAlertOptions = { buttonsStyling: false };
 
-  
+
   navigateaddform() {
     this._base._router.navigate(['/app/managebanner/0']);
   }
@@ -47,14 +48,14 @@ export class BannermoduleComponent {
 
   tableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Manage Banners',
+    displayPaging: true,
+    tableTitle: 'Manage Banners',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "thumbnail", title: "Thumbnail", type: "image", dataType: { type: "string", path: ['thumbnail'] }, size: { height: "100px", width: "250px" } },
       { identifer: "title", title: "Title", type: "text" },
       { identifer: "displayorder", title: "Display Order", type: "text" },
-       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -63,7 +64,10 @@ export class BannermoduleComponent {
     }
   }
   ngOnInit(): void {
-    this.getBanner();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getBanner();
+    });
   }
 
   tableClick(dataItem: tableEvent) {
@@ -131,7 +135,7 @@ export class BannermoduleComponent {
     });
   }
 
-  modifyBanner(data:any, flag:any) {
+  modifyBanner(data: any, flag: any) {
     this._banner = data;
     this._banner.flag = flag;
     this._banner.banner_id = data.banner_id;

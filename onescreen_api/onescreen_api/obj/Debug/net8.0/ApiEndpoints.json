@@ -1113,6 +1113,32 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "get_inv",
+    "RelativePath": "api/product/get_inv",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "inv_id",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
     "Method": "get_pendingmediaupload",
     "RelativePath": "api/product/get_pendingmediaupload",
     "HttpMethod": "GET",
@@ -1141,6 +1167,32 @@
       },
       {
         "Name": "end_count",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "onescreenModel.Common.responseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.ProductManagement.ProductManagmentController",
+    "Method": "get_po",
+    "RelativePath": "api/product/get_po",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "po_id",
         "Type": "System.Int64",
         "IsRequired": false
       }
@@ -2927,6 +2979,37 @@
   },
   {
     "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
+    "Method": "wa_approved",
+    "RelativePath": "api/UserManagement/wa_approved",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "phone",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "onescreen_api.Controllers.UserManagement.UserManagementController",
     "Method": "wa_contactthank",
     "RelativePath": "api/UserManagement/wa_contactthank",
     "HttpMethod": "POST",
@@ -3008,6 +3091,11 @@
       {
         "Name": "quote_id",
         "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "fpath",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

@@ -10,11 +10,12 @@ import { controlDetails, moduledataModel } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-controlmodule',
   standalone: true,
-  imports: [CommonModule,WebdtableComponent, SweetAlert2Module, RouterLink],
+  imports: [CommonModule, WebdtableComponent, SweetAlert2Module, RouterLink],
   templateUrl: './controlmodule.component.html',
   styleUrl: './controlmodule.component.scss'
 })
@@ -53,8 +54,8 @@ export class ControlmoduleComponent {
   _moduledataModel: moduledataModel = {};
   tableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Manage Controls',
+    displayPaging: true,
+    tableTitle: 'Manage Controls',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "modulename", title: "Module", type: "text" },
@@ -77,7 +78,10 @@ export class ControlmoduleComponent {
   }
 
   ngOnInit(): void {
-    this.getControls();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getControls();
+    });
   }
 
   isDeleteButtonVisible: boolean = false;

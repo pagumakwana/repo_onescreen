@@ -8,7 +8,7 @@
 <div>
     <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
 </div>
-<!-- *ngIf="this._base._commonService.hasAccessofcontrol('admin_manageproduct_productlist')" -->
+<!-- [hidden]="!this._base._commonService.hasAccessofcontrol('admin_manageproduct_productlist')" -->
 <swal #successSwal [swalOptions]="swalOptions" title="Primedate added successfully!" text="" icon="success"
     [showConfirmButton]="false">
 </swal>

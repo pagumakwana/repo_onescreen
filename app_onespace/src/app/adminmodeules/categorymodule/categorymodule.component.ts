@@ -45,14 +45,14 @@ export class CategorymoduleComponent {
   _categoryMaster: categoryMaster = {};
   tableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Manage Category',
+    displayPaging: true,
+    tableTitle: 'Manage Category',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "category", title: "Category", type: "text" },
       { identifer: "typemaster", title: "Type Master", type: "text" },
       { identifer: "description", title: "Description", type: "text" },
-       { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
+      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'Edit', class: 'btn btn-primary btn-sm', iconClass: 'feather icon-edit' }, { title: 'Delete', class: 'btn btn-danger btn-sm', iconClass: 'feather icon-trash-2' }] },],
     isCustom: {
       current: 0,
       steps: 10,
@@ -62,7 +62,10 @@ export class CategorymoduleComponent {
   }
 
   ngOnInit(): void {
-    this.getcategory();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getcategory();
+    });
   }
 
   tableClick(dataItem: tableEvent) {

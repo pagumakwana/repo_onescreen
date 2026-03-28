@@ -4,11 +4,14 @@ import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { dataTableConfig } from '../../_appmodel/_componentModel';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
 import { enAppSession } from '../../_appmodel/sessionstorage';
+import { map, Observable, shareReplay } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboardmodule',
   standalone: true,
-  imports: [WebdtableComponent],
+  imports: [WebdtableComponent, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './dashboardmodule.component.html',
   styleUrl: './dashboardmodule.component.scss'
 })
@@ -22,14 +25,17 @@ export class DashboardmoduleComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getuserdashboard();
-    this.getOderDetails();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getuserdashboard();
+      this.getOderDetails();
+    });
   }
 
   tableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Recent Orders',
+    displayPaging: true,
+    tableTitle: 'Recent Orders',
     tableConfig: [
       // { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "order_number", title: "Order#", type: "text" },

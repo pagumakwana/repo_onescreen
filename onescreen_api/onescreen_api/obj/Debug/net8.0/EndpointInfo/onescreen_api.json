@@ -4225,6 +4225,84 @@
         }
       }
     },
+    "/api/product/get_po": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "po_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/get_inv": {
+      "get": {
+        "tags": [
+          "ProductManagment"
+        ],
+        "parameters": [
+          {
+            "name": "inv_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ProjectManagement/project": {
       "post": {
         "tags": [
@@ -4959,6 +5037,13 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "fpath",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -4986,6 +5071,51 @@
       }
     },
     "/api/UserManagement/wa_contactthank": {
+      "post": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserManagement/wa_approved": {
       "post": {
         "tags": [
           "UserManagement"
@@ -11624,6 +11754,22 @@
             "type": "integer",
             "format": "int64"
           },
+          "fullname": {
+            "type": "string",
+            "nullable": true
+          },
+          "email_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
           "cart_master_id": {
             "type": "integer",
             "format": "int64"
@@ -11978,6 +12124,10 @@
           "product_id": {
             "type": "integer",
             "format": "int64",
+            "nullable": true
+          },
+          "product_name": {
+            "type": "string",
             "nullable": true
           },
           "ismonthly": {

@@ -336,6 +336,7 @@ namespace onescreenModel.ProductManagement
         public long? is_media_approved { get; set; }
         public string? media_comments { get; set; }
         public string? thumbnail { get; set; }
+        public string? mobilenumber { get; set; }
 
     }
 

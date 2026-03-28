@@ -99,7 +99,7 @@
                   <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
                   data-bs-target=".multi-collapse" aria-expanded="false"
                   aria-controls="multiCollapseExample1 multiCollapseExample2">Cancel</button>
-                  <div *ngIf="this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
+                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_managebanner_newbtn')">
                   <button class="btn btn-primary" (click)="openraisequote()" type="button">Raise Quotation</button>
                   </div>
                   &nbsp;
@@ -112,13 +112,14 @@
             <div class="row">
               <div class="col-12">
                 <div class="text-end btn-page mb-0 mt-4 p-10 d-flex justify-content-end align-items-center gap-2">
-                  <div *ngIf="this._base._commonService.hasAccessofcontrol('admin_raisedpo_raisepobtn')">
+                  <div [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedpo_raisepobtn')">
                     <button class="btn btn-primary" (click)="add_po_modal()" type="button">
                       Performa invoice
                     </button>
                   </div>
 
-                  <div *ngIf="this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
+                  <div
+                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_raisedquotation_raisequotationbtn')">
                     <button class="btn btn-primary" (click)="openraisequote()" type="button">
                       Raise Quotation
                     </button>
@@ -362,8 +363,30 @@
                 <!-- </div> -->
               </div>
               <div class="text-end btn-page mb-0 mt-4">
+
                 <button class="btn btn-outline-secondary" type="button" (click)="goToCartTab()">Previous</button>
-                <button class="btn btn-primary" (click)="updateUser()">Save & Process order</button>
+
+                <button class="btn btn-primary" (click)="updateUser()">
+                  <ng-container *ngIf="!isLoading">Save & Process order Online</ng-container>
+                  <ng-container *ngIf="isLoading">
+                    <span clas="indicator-progress" [style.display]="'block'">
+                      Please wait...{{ " " }}
+                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                  </ng-container>
+                </button>
+                <div
+                  [hidden]="!this._base._commonService.hasAccessofcontrol('admin_offlineorder_offlineorderbtn')">
+                  <button class="btn btn-primary" (click)="proceeds_offline()">
+                    <ng-container *ngIf="!isLoading">Save & Process order Offline</ng-container>
+                    <ng-container *ngIf="isLoading">
+                      <span clas="indicator-progress" [style.display]="'block'">
+                        Please wait...{{ " " }}
+                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                      </span>
+                    </ng-container>
+                  </button>
+                </div>
               </div>
             </form>
             <!-- <div class="d-flex justify-content-end mb-3">
@@ -504,8 +527,8 @@
 
   <!-- [ sample-page ] end -->
 </div>
-<swal #warningSwal [swalOptions]="swalOptions" title="The total amount must be ₹5000 or higher to proceed." text="" icon="warning"
-  [showConfirmButton]="true" [customClass]="{confirmButton: 'btn btn-primary btn-sm'}">
+<swal #warningSwal [swalOptions]="swalOptions" title="The total amount must be ₹5000 or higher to proceed." text=""
+  icon="warning" [showConfirmButton]="true" [customClass]="{confirmButton: 'btn btn-primary btn-sm'}">
 </swal>
 <!-- [ Main Content ] end -->
 <!-- <ng-template #formModal let-modal> -->
@@ -537,9 +560,8 @@
   </div>
 
   <div class="offcanvas-body">
-    <ng-container  *ngFor="let coupon of couponList">
-      <div *ngIf="!coupon.isdisable"
-        class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
+    <ng-container *ngFor="let coupon of couponList">
+      <div *ngIf="!coupon.isdisable" class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center"
         [ngStyle]="{'background': coupon.colorSet.bg, 'border':'1px dashed ' + coupon.colorSet.border}">
 
         <!-- Left: Coupon details -->

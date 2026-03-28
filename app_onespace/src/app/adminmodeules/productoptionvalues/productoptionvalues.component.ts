@@ -5,16 +5,17 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { BaseServiceHelper } from '../../_appservice/baseHelper.service';
 import { WebDService } from '../../_appservice/webdpanel.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import {  productoptionvalue } from '../../_appmodel/_model';
+import { productoptionvalue } from '../../_appmodel/_model';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-productoptionvalues',
   standalone: true,
-  imports: [WebdtableComponent, SweetAlert2Module, ReactiveFormsModule, FormsModule, CommonModule,RouterModule],
+  imports: [WebdtableComponent, SweetAlert2Module, ReactiveFormsModule, FormsModule, CommonModule, RouterModule],
   templateUrl: './productoptionvalues.component.html',
   styleUrl: './productoptionvalues.component.scss'
 })
@@ -54,8 +55,8 @@ export class ProductoptionvaluesComponent {
   //done
   tableConfigoptionvalue: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Manage Product Options',
+    displayPaging: true,
+    tableTitle: 'Manage Product Options',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       { identifer: "title", title: "Option Type", type: "text" },
@@ -73,11 +74,14 @@ export class ProductoptionvaluesComponent {
 
   ngOnInit(): void {
     // this.initForm();
-    this.getoptionValue();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getoptionValue();
+    });
   }
 
   initForm() {
-   
+
   }
 
   tableClick(dataItem: tableEvent) {
@@ -158,5 +162,5 @@ export class ProductoptionvaluesComponent {
       });
     }
   }
-  
+
 }

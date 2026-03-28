@@ -82,15 +82,18 @@ export class ManageordersComponent implements OnInit {
   lstauthority: string[] = [];
   isAppUser: boolean = false;
   ngOnInit(): void {
-    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((rescontrol: any) => {
-      this._base._commonService.lstcontrol = JSON.parse(rescontrol);
-      this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
-      this.get_pendingmediaupload(this.order_id);
-      this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
-        if (storedAuthorities) {
-          this.lstauthority = JSON.parse(storedAuthorities);
-          this.isAppUser = this.lstauthority.includes('App User');
-        }
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this._base._encryptedStorage.get(enAppSession.lstcontrol).then((rescontrol: any) => {
+        this._base._commonService.lstcontrol = JSON.parse(rescontrol);
+        this.order_id = this._activatedRouter.snapshot.paramMap.get('order_id');
+        this.get_pendingmediaupload(this.order_id);
+        this._base._encryptedStorage.get('lstauthority').then((storedAuthorities: any) => {
+          if (storedAuthorities) {
+            this.lstauthority = JSON.parse(storedAuthorities);
+            this.isAppUser = this.lstauthority.includes('App User');
+          }
+        });
       });
     });
   }
@@ -131,9 +134,10 @@ export class ManageordersComponent implements OnInit {
     });
   }
 
-  media_approved(order_product_map_id: number, status: number, comment: string = '') {
+  media_approved(order_product_map_id: number, status: number, comment: string = '', mobilenumber: string = '') {
     this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
       this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        debugger
         const payload = {
           order_product_map_id: order_product_map_id,
           is_media_approved: status,
@@ -145,6 +149,11 @@ export class ManageordersComponent implements OnInit {
         this._webDService.media_status_update(payload).subscribe({
           next: (res: any) => {
             console.log("Media status updated:", res);
+            if (status == 1) {
+              this._webDService.wa_approved(full_name, mobilenumber).subscribe((res: any) => {
+                console.log("res", res)
+              })
+            }
             this.get_pendingmediaupload();
             this.successSwal.fire();
             if (this.modalRef) {

@@ -798,4 +798,8 @@ export class WebDService {
         return this._base._apiService.postt(`https://onespaceinterior.com/api/v1/taxInvoiceOnescreen`, _invdata);
     }
 
+     public wa_approved(name: string, phone: string) {
+        return this._base._apiService.post(`${ApiConstant.customer.wa_approved}?name=${name}&phone=${phone}`);
+    }
+
 }

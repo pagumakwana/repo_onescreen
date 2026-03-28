@@ -115,8 +115,11 @@ export class ProductmoduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm()
-    this.getproductMaster();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.initForm()
+      this.getproductMaster();
+    });
   }
 
   initForm() {
@@ -260,7 +263,7 @@ export class ProductmoduleComponent implements OnInit {
           this.addmodifycoupon(flag);
         });
       });
-    }else{
+    } else {
       this.isLoading$.next(false);
     }
   }
@@ -293,7 +296,7 @@ export class ProductmoduleComponent implements OnInit {
                 isdisable: false,
                 isactive: true
               });
-              
+
             }, 1000);
           }
         });
@@ -329,7 +332,7 @@ export class ProductmoduleComponent implements OnInit {
         isdisable: this._couponModel.isdisable,
         isactive: this._couponModel.isactive
       });
-      
+
       this.fgcoupon.updateValueAndValidity();
     } else if (flag == 'DELETECOUPON') {
       this.deleteSwal.fire().then((clicked) => {

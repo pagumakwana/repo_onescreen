@@ -109,7 +109,7 @@
                                                 <!-- <th>Requested Name</th> -->
                                                 <th>Updated Name</th>
                                                 <th
-                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
                                                     Action</th>
                                             </tr>
                                         </thead>
@@ -130,7 +130,7 @@
                                                 <!-- <td>{{_obj.createdname}}</td> -->
                                                 <td>{{_obj.updatedname}}</td>
                                                 <td class="text-center"
-                                                    *ngIf="this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
+                                                    [hidden]="!this._base._commonService.hasAccessofcontrol('admin_walletrequest_action')">
                                                     <div class="d-flex justify-content-center align-items-center gap-2"
                                                         *ngIf="_obj.is_approved == 0">
                                                         <button (click)="approveRequest(_obj, 'approved')"

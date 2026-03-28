@@ -9,11 +9,12 @@ import { userModel } from '../../_appmodel/_model';
 import { Subscription } from 'rxjs';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { CommonModule } from '@angular/common';
+import { enAppSession } from '../../_appmodel/sessionstorage';
 
 @Component({
   selector: 'app-usermodule',
   standalone: true,
-  imports: [CommonModule,WebdtableComponent, SweetAlert2Module],
+  imports: [CommonModule, WebdtableComponent, SweetAlert2Module],
   templateUrl: './usermodule.component.html',
   styleUrl: './usermodule.component.scss'
 })
@@ -27,8 +28,7 @@ export class UsermoduleComponent implements OnInit {
   @ViewChild('successSwal')
   public readonly successSwal!: SwalComponent;
 
-  navigateaddform()
-  {
+  navigateaddform() {
     this._base._router.navigate(["/app/manageuser/0"]);
   }
 
@@ -47,8 +47,8 @@ export class UsermoduleComponent implements OnInit {
 
   tableConfig: dataTableConfig = {
     tableData: [],
-    displayPaging:true,
-    tableTitle:'Manage Users',
+    displayPaging: true,
+    tableTitle: 'Manage Users',
     tableConfig: [
       { identifer: "createddatetime", title: "Date", type: "date" },
       // { identifer: "projectname", title: "Project", type: "text" },
@@ -66,7 +66,10 @@ export class UsermoduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserList();
+    this._base._encryptedStorage.get(enAppSession.lstcontrol).then((lstcontrol: any) => {
+      this._base._commonService.lstcontrol = lstcontrol ? JSON.parse(lstcontrol) : [];
+      this.getUserList();
+    });
   }
 
   tableClick(dataItem: tableEvent) {
@@ -136,7 +139,7 @@ export class UsermoduleComponent implements OnInit {
     });
   }
 
-  modifyuser(data:any, flag:any) {
+  modifyuser(data: any, flag: any) {
     this._userModel = data;
     this._userModel.flag = flag;
     this._userModel.user_id = data.user_id;

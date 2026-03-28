@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay, Subscription } from 'rxjs';
 declare var $: any;
 import configData from "../../assets/projectConfig.json";
 import * as _ from 'lodash';
@@ -386,7 +386,24 @@ export class CommonService {
             : Number(parseFloat(value).toFixed(2));
     }
 
-    
+
+    // private controlsSubject = new BehaviorSubject<any[]>([]);
+    // controls$ = this.controlsSubject.asObservable();
+
+    // setControls(data: any[]) {
+    //     this.controlsSubject.next(data);
+    // }
+
+    // hasAccessofcontrol(syscontrolname: string) {
+    //     return this.controls$.pipe(
+    //         map((controls: any[]) =>
+    //             controls?.some(ctrl => ctrl.syscontrolname === syscontrolname) ?? false
+    //         )
+    //     );
+    // }
+
+
+
     private controlsSubject = new BehaviorSubject<any[]>([]);
     controls$ = this.controlsSubject.asObservable();
 
@@ -394,12 +411,21 @@ export class CommonService {
         this.controlsSubject.next(data);
     }
 
-    hasAccessofcontrol(syscontrolname: string) {
-        return this.controls$.pipe(
-            map((controls: any[]) =>
-                controls?.some(ctrl => ctrl.syscontrolname === syscontrolname) ?? false
-            )
-        );
+    // hasAccessofcontrol(syscontrolname: string) {
+    //     return this.controls$.pipe(
+    //         map((controls: any[]) => {
+    //             console.log("controls",controls)
+    //             controls?.some(ctrl => ctrl.syscontrolname === syscontrolname) ?? false
+    //         })
+    //     );
+    // }
+
+    hasAccessofcontrol(syscontrolname: string): boolean {
+        return this.lstcontrol?.some((ctrl: any) => ctrl.syscontrolname === syscontrolname) ?? false;
     }
 
+}
+
+interface Control {
+    syscontrolname: string;
 }

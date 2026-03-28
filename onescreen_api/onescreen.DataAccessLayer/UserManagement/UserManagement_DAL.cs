@@ -1074,8 +1074,8 @@ namespace onescreenDAL.UserManagement
                                         templateName = flag == "QUOTE" ? "gos_generate_quotation" : "gos_tax_invoice",
                                         headerValues = new {
                                             mediaUrl = fpath,// "https://files.gallabox.com/6415921d8a6e5b7dbaeba8b7/8a5e5295-d878-40dd-8814-23160417c929-Quotation.pdf",
-                                        mediaName = "Quotation.pdf"
-                                    }
+                                            mediaName = lstquotation[0].filename
+                                        }
                                   }
                                 }
                             };
@@ -1134,6 +1134,55 @@ namespace onescreenDAL.UserManagement
                         template = new
                         {
                             templateName = "gos_thankyou_for_response"
+                        }
+                    }
+                };
+
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(requestBody);
+
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("apiSecret", Constant.apiSecret);
+                client.DefaultRequestHeaders.Add("apiKey", Constant.apiKey);
+                //Console.WriteLine(json);
+                //Console.ReadLine();
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(
+                   new Uri(Constant.request_url),
+                    content
+                );
+
+                Response = await response.Content.ReadAsStringAsync();
+
+                return Response;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> wa_approved(string name, string phone)
+        {
+            try
+            {
+                string Response = "";
+                var requestBody = new
+                {
+                    channelId = Constant.channelId,
+                    channelType = Constant.channelType,
+                    recipient = new
+                    {
+                        name = name,
+                        phone = "91" + phone   // Correct C# string concatenation
+                    },
+                    whatsapp = new
+                    {
+                        type = "template",
+                        template = new
+                        {
+                            templateName = "gos_media_approval"
                         }
                     }
                 };
