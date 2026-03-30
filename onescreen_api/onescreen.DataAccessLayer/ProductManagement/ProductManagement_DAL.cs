@@ -2623,6 +2623,7 @@ namespace onescreenDAL.ProductManagement
                                     _item.interval_price = _item.interval_price;
                                     _item.from_date = _item.from_date;
                                     _item.to_date = _item.to_date;
+                                    _item.custom_dates = _item.custom_dates;
                                     _item.quantity = _item.quantity;
                                     _item.base_amount = _item.base_amount;
                                     _item.attribute_amount = _item.attribute_amount;
@@ -2702,6 +2703,7 @@ namespace onescreenDAL.ProductManagement
                             interval_price = Row.Field<decimal>("interval_price"),
                             from_date = Row.Field<string>("from_date"),
                             to_date = Row.Field<string>("to_date"),
+                            custom_dates = Row.Field<string>("custom_dates"),
                             base_amount = Row.Field<decimal>("base_amount"),
                             attribute_amount = Row.Field<decimal>("attribute_amount"),
                             total_amount = Row.Field<decimal>("total_amount"),
@@ -3014,43 +3016,13 @@ namespace onescreenDAL.ProductManagement
                             interval_price = Row.Field<decimal>("interval_price"),
                             from_date = Row.Field<string>("from_date"),
                             to_date = Row.Field<string>("to_date"),
+                            custom_dates = Row.Field<string>("custom_dates"),
                             base_amount = Row.Field<decimal>("base_amount"),
                             attribute_amount = Row.Field<decimal>("attribute_amount"),
                             total_amount = Row.Field<decimal>("total_amount"),
                         }).ToList();
 
                     }
-                    //if (purchase_order_id > 0 && ds.Tables[1].Rows.Count > 0)
-                    //{
-                    //    lstquotation = ds.Tables[1].AsEnumerable().Select(Row => new quotation_model
-                    //    {
-                    //        quotation_id = Row.Field<Int64>("quotation_id"),
-                    //        cart_master_id = Row.Field<Int64>("cart_master_id"),
-                    //        quotation_number = Row.Field<string>("quotation_number"),
-                    //        coupon_id = Row.Field<Int64>("coupon_id"),
-                    //        quotation_total = Row.Field<Decimal>("quotation_total"),
-                    //        quotation_subtotal = Row.Field<Decimal>("quotation_subtotal"),
-                    //        quotation_discount = Row.Field<Decimal>("quotation_discount"),
-                    //        quotation_tax = Row.Field<Decimal>("quotation_tax"),
-                    //        quotation_status = Row.Field<string>("quotation_status"),
-                    //        sales_person_details = Row.Field<string>("sales_person_details"),
-                    //        referal_person_details = Row.Field<string>("referal_person_details"),
-                    //        fullname = Row.Field<string>("fullname"),
-                    //        email_id = Row.Field<string>("email_id"),
-                    //        mobile_number = Row.Field<string>("mobile_number"),
-                    //        address = Row.Field<string>("address"),
-                    //        createdby = Row.Field<Int64?>("createdby"),
-                    //        createdname = Row.Field<string>("createdname"),
-                    //        createddatetime = Row.Field<DateTime?>("createddatetime"),
-                    //        updatedby = Row.Field<Int64?>("updatedby"),
-                    //        updatedname = Row.Field<string>("updatedname"),
-                    //        updateddatetime = Row.Field<DateTime?>("updateddatetime"),
-                    //        isactive = Row.Field<bool>("isactive"),
-                    //        isdeleted = Row.Field<bool>("isdeleted"),
-                    //        lst_quoteproduct = lstquotationproduct
-                    //    }).ToList();
-
-                    //}
                     if (ds.Tables[purchase_order_id > 0 ? 1 : 0].Rows.Count > 0)
                     {
                         lstpurchaseorder = ds.Tables[purchase_order_id > 0 ? 1 : 0].AsEnumerable().Select(Row =>
@@ -3193,6 +3165,7 @@ namespace onescreenDAL.ProductManagement
                                     _item.interval_price = _item.interval_price;
                                     _item.from_date = _item.from_date;
                                     _item.to_date = _item.to_date;
+                                    _item.custom_dates = _item.custom_dates;
                                     _item.quantity = _item.quantity;
                                     _item.base_amount = _item.base_amount;
                                     _item.attribute_amount = _item.attribute_amount;
@@ -3295,6 +3268,7 @@ namespace onescreenDAL.ProductManagement
                             interval_price = Row.Field<decimal>("interval_price"),
                             from_date = Row.Field<string>("from_date"),
                             to_date = Row.Field<string>("to_date"),
+                            custom_dates = Row.Field<string>("custom_dates"),
                             base_amount = Row.Field<decimal>("base_amount"),
                             attribute_amount = Row.Field<decimal>("attribute_amount"),
                             total_amount = Row.Field<decimal>("total_amount"),
@@ -3459,6 +3433,7 @@ namespace onescreenDAL.ProductManagement
                             interval_price = Row.Field<decimal>("interval_price"),
                             from_date = Row.Field<string>("from_date"),
                             to_date = Row.Field<string>("to_date"),
+                            custom_dates = Row.Field<string>("custom_dates"),
                             base_amount = Row.Field<decimal>("base_amount"),
                             attribute_amount = Row.Field<decimal>("attribute_amount"),
                             total_amount = Row.Field<decimal>("total_amount"),

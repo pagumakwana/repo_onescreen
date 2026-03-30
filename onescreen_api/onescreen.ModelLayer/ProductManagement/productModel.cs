@@ -487,6 +487,7 @@ namespace onescreenModel.ProductManagement
         public decimal? base_amount { get; set; }       // [base_amount] DECIMAL(7,2)
         public decimal? attribute_amount { get; set; }  // [attribute_price] DECIMAL(7,2)
         public decimal? total_amount { get; set; }
+        public string? custom_dates { get; set; }
 
     }
 
