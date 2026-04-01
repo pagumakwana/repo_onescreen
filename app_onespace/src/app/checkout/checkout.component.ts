@@ -377,7 +377,7 @@ export class CheckoutComponent implements OnInit {
       this._base._encryptedStorage.get(enAppSession.email_id).then(email_id => {
         this._base._encryptedStorage.get(enAppSession.mobilenumber).then(mobilenumber => {
           const options = {
-            key: 'rzp_test_RAp1XhaN6GAi6K', // Replace with your Razorpay Key Id
+            key: 'rzp_live_RsbZ880oxl8Obh',// 'rzp_test_RAp1XhaN6GAi6K', // Replace with your Razorpay Key Id
             amount: _payment_attributes.amount,     // Amount in paise (e.g., ₹100 = 10000 paise)
             currency: 'INR',
             name: 'One Screen',
