@@ -80,11 +80,15 @@
                             </ng-container>
                             <ng-container *ngIf="key?.type == 'button'">
                                 <div class="table_btn">
-                                    <button *ngFor="let button of key?.buttonList"
-                                        (click)="tableClick(tableItem,key,button)" class="global_btn {{button.class}}">
-                                        <span>{{button.name}}</span>
-                                        <span *ngIf="button?.iconClass" class="delete_icon {{button.iconClass}}"></span>
-                                    </button>
+                                    <ng-container *ngFor="let button of key?.buttonList">
+                                        <button (click)="tableClick(tableItem,key,button)"
+                                            class="global_btn {{button.class}}">
+                                            <span>{{button.name}}</span>
+                                            <span *ngIf="button?.iconClass"
+                                                class="delete_icon {{button.iconClass}}"></span>
+                                        </button>
+                                        &nbsp;
+                                    </ng-container>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="key?.type == 'buttonIcons'">

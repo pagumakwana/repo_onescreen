@@ -7,16 +7,19 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal, NgbModalModule, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { dataTableConfig, tableEvent } from '../../_appmodel/_componentModel';
 import { WebdtableComponent } from '../../layout_template/webdtable/webdtable.component';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'app-quotationmodule',
   standalone: true,
-  imports: [RouterModule, CommonModule, NgbModalModule, WebdtableComponent],
+  imports: [RouterModule, CommonModule, NgbModalModule, WebdtableComponent, SweetAlert2Module],
   templateUrl: './quotationmodule.component.html',
   styleUrl: './quotationmodule.component.scss'
 })
 export class QuotationmoduleComponent {
 
+  swalOptions: SweetAlertOptions = { buttonsStyling: false };
   @ViewChild('VideoModal', { static: true }) VideoModal!: TemplateRef<any>;
   @ViewChild('dataTableCom', { static: false }) tableObj!: WebdtableComponent;
   userdashboard: any = {};
@@ -60,8 +63,8 @@ export class QuotationmoduleComponent {
       { identifer: "quotation_total", title: "Total Amount", type: "text" },
       { identifer: "quotation_subtotal", title: "SubTotal Amount", type: "text" },
       { identifer: "quotation_discount", title: "Discount Amount", type: "text" },
-      { identifer: "", title: "Action", type: "buttonIcons", buttonIconList: [{ title: 'View', class: 'btn btn-primary btn-sm', iconClass: 'fa fa-eye' }]},
-      ],
+      { identifer: "", title: "Action", type: "button", buttonList: [{ name: 'Move', class: 'btn btn-primary btn-sm', iconClass: '' }, { name: 'Download', class: 'btn btn-primary btn-sm', iconClass: ''}] },
+    ],
     isCustom: {
       current: 0,
       steps: 10,
@@ -77,9 +80,11 @@ export class QuotationmoduleComponent {
   // }
 
   tableClick(dataItem: tableEvent) {
-    if (dataItem.action?.type == 'link' || (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "View")) {
-      this.modifyinvoice(dataItem.tableItem);
-    } else if (dataItem.action?.type == 'buttonIcons' && dataItem.actionInfo.title == "Delete") {
+    debugger
+    const quotationNo = dataItem.tableItem?.quotation_id;
+    if (dataItem.action?.type == 'button' && dataItem.actionInfo.name == "Move") {
+      this.move_to_cart(quotationNo);
+    } else if (dataItem.action?.type == 'button' && dataItem.actionInfo.name == "Download") {
       this.modifyinvoice(dataItem.tableItem);
     }
   }
@@ -87,10 +92,29 @@ export class QuotationmoduleComponent {
   modifyinvoice(data: any) {
     const quotationNo = data?.quotation_number;
     window.open(
-      `https://onespaceinterior.com/public/OneScreenReports/Quotation-${quotationNo}.pdf`,
+      `https://onespaceinterior.com/public/OneScreenReports/QUOTATION-${quotationNo}.pdf`,
       '_blank'
     );
     // this._base._router.navigate([`app/raisedquotation/${data.quotation_id}`]);
+  }
+
+  @ViewChild('movesuccessSwal')
+  public readonly movesuccessSwal!: SwalComponent;
+  move_to_cart(quotation_id: any) {
+    this._base._encryptedStorage.get(enAppSession.user_id).then(user_id => {
+      this._base._encryptedStorage.get(enAppSession.fullname).then(full_name => {
+        this._webDService.move_to_cart(quotation_id, 0, user_id).subscribe((resquote: any) => {
+          if (resquote && resquote.includes('updatesuccess')) {
+            this.movesuccessSwal.fire();
+            setTimeout(() => {
+              this.movesuccessSwal.close();
+              this.getOderDetails();
+              this._cdr.markForCheck();
+            }, 1000);
+          }
+        });
+      });
+    });
   }
 
   selectedVideoUrl: string | null = null;

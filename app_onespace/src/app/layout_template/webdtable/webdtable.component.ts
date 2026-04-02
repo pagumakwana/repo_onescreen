@@ -248,7 +248,7 @@ export class WebdtableComponent implements OnInit {
   calculatePages() {
     if (this.config.isCustom) {
       this.pageArray = []
-      let pageTotal = this.config.isCustom.total / this.config.isCustom.steps
+      let pageTotal = Math.ceil(this.config.isCustom.total / this.config.isCustom.steps)
       let current = this.config.isCustom.current
 
 
@@ -279,7 +279,7 @@ export class WebdtableComponent implements OnInit {
           this.pageArray.push(pageTotal - 1)
         }
       }
-      this._cdr.detectChanges();
+      this._cdr.markForCheck();
       // this.pageIndexingArrayCreation()
     }
   }

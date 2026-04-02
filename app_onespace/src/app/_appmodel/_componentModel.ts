@@ -35,7 +35,7 @@ export class tableConfig {
     buttonList?: Array<{
         name: string,
         class: string,
-        iconClass?: string
+        iconClass?: string,
     }>
     buttonIconList?: Array<{
         title: string,

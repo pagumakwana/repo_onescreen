@@ -377,9 +377,7 @@ D:\Repo\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\staticwebass
 D:\Repo\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescree.9E0E14B8.Up2Date
 D:\Repo\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescreen_api.genruntimeconfig.cache
 D:\Repo\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\ref\onescreen_api.dll
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\app.config
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\appsettings.Development.json
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\appsettings.json
+C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.exe
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.BuisnessAccessLayer.deps.json
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.BuisnessAccessLayer.runtimeconfig.json
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.DataAccessLayer.deps.json
@@ -392,13 +390,10 @@ C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescre
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.ModelLayer.exe
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.DataAccessLayer.exe
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen.BuisnessAccessLayer.exe
+C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\app.config
+C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\appsettings.Development.json
+C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\appsettings.json
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.staticwebassets.endpoints.json
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.exe
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.dll.config
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.deps.json
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.runtimeconfig.json
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.dll
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\onescreen_api.pdb
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\Azure.Core.dll
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\Azure.Identity.dll
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\Microsoft.AspNetCore.Server.Kestrel.Https.dll
@@ -510,5 +505,4 @@ C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescre
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescreen_api.dll
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\refint\onescreen_api.dll
 C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescreen_api.pdb
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\onescreen_api.genruntimeconfig.cache
-C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\obj\Debug\net8.0\ref\onescreen_api.dll
+C:\Webdroids\repo_onescreen\onescreen_api\onescreen_api\bin\Debug\net8.0\dotnet-tools.json

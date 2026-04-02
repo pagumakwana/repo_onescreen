@@ -2739,6 +2739,7 @@ namespace onescreenDAL.ProductManagement
                               updateddatetime = Row.Field<DateTime?>("updateddatetime"),
                               isactive = Row.Field<bool>("isactive"),
                               isdeleted = Row.Field<bool>("isdeleted"),
+                              is_move = Row.Field<bool>("is_move"),
                               lst_quoteproduct = lstquotationproduct
                           }).ToList();
                     }

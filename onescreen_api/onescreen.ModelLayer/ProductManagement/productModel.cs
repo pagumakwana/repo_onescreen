@@ -454,6 +454,7 @@ namespace onescreenModel.ProductManagement
         public string? mobile_number { get; set; }
         public string? address { get; set; }
         public bool? is_po { get; set; }
+        public bool? is_move { get; set; }
         public string? sales_person_details { get; set; }
         public string? referal_person_details { get; set; }
         public List<quoteproductModel> lst_quoteproduct { get; set; }

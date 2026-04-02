@@ -1,1 +1,5 @@
 <webd-table #dataTableCom [config]='tableConfig' (tableEvent)="tableClick($event)"></webd-table>
+
+<swal #movesuccessSwal [swalOptions]="swalOptions" title="Moved to Cart." text="" icon="success"
+    [showConfirmButton]="false">
+</swal>
