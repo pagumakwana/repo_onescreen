@@ -1,38 +1,32 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {},
+    "net8.0/linux-x64": {}
   },
   "libraries": {},
   "projectFileDependencyGroups": {
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\PREM RATHOD\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/webdroids_drive/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Webdroids\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\onescreen.ModelLayer.csproj",
+      "projectUniqueName": "/Users/webdroids_drive/Projects/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj",
       "projectName": "onescreen.ModelLayer",
-      "projectPath": "C:\\Webdroids\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\onescreen.ModelLayer.csproj",
-      "packagesPath": "C:\\Users\\PREM RATHOD\\.nuget\\packages\\",
-      "outputPath": "C:\\Webdroids\\repo_onescreen\\onescreen_api\\onescreen.ModelLayer\\obj\\",
+      "projectPath": "/Users/webdroids_drive/Projects/repo_onescreen/onescreen_api/onescreen.ModelLayer/onescreen.ModelLayer.csproj",
+      "packagesPath": "/Users/webdroids_drive/.nuget/packages/",
+      "outputPath": "/Users/webdroids_drive/Projects/repo_onescreen/onescreen_api/onescreen.ModelLayer/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\PREM RATHOD\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/webdroids_drive/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -51,7 +45,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -69,20 +63,16 @@
         "warn": true,
         "downloadDependencies": [
           {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.24, 8.0.24]"
+            "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+            "version": "[8.0.26, 8.0.26]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.24, 8.0.24]"
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[8.0.26, 8.0.26]"
           },
           {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.24, 8.0.24]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.24, 8.0.24]"
+            "name": "Microsoft.NETCore.App.Runtime.linux-x64",
+            "version": "[8.0.26, 8.0.26]"
           }
         ],
         "frameworkReferences": {
@@ -90,7 +80,12 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.203/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "linux-x64": {
+        "#import": []
       }
     }
   }

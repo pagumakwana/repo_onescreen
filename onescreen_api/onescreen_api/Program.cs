@@ -52,7 +52,7 @@ else
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "onescreen");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "onescreen_api v1");
     });
 }
 app.UseForwardedHeaders(new ForwardedHeadersOptions
