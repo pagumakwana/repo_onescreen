@@ -101,10 +101,17 @@ app.UseCors("AllowOrigin");
 
 app.MapControllers();
 
+// app.UseStaticFiles(new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(
+//                Path.Combine(Directory.GetCurrentDirectory(), "FileStorage")),
+//     RequestPath = "/FileStorage"
+// });
+
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-               Path.Combine(Directory.GetCurrentDirectory(), "FileStorage")),
+        Path.Combine(app.Environment.ContentRootPath, "FileStorage")),
     RequestPath = "/FileStorage"
 });
 
