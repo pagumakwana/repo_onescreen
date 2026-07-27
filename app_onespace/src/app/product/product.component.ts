@@ -1240,13 +1240,15 @@ export class ProductComponent implements OnInit {
           obj.controls['date_total'].setValue(this._base._commonService.formatAmount(date_total));
           obj.controls["date_total"].updateValueAndValidity();
 
-          total_amount = total_amount + attribute_amount + base_amount;
-          let _days = this.getDaysCount(_from_date, _to_date);
-          total_amount = total_amount * _days;
-          attribute_amount = this._base._commonService.formatAmount(attribute_amount + date_total + base_amount);
-          obj.controls['attribute_amount'].setValue(attribute_amount);
-          obj.controls["attribute_amount"].updateValueAndValidity();
+
         }
+
+        total_amount = total_amount + attribute_amount + base_amount;
+        let _days = this.getDaysCount(_from_date, _to_date);
+        total_amount = total_amount * _days;
+        attribute_amount = this._base._commonService.formatAmount(attribute_amount + date_total + base_amount);
+        obj.controls['attribute_amount'].setValue(attribute_amount);
+        obj.controls["attribute_amount"].updateValueAndValidity();
         // else {
         //   total_amount = (base_amount + attribute_amount);
         // }
@@ -1301,6 +1303,7 @@ export class ProductComponent implements OnInit {
         total_amount = (total_amount + _gp_price);
       }
     }
+    debugger
     obj.controls['total_amount'].setValue(this._base._commonService.formatAmount(total_amount));
     obj.controls["total_amount"].updateValueAndValidity();
     this._cdr.markForCheck();
